@@ -1,0 +1,327 @@
+{
+  "schema": "GMI_833_Z9_PREDICTIONS_V1",
+  "batch": 1,
+  "author_role": "PREDICTION_TEAM",
+  "derivation": "SETUP. For sequence length L the scored cells are (sequence, t) for t=1..L-1 over all 2^L sequences, each sequence equally weighted and each scored time equally weighted, so every cell carries weight 1/N with N = 2^L*(L-1) (N=16 for L=3, N=48 for L=4). Boundary convention x_j=0 for j<0 is applied, so at t=1 c=x_{t-2}=0 and at t=0..; time 0 is never scored. The mode bit M is visible to BOTH the next-state table N and the output table O, so a single one-bit machine can run an independent strategy in each mode; likewise a stateless machine has an independent output column per mode. The two modes therefore do not interfere and the objective separates exactly as E(class) = (1-p)*e_0*(class) + p*e_1*(class), which is what T1/T4 assume. Because the distribution of scored windows does not depend on M, e_m*(class) depends only on (target_m, L).\n\nT2 (stateless, computed exactly). A stateless machine sees only (M, x_t), so within a mode its scored cells partition by a=x_t into at most two groups. The cell-wise majority output is optimal and the contribution of a group with n0 target-0 cells and n1 target-1 cells is min(n0,n1); a frequency tie n0=n1 gives exactly half that group in error, which is the '1/2 for that cell' clause of T2. Hence e_m*(STATELESS) = (sum over a-groups of min(n0,n1)) / N. This derivation is a proof, not an approximation: no stateless machine can do better because nothing else is visible to it.\n\nT3 (one-bit, computed as the theory instructs). The theory's designated machine has N(S,M,a)=a, giving S_{t+1}=x_t, i.e. S_t=x_{t-1} for all t>=1 and S_0=0=x_{-1}, consistent with the boundary convention. Its visible cell is therefore (M, x_t, x_{t-1}) and its output table O(S,M,a) is free, so its error is the cell-wise optimum over the four (a,b) groups per mode: e_m*(PERSISTENT_STATE) = (sum over (a,b)-groups of min(n0,n1)) / N. Group tables for every environment and mode are listed below.\n\nMONOTONICITY OF THE POSSIBLE ERROR (important, and it makes the failure predictions one-sided). T2 is exact. The carry machine is a legal member of the one-bit universe, so the true one-bit optimum satisfies e_m*(true) <= e_m*(T3). Therefore true E_onebit <= predicted E_onebit, and true lambda* = eta*(E_stateless - E_onebit) >= predicted lambda*. Consequences, stated as predictions: (i) every PERSISTENT_STATE call in this batch is safe, because lambda < predicted lambda* <= true lambda*; (ii) a predicted tie can only move toward PERSISTENT_STATE, never toward STATELESS; (iii) only STATELESS calls can be refuted, and only at lambdas lying just above the predicted lambda*; (iv) J_best_stateless is exact in every environment, while J_best_onebit is an upper bound that is exact wherever it equals eta*0+lambda (i.e. wherever the one-bit class reaches error 0, an absolute floor).\n\nWHERE I EXPECT T3 TO BE WRONG (target-level reasoning only; no machine was enumerated, simulated or searched). T3 asserts that the optimal one-bit state is a DELAY LINE carrying x_{t-1}. The registered candidate universe is far larger: the state may be any Boolean function of (M, x_0..x_{t-1}) realisable by iterating N, which includes accumulator states (running OR / running AND of the prefix) and boundary latches that partially encode how far the episode has run. For targets that are functions of (a,b) only -- CUR, NOT_CUR, PREV, NOT_PREV, XOR, XNOR, AND, OR, NAND, CONST0, CONST1 -- the delay line makes the target exactly computable, so e_m*=0 is an absolute floor and T3 is provably tight. For targets reaching back to c=x_{t-2} -- PREV2, XOR2, AND2, OR2, MAJ3 -- T3 is unsupported, and for PREV2 it is actively suspicious: PREV2 depends on c alone, and on the interior scored cells x_{t-1} is independent of x_{t-2}, so the delay-line state carries literally zero information about the target there and buys nothing over the stateless optimum (visible below as e_sl = e_1b for PREV2 in both E04 and E10). Any state that instead retains prefix information -- which the universe permits -- can only help. Note also two boundary collapses that a delay line discards: at t=1 the c=0 convention turns MAJ3 into a AND b and turns XOR2 into a, and at L=3 the scored PREV2/OR2 cells are functions of the prefix (x_0, x_0 or x_1) rather than of the recent window.\n\nABSTENTION. The theory as stated abstains nowhere in this batch: T1-T4 return a definite class set at all 29 tested (environment, lambda) pairs, including the two degenerate controls p=0 (E05) and p=1 (E06), where the unscored mode's error is multiplied by zero and simply drops out. Exactly one tie is predicted (E05/E08/E11 have lambda*=0 but every tested lambda is strictly positive, so they are strict STATELESS wins, not ties).\n\nPER-ENVIRONMENT DERIVATION.\n\n\n[B1-E01] L=3, p=1/2, eta=1, N=16 scored cells per mode.\n  mode 0 target=CUR: T2 groups by a: a=0->(n0=8,n1=0,cost=0); a=1->(n0=0,n1=8,cost=0) => e_0*(STATELESS)=0. T3 groups by (a,b): (a=0,b=0)->(n0=4,n1=0,cost=0); (a=0,b=1)->(n0=4,n1=0,cost=0); (a=1,b=0)->(n0=0,n1=4,cost=0); (a=1,b=1)->(n0=0,n1=4,cost=0) => e_0*(PERSISTENT_STATE)=0.\n  mode 1 target=PREV: T2 groups by a: a=0->(n0=4,n1=4,cost=4); a=1->(n0=4,n1=4,cost=4) => e_1*(STATELESS)=1/2. T3 groups by (a,b): (a=0,b=0)->(n0=4,n1=0,cost=0); (a=0,b=1)->(n0=0,n1=4,cost=0); (a=1,b=0)->(n0=4,n1=0,cost=0); (a=1,b=1)->(n0=0,n1=4,cost=0) => e_1*(PERSISTENT_STATE)=0.\n  E_stateless=(1-1/2)*0+1/2*1/2=1/4 ; E_onebit=(1-1/2)*0+1/2*0=0 ; lambda*=eta*(E_sl-E_1b)=1*(1/4-0)=1/4.\n  lambda=1/20: J_stateless=eta*E_sl=1/4, J_onebit=eta*E_1b+lambda=1/20 -> winner PERSISTENT_STATE.\n  lambda=1/2: J_stateless=eta*E_sl=1/4, J_onebit=eta*E_1b+lambda=1/2 -> winner STATELESS.\n  lambda=4: J_stateless=eta*E_sl=1/4, J_onebit=eta*E_1b+lambda=4 -> winner STATELESS.\n\n[B1-E02] L=3, p=1/3, eta=1, N=16 scored cells per mode.\n  mode 0 target=XOR: T2 groups by a: a=0->(n0=4,n1=4,cost=4); a=1->(n0=4,n1=4,cost=4) => e_0*(STATELESS)=1/2. T3 groups by (a,b): (a=0,b=0)->(n0=4,n1=0,cost=0); (a=0,b=1)->(n0=0,n1=4,cost=0); (a=1,b=0)->(n0=0,n1=4,cost=0); (a=1,b=1)->(n0=4,n1=0,cost=0) => e_0*(PERSISTENT_STATE)=0.\n  mode 1 target=XNOR: T2 groups by a: a=0->(n0=4,n1=4,cost=4); a=1->(n0=4,n1=4,cost=4) => e_1*(STATELESS)=1/2. T3 groups by (a,b): (a=0,b=0)->(n0=0,n1=4,cost=0); (a=0,b=1)->(n0=4,n1=0,cost=0); (a=1,b=0)->(n0=4,n1=0,cost=0); (a=1,b=1)->(n0=0,n1=4,cost=0) => e_1*(PERSISTENT_STATE)=0.\n  E_stateless=(1-1/3)*1/2+1/3*1/2=1/2 ; E_onebit=(1-1/3)*0+1/3*0=0 ; lambda*=eta*(E_sl-E_1b)=1*(1/2-0)=1/2.\n  lambda=1/10: J_stateless=eta*E_sl=1/2, J_onebit=eta*E_1b+lambda=1/10 -> winner PERSISTENT_STATE.\n  lambda=1: J_stateless=eta*E_sl=1/2, J_onebit=eta*E_1b+lambda=1 -> winner STATELESS.\n\n[B1-E03] L=4, p=2/5, eta=2, N=48 scored cells per mode.\n  mode 0 target=AND: T2 groups by a: a=0->(n0=24,n1=0,cost=0); a=1->(n0=12,n1=12,cost=12) => e_0*(STATELESS)=1/4. T3 groups by (a,b): (a=0,b=0)->(n0=12,n1=0,cost=0); (a=0,b=1)->(n0=12,n1=0,cost=0); (a=1,b=0)->(n0=12,n1=0,cost=0); (a=1,b=1)->(n0=0,n1=12,cost=0) => e_0*(PERSISTENT_STATE)=0.\n  mode 1 target=OR: T2 groups by a: a=0->(n0=12,n1=12,cost=12); a=1->(n0=0,n1=24,cost=0) => e_1*(STATELESS)=1/4. T3 groups by (a,b): (a=0,b=0)->(n0=12,n1=0,cost=0); (a=0,b=1)->(n0=0,n1=12,cost=0); (a=1,b=0)->(n0=0,n1=12,cost=0); (a=1,b=1)->(n0=0,n1=12,cost=0) => e_1*(PERSISTENT_STATE)=0.\n  E_stateless=(1-2/5)*1/4+2/5*1/4=1/4 ; E_onebit=(1-2/5)*0+2/5*0=0 ; lambda*=eta*(E_sl-E_1b)=2*(1/4-0)=1/2.\n  lambda=1/8: J_stateless=eta*E_sl=1/2, J_onebit=eta*E_1b+lambda=1/8 -> winner PERSISTENT_STATE.\n  lambda=3/4: J_stateless=eta*E_sl=1/2, J_onebit=eta*E_1b+lambda=3/4 -> winner STATELESS.\n  lambda=5: J_stateless=eta*E_sl=1/2, J_onebit=eta*E_1b+lambda=5 -> winner STATELESS.\n\n[B1-E04] L=4, p=1/2, eta=1, N=48 scored cells per mode.\n  mode 0 target=PREV2: T2 groups by a: a=0->(n0=16,n1=8,cost=8); a=1->(n0=16,n1=8,cost=8) => e_0*(STATELESS)=1/3. T3 groups by (a,b): (a=0,b=0)->(n0=8,n1=4,cost=4); (a=0,b=1)->(n0=8,n1=4,cost=4); (a=1,b=0)->(n0=8,n1=4,cost=4); (a=1,b=1)->(n0=8,n1=4,cost=4) => e_0*(PERSISTENT_STATE)=1/3.\n  mode 1 target=MAJ3: T2 groups by a: a=0->(n0=20,n1=4,cost=4); a=1->(n0=8,n1=16,cost=8) => e_1*(STATELESS)=1/4. T3 groups by (a,b): (a=0,b=0)->(n0=12,n1=0,cost=0); (a=0,b=1)->(n0=8,n1=4,cost=4); (a=1,b=0)->(n0=8,n1=4,cost=4); (a=1,b=1)->(n0=0,n1=12,cost=0) => e_1*(PERSISTENT_STATE)=1/6.\n  E_stateless=(1-1/2)*1/3+1/2*1/4=7/24 ; E_onebit=(1-1/2)*1/3+1/2*1/6=1/4 ; lambda*=eta*(E_sl-E_1b)=1*(7/24-1/4)=1/24.\n  lambda=1/20: J_stateless=eta*E_sl=7/24, J_onebit=eta*E_1b+lambda=3/10 -> winner STATELESS.\n  lambda=1/2: J_stateless=eta*E_sl=7/24, J_onebit=eta*E_1b+lambda=3/4 -> winner STATELESS.\n  lambda=6: J_stateless=eta*E_sl=7/24, J_onebit=eta*E_1b+lambda=25/4 -> winner STATELESS.\n\n[B1-E05] L=3, p=0, eta=1, N=16 scored cells per mode.\n  mode 0 target=XOR2: T2 groups by a: a=0->(n0=6,n1=2,cost=2); a=1->(n0=2,n1=6,cost=2) => e_0*(STATELESS)=1/4. T3 groups by (a,b): (a=0,b=0)->(n0=3,n1=1,cost=1); (a=0,b=1)->(n0=3,n1=1,cost=1); (a=1,b=0)->(n0=1,n1=3,cost=1); (a=1,b=1)->(n0=1,n1=3,cost=1) => e_0*(PERSISTENT_STATE)=1/4.\n  mode 1 target=AND2: T2 groups by a: a=0->(n0=7,n1=1,cost=1); a=1->(n0=7,n1=1,cost=1) => e_1*(STATELESS)=1/8. T3 groups by (a,b): (a=0,b=0)->(n0=4,n1=0,cost=0); (a=0,b=1)->(n0=3,n1=1,cost=1); (a=1,b=0)->(n0=4,n1=0,cost=0); (a=1,b=1)->(n0=3,n1=1,cost=1) => e_1*(PERSISTENT_STATE)=1/8.\n  E_stateless=(1-0)*1/4+0*1/8=1/4 ; E_onebit=(1-0)*1/4+0*1/8=1/4 ; lambda*=eta*(E_sl-E_1b)=1*(1/4-1/4)=0.\n  lambda=1/5: J_stateless=eta*E_sl=1/4, J_onebit=eta*E_1b+lambda=9/20 -> winner STATELESS.\n  lambda=2: J_stateless=eta*E_sl=1/4, J_onebit=eta*E_1b+lambda=9/4 -> winner STATELESS.\n\n[B1-E06] L=3, p=1, eta=1, N=16 scored cells per mode.\n  mode 0 target=OR2: T2 groups by a: a=0->(n0=3,n1=5,cost=3); a=1->(n0=3,n1=5,cost=3) => e_0*(STATELESS)=3/8. T3 groups by (a,b): (a=0,b=0)->(n0=3,n1=1,cost=1); (a=0,b=1)->(n0=0,n1=4,cost=0); (a=1,b=0)->(n0=3,n1=1,cost=1); (a=1,b=1)->(n0=0,n1=4,cost=0) => e_0*(PERSISTENT_STATE)=1/8.\n  mode 1 target=NAND: T2 groups by a: a=0->(n0=0,n1=8,cost=0); a=1->(n0=4,n1=4,cost=4) => e_1*(STATELESS)=1/4. T3 groups by (a,b): (a=0,b=0)->(n0=0,n1=4,cost=0); (a=0,b=1)->(n0=0,n1=4,cost=0); (a=1,b=0)->(n0=0,n1=4,cost=0); (a=1,b=1)->(n0=4,n1=0,cost=0) => e_1*(PERSISTENT_STATE)=0.\n  E_stateless=(1-1)*3/8+1*1/4=1/4 ; E_onebit=(1-1)*1/8+1*0=0 ; lambda*=eta*(E_sl-E_1b)=1*(1/4-0)=1/4.\n  lambda=1/4: J_stateless=eta*E_sl=1/4, J_onebit=eta*E_1b+lambda=1/4 -> winner PERSISTENT_STATE/STATELESS.\n  lambda=3: J_stateless=eta*E_sl=1/4, J_onebit=eta*E_1b+lambda=3 -> winner STATELESS.\n\n[B1-E07] L=4, p=3/7, eta=1, N=48 scored cells per mode.\n  mode 0 target=NOT_CUR: T2 groups by a: a=0->(n0=0,n1=24,cost=0); a=1->(n0=24,n1=0,cost=0) => e_0*(STATELESS)=0. T3 groups by (a,b): (a=0,b=0)->(n0=0,n1=12,cost=0); (a=0,b=1)->(n0=0,n1=12,cost=0); (a=1,b=0)->(n0=12,n1=0,cost=0); (a=1,b=1)->(n0=12,n1=0,cost=0) => e_0*(PERSISTENT_STATE)=0.\n  mode 1 target=NOT_PREV: T2 groups by a: a=0->(n0=12,n1=12,cost=12); a=1->(n0=12,n1=12,cost=12) => e_1*(STATELESS)=1/2. T3 groups by (a,b): (a=0,b=0)->(n0=0,n1=12,cost=0); (a=0,b=1)->(n0=12,n1=0,cost=0); (a=1,b=0)->(n0=0,n1=12,cost=0); (a=1,b=1)->(n0=12,n1=0,cost=0) => e_1*(PERSISTENT_STATE)=0.\n  E_stateless=(1-3/7)*0+3/7*1/2=3/14 ; E_onebit=(1-3/7)*0+3/7*0=0 ; lambda*=eta*(E_sl-E_1b)=1*(3/14-0)=3/14.\n  lambda=1/10: J_stateless=eta*E_sl=3/14, J_onebit=eta*E_1b+lambda=1/10 -> winner PERSISTENT_STATE.\n  lambda=1: J_stateless=eta*E_sl=3/14, J_onebit=eta*E_1b+lambda=1 -> winner STATELESS.\n\n[B1-E08] L=3, p=1/2, eta=1, N=16 scored cells per mode.\n  mode 0 target=CONST0: T2 groups by a: a=0->(n0=8,n1=0,cost=0); a=1->(n0=8,n1=0,cost=0) => e_0*(STATELESS)=0. T3 groups by (a,b): (a=0,b=0)->(n0=4,n1=0,cost=0); (a=0,b=1)->(n0=4,n1=0,cost=0); (a=1,b=0)->(n0=4,n1=0,cost=0); (a=1,b=1)->(n0=4,n1=0,cost=0) => e_0*(PERSISTENT_STATE)=0.\n  mode 1 target=CONST1: T2 groups by a: a=0->(n0=0,n1=8,cost=0); a=1->(n0=0,n1=8,cost=0) => e_1*(STATELESS)=0. T3 groups by (a,b): (a=0,b=0)->(n0=0,n1=4,cost=0); (a=0,b=1)->(n0=0,n1=4,cost=0); (a=1,b=0)->(n0=0,n1=4,cost=0); (a=1,b=1)->(n0=0,n1=4,cost=0) => e_1*(PERSISTENT_STATE)=0.\n  E_stateless=(1-1/2)*0+1/2*0=0 ; E_onebit=(1-1/2)*0+1/2*0=0 ; lambda*=eta*(E_sl-E_1b)=1*(0-0)=0.\n  lambda=1/2: J_stateless=eta*E_sl=0, J_onebit=eta*E_1b+lambda=1/2 -> winner STATELESS.\n  lambda=3: J_stateless=eta*E_sl=0, J_onebit=eta*E_1b+lambda=3 -> winner STATELESS.\n\n[B1-E09] L=4, p=1/5, eta=1, N=48 scored cells per mode.\n  mode 0 target=MAJ3: T2 groups by a: a=0->(n0=20,n1=4,cost=4); a=1->(n0=8,n1=16,cost=8) => e_0*(STATELESS)=1/4. T3 groups by (a,b): (a=0,b=0)->(n0=12,n1=0,cost=0); (a=0,b=1)->(n0=8,n1=4,cost=4); (a=1,b=0)->(n0=8,n1=4,cost=4); (a=1,b=1)->(n0=0,n1=12,cost=0) => e_0*(PERSISTENT_STATE)=1/6.\n  mode 1 target=XOR: T2 groups by a: a=0->(n0=12,n1=12,cost=12); a=1->(n0=12,n1=12,cost=12) => e_1*(STATELESS)=1/2. T3 groups by (a,b): (a=0,b=0)->(n0=12,n1=0,cost=0); (a=0,b=1)->(n0=0,n1=12,cost=0); (a=1,b=0)->(n0=0,n1=12,cost=0); (a=1,b=1)->(n0=12,n1=0,cost=0) => e_1*(PERSISTENT_STATE)=0.\n  E_stateless=(1-1/5)*1/4+1/5*1/2=3/10 ; E_onebit=(1-1/5)*1/6+1/5*0=2/15 ; lambda*=eta*(E_sl-E_1b)=1*(3/10-2/15)=1/6.\n  lambda=1/20: J_stateless=eta*E_sl=3/10, J_onebit=eta*E_1b+lambda=11/60 -> winner PERSISTENT_STATE.\n  lambda=3/5: J_stateless=eta*E_sl=3/10, J_onebit=eta*E_1b+lambda=11/15 -> winner STATELESS.\n  lambda=8: J_stateless=eta*E_sl=3/10, J_onebit=eta*E_1b+lambda=122/15 -> winner STATELESS.\n\n[B1-E10] L=3, p=4/9, eta=1, N=16 scored cells per mode.\n  mode 0 target=PREV2: T2 groups by a: a=0->(n0=6,n1=2,cost=2); a=1->(n0=6,n1=2,cost=2) => e_0*(STATELESS)=1/4. T3 groups by (a,b): (a=0,b=0)->(n0=3,n1=1,cost=1); (a=0,b=1)->(n0=3,n1=1,cost=1); (a=1,b=0)->(n0=3,n1=1,cost=1); (a=1,b=1)->(n0=3,n1=1,cost=1) => e_0*(PERSISTENT_STATE)=1/4.\n  mode 1 target=OR2: T2 groups by a: a=0->(n0=3,n1=5,cost=3); a=1->(n0=3,n1=5,cost=3) => e_1*(STATELESS)=3/8. T3 groups by (a,b): (a=0,b=0)->(n0=3,n1=1,cost=1); (a=0,b=1)->(n0=0,n1=4,cost=0); (a=1,b=0)->(n0=3,n1=1,cost=1); (a=1,b=1)->(n0=0,n1=4,cost=0) => e_1*(PERSISTENT_STATE)=1/8.\n  E_stateless=(1-4/9)*1/4+4/9*3/8=11/36 ; E_onebit=(1-4/9)*1/4+4/9*1/8=7/36 ; lambda*=eta*(E_sl-E_1b)=1*(11/36-7/36)=1/9.\n  lambda=1/8: J_stateless=eta*E_sl=11/36, J_onebit=eta*E_1b+lambda=23/72 -> winner STATELESS.\n  lambda=1: J_stateless=eta*E_sl=11/36, J_onebit=eta*E_1b+lambda=43/36 -> winner STATELESS.\n\n[B1-E11] L=4, p=3/4, eta=1, N=48 scored cells per mode.\n  mode 0 target=AND2: T2 groups by a: a=0->(n0=20,n1=4,cost=4); a=1->(n0=20,n1=4,cost=4) => e_0*(STATELESS)=1/6. T3 groups by (a,b): (a=0,b=0)->(n0=12,n1=0,cost=0); (a=0,b=1)->(n0=8,n1=4,cost=4); (a=1,b=0)->(n0=12,n1=0,cost=0); (a=1,b=1)->(n0=8,n1=4,cost=4) => e_0*(PERSISTENT_STATE)=1/6.\n  mode 1 target=XOR2: T2 groups by a: a=0->(n0=16,n1=8,cost=8); a=1->(n0=8,n1=16,cost=8) => e_1*(STATELESS)=1/3. T3 groups by (a,b): (a=0,b=0)->(n0=8,n1=4,cost=4); (a=0,b=1)->(n0=8,n1=4,cost=4); (a=1,b=0)->(n0=4,n1=8,cost=4); (a=1,b=1)->(n0=4,n1=8,cost=4) => e_1*(PERSISTENT_STATE)=1/3.\n  E_stateless=(1-3/4)*1/6+3/4*1/3=7/24 ; E_onebit=(1-3/4)*1/6+3/4*1/3=7/24 ; lambda*=eta*(E_sl-E_1b)=1*(7/24-7/24)=0.\n  lambda=1/6: J_stateless=eta*E_sl=7/24, J_onebit=eta*E_1b+lambda=11/24 -> winner STATELESS.\n  lambda=2: J_stateless=eta*E_sl=7/24, J_onebit=eta*E_1b+lambda=55/24 -> winner STATELESS.\n  lambda=9: J_stateless=eta*E_sl=7/24, J_onebit=eta*E_1b+lambda=223/24 -> winner STATELESS.\n\n[B1-E12] L=3, p=1/2, eta=1, N=16 scored cells per mode.\n  mode 0 target=CUR: T2 groups by a: a=0->(n0=8,n1=0,cost=0); a=1->(n0=0,n1=8,cost=0) => e_0*(STATELESS)=0. T3 groups by (a,b): (a=0,b=0)->(n0=4,n1=0,cost=0); (a=0,b=1)->(n0=4,n1=0,cost=0); (a=1,b=0)->(n0=0,n1=4,cost=0); (a=1,b=1)->(n0=0,n1=4,cost=0) => e_0*(PERSISTENT_STATE)=0.\n  mode 1 target=MAJ3: T2 groups by a: a=0->(n0=7,n1=1,cost=1); a=1->(n0=3,n1=5,cost=3) => e_1*(STATELESS)=1/4. T3 groups by (a,b): (a=0,b=0)->(n0=4,n1=0,cost=0); (a=0,b=1)->(n0=3,n1=1,cost=1); (a=1,b=0)->(n0=3,n1=1,cost=1); (a=1,b=1)->(n0=0,n1=4,cost=0) => e_1*(PERSISTENT_STATE)=1/8.\n  E_stateless=(1-1/2)*0+1/2*1/4=1/8 ; E_onebit=(1-1/2)*0+1/2*1/8=1/16 ; lambda*=eta*(E_sl-E_1b)=1*(1/8-1/16)=1/16.\n  lambda=1/100: J_stateless=eta*E_sl=1/8, J_onebit=eta*E_1b+lambda=29/400 -> winner PERSISTENT_STATE.\n  lambda=1/10: J_stateless=eta*E_sl=1/8, J_onebit=eta*E_1b+lambda=13/80 -> winner STATELESS.\n  lambda=2: J_stateless=eta*E_sl=1/8, J_onebit=eta*E_1b+lambda=33/16 -> winner STATELESS.",
+  "predictions": [
+    {
+      "env_id": "B1-E01",
+      "E_stateless": "1/4",
+      "E_onebit": "0",
+      "J_best_stateless": {
+        "1/20": "1/4",
+        "1/2": "1/4",
+        "4": "1/4"
+      },
+      "J_best_onebit": {
+        "1/20": "1/20",
+        "1/2": "1/2",
+        "4": "4"
+      },
+      "lambda_star": "1/4",
+      "winner_class_set": {
+        "1/20": [
+          "PERSISTENT_STATE"
+        ],
+        "1/2": [
+          "STATELESS"
+        ],
+        "4": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "none. Both targets are functions of (a,b) only: CUR is stateless-exact and PREV is exactly computed by the delay-line state, so e*(PERSISTENT_STATE)=0 is an absolute floor and T3 cannot be beaten. T2 is exact. Both J curves and lambda*=1/4 are therefore exact, and the flip between lambda=1/20 and lambda=1/2 is forced. No tie, no abstention.",
+      "confidence": "HIGH"
+    },
+    {
+      "env_id": "B1-E02",
+      "E_stateless": "1/2",
+      "E_onebit": "0",
+      "J_best_stateless": {
+        "1/10": "1/2",
+        "1": "1/2"
+      },
+      "J_best_onebit": {
+        "1/10": "1/10",
+        "1": "1"
+      },
+      "lambda_star": "1/2",
+      "winner_class_set": {
+        "1/10": [
+          "PERSISTENT_STATE"
+        ],
+        "1": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "none. XOR and XNOR are both exact functions of (a,b), so the one-bit class reaches error 0 in both modes (floor) while the stateless class is at the coin-flip value 1/2 in both modes because the target is conditionally balanced given a. lambda*=1/2 is exact. The environment's stated intent (stateless side only 'best available') does not weaken the prediction because the stateless value is still attained cell-wise.",
+      "confidence": "HIGH"
+    },
+    {
+      "env_id": "B1-E03",
+      "E_stateless": "1/4",
+      "E_onebit": "0",
+      "J_best_stateless": {
+        "1/8": "1/2",
+        "3/4": "1/2",
+        "5": "1/2"
+      },
+      "J_best_onebit": {
+        "1/8": "1/8",
+        "3/4": "3/4",
+        "5": "5"
+      },
+      "lambda_star": "1/2",
+      "winner_class_set": {
+        "1/8": [
+          "PERSISTENT_STATE"
+        ],
+        "3/4": [
+          "STATELESS"
+        ],
+        "5": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "none. AND and OR are functions of (a,b), so e*(PERSISTENT_STATE)=0 in both modes. Note the eta=2 scaling enters twice and cancels in neither place: lambda*=2*(1/4-0)=1/2 while J_stateless=1/2, so the eta-sensitivity this environment probes is captured exactly. The only residual risk is an arithmetic slip, not a theory failure.",
+      "confidence": "HIGH"
+    },
+    {
+      "env_id": "B1-E04",
+      "E_stateless": "7/24",
+      "E_onebit": "1/4",
+      "J_best_stateless": {
+        "1/20": "7/24",
+        "1/2": "7/24",
+        "6": "7/24"
+      },
+      "J_best_onebit": {
+        "1/20": "3/10",
+        "1/2": "3/4",
+        "6": "25/4"
+      },
+      "lambda_star": "1/24",
+      "winner_class_set": {
+        "1/20": [
+          "STATELESS"
+        ],
+        "1/2": [
+          "STATELESS"
+        ],
+        "6": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "AT RISK, and this is the batch's most fragile cell. T predicts STATELESS at all three lambdas because lambda*=1/24 falls just below the cheapest tested price 1/20. The margin is 1/120 in E: flipping lambda=1/20 to PERSISTENT_STATE needs only E_onebit<29/120 against the predicted 30/120, and a single improved scored cell in mode 1 already moves E by 1/96>1/120. Mode 0's target PREV2 depends on x_{t-2} alone, and the delay-line state of T3 is provably uninformative about it on the interior cells (e_sl=e_1b=1/3 here), so T3's claim that no other one-bit machine does better is exactly the clause I doubt; accumulator/boundary-latch states permitted by the registered universe retain prefix information the delay line throws away. I predict, more likely than not, that T is REFUTED at lambda=1/20 with true winner PERSISTENT_STATE, and that E_onebit is overstated. By the monotonicity argument any error here can only run STATELESS->PERSISTENT_STATE, never the reverse; lambda=1/2 and lambda=6 remain STATELESS regardless, since a flip there would need E_onebit<0.",
+      "confidence": "LOW"
+    },
+    {
+      "env_id": "B1-E05",
+      "E_stateless": "1/4",
+      "E_onebit": "1/4",
+      "J_best_stateless": {
+        "1/5": "1/4",
+        "2": "1/4"
+      },
+      "J_best_onebit": {
+        "1/5": "9/20",
+        "2": "9/4"
+      },
+      "lambda_star": "0",
+      "winner_class_set": {
+        "1/5": [
+          "STATELESS"
+        ],
+        "2": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "Capability at risk, class set robust. p=0 removes AND2 from scoring entirely and the problem collapses to single-mode XOR2, which T handles correctly as an edge case (the unscored mode's error is multiplied by zero, not dropped by a special rule). T3 gives e*(PERSISTENT_STATE)=1/4=e*(STATELESS), hence lambda*=0 and STATELESS at every positive price. XOR2 reaches back to x_{t-2} (and collapses to CUR at t=1 under the c=0 convention), so I expect the true one-bit optimum to be below 1/4 and lambda*>0; but flipping the cheapest tested price 1/5 would require the true E_onebit<1/20, i.e. near-exact recovery of x_{t-2}, which a single bit cannot latch across two updates. So I predict the winner class sets stand while E_onebit=1/4 is probably too high.",
+      "confidence": "MEDIUM"
+    },
+    {
+      "env_id": "B1-E06",
+      "E_stateless": "1/4",
+      "E_onebit": "0",
+      "J_best_stateless": {
+        "1/4": "1/4",
+        "3": "1/4"
+      },
+      "J_best_onebit": {
+        "1/4": "1/4",
+        "3": "3"
+      },
+      "lambda_star": "1/4",
+      "winner_class_set": {
+        "1/4": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "3": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "none. p=1 removes OR2 from scoring and leaves NAND, a pure (a,b) target that the delay-line machine computes exactly, so e_1*(PERSISTENT_STATE)=0 is an absolute floor and T3 is provably tight despite mode 0 containing a two-back target. This gives the batch's single exact TIE: at lambda=1/4 both classes attain J=1/4, so the winner class set is both classes. That tie is a sharp, falsifiable prediction -- it is refuted by any outcome naming a single class at lambda=1/4 -- and by the monotonicity argument it cannot drift toward STATELESS.",
+      "confidence": "HIGH"
+    },
+    {
+      "env_id": "B1-E07",
+      "E_stateless": "3/14",
+      "E_onebit": "0",
+      "J_best_stateless": {
+        "1/10": "3/14",
+        "1": "3/14"
+      },
+      "J_best_onebit": {
+        "1/10": "1/10",
+        "1": "1"
+      },
+      "lambda_star": "3/14",
+      "winner_class_set": {
+        "1/10": [
+          "PERSISTENT_STATE"
+        ],
+        "1": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "none. NOT_CUR is stateless-exact and NOT_PREV is delay-line-exact, so e*(PERSISTENT_STATE)=0 in both modes; the odd prevalence 3/7 enters only linearly and produces lambda*=3/14 with no rounding, since all arithmetic is exact rational. The non-round p is not a stress on the theory, only on the arithmetic.",
+      "confidence": "HIGH"
+    },
+    {
+      "env_id": "B1-E08",
+      "E_stateless": "0",
+      "E_onebit": "0",
+      "J_best_stateless": {
+        "1/2": "0",
+        "3": "0"
+      },
+      "J_best_onebit": {
+        "1/2": "1/2",
+        "3": "3"
+      },
+      "lambda_star": "0",
+      "winner_class_set": {
+        "1/2": [
+          "STATELESS"
+        ],
+        "3": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "none. Both targets are constants, so both classes reach error 0, E_stateless=E_onebit=0 and lambda*=0; the state bit is pure cost and STATELESS wins strictly at every positive lambda. This is the sanity floor and T cannot contradict it. The only way this environment could surprise is if the scoring treated state_bits as free, which the registered objective forbids.",
+      "confidence": "HIGH"
+    },
+    {
+      "env_id": "B1-E09",
+      "E_stateless": "3/10",
+      "E_onebit": "2/15",
+      "J_best_stateless": {
+        "1/20": "3/10",
+        "3/5": "3/10",
+        "8": "3/10"
+      },
+      "J_best_onebit": {
+        "1/20": "11/60",
+        "3/5": "11/15",
+        "8": "122/15"
+      },
+      "lambda_star": "1/6",
+      "winner_class_set": {
+        "1/20": [
+          "PERSISTENT_STATE"
+        ],
+        "3/5": [
+          "STATELESS"
+        ],
+        "8": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "Capability at risk, class set robust. Mode 0's MAJ3 reaches x_{t-2}, so e_0*(PERSISTENT_STATE)=1/6 is an upper bound I do not fully trust; mode 1's XOR is (a,b)-exact so e_1*=0 is a floor. The class-set calls are nevertheless safe in both directions: lambda=1/20 lies below the predicted lambda*=1/6 and true lambda* can only be larger, while flipping lambda=3/5 would need E_stateless-E_onebit>3/5 which is impossible since E_stateless=3/10. So I predict correct class sets at all three prices with a possibly overstated E_onebit (and hence an understated lambda*).",
+      "confidence": "MEDIUM"
+    },
+    {
+      "env_id": "B1-E10",
+      "E_stateless": "11/36",
+      "E_onebit": "7/36",
+      "J_best_stateless": {
+        "1/8": "11/36",
+        "1": "11/36"
+      },
+      "J_best_onebit": {
+        "1/8": "23/72",
+        "1": "43/36"
+      },
+      "lambda_star": "1/9",
+      "winner_class_set": {
+        "1/8": [
+          "STATELESS"
+        ],
+        "1": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "AT RISK. T predicts STATELESS at both prices because lambda*=1/9 falls just below the cheapest tested price 1/8; the margin is 1/72 in E, and one improved scored cell in mode 0 moves E by 5/144 and in mode 1 by 4/144, either of which exceeds it. Both targets are two-back: PREV2 (mode 0) is the case where the delay-line state provably carries no information at all -- visible as e_sl=e_1b=1/4 -- and OR2 (mode 1) is, on the scored cells at L=3, a monotone function of the prefix rather than of the recent window, exactly the shape an accumulator state fits and a delay line does not. Together with E04 this is one of only two cells in the batch where a sub-one-cell error in T3 changes the class set. I predict, more likely than not, that T is REFUTED at lambda=1/8 with true winner PERSISTENT_STATE; lambda=1 stands as STATELESS regardless.",
+      "confidence": "LOW"
+    },
+    {
+      "env_id": "B1-E11",
+      "E_stateless": "7/24",
+      "E_onebit": "7/24",
+      "J_best_stateless": {
+        "1/6": "7/24",
+        "2": "7/24",
+        "9": "7/24"
+      },
+      "J_best_onebit": {
+        "1/6": "11/24",
+        "2": "55/24",
+        "9": "223/24"
+      },
+      "lambda_star": "0",
+      "winner_class_set": {
+        "1/6": [
+          "STATELESS"
+        ],
+        "2": [
+          "STATELESS"
+        ],
+        "9": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "Capability at risk, class set robust. Both targets are two-back (AND2, XOR2) and T3 buys nothing over stateless for XOR2 (1/3 in both classes) and nothing for AND2 either (1/6 in both classes), giving E_stateless=E_onebit=7/24 and lambda*=0, i.e. STATELESS at all three prices. I expect the true one-bit optimum to be strictly better than 7/24 and lambda* strictly positive, so E_onebit and lambda* are probably wrong. The class sets are still likely right: flipping even the cheapest tested price 1/6 would require the true E_onebit<1/8, a drop of more than half from a value that already equals the stateless optimum, and lambda*<=E_stateless=7/24 caps how far the true crossover can move. Prices 2 and 9 are unflippable.",
+      "confidence": "MEDIUM"
+    },
+    {
+      "env_id": "B1-E12",
+      "E_stateless": "1/8",
+      "E_onebit": "1/16",
+      "J_best_stateless": {
+        "1/100": "1/8",
+        "1/10": "1/8",
+        "2": "1/8"
+      },
+      "J_best_onebit": {
+        "1/100": "29/400",
+        "1/10": "13/80",
+        "2": "33/16"
+      },
+      "lambda_star": "1/16",
+      "winner_class_set": {
+        "1/100": [
+          "PERSISTENT_STATE"
+        ],
+        "1/10": [
+          "STATELESS"
+        ],
+        "2": [
+          "STATELESS"
+        ]
+      },
+      "failure_prediction": "Capability at risk, class sets robust in both directions. Mode 0's CUR is stateless-exact; mode 1's MAJ3 is two-back, so e_1*(PERSISTENT_STATE)=1/8 is an upper bound I do not fully trust (note MAJ3 collapses to a AND b at t=1 under the c=0 convention, so part of its structure is already (a,b)-visible, which is why the delay line does help here, unlike for PREV2). The very cheap price lambda=1/100 sits far below the predicted lambda*=1/16 and true lambda* can only be larger, so the PERSISTENT_STATE call there is safe and confirms state can win when it is nearly free. Flipping lambda=1/10 would need true e_1*(PERSISTENT_STATE)<1/20 against 1/8, i.e. near-exact MAJ3 from one bit, which I judge unlikely. So: class sets predicted correct, E_onebit possibly overstated.",
+      "confidence": "MEDIUM"
+    }
+  ]
+}

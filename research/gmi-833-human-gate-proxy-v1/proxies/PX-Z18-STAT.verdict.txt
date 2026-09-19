@@ -1,0 +1,307 @@
+The advisor is rate-limited, so I'll finalize on my own analysis. My arithmetic below is done by hand from the artifact fields (no repository code was run, and no file outside the brief's list was opened).
+
+---
+
+# Z18-STAT — independent hostile statistics / causal-inference review
+
+## 0. Scope of what I could check
+
+I read the nine listed artifacts and nothing else. Three of the claims rest on numbers that are present and checkable (the five receipt records, the KE-6 rationals, the Z15 null counts); several headline numbers (the 9/3 licensed/unlicensed split, the point-emission-only coverage, the OOD failure rate) are asserted in prose but have no corresponding field in any supplied artifact, and I say so where that bites.
+
+I ignored every internal verdict ("all 50 machine checks GREEN", "0 violations", "hostiles all detected", claim ceilings) as evidence. Those are self-reports about the programme's own checkers.
+
+---
+
+## 1. C1 — the state-class choice law
+
+### OBJ-S1 (material) — the "licensed band" is algebraically identical to the outcome it is used to predict
+
+`gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md` §A4 defines the band by deriving exactly the two conditions that constitute the transition:
+
+> "persistent wins at `lambda_low` iff `lambda_low*B_persist + p*err_persist < p*E0`" … "stateless wins at `lambda_high` iff `p*E0 < lambda_high*B_persist + p*err_persist`" … "the transition `PERSISTENT_STATE -> STATELESS` between the frozen endpoints is licensed iff `1/8 < E0 < 3/8`."
+
+Solve the same inequalities for the crossover price. With `J_c(lambda) = p*err_c + lambda*B_c` and `err_persist -> 0`, the price at which the two candidates swap is
+
+```
+lambda_c = p*(E0 - err_persist)/B   <=   p*E0/B
+```
+
+and the frozen law is `lambda* = p*eta/(2B)`, which at the registered `eta = 0.5` (`"eta_registered": 0.5` in every record of `RECEIPTS_V1.json`) is `p/(4B)`. Therefore
+
+```
+lambda_c / lambda* = E0 / (eta/2) = 4*E0
+```
+
+and since `lambda_low = lambda*/2`, `lambda_high = 3*lambda*/2`,
+
+```
+1/8 < E0 < 3/8   <=>   1/2 < lambda_c/lambda* < 3/2   <=>   lambda_low < lambda_c < lambda_high.
+```
+
+The band is, term for term, the statement *"the true crossover price lies strictly between the two probe prices"* — which is the statement *"the transition will be observed."* A system is licensed if and only if it must transition; a system is unlicensed if and only if it cannot. `CORE.md`'s headline —
+
+> "every one shows the pre-registered `PERSISTENT_STATE -> STATELESS` transition … 3 unlicensed systems … correctly predicted NOT to transition at either endpoint: the licensed-band boundary `1/8 < E0 < 3/8` is demonstrated on both sides by real data"
+
+— is therefore not a prediction that survived a risk of failure. Both arms are arithmetic consequences of `E0`, a quantity measured on the same run. The control cannot fail. The only empirical content is "different data sources have different stateless error rates."
+
+### OBJ-S2 (material) — the amendment retracted the premise but kept the constant derived from it
+
+`FREEZE_V2_AMENDMENT.md` §A5 states plainly:
+
+> "the analytic-uniform expectation `1/2` is recorded but NOT asserted on real data (V1's assertion is retracted by this amendment)"
+
+Yet §A2 states:
+
+> "Everything else in V1 (task family, pools, prices, `lambda_low = lambda*/2`, `lambda_high = 3 lambda*/2` with `lambda* = p/(16H)` … ) is unchanged."
+
+`lambda*` is *derived from* the retracted premise. Writing `lambda* = p*eta/(2B)` as `p*(eta*(1/2))/B` shows that the `1/2` inside `lambda*` is exactly the stateless delayed floor the amendment just retracted. The amendment measured the correct replacement — `floor_del`, recorded in every receipt — and did not propagate it into `lambda*`. Instead it introduced a tolerance band wide enough to absorb the resulting error: `1/8 < E0 < 3/8` is, at `eta = 1/2`, precisely `1/4 < floor_del < 3/4`.
+
+The receipts confirm the decomposition to three decimal places (`E0 ≈ eta * floor_del`, immediate error ≈ 0):
+
+| receipt | `floor_del` | `eta*floor_del` | recorded `E0_err_all` |
+|---|---|---|---|
+| R01-gutenberg-1342 | 0.44958 | 0.22479 | 0.22446 |
+| R04 (Noise.wav) | 0.37529 | 0.18764 | 0.18680 |
+| R05-stdlib-json | 0.40178 | 0.20089 | 0.20020 |
+| R07-frankenstein | 0.45490 | 0.22745 | 0.22776 |
+| R08-dict-words | 0.48350 | 0.24175 | 0.24007 |
+
+So the corrected boundary is `lambda_c = lambda* * 2*floor_del`. The programme held the instrument's floor to the data and left the law's floor at the retracted constant.
+
+### OBJ-S3 (material) — the boundary-tie control shows the frozen law's boundary is wrong, 5 of 5, and is not scored as a failure
+
+The frozen law predicts a tie at `lambda = lambda*`. `gmi-833-heldout-20-transitions-v1/HELDOUT_TRANSITION_FORMALIZATION_V1.md` §4 states this is the point of the control:
+
+> "Exact `lambda=lambda*` controls preserve both property classes as ties rather than forcing a winner."
+
+On real systems the control does the opposite. Every record in `RECEIPTS_V1.json` reports `"boundary_tie_control": { … "winners": ["c1"] }` — a single winner, the stateless floor-setter, not a tie. The receipts' own numbers force it:
+
+| receipt | `p` (`error_price`) | `B` | `lambda* * B` | `p * E0` | winner at `lambda*` | `lambda_c/lambda* = 4*E0` |
+|---|---|---|---|---|---|---|
+| R01 | 8.0 | 128 | 2.000 | 1.796 | c1 (stateless) | 0.898 |
+| R04 | 2.0 | 64 | 0.500 | 0.374 | c1 | 0.747 |
+| R05 | 8.0 | 96 | 2.000 | 1.602 | c1 | 0.801 |
+| R07 | 6.0 | 128 | 1.500 | 1.367 | c1 | 0.911 |
+| R08 | 4.0 | 64 | 1.000 | 0.960 | c1 | 0.960 |
+
+Five of five: the measured crossover lies strictly *below* the frozen `lambda*`, same sign every time, by 4% to 25%. This is not sampling noise — it is a deterministic function of `E0`, i.e. a systematic misspecification of the `eta/2` factor (OBJ-S2). A pre-registered point prediction ("tie at `lambda*`") is wrong on every real system in the package, the receipt records the disconfirming value in a field named `boundary_tie_control` with `"counted_as_transition": false`, and the summary reports it as "boundary ties recorded as controls". A falsified prediction filed under the label of a control is not a control.
+
+**I demand this be reopened** (see §5).
+
+### OBJ-S4 (material) — the endpoint design is provably blind to exactly the discrepancy the receipts contain, and the programme proves this itself
+
+`gmi-833-z-z15-decisive-falsifiers-v1/CORE.md` establishes:
+
+> "Endpoints at `lambda*/2` and `3·lambda*/2` reproduce the true classification for every `r` in `(1/2, 3/2)`. `F1` restricted to endpoints is therefore **provably** blind there."
+
+The real-system package uses those exact endpoints (`lambda_low = lambda*/2 -> lambda_high = 3 lambda*/2`), and the measured ratios above (0.747 … 0.960) all sit inside `(1/2, 3/2)`. By the programme's own theorem, the real-system evidence **cannot** distinguish the frozen law `lambda* = p*eta/(2B)` from the data-derived law `lambda_c = p*E0/B` that its own receipts fit better. The shifted-law control at `2*lambda*` is falsified precisely because `2 > 3/2`; it discriminates nothing inside the blind interval. So the "shifted-law control falsified on every system" establishes only that the true boundary is not above `3*lambda*/2` — a factor-1.5 bracket — while being presented as confirmation of a specific law.
+
+Z15 also carries the honest version of this: the 200-seed randomized null caught only **143/200**, and the 57 survivors "realize exactly 12 distinct multipliers … all inside `(1/2, 3/2)`". That is the correct and creditable diagnosis. It has not been applied to the real-system package, whose design is the blind one.
+
+### OBJ-S5 (material) — outcome-dependent stopping and outcome-weighted recruitment
+
+`gmi-833-real-transition-receipts-v1/CORE.md`, "Chain of custody":
+
+> "V2 outcomes: 3 licensed / 3 unlicensed — every prediction correct; qualifying count 3 < 5." … "`FREEZE_V3_ADDENDUM.md` … registered revival (attribution: system availability, lever: second text-weighted tranche) … V3 outcomes: six further licensed systems; terminal reached with 5 qualifying receipts."
+
+Sampling continued because the count fell short of the pre-specified target, and the additional tranche was deliberately weighted toward the source family already observed to land inside the licensed band. Both the stopping rule and the recruitment are functions of the outcomes. Registering the continuation does not remove the bias; it documents it. No error rate, and no correction for the optional stopping, is attached anywhere to "every prediction correct". Combined with OBJ-S1, the recruitment filter and the prediction are the same filter.
+
+### OBJ-S6 (material) — 20 held-out transitions are 20 evaluations of a theorem, not 20 trials
+
+`HELDOUT_TRANSITION_FORMALIZATION_V1.md` §3 derives the result analytically over a complete enumeration:
+
+> "Because current and previous bits are independent uniform over the complete binary sequence frame, every stateless delayed predictor has minimum error `1/2` … Thus the property-level boundary is `lambda* = eta*p/2`. This derivation predates outcome enumeration."
+
+Given that derivation and an exhaustive scan of a fixed 65,552-candidate set with exact arithmetic, the 20 predicted transitions and 40 endpoint properties are entailed. There is no sampling, no noise, and no residual degrees of freedom: `20/20` and `40/40` carry exactly the evidential weight of the derivation, which is one fact, not twenty. Likewise the "20 exact boundary ties" (§6) are the identity `J0 = J1` at `lambda = lambda*`.
+
+The same applies to the "independent search-procedure replication": two exact algorithms computing the same argmin over the same candidate set must agree, and §5 concedes as much ("This is replication across search procedures, not independent-team replication"). That concession does not travel: `FAILED_PREDICTION_REGISTER_V1.json` entry `SU-TRANS` advertises "40/40 held-out endpoint morphology predictions correct, 20/20 transitions, replicated across two materially distinct search procedures" with no such qualifier. Agreement of two implementations is a software-correctness check; it is not replication of a finding.
+
+### OBJ-S7 (not material, but a reporting defect) — one of the five headline receipts is a mislabelled fallback
+
+Record 2 of `RECEIPTS_V1.json` has `"system_id": "R04-dpkg-log"` and `"x_source": { … "fallback_used": true, "path": "/usr/share/sounds/alsa/Noise.wav" … }`. `CORE.md` then lists it among "9 licensed systems (**text-like sources**: two ebooks, dictionary words, kernel headers, two stdlib source concats, programme corpus, **Noise.wav**)". A white-noise audio file is not a text-like source, and the receipt retains the identifier of a source that was not used. One fifth of the qualifying evidence is a substitution described in the summary in terms its own receipt contradicts.
+
+### OBJ-S8 (material) — the two-sided band demonstration is not checkable from the supplied artifacts
+
+`RECEIPTS_V1.json` contains five records. `CORE.md` claims nine licensed and three unlicensed systems and that the unlicensed ones have "measured `E0 < 1/8`". No receipt for any unlicensed system, and no receipt for the other four licensed systems, is present. The claim that the band is "demonstrated on both sides by real data" rests entirely on records not in this package's receipt file. Within the brief's artifact set this is not verifiable.
+
+### OBJ-S9 (material) — the only uncertainty propagated is binomial-at-fixed-model, and the seed spread is reported as exactly zero
+
+Every record reports `"seed_spread_err_all": {"c1": 0.0, "c2": 0.0}` — exactly zero spread across "registered seeds" for torch-trained MLPs, in all five receipts. Either the seeds do not in fact vary the trained model, or the field is not measuring run-to-run dispersion. Either way, the classifier's gates in `FREEZE_V2_AMENDMENT.md` §A3 use only binomial bounds at the eval counts (`sd = sqrt(0.25/N_delay)`, `sd_diff = sqrt(0.5/N_delay)`), so at `N_delay ≈ 40,000` the "3-sigma" margin is about 0.011 and contains no training variance at all. `floor_del` is itself a "median (over registered seeds)" whose dispersion is never reported. The amendment's claim that these are "the standard 2/3-sigma binomial bounds at the measured counts; no tunable constants" is true and beside the point: the dominant variance component for a trained system is omitted from every band in the package.
+
+### OBJ-S10 (material) — the receipts do not evidence a re-search, and the resource vectors contradict the classification
+
+For each record, `run_id_before` and `run_id_after` differ only by the suffix `:low` / `:high`, and `"resources_before"` equals `"resources_after"` exactly (R01: `[128, 3489, 180.278]` both). If those are the selected candidate's resources, then a receipt whose `observed_after_property` is `STATELESS` reporting a first coordinate of 128 — the value of `carried_state_bytes_persistent` — contradicts its own classification. If they are not the selected candidate's resources, then the receipt contains no per-endpoint record of what was selected, and the selection is unauditable from the receipt. Either reading supports the reading in OBJ-S1: the two "endpoints" are two prices applied to one fixed pair of already-trained candidates, i.e. arithmetic on two stored error numbers, not two searches.
+
+### Causal language in C1
+
+`FREEZE_V2_AMENDMENT.md` §A1 makes an explicit causal attribution:
+
+> "Root cause (one stage): … Real registered sources have biased and temporally correlated bits, so (i) the marginal majority-bit prediction already beats `1/2`, and (ii) adjacent-bit correlation lets a stateless predictor beat even the marginal `min(P(0),P(1))`."
+
+The evidence offered is one smoke run, one system, `T` capped at 8,000, 1 epoch. No bit-bias statistic and no autocorrelation statistic for any source appears in any supplied artifact. The competing explanations that the smoke number 0.426 reflects under-training, or positional dependence between the protected split halves, are not tested. This single unmeasured mechanistic attribution is the justification for the instrument change that produces the licensed band, which produces the tautology in OBJ-S1.
+
+---
+
+## 2. C4 — calibration, coverage, abstention, OOD, confusion matrices
+
+`SCOPE_V1.md` is the most disciplined document in the set. Several of my objections are ones it anticipates in principle and then does not discharge in the reported numbers.
+
+### OBJ-S11 (material) — the decisive point-emission coverage figure is promised and absent, and the mixture arithmetic suggests it may fail
+
+`SCOPE_V1.md` commits to it:
+
+> "Every calibration figure is reported together with the abstention rate on the same stratum, and separately for point emissions only (the harsh test, where coverage is `P(extcap == point)`), because a predictor that abstains whenever unsure is trivially well covered."
+
+`gmi-833-capability-predictor-evaluation-v1/CORE.md` reports only the pooled figures:
+
+> "exact coverage … **0 violations** of `913/1000` and `863/1000`, minima `1191567620413/1224000000000` and `2380730729/2448000000`, each reported beside its abstention rate (`121/162`, `439/640`)"
+
+Those rationals are 0.9735030 and 0.9725207, against bounds 0.913 and 0.863, on strata where the predictor abstains 74.7% and 68.6% of the time. If abstentions are covered with probability 1 and the quoted abstention rate applies to the quoted stratum, the implied point-only coverages are
+
+```
+alpha = 1/20:  (0.9735030 - 121/162) / (41/162)  = 0.89530   vs  L = 0.913   -> below the bound
+alpha = 1/10:  (0.9725207 - 439/640) / (201/640) = 0.91250   vs  L = 0.863   -> above the bound
+```
+
+I cannot confirm the mixture reading — the denominators 162 and 640 differ from the coverage denominators, so the abstention rate may be over inputs while coverage is over exactly-weighted fault patterns. That is precisely the problem: the artifact reports the number that is easy to pass and omits the number its own scope document identifies as the harsh test, at the one alpha where the arithmetic suggests it might not pass. The claim "0 violations" is not assessable without the point-only figure.
+
+### OBJ-S12 (material) — "calibration error" is measured against an assumed fault law, not against data
+
+`SCOPE_V1.md`:
+
+> "each of the four relations `M`, `D`, `B`, `H` independently fails with exactly its registered probability … The resulting coverage is an exact rational obtained by enumerating all 16 fault patterns against the whole universe with exact weights." … "`calibration_error(stratum) = empirical_coverage - L` (exact, signed)"
+
+Nothing labelled `empirical` here is empirical. There is no realized frequency anywhere: the coverage is a weighted enumeration of a stipulated generative model whose parameters `beta = (1/100, 1/200, 1/500, 1/50)` are registered premises with no stated empirical basis in any supplied artifact. Hostile HE5 ("inflate every `beta` twenty-fold — calibration violations appear") demonstrates that the entire result is a function of those unvalidated constants. Calling this a measurement of calibration error uses a statistical term for a deterministic combinatorial identity. `CORE.md`'s "Not claimed" section disclaims promotion to asymptotic calibration, which is the right disclaimer for the wrong problem: the issue is not asymptotics, it is that no frequency was ever observed.
+
+### OBJ-S13 (material) — KE-7 is constructed so that it cannot produce a negative result, and the row's titular quantity is absent
+
+The row is titled "measure OOD failure". `CORE.md` reports "OOD defined structurally; 272 out-of-universe worlds; in-universe and out-of-universe strata reported side by side, **0 in-universe violations**." In-universe soundness is what the construction guarantees (the true realization is in the survivor set). And `SCOPE_V1.md` pre-declares out-of-universe errors uninformative:
+
+> "Here a wrong point is *not* a new finding: it is the parent's declared boundary KP-1D restated, attributable to registration."
+
+So the reported number cannot fail, and the number that could fail is declared not to count and is then not reported. No out-of-universe error rate, and no size of the "OOD region over which `F` nonetheless abstains", appears in either artifact. A row whose only reportable outcome is success is not a measurement.
+
+### OBJ-S14 (material) — KE-3's 161,632 is conditioned on an outcome-selected event that the same package shows is not obtainable
+
+The success register entry `SU-KE3` reads: "The capability law is wrong on 0 of 161,632 (input, truthfully-registered-world) pairs across three real populations." The conditioning event — that the world is *truthfully registered* — is established by comparing the registration against the measured outcome, so the retained subset is selected on a success indicator correlated with the thing under test. `CORE.md` reports how often that event holds: "Truthfulness went 19/32 → 28/32 → 26/32". Between 41% and 19% of the real systems were excluded from the denominator by the selection. And the same section concludes: "no claim that a truthful registration is obtainable for arbitrary trained systems — KE-3D says the opposite at this scope." A zero error rate conditional on a condition you cannot establish in advance is not an error rate. `CORE.md` states the conditioning honestly; the register's success entry does not carry it with equal force.
+
+### OBJ-S15 (material) — `NULL_MODAL` is a straw null evaluated on an arena the predictor selects
+
+> "`NULL_MODAL` (always emit the modal externally-measured capability) is unsound on every point-emitting input; head to head on the inputs where `F` emits a point, the null is wrong on all of them and `F` on none."
+
+Two defects. First, the comparison set is "the inputs where `F` emits a point" — `F`'s own abstention policy chooses the arena, and `F` abstains on 69–75% of inputs (per KE-6). A predictor that answers only where it is certain, compared against a predictor forced to answer everywhere, on the subset chosen by the first, is not a head-to-head. Second, the non-degenerate emissions are values like `4/11`, `5/11`, `9/11` (CORE.md, KE-1), so a modal-capability null is guaranteed wrong on exactly the non-degenerate set by construction. An informative null would be abstention-matched — the best constant, or the best registration-blind rule, restricted to the same inputs with the same answer budget. No such null is present.
+
+### OBJ-S16 (material) — the KE-3D terminal is justified by an inference three counts cannot support
+
+> "Truthfulness went 19/32 → 28/32 → 26/32 — not monotone, which is the signature of an optimization threshold rather than a missing clause. A fourth law fitted to those counterexamples would be tuning to outcomes"
+
+At n = 32 and p ≈ 0.8, one binomial standard deviation is about 2.3. The non-monotonicity rests entirely on 28 versus 26 — a difference of about 0.8 sd on dependent populations, wholly consistent with noise. That non-monotonicity is offered as the diagnostic signature distinguishing "an optimization threshold" from "a missing clause", and that diagnosis is the stated ground for terminating the revival chain. A mechanistic conclusion and a stopping decision are being carried by a difference the data cannot resolve. (Separately: three laws each frozen on a new population and each falsified is genuinely creditable evidence, and the row being kept open rather than closed on synthetic data is the most honest move in the whole set. My objection is to the *reason given for stopping*, not to the openness.)
+
+### OBJ-S17 (material) — exact arithmetic is being used to carry statistical weight
+
+"Stdlib only, exact `Fraction`/`int` arithmetic, no floats in any claim" (CORE.md) is a statement about numerical representation. It establishes that `0 of 45,800`, `0 of 121,920`, `0 of 161,632` are computed without rounding. It establishes nothing about independence, sampling, or power. These are exhaustive enumerations of finite registered universes under a deterministic `F` and a deterministic evaluator: the large denominators are counts of *cells in a grid the authors specified*, not of independent trials, so they confer no statistical power and no confidence interval is meaningful. The repeated pairing of exact arithmetic with six-figure denominators invites a reading of statistical strength the design does not support. To the package's credit, the internal defect diagnosis — "On `SIGMA_SYN` and `SIGMA_ARCH` **every** point `F` emitted was degenerate … The soundness census over those points was true but weak" — is exactly the right instinct, self-applied. It should be applied to the remaining counts too: 3,872 and 2,400 non-degenerate points across six nonzero capability values is the honest scale of the evidence, not 161,632.
+
+---
+
+## 3. C5 — census, maturity assertions A1..A14, and the failed-prediction register
+
+### OBJ-S18 (material) — failed predictions are NOT published with the same prominence as successes
+
+`FAILED_PREDICTION_REGISTER_V1.json` presents "6 failed" entries. Decomposed:
+
+- `FP-KE3D` and `FP-KE3D-OPEN` are the **same** finding, entered twice (same path, same blob sha, two anchors in one document).
+- `FP-SHIFTED-BOUNDARY` is self-labelled "a designed control, NOT a discovered failure".
+- `FP-939-OVERSTRONG` is described in `BASELINE_V1.md` §3 as revived to "re-earned full strength" — a success narrative.
+- `FP-REV-OPEN` is a pointer to six open tickets, not a failed prediction.
+- `FP-Z12-CAL-V1` is a genuine own-instrument defect.
+
+So the register's count of 6 reduces to at most **two** distinct discovered failures (KE-3D, Z12), against 2 successes. Meanwhile, three genuine negatives that fall squarely inside the register's own taxonomy are absent:
+
+1. **The F1 blindness.** `z-z15-decisive-falsifiers-v1/CORE.md`: "The registered 200-seed null of randomized boundary laws `r·lambda*` caught only **143/200**." A registered falsifier that missed 57 of 200 is an instrument defect of exactly the kind entered as `FP-Z12-CAL-V1` (`OWN_INSTRUMENT_DEFECT`). It is in prose only.
+2. **The retracted uniform-bit floor.** `FREEZE_V2_AMENDMENT.md` §A5: "V1's assertion is retracted by this amendment." A pre-registered quantitative prediction (stateless delayed error `= 1/2` on real data) was measured at 0.426 and withdrawn. That is a `FALSIFIED_PREREGISTERED_PREDICTION` by the register's own kind field. Absent.
+3. **The boundary-tie discrepancy** of OBJ-S3 — a pre-registered tie at `lambda*`, contradicted on 5/5 real systems, filed as a control.
+
+The register is also validated only against anchor-existence ("the test plants a non-occurring anchor and a missing file and requires both to be rejected"). That checks that listed entries resolve; it cannot detect an entry that was never listed. The register has no completeness criterion, so its count is a lower bound of unknown tightness presented as a ledger. **Reopen demanded.**
+
+### OBJ-S19 (material) — A5's absence claim exceeds its screened population and contradicts §2
+
+A5 asserts: "**No unsupported overclaim remains**: the FIN2UNIV population (283 flags) adjudicated 283 PROPER". §2 of the same document concedes: "22,116 un-sampled AMBER+RED objects carry adjudication only at the #939 bounded-tranche scope." So 283 flags were adjudicated out of a corpus of 22,553 objects (A1), roughly 1%, and the flagger's sensitivity — its false-negative rate on overclaims it did not flag — is never estimated anywhere in the artifact. "No unsupported overclaim remains" is an absence claim resting on a screen of unmeasured power over a 1% sample. Adjudicating 283/283 flags PROPER is also, on its face, a screen that never fires; a detector with a 0% positive rate on its own flagged population needs a demonstrated true-positive case before its negatives mean anything. The §2 disclaimer does not repair the A5 wording; the two are inconsistent and A5 is the one that gets quoted.
+
+### OBJ-S20 (material) — A12's "0/200 nulls" is a bare number, and this programme has already shown that shape of number to be uninformative
+
+A12 asserts grammar growth is green including "0/200 nulls". No null family, no discriminating-power evidence, and no blind-set analysis accompany it. The Z15 package is the proof that this matters: there, the analogous 200-seed null turned out to be provably blind on 57/200 of its draws, and only a subsequent theorem (`F1PLUS-DEC`) and a different probe point recovered detection. A12 imports the unexamined form of exactly the construct that failed examination elsewhere in the same corpus. Until A12's null family and its blind set are characterized, "0/200" supports nothing.
+
+### On the Z15 "0/200" the brief asks about
+
+`F1+`'s "200/200 caught, `0/200` surviving" is not a sampled null result. `CORE.md` says so: "Theorem `F1PLUS-DEC` proves `F1+` fires for **every** `r != 1`; measurement confirms 200/200". When the outcome is a theorem, the measurement is a test of the implementation, not of the theory, and the 200 draws add nothing. Further, the entire null family is a one-parameter multiplicative rescaling `r·lambda*` of the same functional form. It never varies the dependence on `eta`, `p` or `B`. The rival law that the real-system receipts actually favour — `lambda_c = p*E0/B` (OBJ-S1/S3) — is not in the null family, and by OBJ-S4 it could not be detected by the endpoint design even if it were. `F4b` ("rescaling `eta` alone: `240/360`") is the only form-varying probe and it is a planted defect, not a rival hypothesis.
+
+So: the nulls certify that the code detects multiplicative shifts at the tie point. They do not discriminate the flagship law from the alternative its own real data supports.
+
+---
+
+## 4. Direct answers to the brief's questions
+
+**Do the nulls and controls actually discriminate?** Partly, and not where it matters. The remint/rescale invariance pair (`F4a`/`F4b`) is a genuinely well-designed control pair for the reason given ("an invariance checker that returned `0` for everything would be a constant `False`"), and the hostile set HE1–HE8 includes a real self-correction (HE1's first version was undetected and was replaced) and a negative control on the freeze-order check itself (HE8). Those are real. But the load-bearing controls are not discriminating: the licensed band cannot fail (OBJ-S1), the shifted-boundary control is guaranteed to fail whenever the outcome is `STATELESS` and is blind across a factor-3 interval the programme itself proves blind (OBJ-S4), KE-7's in-universe census cannot fail (OBJ-S13), and `NULL_MODAL` cannot win (OBJ-S15).
+
+**Is "0/200 randomized controls" a meaningful null?** No, in both places it appears. In Z15 it is the measured shadow of a theorem over a one-parameter family that excludes the relevant alternative. In `BASELINE_V1.md` A12 it is an uncharacterized number.
+
+**Do coverage/calibration numbers carry their abstention rates honestly?** The abstention rates are carried alongside, which is better practice than most work of this kind, and `SCOPE_V1.md` names the right hazard explicitly. But the figure that the same document identifies as the decisive one — coverage on point emissions only — is not reported anywhere in the supplied artifacts, at abstention rates of 69–75% where it dominates the result, and at the one alpha where the mixture arithmetic points below the bound (OBJ-S11). Honest framing, incomplete reporting.
+
+**Is anything causal claimed?** Yes, twice, and neither is supported: the "Root cause (one stage)" bit-bias/autocorrelation mechanism inferred from a single capped smoke run with no reported bias or correlation statistic (§1, Causal language), and KE-3D's "signature of an optimization threshold rather than a missing clause" inferred from a 28-vs-26 difference at n=32 (OBJ-S16). The transition work itself is not causal in the harmful sense — the price is set by the experimenter — but OBJ-S10 indicates no re-search occurs between endpoints, so even the interventional reading reduces to re-scoring two fixed candidates.
+
+**Are failed predictions published with the same prominence as successes?** No. See OBJ-S18: the register's 6 reduces to 2 distinct discovered failures, and three genuine negatives that meet the register's own kind definitions are absent from it.
+
+---
+
+## 5. Gates and results I demand be reopened
+
+1. **`REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE`** (#833 Section-J row "Validate at least 5 transitions on real systems", #903) — the licensed band is the prediction (OBJ-S1), the law's constant was not corrected when its premise was retracted (OBJ-S2), and the boundary-tie data falsify `lambda*` on 5/5 systems (OBJ-S3).
+2. **The `licensed_band` check** (`FREEZE_V2_AMENDMENT.md` §A5) and the **`boundary_tie_control`** field in `RECEIPTS_V1.json` — reclassify the tie control as a scored prediction, and re-run the real-system test at probe prices that bracket the *measured* `lambda_c = p*E0/B` rather than at `lambda*/2` and `3*lambda*/2`, which the programme's own Z15 theorem proves blind.
+3. **KE-6** (`measure calibration error`) — publish the point-emission-only coverage per stratum, per the commitment in `SCOPE_V1.md`, and rename or re-scope the row so it does not describe an enumeration over stipulated `beta`s as a calibration measurement.
+4. **KE-7** (`measure OOD failure`) — publish the out-of-universe error rate and the abstention region size; a row whose only reported statistic is guaranteed by construction has not measured what it is named for.
+5. **`FAILED_PREDICTION_REGISTER_V1.json`** and the Z15 row "Failed preregistered predictions, published beside the successes" — de-duplicate `FP-KE3D`/`FP-KE3D-OPEN`, separate the designed control and the open-obligation pointers from discovered failures, and add the three missing negatives (F1's 143/200, the retracted V1 uniform floor, the real-system boundary-tie discrepancy).
+6. **`BASELINE_V1.md` A5** ("No unsupported overclaim remains") — restate to the screened scope with the flagger's sensitivity, or withdraw the absence claim.
+7. **`BASELINE_V1.md` A12** ("0/200 nulls") — characterize the null family and its blind set before the count is carried as evidence.
+8. **The KE-3D terminal** — the decision to stop is currently justified by a 28-vs-26 non-monotonicity; either supply a discriminating test between "optimization threshold" and "missing clause", or record the terminal as a resource decision rather than a diagnosis.
+9. **Register success entry `SU-TRANS`** — the "20/20, 40/40, replicated across two materially distinct search procedures" headline must carry the qualifier its own source document states (`HELDOUT` §5: not independent-team replication, not real-system validation) and must not present entailed enumeration outcomes as independent confirmations.
+
+## 6. What holds up
+
+So the record is clear about what I am not objecting to: the temporal-custody machinery (freeze commits pinned, outcome files asserted absent at those commits, a required-file negative control against vacuous greens); the refusal to close the real-systems row on synthetic data; the published `143/200` and its counterexample-earned diagnosis; the self-found degeneracy defect in KE-1/KE-2 and its repair; the `F4a`/`F4b` invariance pair; and the abstention rates travelling with the coverage figures. Those are real methodological work and they are why a genuine review was possible at all.
+
+VERDICT_BLOCK_BEGIN
+row: Z18-4 | verdict: SATISFIED | reason: The artifacts contained enough primary numeric detail (receipt fields, coverage rationals, null counts, freeze ordering) to conduct a substantive statistical and causal-inference review and to derive quantitative objections independently of the packages' self-assessments.
+claim: C1 | verdict: REOPEN | reason: The "licensed band" 1/8<E0<3/8 is algebraically identical to the condition that the transition occurs, so neither arm of the real-system test could fail, and the receipts' own boundary-tie data place the true crossover strictly below lambda* on 5 of 5 systems inside the interval the programme itself proves the design is blind to.
+claim: C4 | verdict: MATERIAL_OBJECTION | reason: Coverage is reported only pooled at 69-75% abstention with the point-emission-only figure that SCOPE_V1 calls the harsh test absent, "calibration" is an enumeration over stipulated unvalidated betas rather than any observed frequency, KE-7's only reported statistic cannot fail, and KE-3's 161,632 conditions on an outcome-selected truthfulness event the same package shows is not obtainable.
+claim: C5 | verdict: MATERIAL_OBJECTION | reason: The register's "6 failed" reduces to at most two distinct discovered failures once a duplicate, a designed control and two open-obligation pointers are removed, while three negatives meeting its own kind definitions are missing, and A5/A12 assert absences beyond their screened populations.
+objection: OBJ-S1 | claim: C1 | material: yes | text: FREEZE_V2_AMENDMENT A4's band 1/8<E0<3/8 is equivalent to lambda_low < lambda_c < lambda_high where lambda_c = p*E0/B, i.e. to the transition being observed, so licensing and outcome are the same arithmetic and the control cannot fail.
+objection: OBJ-S2 | claim: C1 | material: yes | text: A5 retracts the uniform-bit floor 1/2 on real data while A2 leaves lambda* = p*eta/(2B) unchanged even though that constant is derived from the retracted 1/2, and the receipts record the correct replacement (floor_del) without propagating it, so lambda_c/lambda* = 2*floor_del is a known, uncorrected misspecification absorbed by the band.
+objection: OBJ-S3 | claim: C1 | material: yes | text: Every record's boundary_tie_control reports winners ["c1"] rather than a tie at lambda = lambda*, which the receipts' own p, B and E0 values confirm on all five systems and which falsifies the frozen law's boundary point, yet it is filed as a control with counted_as_transition false rather than as a failed prediction.
+objection: OBJ-S4 | claim: C1 | material: yes | text: The Z15 package proves the lambda*/2 and 3*lambda*/2 endpoint design is blind for every multiplier in (1/2, 3/2), the real-system package uses exactly those endpoints, and the measured ratios 4*E0 (0.747 to 0.960) all fall inside that blind interval, so the real-system evidence cannot distinguish the frozen law from the data-derived alternative.
+objection: OBJ-S5 | claim: C1 | material: yes | text: CORE.md records that sampling continued after "qualifying count 3 < 5" with a deliberately "text-weighted" second tranche, so both the stopping rule and the recruitment are functions of observed outcomes and no error rate accompanies "every prediction correct".
+objection: OBJ-S6 | claim: C1 | material: yes | text: HELDOUT section 3 derives the boundary analytically over a complete enumeration, so the 20 transitions, 40 endpoints and 20 ties are entailed consequences with no sampling and zero residual degrees of freedom, and the two exact search procedures agreeing is a software cross-check rather than replication.
+objection: OBJ-S7 | claim: C1 | material: no | text: Receipt R04 carries system_id "R04-dpkg-log" with fallback_used true and path /usr/share/sounds/alsa/Noise.wav, and CORE.md lists that white-noise audio file among "text-like sources", so one of the five headline receipts is described in terms its own record contradicts.
+objection: OBJ-S8 | claim: C1 | material: yes | text: RECEIPTS_V1.json contains five records and no receipt for any of the three unlicensed systems or the four further licensed ones, so the claim that the band is "demonstrated on both sides by real data" is not verifiable from the supplied artifacts.
+objection: OBJ-S9 | claim: C1 | material: yes | text: seed_spread_err_all is exactly 0.0 for both candidates in all five receipts and floor_del's dispersion over seeds is never reported, so every "3-sigma" gate in A3 carries only binomial-at-fixed-model uncertainty and omits training variance entirely.
+objection: OBJ-S10 | claim: C1 | material: yes | text: run_id_before and run_id_after differ only by ":low"/":high" and resources_before equals resources_after exactly (e.g. [128, 3489, 180.278]), which either contradicts a STATELESS after-property carrying 128 state bytes or means the receipt records no per-endpoint resources for the selected candidate, so no re-search between endpoints is evidenced.
+objection: OBJ-S11 | claim: C4 | material: yes | text: SCOPE_V1 commits to reporting coverage "separately for point emissions only (the harsh test)" but CORE.md reports only pooled minima at abstention rates of 121/162 and 439/640, and under a simple mixture reading the implied point-only coverage at alpha=1/20 is about 0.8953 against the bound 913/1000, so "0 violations" is not assessable.
+objection: OBJ-S12 | claim: C4 | material: yes | text: KE-6's "empirical_coverage" is an exact weighted enumeration of a stipulated 16-pattern fault law whose beta = (1/100, 1/200, 1/500, 1/50) have no stated empirical basis and on which HE5 shows the entire result depends, so no observed frequency underlies anything the row calls calibration error.
+objection: OBJ-S13 | claim: C4 | material: yes | text: KE-7 reports only "0 in-universe violations", which the construction guarantees, while SCOPE_V1 pre-declares out-of-universe errors "not a new finding", so the row titled "measure OOD failure" reports no failure rate and has no outcome that could count against it.
+objection: OBJ-S14 | claim: C4 | material: yes | text: SU-KE3's "0 of 161,632 (input, truthfully-registered-world) pairs" conditions on truthfulness that is decided by comparison with the measured outcome and holds on only 19/32, 28/32 and 26/32 of real systems, a condition the same package states is not obtainable for arbitrary trained systems.
+objection: OBJ-S15 | claim: C4 | material: yes | text: NULL_MODAL is evaluated only "on the inputs where F emits a point", an arena selected by F's own 69-75% abstention policy, and a modal-capability null is guaranteed wrong on non-degenerate values like 4/11 and 9/11, so no abstention-matched null is tested.
+objection: OBJ-S16 | claim: C4 | material: yes | text: KE-3D's terminal rests on "19/32 to 28/32 to 26/32 - not monotone, which is the signature of an optimization threshold rather than a missing clause", but 28 versus 26 at n=32 is under one binomial standard deviation, so a mechanistic diagnosis and a stopping decision are carried by a difference the data cannot resolve.
+objection: OBJ-S17 | claim: C4 | material: yes | text: "exact Fraction/int arithmetic, no floats in any claim" establishes only absence of rounding, while denominators like 45,800 and 161,632 count cells of an author-specified exhaustive grid rather than independent trials, so the pairing of exactness with large n invites a reading of statistical power the design does not support.
+objection: OBJ-S18 | claim: C5 | material: yes | text: The register's six failed entries contain one duplicated finding, one self-labelled designed control and two open-obligation pointers, leaving at most two discovered failures, while the F1 143/200 blindness, the retracted V1 uniform-1/2 floor and the real-system boundary-tie discrepancy all meet its own kind definitions and are absent.
+objection: OBJ-S19 | claim: C5 | material: yes | text: A5's "No unsupported overclaim remains" rests on 283 flags adjudicated 283 PROPER out of a 22,553-object corpus whose remaining 22,116 AMBER+RED objects section 2 concedes are un-sampled, with no sensitivity estimate for a screen that never fired.
+objection: OBJ-S20 | claim: C5 | material: yes | text: A12 carries "0/200 nulls" with no null family, power analysis or blind-set characterization, in a corpus where the one analogous null that was examined proved blind on 57 of 200 draws.
+reopen: REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE (#833 Section-J row, #903) | reason: The licensed band is the prediction, lambda* was not corrected when its premise was retracted, and the boundary-tie control falsifies lambda* on all five supplied receipts.
+reopen: licensed_band check (FREEZE_V2_AMENDMENT A5) and boundary_tie_control (RECEIPTS_V1.json) | reason: The band screens on the same measured quantity that determines the outcome, and the tie control's disconfirming result is recorded as a control rather than scored as a failed prediction.
+reopen: KE-6 measure calibration error | reason: The point-emission-only coverage that SCOPE_V1 identifies as the decisive test is absent at 69-75% abstention, and the reported quantity enumerates a stipulated fault law rather than any observed frequency.
+reopen: KE-7 measure OOD failure | reason: The only reported statistic is guaranteed by construction and the out-of-universe failure rate the row is named for is never reported.
+reopen: FAILED_PREDICTION_REGISTER_V1 and the Z15 row "failed predictions published beside the successes" | reason: The failure count is inflated by a duplicate, a designed control and two open-obligation pointers while three qualifying negatives are missing, and the checker can only validate listed entries, never completeness.
+reopen: BASELINE_V1 A5 "No unsupported overclaim remains" | reason: An absence claim over 22,553 objects is asserted from 283 flags with no estimate of the screen's false-negative rate.
+reopen: BASELINE_V1 A12 "0/200 nulls" | reason: The null family and its blind set are uncharacterized, and the same construct was shown 57/200 blind elsewhere in this corpus.
+reopen: KE-3D terminal (no fourth registration law) | reason: The stopping decision is justified by a 28-versus-26 non-monotonicity at n=32, which is under one standard deviation and cannot distinguish the two mechanisms named.
+reopen: FAILED_PREDICTION_REGISTER success entry SU-TRANS | reason: It presents entailed enumeration outcomes as "20/20, 40/40 ... replicated across two materially distinct search procedures" without the qualifier its own source document states.
+model_self_report: claude-opus-5[1m]
+VERDICT_BLOCK_END

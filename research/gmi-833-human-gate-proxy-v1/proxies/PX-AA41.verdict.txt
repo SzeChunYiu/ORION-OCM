@@ -1,0 +1,282 @@
+I could not reach the advisor (rate-limited); proceeding on my own judgment, with every objection quoted to an artifact.
+
+---
+
+# AA41 — final recursive hostile sweep (fresh-session, non-author)
+
+## 0. Method and read-scope disclosure
+
+Files opened: exactly the six listed under "Artifacts", and this brief. Nothing else in the repository was opened, listed, grepped or searched; no repository code was executed. I did run `grep`/`sort`/`uniq` and one throwaway `python3` reader **over the listed JSON artifact only**, purely to tabulate its fields and re-derive three numbers that the artifacts assert (AAG-1's Gini, AAG-3's 847/293 partition, AAG-2's column constancy). I disclose this because it is arithmetic on a permitted artifact, not execution of repository code; if the brief intends even that to be excluded, discount findings SWEEP-13/14/18 to "asserted, unverified" and nothing else in this sweep changes.
+
+**Gap-graph records read: all 1140** (every record's nine schema fields plus `id`/`status`/`materiality`/`descendants` tabulated exhaustively; 8 records read verbatim in full — the first six DUPID records, and the last FIN2UNIV record).
+
+Per Rule 2, I have used no "GREEN", "closed", "confirmed", claim-ceiling or hostile-table statement inside the artifacts as evidence of correctness. Where an artifact's own arithmetic could be re-derived from a permitted artifact, I re-derived it.
+
+**Structural limit on the recursion, stated up front.** Rule 1 permits six files. A1–A13 each rest on artifacts named in the "Rests on" column (`CORPUS_INDEX_V1.json`, `MASTER_RAG_TABLE_V1.json`, `DEPENDENCY_GRAPH_V2.json`, `REGISTRATIONS_V2.json`, …) that Rule 1 forbids me to open. The brief's stopping criterion is "every branch terminates in an explicitly open item or in a claim you find sound." For most branches neither terminal is reachable: they bottom out in *an artifact I may not read*. I therefore swept every branch to the depth the permitted set allows and marked those leaves UNVERIFIABLE-AT-THIS-READ-SCOPE rather than SOUND. This is the first reason the row's verdict is not SATISFIED, and I return to it in §4.
+
+---
+
+## 1. Sweep tree
+
+Notation at leaves: **SOUND** (checked, no residue), **REGISTERED-OPEN** (terminates in an item the artifacts already register), **UNVERIFIABLE** (leaf lies outside permitted read scope), **SWEEP-n** (finding).
+
+### A1 — corpus enumerated, 22,553 objects / 5,351 files, GREEN 237 / AMBER 18,396 / RED 3,920, census frozen at `2fffb144`
+
+- → internal arithmetic: 237 + 18,396 + 3,920 = 22,553. **SOUND.**
+- → §2: "22,116 un-sampled AMBER+RED objects carry adjudication only at the #939 bounded-tranche scope". AMBER+RED = 22,316, so exactly 200 objects were sampled; 22,116/22,316 = 99.1% of the non-GREEN corpus is unadjudicated. **REGISTERED-OPEN** (§2 states it) — but see SWEEP-4 for where A5's headline outruns it.
+- → `CORPUS_INDEX_V1.json`, `AUDIT_V1.json`: **UNVERIFIABLE.**
+- → the census sha `2fffb144` also appears as `"frozen_source_sha": "2fffb14447193cbfbed3224508a077f2d4f5d2dd"` in `GMI_GAP_GRAPH_V1.json`. This links A1 to the gap graph and produces **SWEEP-5** and **SWEEP-11**.
+
+### A2 — master RAG table, 39 non-empty strata summing to 22,553, "census dispositions never overwritten"
+
+- → `MASTER_RAG_TABLE_V1.json`: **UNVERIFIABLE.** The claim "never overwritten" is a negative about an artifact I may not open; no permitted artifact witnesses it.
+- → the phrase "never overwritten" is in tension with A4's "content collapse 22,553 → 17,258 nodes": A2 covers 22,553 rows while A4 asserts only 17,258 distinct contents. Not a contradiction (strata ≠ nodes), but the register never states which population downstream claims are quantified over. **SWEEP-9** (non-material).
+
+### A3 — dependency graph acyclic, 357 edges, 0 cycles, 0 self-loops (Tarjan, 239 union nodes)
+
+- → edge decomposition: 140 + 28 + 60 + 73 + 56 = 357. **SOUND.**
+- → **SWEEP-9 (material: no).** The acyclicity result is over **239 union nodes** out of A1's 22,553 objects / A4's 17,258 collapsed nodes — roughly 1.0–1.4% coverage — and the register states the node count without stating the coverage fraction. §2 does disclose the inferential half ("absence of a dependency edge is not independence"), so the *inference* is fenced; the *magnitude* is not. Registered: partially, in §2. Not material on its own, but it is load-bearing for AA38 (see SWEEP-24): a corpus with a 239-node edge set cannot supply a descendant relation for 1140 gaps.
+- → `DEPENDENCY_GRAPH_V2.json`, `CYCLE_REPORT_V1.json`: **UNVERIFIABLE.**
+
+### A4 — duplicates adjudicated, 1,652 groups → 1,586 DUPLICATE / 66 DISTINCT / 0 UNCERTAIN
+
+- → 1,586 + 66 + 0 = 1,652. **SOUND.**
+- → descendant: the gap graph carries **857 records** whose `"premise": "scientific object IDs are unique"` and whose `"evidence_needed": "explicit alias/equivalence adjudication or unique IDs"` — i.e. exactly the work A4 claims was done — and every one of them reads `"status": "OPEN"`, `"severity": "CRITICAL"`, `"materiality": "MATERIAL"`. → **SWEEP-5.**
+
+### A5 — "No unsupported overclaim remains: the FIN2UNIV population (283 flags) adjudicated 283 PROPER; the one confirmed OVERSTRONG … was revived, not narrowed (see §3)"
+
+This is the deepest and worst branch. Four distinct findings hang off it.
+
+- → **§3 bullet: "Corollary CI-A4: the original 27×27 classification is the registered fully-shareable *instance* — an instance, not the claim."**
+  `gmi-833-capability-interaction-partition-v1/CORE.md` states, of that exact object: "Section 1.2 defines four interaction types by **burden** relations; Corollary CI-A4 assigns those names from **channel-set overlap alone**, never computing a burden," and reports **"DEF-1 shipped label FALSE by Section 1.2's own defining condition — 56 / 351"**, **"DEF-2 pairs satisfying more than one Section 1.2 label (taxonomy does not partition) — 287 / 351"**, **"DEF-3 `verify_no_interference()` is vacuous (no `"interfering"` return path exists)"**, and **"217 of 351 labels change."** A corollary of which 217/351 labels are wrong is not "the registered fully-shareable instance"; it is a falsified instance. → **SWEEP-1 (material).**
+- → **§3 bullet: "Lemma B: shared channel ⇒ max ≤ joint ≤ sum with exact equality characterization (nested ⇔ max; disjoint ⇔ sum; partial overlap ⇔ strictly between) — *unconditional* (inclusion-exclusion)."**
+  CORE.md's repair table states: "**CIP-4** | `mu` pinned to counting measure (strict positivity), with the counterexample showing **Lemma B's `iff nested` fails without it**". A lemma whose equality characterization fails without a pinned measure is not unconditional. Note also that CORE.md is *internally* inconsistent here: two lines above CIP-4 it says "Lemmas A, B, C and CE-1/CE-2 are **sound and untouched**." Both readings damage A5/A14: either Lemma B needs an assumption the baseline omits, or CORE.md's own summary line is wrong. → **SWEEP-2 (material).**
+- → **§3 controls line: "Controls: witness GREEN; 9/9 new tests + 27/27 original tests."**
+  CORE.md establishes that 217 of 351 shipped labels are wrong and that 287/351 pairs satisfy more than one defining condition. The 27/27 original tests passed throughout that state. A suite that is insensitive to a defect affecting 62% of the shipped output is not control evidence for the claim it is cited under. → **SWEEP-3 (material).**
+- → **A5's headline "No unsupported overclaim remains" vs its own §2.**
+  A5 adjudicates a **283-flag** FIN2UNIV population. §2 records as an open gap state "L52 census-side **1,336 UNIVERSAL statement-side**" screened-not-adjudicated. The register therefore asserts no overclaim remains while simultaneously recording ≥1,336 universal-language statements that were screened and never adjudicated. → **SWEEP-4 (material; the population is registered in §2, the headline sentence's scope is not).**
+- → **A5 vs the gap graph.** The 283 flags A5 calls "adjudicated 283 PROPER" correspond one-for-one in count to the 283 `GAP-FIN2UNIV-*` records, every one of which reads `"status": "OPEN"`, `"unresolved_assumption": "analytic/mechanized universal bridge exists"`, `"evidence_needed": "analytic/mechanized proof or narrowed finite quantifier"`. → **SWEEP-5.**
+
+### A6 — maturity: 197 rows (M0 48 / M1 30 / M2 89 / M3 6 / M4 23 / UNKNOWN 1); "no M5/M6 — no EV4/EV5 evidence exists anywhere"
+
+- → 48+30+89+6+23+1 = 197. **SOUND.**
+- → descendant in AAG-4: "**No GMI result is declared HOSTILE_CLOSED, REPLICATED_CLOSED or REAL_SCALE_CLOSED by this package.**" Combined with A6's corpus fact, the entire corpus sits at or below `LOCALLY_CLOSED` on the AAG-4 chain: no independent replication, no real-scale run, anywhere. That is a first-order constraint on any flagship manuscript freeze. **REGISTERED-OPEN** (A6 states it; §2 forbids `REAL_SCALE_VALIDATION_COMPLETE`). → SWEEP-10, material but registered.
+- → "the 7 G6 analytic proofs bridge M0/EV0 → M1/EV1 with registered falsifiers": **UNVERIFIABLE** (rescore artifacts out of read scope).
+
+### A7 — "all six fields (scope/quantifiers, assumptions, falsifiers, strongest parents, forbidden extrapolations) registered for all 235 claim-bearing objects — 1,175 slots, 0 REGISTERED_GAP at v2"
+
+- → **SWEEP-6 (material).** The sentence says "**six fields**", then names **five** (scope/quantifiers; assumptions; falsifiers; strongest parents; forbidden extrapolations), and gives **1,175 slots** = 235 × **5**. Six fields over 235 objects is 1,410 slots. Either one of the six required discipline fields is unregistered for all 235 objects (235 missing slots, contradicting "0 REGISTERED_GAP"), or the headline field count of the completeness claim is wrong. The artifacts do not disambiguate, and A7 is precisely the claim that claim discipline is *complete*. Not registered anywhere in the artifacts.
+
+### A8 — identification passes L42, L44–L56, L58; "SCREENED-NOT-ADJUDICATED remains an explicit gap state, never silence"
+
+- → §2 enumerates those states (L49/L53 37 packages; L54/L55 5+5; L52 1,336). **REGISTERED-OPEN.** This branch is honest as far as the permitted artifacts show; its weight lands on A5 (SWEEP-4), not here.
+- → per-pass evidence (`VERDICT_REGISTER_V1.json`, `PASS_L*.md`): **UNVERIFIABLE.**
+
+### A9 — "revival queue is live: 9 tickets, 3 DONE_IN_SWEEP, 6 open"
+
+- → 6 tickets tabulated in §4 with attribution/lever/owner; 6 + 3 = 9. **SOUND** as bookkeeping.
+- → "Closed in-sweep (3): **REV-L58-CI-UNIVERSAL**, REV-L42-CONTENT-NORM-DETECTOR, REV-L56-COGNITIVE-RESIDUAL — each with executed chain, not paperwork." REV-L58-CI-UNIVERSAL is the CI-U revival, i.e. the closure whose product CORE.md shows to be defective in 217/351 labels. A closed row resting on a falsified product. → **reopen demand, see §3.** Also → **SWEEP-16**: this very line is a bare-`closed` verdict token inside an artifact §5 freezes byte-identical forever.
+- → each open ticket followed:
+  - REV-L47-NOVEL-INTELLIGENCE-W4 (custody stage, freeze doc lagged the outcome) — **REGISTERED-OPEN.**
+  - REV-L47-CUSTODY-GAPS ("18 non-demonstrable packages + 5 tight gaps") — **REGISTERED-OPEN.** Note the lever offers "or **freeze-text amendment to claimed custody**" as an alternative to replication; that is a documentation route to closing an evidence gap, which the operator doctrine quoted in §3 ("aim for the best claim, never downgrade/narrow to close") would not permit. Flagged, not counted as a separate material finding since the ticket is open.
+  - REV-L46-TWO-ROUTE-PROGRAMME ("75 SINGLE_ROUTE computational claims") — **REGISTERED-OPEN.** This is the material one for the flagship: the Z15 freeze's whole credibility rests on "Two materially independent routes", while 75 corpus claims have only one. See SWEEP-20 for why route-independence is also weaker than claimed where it exists.
+  - REV-L45-073-PROOF-STRENGTHENING ("Theorem 1 definitional") — **REGISTERED-OPEN.**
+  - REV-L50-A2-SIGNATURE-PROGRAMME ("108 packages lack A2 signatures") — **REGISTERED-OPEN**, and it is a descendant of A11, whose "A2 semantic screen" is asserted as applied; 108 packages lack the signatures that screen presumes.
+  - REV-L49-L53-SEARCHER-ACCOUNTING ("single preregistered accounting") — **REGISTERED-OPEN.**
+
+### A10 — terminology migrated; residual 69 = 35 aj-lane + 34 acknowledged
+
+- → 35 + 34 = 69. **SOUND**; residual owner named in §4. **REGISTERED-OPEN.**
+
+### A11 — "Blind-recovery protocol v2 closed every input channel (task, basis, fingerprint clauses, **cost**, thresholds, screen) pre-search … 6 open gaps registered"
+
+- → §4 lists those gaps: "**V2-DAG-COST (critical)**, V2-K05-K11 (critical), V2-BASIS-NEUTRALITY-BOUND (high), V2-LEARNING (high), V2-PREDICTED-SELECTED (medium), V2-REAL-SCALE (medium)."
+- → **SWEEP-8 (material).** The same register asserts the **cost** channel was closed pre-search and carries an open **critical** gap named `V2-DAG-COST`. The permitted artifacts give only the gap's name, so I cannot establish what it contains; I can establish that the register states both and reconciles neither. Under Rule 2 I will not take "closed every input channel" as evidence. The gap is registered; the assertion that the cost channel is closed is not qualified by it.
+- → "recovery boundary measured (XOR recovered, XNOR honestly fails)" — an honest negative, correctly carried. **SOUND** as a disclosure.
+
+### A12 — grammar growth green; "held-out burden 50,052 → 1,307 (net −48,739, H− control regression preserved)"
+
+- → **SWEEP-7 (material: no).** 50,052 − 1,307 = **48,745**, not 48,739. The difference of 6 is presumably the preserved H− control regression, but the register never states the regression's magnitude, so its own headline arithmetic does not close from the text. On a claim declared "green at registered scope", a headline number that cannot be reconciled from the register should be stated, not inferred.
+- → GRW-1/INV-1/REC-1/HLD-1/THR-1/NULL-1, "0/200 nulls", "independent-oracle agreement": **UNVERIFIABLE.**
+
+### A13 — "The progress ledger's checkbox evidence map and remaining-work queue are current at its pin"
+
+- → **UNVERIFIABLE**, and self-referential: the only evidence offered for currency is the ledger itself, which is out of read scope. A claim of the form "X is current" with X as its own witness cannot terminate in SOUND. → **SWEEP-26.**
+
+### A14 — "The CI-U universal theorem stands at re-earned full strength (§3)"
+
+- → resolves entirely into the §3 branch: **SWEEP-1**, **SWEEP-2**, **SWEEP-3**. The universal theorem's Lemmas A and C are untouched by the correction on CORE.md's account, so "CI-U as a universal accounting statement survives" may well be true; "stands at re-earned **full strength**" is not supported, because (i) Lemma B's equality characterization is conditional on a pinned measure the baseline does not name, (ii) the corollary the baseline offers as its registered instance has 217/351 wrong labels and a taxonomy that does not partition, and (iii) the control evidence cited for it is demonstrated insensitive to that defect class.
+- → also: CORE.md records "**This tranche closes NO #833 checkbox.**" and claim ceiling "**G2** … Not raised by this tranche." So the correction is deliberately non-promoting — it does not fix A14, it only shows A14 is wrong. Nothing in the permitted artifacts absorbs it. → **SWEEP-12.**
+
+---
+
+### Flagship theory — `gmi-833-z-z15-decisive-falsifiers-v1/FREEZE_V1.md`
+
+Theory statement swept: morphology = persistent internal state; prediction "stateless when `lambda > eta·p/2`, persistent when `lambda < eta·p/2`, and a tie exactly at `lambda = eta·p/2`"; "made from the task's parameters alone, before any search is run".
+
+**Branch: finite registered scope → universal law.** F1's clean case is "the 40 endpoints of the 20 registered `(p, eta)` worlds"; F2's is "all 60". The theory as stated quantifies over tasks and resource-bounded searches generally. This is exactly the gap class the gap graph registers 283 times: `"premise": "bounded computation supports only its declared bounded universe"`, `"unresolved_assumption": "analytic/mechanized universal bridge exists"`, and AAG-3 maps this kind to `FLAGSHIP` scope. The freeze also forbids `UNIVERSAL_MORPHOLOGY_LAW`. → **REGISTERED-OPEN.** This branch is handled honestly.
+
+**F1 — systematic morphology-selection failure.** Threshold "fires iff count > 0" over 40 endpoints; planted positive is the shifted boundary `2·lambda*`; null is "200 randomized boundary laws `lambda*_rand = r·eta·p/2` with `r` drawn from a seeded rational ladder excluding `r = 1`."
+- → **SWEEP-22 (material).** Every element of the null is `r·eta·p/2` — the *same functional form*, rescaled. The null contains no boundary law of a different shape (no `eta·p²`, no `eta·p/2 + c`, no non-multiplicative dependence). "200 randomized boundary laws" therefore means 200 points in a one-parameter family, and "`200/200` random boundaries falsified" licenses only "the constant is 1/2 within this family", not "the boundary law is decisively tested". `FALSIFIER_SET_IS_COMPLETE` is forbidden, which fences the *set* of falsifiers; nothing fences the null's family. Not registered.
+
+**F2 — architecture-uncommitted recovery outside the predicted set.** "number of registered worlds (all 60, endpoints and boundaries) whose exhaustive winner class set is **not** contained in the predicted set."
+- → **SWEEP-19 (material).** The theory predicts "a tie exactly at `lambda = eta·p/2`". At a tie both morphology classes are predicted, so the predicted set at each of the 20 boundary worlds is the whole two-element class space, and containment holds for any possible exhaustive result. F2 is structurally incapable of firing on one third of its own clean case, yet the clean case is reported as 60 worlds without that partition. By the freeze's own standard — "A falsifier that cannot fire tests nothing" — those 20 worlds contribute nothing. The planted positive ("a predicted set artificially narrowed to `{STATELESS}` at a world with `lambda < lambda*`") is placed at a *non-boundary* world, so it does not exercise the vacuous third either. Not registered.
+
+**F3 — capability miscalibration beyond registered uncertainty.** "the capability predictor … emits a *set* of values it claims the truth lies in, and **abstains when the set has more than one member**"; clean case "the 480 records of the pinned capability-evaluation population"; planted positive "one covering set with a truth element removed."
+- → **SWEEP-21 (material).** Passing F3 means "no emitted set failed to contain the truth". A set-valued predictor that emits large sets (and abstains) satisfies that trivially; the informativeness of the prediction is what makes a containment result meaningful, and the freeze registers **no** measure of it — no abstention rate, no distribution of set sizes, no minimum-informativeness threshold. Contrast F4, where the freeze explicitly builds a non-vacuity pair and says so: "the checker must stay silent on the genuinely irrelevant transformation and fire on the relevant one, **so it is not merely a constant `False`**." F3 gets the checker-level control (the planted positive proves the *checker* can fire) but not the claim-level one (nothing proves the *predictor* committed to anything). Not registered.
+- → descendant, and the sharpest thing in the freeze: row 6 registers `FP-KE3D` — "three prospectively frozen registration laws for real trained systems, each falsified by its own pre-registered falsifier; **the row stays open**". So the capability leg of the flagship has a known real-system falsification, while F3's clean case is a pinned 480-record population. That negative **is** registered (row 6), so the branch terminates REGISTERED-OPEN — but only in the Z15 register, which §4 of the baseline does not reference. → **SWEEP-25.**
+
+**F4 — invariance failure under transformations claimed irrelevant.**
+- `T_a` (permutation of candidate surface identifiers), planted positive "a pseudo-remint that also permutes the error counts". **SOUND** as designed — genuine control pair.
+- `T_b`: "common positive rational rescaling `(eta, lambda) -> (c·eta, c·lambda)`." → **SWEEP-20 (material).** The registered boundary is `lambda = eta·p/2`; both sides carry one factor of `c`, so the predicted class is invariant by inspection. Route A "evaluates every falsifier **from the closed-form boundary law**", so for Route A the `T_b` clean case is an algebraic identity. Route B "rebuilds the candidate universe by a different decomposition — a multiplicity histogram over `(state_bits, e_now, e_delay)` **reduced to integer objective coefficients**"; the objective coefficients are `eta` and `lambda`, so scaling both by `c` scales every candidate's objective by `c` and leaves the argmin fixed. Both routes therefore inherit the same degree-1 homogeneity: for `T_b`, route agreement is entailed, not evidential, and the freeze's self-falsifier "Route A and route B disagreeing on any falsifier verdict or count" cannot bind here. The planted positive (rescaling `eta` only) shows the checker is not constant-`False`, but it does not make the clean case informative. Not registered.
+
+**Row 6 — failed preregistered predictions.**
+- Mechanism: "a missing file, a changed blob, or an anchor occurring zero or more than one time fails the run." **SOUND** as a tamper mechanism.
+- → **SWEEP-23 (material).** `FP-939-OVERSTRONG` and `FP-REV-OPEN` are both pinned in `gmi-833-theory-baseline-v1/BASELINE_V1.md`. §5 of that file states "The pinned manifest and its 132 bound files stay **byte-identical forever**" and "No bound artifact may be modified in place." The combination guarantees that the failed-prediction register's anchors keep resolving to a file whose §3 asserts the #939 repair succeeded — a claim `CORE.md` falsifies in 217/351 labels — and the machine check will keep passing, because passing means *the blob did not change*. Tamper-evidence here structurally preserves a superseded claim; only a supplement can correct it, and none is present in the permitted artifacts. Not registered.
+- `FP-SHIFTED-BOUNDARY` is correctly labelled a negative control, with `NEGATIVE_CONTROL_IS_A_DISCOVERED_FAILURE` forbidden. **SOUND**, and good practice.
+- `FP-Z12-CAL-V1` — the programme's own instrument "found mis-specified and repaired before its numbers were used". **SOUND** as a disclosure; unverifiable in detail.
+
+---
+
+### Governance instrument — `gmi-833-aa-gap-object-v1` + `OPEN_GAP_SCHEMA_V1.json` + the 1140-record graph
+
+**AAG-1 (schema realizable and realized).**
+- Re-derived: 1140 records; all nine bound keys present and non-empty in every record; distinct `claim_id` = **1094**; claim-id multiplicity distribution 1062×1, 22×2, 7×3, 2×4, 1×5 → Σn² = 1270 → exact Gini `1 − 1270/1299600` = **129833/129960**, matching AAG-1's stated value exactly. **SOUND.**
+- → **SWEEP-18 (material: no, but a disclosure gap).** The schema's identity field says ids "may repeat when two distinct findings share a content hash; **uniqueness is measured, not required**". I find **1126 distinct `id` values over 1140 records** — 14 collisions, all in the FIN2UNIV class (`GAP-FIN2UNIV-ff34f453cf9a` ×4, `-061a63b265ed` ×3, `-ed862a6090fb` ×3, and seven ×2). AAG-1 reports the `claim_id` measurement and not the `id` measurement, so the promised measurement does not appear anywhere in the permitted artifacts. It is also a recursive irony worth naming: the governance ledger whose 857 largest gap class is "scientific object IDs are unique" itself has colliding ids.
+
+**AAG-2 (incumbent columns carry exactly zero information).**
+- Re-derived: `severity` (all `CRITICAL`), `materiality` (all `MATERIAL`), `status` (all `OPEN`), `owner_role` (all `HOSTILE_VERIFICATION`), `parent_result` (all `T833-B1-AA`), `descendants` (all `[]`) — all six constant over 1140. The six-column measurement is **SOUND**.
+- → **SWEEP-13 (material).** The conclusion drawn from it is not. AAG-2 states: "Therefore **no materiality threshold can be derived from the incumbent columns**: any threshold over a constant column either admits all 1140 records or none." The permitted artifact refutes the generalization: `premise` takes exactly two values (`"scientific object IDs are unique"` 857 / `"bounded computation supports only its declared bounded universe"` 283), as do `inference` (857 `"dependency resolution"` / 283 `"universal theorem language"`), `evidence_needed`, and `unresolved_assumption`; `id` carries the same split in its `GAP-DUPID`/`GAP-FIN2UNIV` prefix; `possible_counterexample` takes ~25 values. These are all incumbent columns and they are not constant. AAG-2's scope line says "The same 1140 records" and its statement names six columns — but the boldface conclusion quantifies over "the incumbent columns" without restriction, and that sentence is what AA09's "terminate by arbitrary convenience" rebuttal leans on. Not registered.
+
+**AAG-3 (declared monotone materiality threshold, non-degenerate on the real universe).**
+- Re-derived independently from the schema's ranks and the 1140 records, using AAG-3's own stated inputs (`evidence = ASSERTED`, `DUPID→PACKAGE`, `FIN2UNIV→FLAGSHIP`, `blast = claim-id multiplicity − 1`): **847 MATERIAL / 293 CRITICAL**, matching exactly. The arithmetic is **SOUND**.
+- → **SWEEP-14 (material).** The *interpretation* is near-tautological. On the real universe three of the four inputs are constant or assumption-supplied: severity is constant `CRITICAL` (AAG-2's own finding), evidence_mode is constant `ASSERTED` by AAG-3's own stipulation, and scope is fixed by the declared map that AAG-3 concedes is "a declared modelling choice … **stated, not derived**". Only `blast` is data-derived. Decomposing the result: all **283** FIN2UNIV records reach M ≥ 9 automatically (3 + 3 + 3 + blast), and only **10** DUPID records (those whose claim_id appears ≥3 times) join them. So **283 of 293 CRITICAL = 96.6% of the "non-degenerate" partition is the gap-kind label re-encoded through the stated scope map** — a column that was already present and already two-valued in the incumbent export. The claim "a two-class partition where the incumbent `materiality` column had exactly one class" is literally true and substantively empty: the two classes are (essentially) DUPID vs FIN2UNIV. Combined with SWEEP-13, AAG-3 does not escape the incumbent columns; it renames one of them. Not registered.
+
+**AAG-4 (closure-grade chain; bare-`closed` detector).**
+- The 32-point initial-segment check is a closed finite computation over a declared cube; nothing in the permitted artifacts contradicts it. **UNVERIFIABLE-but-plausible**; the chain definitions in the schema (`requires` lists are nested by construction) make the initial-segment property structural rather than empirical, which the write-up does not say.
+- → **SWEEP-15 (material).** The headline measurement — "**1490 bare-`closed` sites in 178 packages across 2577 markdown files**" — is presented as a disclosed backlog, but its false-positive rate on real text is unmeasured. The operative rule is purely lexical: "a `closed` token is admissible only when immediately prefixed by `LOCALLY_`, `HOSTILE_`, `REPLICATED_` or `REAL_SCALE_`" (schema: "The token 'closed' (word-bounded, case-insensitive) … Any other occurrence **in a scientific verdict position** is a bare-closed violation"), and *"in a scientific verdict position" is nowhere operationalized in the permitted artifacts*. The no-alarm case is "**0/4** on a fixture containing all four qualified forms plus the distractors 'enclosure' and 'closure'" — both distractors are non-word-bounded, i.e. the two easiest possible negatives; the hard negatives are word-bounded mathematical and ordinary-English uses of `closed`, and one of them occurs in a *bound artifact of this very freeze*: `gmi-833-z-z15-decisive-falsifiers-v1/FREEZE_V1.md` line 140, "evaluates every falsifier from the **closed-form** boundary law", with two more in `CORE.md` ("ROUTE C (closed form)"). A detector that has never been shown to reject "closed-form", "closed set" or "the ticket was closed" cannot support a count of 1490 as a backlog figure. Not registered.
+- → **SWEEP-16 (material).** Applying AAG-4's own rule to the baseline: `BASELINE_V1.md` contains word-bounded `closed` in scientific-verdict positions at line 31 ("Blind-recovery protocol v2 **closed** every input channel"), line 61 ("was **not closed** by narrowing"), line 83 ("None is **closed** by this freeze") and line 97 ("**Closed** in-sweep (3): REV-L58-CI-UNIVERSAL, …"). §5 binds that file byte-identical forever. So the register that the AA governance instrument is supposed to govern contains uncorrectable instances of the violation class the instrument was built to detect, and the instrument's own package reports zero interaction with it. Not registered.
+
+**AAG-5 (repair-successor interrogation automatic and total).**
+- → **SWEEP-17 (material).** "The emitter is a **total** function on well-formed gaps: **1140/1140 emitted**. It **refuses** (raises) when the gap has no id, when the **repair description is empty**, or when the **awarded grade is not one of the four declared grades**." All 1140 records are `"status": "OPEN"` — none has been repaired. Under the emitter's stated refusal conditions, emitting for all 1140 requires a non-empty `repair_description` and a member of `{LOCALLY_CLOSED, HOSTILE_CLOSED, REPLICATED_CLOSED, REAL_SCALE_CLOSED}` in `closure_grade_awarded` for **each of 1140 unrepaired gaps**. The artifacts never say what was supplied. Two readings, both damaging: if placeholders were supplied, "total function, 1140/1140" is a statement about a synthetic input set and carries no governance force; if real grades were awarded, it contradicts AAG-4's "**No GMI result is declared HOSTILE_CLOSED, REPLICATED_CLOSED or REAL_SCALE_CLOSED by this package.**" Not registered.
+
+**AA38 / AA40 — explicitly not earned.**
+- "**0 of 1140** records carry a non-empty `descendants` list. The incumbent graph is a flat list with a descendants field." Re-derived: all 1140 read `"descendants": []`. **REGISTERED-OPEN**, and correctly disclosed.
+- → **SWEEP-24 (material, registered).** This is the finding that most directly conditions *this row*. The only machine-readable gap object in the artifact set has **no edges**. A "recursive" sweep therefore has no descendant relation to follow: recursion in this audit is performed by a reader following prose, not by the instrument. AA38's repair "needs a justified edge relation and is scheduled separately", and A3 shows the corpus's only cited-edge graph spans 239 union nodes — not a plausible source for edges over 1140 gaps. Registered as not earned; material to whether any sweep at this pin can be called recursive in the instrument's sense.
+
+**CIP-2b (INTERFERING provably empty).** "under union accounting `INTERFERING` is provably EMPTY (**replaces the vacuous check**)" with the corrected census showing `INTERFERING | 0`. Under CIP-1's definition `INTERFERING = {J > s}` and union accounting gives `J ≤ s`, so the class is empty by construction. DEF-3's substance — there is no realizable interfering case in the A4 contract — is unchanged; what changes is that the emptiness now has a proof. Calling that "replaces the vacuous check" is a wording overclaim, but the census table discloses the 0 plainly. → **SWEEP-28, material: no, disclosed.**
+
+**Cross-register structure.**
+- → **SWEEP-25 (material).** There are **four** disjoint open-item registers in the artifact set — baseline §4 (6 tickets + lane residuals + 6 blind-recovery gaps), `GMI_GAP_GRAPH_V1.json` (1140 records), AAG's "Explicitly NOT earned" list (AA38, AA40, AA02–AA06/AA08/AA10–AA37/AA41), and Z15's `FAILED_PREDICTION_REGISTER_V1.json` (5 entries) — and **no artifact cross-references any other, nor declares their union**. §4 does not mention the 1140 gaps, FP-KE3D, or AA38; the gap graph does not mention the 6 revival tickets; Z15's register cites BASELINE_V1.md for two entries but nothing cites Z15. "Every material finding is registered as open" can only be true of a union that no artifact constructs, which means no reader can check it and no gate can enforce it. Not registered.
+
+**Pin / inventory coherence.**
+- → **SWEEP-11 (material).** Three source pins appear: baseline "Pinned HEAD: `c4def870df287a476672e47219134832a0c2f380`"; Z15 and AAG "`source_main = 91c6d2876ba80c517a186e28fce3bdbe4e3fc218`"; gap graph "`frozen_source_sha": "2fffb144…`". §4 states "At freeze time: **0 arrivals since pin**", and §6's component inventory lists **11** packages — none of which is `gmi-833-aa-gap-object-v1`, `gmi-833-capability-interaction-partition-v1`, or `gmi-833-z-z15-decisive-falsifiers-v1`. All three are claim-bearing (named theorems, claim ceilings, falsifiers, forbidden promotions). I am forbidden by Rule 1 to run `git` or open anything else, so I cannot order `c4def870` against `91c6d287`; but the disjunction is exhaustive and damaging either way. If `91c6d287` is **after** the pin, the three packages are `U-NEW` post-pin arrivals and "0 arrivals since pin" is false at this read. If `91c6d287` is **before** the pin, they existed at the pin and were omitted from the 11-component inventory and the 132 bound artifacts. Not registered under either reading.
+- → **SWEEP-12 (material, partially undecidable).** §5 requires that "Every change — a ticket closing, an arrival typed, a count moving — lands as a supplement: `SUPPLEMENT_<n>_<slug>.md` in this directory". `CORE.md` is a correction to an object the baseline asserts in A5, A14 and §3, and it moves a count (351 pairs, 217 relabelled). No supplement is present in the permitted artifact set, and Rule 1 forbids me listing the baseline directory to confirm one does not exist elsewhere. I therefore do not claim absence; I record the obligation as **unwitnessed at this read scope** and demand it be shown before any freeze.
+
+---
+
+## 2. Findings not registered anywhere in the artifacts
+
+Registered elsewhere, and therefore **excluded** from this list: SWEEP-10 (no EV4/EV5 — A6 + AAG-4), SWEEP-24 (AA38 not earned — AAG's own disclosure), SWEEP-28 (INTERFERING = 0 in the corrected census), the flagship's finite→universal bridge (283 FIN2UNIV gap records + forbidden `UNIVERSAL_MORPHOLOGY_LAW`), FP-KE3D's real-system falsification (Z15 row 6), and the blind-recovery and revival-ticket gaps themselves (§4). SWEEP-4 is *partially* registered — the 1,336-statement population appears in §2, but A5's headline sentence is never qualified by it, so I keep it below.
+
+| id | finding | material |
+|---|---|---|
+| SWEEP-1 | §3's "Corollary CI-A4 … the registered fully-shareable *instance*" is falsified by `CORE.md` (56/351 labels FALSE by Section 1.2's own condition; 287/351 multi-labelled; 217/351 labels change) | yes |
+| SWEEP-2 | §3 calls Lemma B's equality characterization "*unconditional*"; CIP-4 shows "Lemma B's `iff nested` fails without" `mu` pinned to counting measure — and `CORE.md` internally contradicts itself by also calling Lemma B "sound and untouched" | yes |
+| SWEEP-3 | §3 cites "27/27 original tests" as control evidence for a classification later shown wrong in 217/351 labels; the suite is demonstrably insensitive to that defect class | yes |
+| SWEEP-4 | A5's headline "No unsupported overclaim remains" rests on a 283-flag adjudication while §2 records ≥1,336 UNIVERSAL statements screened-not-adjudicated; the headline is never scoped to match | yes |
+| SWEEP-5 | A4 and A5 assert duplicate and FIN2UNIV adjudication complete; the bound gap graph carries 857 + 283 records of exactly those two kinds, all `"status": "OPEN"` / `"severity": "CRITICAL"`, and no artifact reconciles them — so AAG-1/3/5 are built on a governance universe that is stale by construction, with AAG-3's `evidence = ASSERTED` stipulation ("since all are `OPEN`") inheriting the staleness | yes |
+| SWEEP-6 | A7 says "six fields", names five, and counts 1,175 slots = 235 × 5; either 235 required slots are unregistered (contradicting "0 REGISTERED_GAP") or the completeness claim's field count is wrong | yes |
+| SWEEP-7 | A12's "50,052 → 1,307 (net −48,739…)" does not close: 50,052 − 1,307 = 48,745; the 6-unit H− regression that would reconcile it is never quantified | no |
+| SWEEP-8 | A11 asserts the **cost** input channel was closed pre-search while §4 carries open **critical** gap `V2-DAG-COST`; the register states both and reconciles neither | yes |
+| SWEEP-9 | A3's acyclicity spans 239 union nodes against 22,553 objects / 17,258 collapsed nodes; the coverage fraction is never stated (the inference is fenced by §2; the magnitude is not) | no |
+| SWEEP-11 | "0 arrivals since pin" vs three claim-bearing packages (`aa-gap-object`, `capability-interaction-partition`, `z-z15`) absent from §6's 11-component inventory, across three different source pins (`c4def870` / `91c6d287` / `2fffb144`) | yes |
+| SWEEP-12 | §5 requires every change to land as `SUPPLEMENT_<n>_<slug>.md`; the CI-A4 correction is a change to a bound object and no supplement is witnessed at the permitted read scope | yes |
+| SWEEP-13 | AAG-2's boldface conclusion — "no materiality threshold can be derived from the incumbent columns" — is refuted by the same file it measures: `premise`, `inference`, `evidence_needed`, `unresolved_assumption` and the `id` prefix are all non-constant incumbent columns carrying the exact 857/283 split AAG-3 then uses | yes |
+| SWEEP-14 | AAG-3's "non-degeneracy on the real universe" is ~96.6% the gap-kind label re-encoded through the stated `FIN2UNIV→FLAGSHIP` map (283 of 293 CRITICAL are exactly the FIN2UNIV class; only 10 DUPID records reach CRITICAL, via `blast`); three of four inputs are constant or assumption-supplied | yes |
+| SWEEP-15 | AAG-4's 1490 bare-`closed` count has no false-positive measurement on real text; "in a scientific verdict position" is never operationalized; the no-alarm fixture's only distractors are the non-word-bounded "enclosure"/"closure", while a bound artifact of this freeze contains "closed-form boundary law" | yes |
+| SWEEP-16 | `BASELINE_V1.md` itself contains bare-`closed` verdict tokens at lines 31, 61, 83 and 97 ("**Closed** in-sweep (3): REV-L58-CI-UNIVERSAL, …"), and §5 freezes that file byte-identical forever, so they can never be repaired in place | yes |
+| SWEEP-17 | AAG-5's "total function … 1140/1140 emitted" over 1140 records that are all `OPEN` requires a non-empty `repair_description` and a declared closure grade per record; what was supplied is unstated, so totality is either vacuous or in conflict with AAG-4's "No GMI result is declared HOSTILE_CLOSED, REPLICATED_CLOSED or REAL_SCALE_CLOSED by this package" | yes |
+| SWEEP-18 | The schema promises `id` uniqueness is "measured, not required"; no measurement appears — I find 1126 distinct ids over 1140 records (14 FIN2UNIV collisions), in a ledger whose largest gap class is "scientific object IDs are unique" | no |
+| SWEEP-19 | F2 cannot fire on the 20 boundary worlds of its 60-world clean case (the theory predicts a tie there, so the predicted set is the whole class space); the clean case is reported undifferentiated and the planted positive sits at a non-boundary world | yes |
+| SWEEP-20 | F4's `T_b` clean case is entailed by the degree-1 homogeneity of the linear objective in `(eta, lambda)`; Route A evaluates "from the closed-form boundary law" and Route B from "integer objective coefficients", so **both** routes inherit it — for `T_b`, route agreement is algebraic, not evidential, and the "routes disagree" self-falsifier cannot bind | yes |
+| SWEEP-21 | F3 has no non-vacuity control: the predictor "abstains when the set has more than one member" and no abstention rate or set-size distribution is registered, so containment on 480 records is compatible with an uninformative predictor — the control F4 explicitly builds and F3 omits | yes |
+| SWEEP-22 | Z15's null is 200 draws of `r·eta·p/2` — one parameter of one functional form; no alternative-shape boundary law is in the ladder, so "200/200 random boundaries falsified" does not support the decisiveness the section claims | yes |
+| SWEEP-23 | Row 6's `FP-939-OVERSTRONG` / `FP-REV-OPEN` anchor to `BASELINE_V1.md`, which §5 freezes byte-identical forever; the blob-sha machine check therefore *guarantees* the failed-prediction register keeps resolving to a §3 that `CORE.md` falsifies, and passing the check means only that nothing changed | yes |
+| SWEEP-25 | Four mutually disjoint open-item registers (§4, the 1140-record gap graph, AAG's not-earned list, Z15's failed-prediction register) with no cross-references and no declared union; "everything material is registered" is unverifiable by construction | yes |
+| SWEEP-26 | A13's currency claim is self-witnessing ("the ledger is current at its pin", evidenced by the ledger) and cannot terminate in SOUND under any read scope | no |
+
+---
+
+## 3. Reopen demands (Rule 5)
+
+I demand each of the following be **REOPENED** before any flagship manuscript freeze:
+
+1. **REV-L58-CI-UNIVERSAL** — listed under "Closed in-sweep (3) … each with executed chain, not paperwork". Its product (CI-U + CI-A4 as shipped) is shown by `CORE.md` to carry 56/351 false labels, a non-partitioning taxonomy on 287/351 pairs, and a vacuous `verify_no_interference()`. A closure whose product is 62% relabelled by a later correction is not closed.
+2. **A5** — "No unsupported overclaim remains." Falsified as headline by SWEEP-1/2/3, and out-scoped by its own §2 (SWEEP-4).
+3. **A14 and §3 ("CI-U … re-earned full strength")** — specifically the "*unconditional*" label on Lemma B (SWEEP-2), the "registered fully-shareable *instance*" status of Corollary CI-A4 (SWEEP-1), and the "27/27 original tests" control line (SWEEP-3).
+4. **A7** — "claim discipline is complete … 1,175 slots, 0 REGISTERED_GAP" (SWEEP-6).
+5. **A11** — "closed every input channel … cost" while `V2-DAG-COST` is open and critical (SWEEP-8).
+6. **A12** — "net −48,739" (SWEEP-7).
+7. **§4 "0 arrivals since pin"** and **§6's 11-component inventory** (SWEEP-11).
+8. **AAG-2** — the boldface "no materiality threshold can be derived from the incumbent columns" (SWEEP-13).
+9. **AAG-3 non-degeneracy (847/293)** — the arithmetic stands; the "non-degenerate on the real universe" *interpretation* does not (SWEEP-14).
+10. **AAG-4's 1490-site measurement** and the bare-`closed` detector's no-alarm case (SWEEP-15), plus the baseline's own violations (SWEEP-16).
+11. **AAG-5's "total … 1140/1140 emitted"** (SWEEP-17).
+12. **Z15 F2, F3 and F4-`T_b` clean-case results, and the F1 null** (SWEEP-19, -21, -20, -22) — in each case the clean "no alarm" is structurally guaranteed or uncontrolled for informativeness, which the freeze's own standard rejects: "A falsifier that cannot fire tests nothing."
+13. **The gap graph's freshness** as the universe of AAG-1/3/5 (SWEEP-5).
+
+---
+
+## 4. Is calling this sweep "final" honest at this pin?
+
+**No.** A sweep is "final" only if the register it sweeps is stable enough that the next sweep is a re-run. At this pin it is not, on four independent grounds, each quoted above:
+
+1. **An unabsorbed correction sits on a flagship-adjacent register entry.** `CORE.md` corrects an object that A5, A14 and §3 assert, states "This tranche closes NO #833 checkbox", carries claim ceiling "**G2** … Not raised by this tranche", and no supplement reconciling it is witnessed. When it is absorbed, A5, A14 and §3 must change text — so the next sweep sweeps a different register.
+2. **The claim-bearing inventory is not closed.** Three packages in this very artifact set are neither in §6's 11 components nor accounted for by "0 arrivals since pin", across three distinct source pins. Whichever way the SHA ordering resolves, an enumeration step is owed before anything can be final.
+3. **The governance universe is stale.** The 1140-record graph is frozen at `2fffb144` and carries 857 + 283 records in exactly the two states A4 and A5 declare adjudicated. Refreshing it changes AAG-3's inputs and therefore its headline partition — again, a different register.
+4. **The instrument cannot support recursion.** AA38 is explicitly not earned: "**0 of 1140** records carry a non-empty `descendants` list." A recursive sweep here is a human reading prose, not an instrument traversing edges. Once a justified edge relation exists, the first machine-recursive sweep will be a *first* sweep, not a re-run of this one.
+
+Additionally, Rule 1's read scope means this sweep reached depth 1 on A1–A4 and A6–A13: their leaves are bound artifacts I was forbidden to open, so those branches terminate in neither "explicitly open" nor "sound" — the brief's own stopping criterion was unreachable for most of the register. An audit that could not reach its stopping criterion on the majority of branches should not be recorded as the final one.
+
+A defensible honest label for this exercise is **"deepest available hostile sweep at register depth, pre-absorption"** — not "final".
+
+---
+
+VERDICT_BLOCK_BEGIN
+row: AA41 | verdict: NOT_SATISFIED | reason: The recursive sweep could not be completed to the brief's own stopping criterion — on A1–A4 and A6–A13 every branch bottoms out in bound artifacts Rule 1 forbids opening, so those leaves are neither "explicitly open" nor "sound" — and independently, calling any sweep at this pin "final" is not honest because an unabsorbed correction (`capability-interaction-partition-v1/CORE.md`) materially falsifies register entries A5, A14 and §3, three claim-bearing packages are outside §6's inventory while §4 asserts "0 arrivals since pin", and the 1140-record gap graph is stale against A4/A5, so the next sweep will be a first sweep over a changed register rather than a re-run.
+objection: OBJ-1 | material: yes | text: §3's "Corollary CI-A4: the original 27×27 classification is the registered fully-shareable *instance*" is falsified by CORE.md's "56 / 351 shipped label FALSE by Section 1.2's own defining condition", "287 / 351 pairs satisfying more than one Section 1.2 label (taxonomy does not partition)" and "217 of 351 labels change".
+objection: OBJ-2 | material: yes | text: §3 calls Lemma B's equality characterization "*unconditional*" while CIP-4 states "`mu` pinned to counting measure (strict positivity), with the counterexample showing Lemma B's `iff nested` fails without it" — and CORE.md simultaneously asserts "Lemmas A, B, C and CE-1/CE-2 are **sound and untouched**", so the two artifacts and CORE.md internally cannot all be right.
+objection: OBJ-3 | material: yes | text: §3 offers "9/9 new tests + 27/27 original tests" as controls for a classification later shown wrong in 217/351 labels, so that suite is demonstrated insensitive to the defect class and cannot serve as evidence for A14.
+objection: OBJ-4 | material: yes | text: A7 states "all six fields (scope/quantifiers, assumptions, falsifiers, strongest parents, forbidden extrapolations) registered for all 235 claim-bearing objects — 1,175 slots", but names five fields and 1,175 = 235 × 5, so either 235 required slots are unregistered or the completeness claim's field count is wrong.
+objection: OBJ-5 | material: yes | text: A4 and A5 declare duplicate and FIN2UNIV adjudication done, yet the bound `GMI_GAP_GRAPH_V1.json` carries 857 records with `"premise": "scientific object IDs are unique"` and 283 with `"premise": "bounded computation supports only its declared bounded universe"`, all `"status": "OPEN"` / `"severity": "CRITICAL"`, with no reconciliation anywhere in the artifacts.
+objection: OBJ-6 | material: yes | text: AAG-2's boldface "no materiality threshold can be derived from the incumbent columns" is refuted by the file it measures — `premise`, `inference`, `evidence_needed`, `unresolved_assumption` and the `id` prefix are all non-constant incumbent columns carrying the same 857/283 split AAG-3 then uses.
+objection: OBJ-7 | material: yes | text: AAG-3's "non-degeneracy on the real universe" reproduces exactly as 847/293, but 283 of the 293 CRITICAL are precisely the FIN2UNIV class and only 10 DUPID records reach CRITICAL, so 96.6% of the partition is the gap-kind column re-encoded through the map AAG-3 concedes is "stated, not derived".
+objection: OBJ-8 | material: yes | text: AAG-4's "1490 bare-`closed` sites" has no false-positive measurement on real text, "in a scientific verdict position" is never operationalized, and the no-alarm fixture's only distractors are the non-word-bounded "enclosure" and "closure" while a bound artifact of this freeze reads "evaluates every falsifier from the closed-form boundary law".
+objection: OBJ-9 | material: yes | text: `BASELINE_V1.md` itself carries bare-`closed` verdict tokens at lines 31, 61, 83 and 97 ("**Closed** in-sweep (3): REV-L58-CI-UNIVERSAL, …") while §5 binds it "byte-identical forever", so the instrument's own governing register contains uncorrectable instances of the violation it detects.
+objection: OBJ-10 | material: yes | text: AAG-5's "total function on well-formed gaps: 1140/1140 emitted" is applied to 1140 records that are all `"status": "OPEN"`, which under the emitter's own refusal conditions requires a non-empty `repair_description` and a declared closure grade per record — unstated in the artifacts, making totality either vacuous or in conflict with AAG-4's "No GMI result is declared HOSTILE_CLOSED, REPLICATED_CLOSED or REAL_SCALE_CLOSED by this package".
+objection: OBJ-11 | material: yes | text: Z15's F2 cannot fire on the 20 boundary worlds of its 60-world clean case, because the theory states "a tie exactly at `lambda = eta·p/2`" so the predicted set there is the whole class space, yet the clean case is reported undifferentiated and the planted positive is placed at a non-boundary world.
+objection: OBJ-12 | material: yes | text: Z15's F4 `T_b` clean case ("common positive rational rescaling `(eta, lambda) -> (c·eta, c·lambda)`") is entailed by the degree-1 homogeneity of the objective, and both Route A ("from the closed-form boundary law") and Route B ("reduced to integer objective coefficients") inherit that homogeneity, so route agreement on `T_b` is algebraic rather than evidential and the "routes disagree" self-falsifier cannot bind.
+objection: OBJ-13 | material: yes | text: Z15's F3 registers no informativeness control for a predictor that "abstains when the set has more than one member", so containment on the 480 records is compatible with an uninformative predictor — the non-vacuity pairing F4 builds explicitly and F3 omits.
+objection: OBJ-14 | material: yes | text: Z15's null of "200 randomized boundary laws `lambda*_rand = r·eta·p/2`" varies only the scalar `r` within one functional form, so "200/200 random boundaries falsified" supports only the constant within that family, not the decisiveness the section claims.
+objection: OBJ-15 | material: yes | text: Row 6's `FP-939-OVERSTRONG` and `FP-REV-OPEN` anchor to `BASELINE_V1.md`, which §5 freezes "byte-identical forever", so the blob-sha machine check structurally guarantees the failed-prediction register keeps resolving to a §3 that `CORE.md` falsifies.
+objection: OBJ-16 | material: yes | text: §4's "At freeze time: **0 arrivals since pin**" cannot be squared with three claim-bearing packages in this artifact set (`aa-gap-object`, `capability-interaction-partition`, `z-z15`) that appear in neither §6's 11-component inventory nor the arrivals accounting, across pins `c4def870`, `91c6d287` and `2fffb144`.
+objection: OBJ-17 | material: yes | text: A11 asserts blind-recovery v2 "closed every input channel (task, basis, fingerprint clauses, cost, thresholds, screen) pre-search" while §4 carries `V2-DAG-COST (critical)` as open, and no artifact reconciles the two.
+objection: OBJ-18 | material: yes | text: The artifacts contain four disjoint open-item registers (§4, the 1140-record gap graph, AAG's "Explicitly NOT earned" list, Z15's failed-prediction register) with no cross-reference and no declared union, so "every material finding is registered as open" is unverifiable by construction.
+objection: OBJ-19 | material: no | text: A12's "held-out burden 50,052 → 1,307 (net −48,739…)" does not close arithmetically (50,052 − 1,307 = 48,745) and the H− regression that would reconcile the 6-unit difference is never quantified.
+objection: OBJ-20 | material: no | text: The schema states `id` "uniqueness is measured, not required" but no measurement appears in the artifacts; the file holds 1126 distinct ids across 1140 records (14 FIN2UNIV collisions), in a ledger whose largest gap class is "scientific object IDs are unique".
+reopen: REV-L58-CI-UNIVERSAL (listed "Closed in-sweep (3) … each with executed chain, not paperwork") | reason: The closure's product is shown by CORE.md to carry 56/351 false labels, a taxonomy that does not partition on 287/351 pairs, and a vacuous `verify_no_interference()`, with 217/351 labels changed.
+reopen: A5 — "No unsupported overclaim remains" | reason: Falsified as a headline by the CI-A4 correction and out-scoped by its own §2, which records ≥1,336 UNIVERSAL statements screened-not-adjudicated against a 283-flag adjudication.
+reopen: A14 and §3 "CI-U at re-earned full strength" | reason: Lemma B is not unconditional, Corollary CI-A4 is not a valid registered instance, and the cited 27/27 control suite is insensitive to the defect class.
+reopen: A7 — claim-discipline completeness (1,175 slots, 0 REGISTERED_GAP) | reason: "Six fields" is stated, five are named, and 1,175 = 235 × 5, so the completeness arithmetic does not close.
+reopen: A11 — blind-recovery input-channel closure | reason: The cost channel is asserted closed pre-search while `V2-DAG-COST` remains an open critical gap.
+reopen: A12 — grammar-growth held-out burden | reason: The stated net (−48,739) does not follow from the stated endpoints (50,052 → 1,307).
+reopen: §4 "0 arrivals since pin" and §6's 11-component inventory | reason: Three claim-bearing packages in this artifact set are accounted for by neither, across three different source pins.
+reopen: AAG-2 — "no materiality threshold can be derived from the incumbent columns" | reason: Four incumbent columns plus the `id` prefix are non-constant and carry exactly the 857/283 split AAG-3 relies on.
+reopen: AAG-3 — "non-degeneracy on the real universe (847 MATERIAL / 293 CRITICAL)" | reason: The arithmetic reproduces exactly, but 283 of 293 CRITICAL are the FIN2UNIV class, so the partition is the gap-kind label re-encoded through a declared, underived scope map.
+reopen: AAG-4 — "1490 bare-`closed` sites in 178 packages across 2577 markdown files" | reason: No false-positive measurement on real text, no operationalization of "scientific verdict position", and a no-alarm fixture whose only distractors are non-word-bounded.
+reopen: AAG-5 — "total function on well-formed gaps: 1140/1140 emitted" | reason: Emitting a REPAIR_DELTA for 1140 records that are all `OPEN` requires a repair description and an awarded closure grade per record, and the artifacts never state what was supplied.
+reopen: Z15 F2 / F3 / F4-`T_b` clean-case results and the F1 null | reason: Each "no alarm" is either structurally guaranteed (F2 at boundary worlds, `T_b` by objective homogeneity) or uncontrolled for informativeness (F3's abstaining set-valued predictor, F1's one-parameter null), which the freeze's own standard rejects: "A falsifier that cannot fire tests nothing."
+reopen: GMI_GAP_GRAPH_V1.json as the universe of AAG-1/AAG-3/AAG-5 | reason: It is frozen at `2fffb144` and carries 857 + 283 records in exactly the two states A4 and A5 declare adjudicated, so AAG-3's `evidence = ASSERTED` stipulation inherits a staleness no artifact discloses.
+model_self_report: claude-opus-5[1m]
+VERDICT_BLOCK_END

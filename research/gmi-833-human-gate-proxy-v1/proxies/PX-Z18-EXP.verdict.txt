@@ -1,0 +1,202 @@
+# Independent hostile experimental-methods review — C1, C4
+
+I reviewed only the ten listed artifacts. I ran no repository code. Per Rule 2 I have given no evidential weight to any "GREEN", "closed", "all 50 checks", "0 violations" or `prediction_frozen_before_outcome: true` self-report; where an outcome exists only as such a statement I say so.
+
+---
+
+## Part 1 — C1 (state-class choice law: 20 held-out cases, then real systems)
+
+### The executed intervention grid is half the grid the prediction-of-record specifies, and the difference flips all five receipts
+
+`gmi-833-real-transition-receipts-v1/FREEZE_V1.md` §3 line 38 freezes
+
+> `lambda*_s = p_s * eta_s / (2 * B_s) = p_s / (8 * H_s)`   (using `B_s = 4 H_s`, `eta = 1/2`)
+
+and §5 line 80 gives the worked numeric example:
+
+> `lambda*_s = p_s/(8 H_s)`; e.g. R01: `8/(8*32) = 1/32`; `lambda_low = 1/64`, `lambda_high = 3/64`.
+
+The receipt for R01 in `RECEIPTS_V1.json` records `"lambda_star": 0.015625` (= 1/64) with `"resource_price_lambda": 0.0078125` (= 1/128) at `before_context` and `0.0234375` (= 3/128) at `after_context`. The executed grid is exactly **half** the frozen worked example.
+
+`FREEZE_V2_AMENDMENT.md` A2 asserts the opposite:
+
+> "Everything else in V1 (task family, pools, prices, `lambda_low = lambda*/2`, `lambda_high = 3 lambda*/2` with `lambda* = p/(16H)`, predictions, controls, custody) is unchanged."
+
+`p/(16H)` is not `p/(8H)`. An amendment whose stated single lever is the stateless floor silently halves the frozen threshold and describes the change as no change.
+
+This is outcome-determining. Persistence wins at `lambda_low` only if `lambda_low·B + p·err_persist < p·E0`. Since `err_persist ≥ 0`, it is sufficient for the prediction to **fail** that `lambda_low·B ≥ p·E0`. Using the V1 worked-example grid and each receipt's own recorded `E0_err_all`, `error_price` and `carried_state_bytes_persistent`:
+
+| system | p | B | E0 (recorded) | p·E0 | λ_low(V1)·B |
+|---|---|---|---|---|---|
+| R01-gutenberg-1342 | 8 | 128 | 0.224462 | 1.7957 | (1/64)·128 = 2.0 |
+| R04-dpkg-log (Noise.wav) | 2 | 64 | 0.186800 | 0.3736 | (1/128)·64 = 0.5 |
+| R05-stdlib-json | 8 | 96 | 0.200200 | 1.6016 | (1/48)·96 = 2.0 |
+| R07-frankenstein | 6 | 128 | 0.227757 | 1.3665 | (3/256)·128 = 1.5 |
+| R08-dict-words | 4 | 64 | 0.240067 | 0.9603 | (1/64)·64 = 1.0 |
+
+On all five systems, under the grid written in the prediction-of-record, the stateless candidate wins at `lambda_low` **for any non-negative persistent error** — i.e. the frozen `PERSISTENT_STATE` prediction at the low endpoint fails 5/5. Exactly one of two things is therefore true, and both are disqualifying for a custody-based claim: either the receipts were produced under a grid that is not the frozen one and V2's "unchanged" is false, or the frozen predictions failed on every qualifying system. **OBJ-1.**
+
+### The one cell where the law makes a sharp prediction cannot pass, and is pre-excluded from scoring
+
+`FREEZE_V1.md` §3 line 49:
+
+> "Boundary-tie control: at `lambda = lambda*_s` exactly, the law predicts a tie cell (either property admissible); boundary runs are recorded as controls and are NOT counted as transition endpoints (predictions at the tie are excluded from receipts...)"
+
+At `lambda = lambda*`, `lambda*·B = p·eta/2 = p/4` identically, so the predicted tie requires `E0 = 1/4`. Every receipt records a strict single winner, the stateless candidate: `"boundary_tie_control": {"counted_as_transition": false, "winners": ["c1"]}`, and `"stateless_floor": {"candidate_id": "c1", ...}` identifies `c1` as the `B = 0` candidate. All five `E0` values lie in 0.187–0.240, below 1/4.
+
+This is not accidental. With `err_imm ≈ 0`, `E0 ≈ floor_del/2` (R01: 0.44958/2 = 0.2248 vs recorded 0.22446; R04: 0.37529/2 = 0.1876 vs 0.18680; R08: 0.48350/2 = 0.2418 vs 0.24007), and `floor_del ≤ 1/2`, so `E0 ≤ ≈1/4` by construction. The tie control **cannot pass under this design**, it fails on every system, and the freeze pre-declares that cell excluded from the receipts. The only sharp, falsifiable point prediction the law makes is the one removed from scoring. **OBJ-2.**
+
+The same numbers say the frozen boundary is empirically wrong: the true crossing is at `p·(E0 − err_persist)/B`, i.e. at roughly 0.75–0.96 of `lambda*`, not at `lambda*`. A ±50% bracket cannot see a 4–25% coefficient error, so "shifted law `2·lambda*` falsified" coexists with an unacknowledged shifted law at ≈0.9·`lambda*` that the data actually support. **OBJ-3.**
+
+### Nothing transitioned
+
+`FREEZE_V1.md` §5 line 78: "Same trained candidates serve both `lambda` settings (lambda reprices only)". The receipts confirm it — every receipt has `resources_before` byte-identical to `resources_after`, including train seconds (R01: `[128, 3489, 180.278]` both; R07: `[128, 3489, 169.981]` both). The "before" and "after" of a `PERSISTENT_STATE -> STATELESS` transition are one fixed pair of measurements scored twice with two different numbers substituted into `J = p·err + lambda·B`. No system changed state, was retrained, or was observed to migrate. "Transition on real systems" is arithmetic on a single measurement, presented as an observed change. **OBJ-4.**
+
+### The licensing filter is the outcome
+
+`FREEZE_V2_AMENDMENT.md` A4 derives the admission rule from the same inequality as the prediction:
+
+> "persistent wins at `lambda_low` iff `lambda_low*B_persist + p*err_persist < p*E0`; stateless wins at `lambda_high` iff `p*E0 < lambda_high*B_persist + p*err_persist` ... the transition ... is licensed iff `1/8 < E0 < 3/8`. ... Systems measuring `E0` outside `(1/8, 3/8)` are `UNAVAILABLE_BY_AMENDMENT`."
+
+A system is admitted to the test precisely when the algebra, given `err_persist ≈ 0`, already guarantees the predicted outcome. The only residual empirical content is whether the recurrent candidate trains to near-zero delayed error. `CORE.md` line 10's claim that the three unlicensed systems were "correctly predicted NOT to transition" is the same identity evaluated on the other side of the same measured quantity, not an independent confirmation. **OBJ-5.**
+
+Relatedly, `E0 ≈ floor_del/2 ≤ ≈1/4` whenever the immediate mode is learnable, so the band's upper edge `3/8` is unreachable under this design; every exclusion recorded in `CORE.md` line 10 is on the `E0 < 1/8` side. Half the licensed band is untestable, not merely untested. **OBJ-6.**
+
+The shifted-law control is likewise not independent: `shifted_prediction_at_high: "PERSISTENT_STATE"` is falsified exactly when the main prediction succeeds, and holds exactly when the main prediction fails. It is the main observation restated with the sign flipped and carries no additional information. **OBJ-7.**
+
+### Family-blindness is asserted while the classifier reads the family's proxy
+
+`FREEZE_V1.md` §4 classified on behaviour (`delay_err` versus `1/2`). `FREEZE_V2_AMENDMENT.md` A3 replaces this with:
+
+> "`STATELESS` iff `B == 0` ... `PERSISTENT_STATE` iff `B > 0` and `err_delay <= floor_del - 3*sd_diff`"
+
+The pool contains exactly one `B = 0` candidate (`STATELESS-MLP`) and one `B > 0` candidate (`PERSISTENT-GRU`), so `B` is a perfect one-to-one proxy for the architecture family. Every receipt nonetheless records `"classification_blind_to_target_family": true`, and `CORE.md` line 7 calls it "family-blind binomial-banded classification". The classification is a deterministic function of which of two candidates has lower `J`; it is blind to the *string* "GRU" and to nothing else. **OBJ-8.**
+
+### Two of five qualifying receipts have no registration I can verify, and the sampling had no stopping rule
+
+`FREEZE_V1.md` §5 registers R01–R06 with specific sources, `T_s`, `W_s`, `H_s`, `p_s`, `seed_s`. R01 (p=8, T=400000, H=32→B=128), R05 (p=8, T=250000, H=24→B=96) and R04 (p=2, T=200000, H=16→B=64, `fallback_used: true`, `/usr/share/sounds/alsa/Noise.wav` — the registered fallback) match that table. **R07-frankenstein (p=6, T=350000) and R08-dict-words (p=4, T=300000) appear in no artifact I am permitted to read**; `FREEZE_V3_ADDENDUM.md` is not in the artifact set. Two of the five receipts that produce the terminal have unverifiable registration. **OBJ-9.**
+
+`CORE.md` lines 19–21 record the sampling history: V2 produced "3 licensed / 3 unlicensed ... qualifying count 3 < 5", then a "registered revival (attribution: system availability, lever: second text-weighted tranche)" produced "six further licensed systems; terminal reached with 5 qualifying receipts". The lever selects the source class V2 had already shown lands inside the band; twelve systems were run to obtain the five required. No registered stopping rule, target sample size, or multiplicity accounting appears in any artifact. **OBJ-10.**
+
+### Custody is asserted, and the document that defines the rules actually used is unhashed
+
+Every receipt's `prediction_ref` reads `FREEZE_V1.md@cd6196aa5fd0edcdbcfb535ff2aecf7cd0870754+FREEZE_V2_AMENDMENT.md` — V1 pinned by sha, the amendment cited with **no commit hash**. The amendment is what supplies the classification rule (A3) and the licensing band (A4) that were actually applied. Its content at run time is not pinned by anything in the receipt. `FREEZE_V2_AMENDMENT.md` A6's "This amendment is committed before the full-scale training run executes" and `FREEZE_V1.md` §5's "CI pins the freeze commit hash" are prose assertions; no git evidence, timestamp or log appears in any artifact. Temporal separation here is asserted, not established. **OBJ-11.**
+
+### "Real systems"
+
+The registered pool (`FREEZE_V1.md` §2) is `STATELESS-MLP` with "inputs exactly `(x_t, m_t)`" — two binary inputs, hence a four-cell lookup table with 3489 reported parameters — and a GRU of hidden size 16–32, each trained for three passes over a byte stream from one file, with train and eval being the first 80% and last 20% of the same file. These are real torch runs; they are not systems for which an architecture-choice law was previously in doubt. "Real" qualifies the training framework and the data bytes, not the scientific object. **OBJ-12.**
+
+### The 20 held-out cases
+
+`gmi-833-heldout-20-transitions-v1/FREEZE_V1.md` derives `lambda* = eta*p/2` analytically in the same file that lists the twenty rows, and every row sets `lambda_low = lambda*/2`, `lambda_high = 3·lambda*/2` (`HELDOUT_TRANSITION_FORMALIZATION_V1.md` §4 line 40). The objective `J = eta·[...] + lambda·state_bits` makes the decision depend only on the ratio `lambda/lambda*`, which is `1/2` and `3/2` in all twenty rows. The twenty "held-out cases" are twenty rescalings of one decision problem; effective independent content is one case, whose answer is proved in the freeze itself. A 20/20 result is a unit test of an exhaustive search against a closed-form proof, and can fail only through an implementation bug. **OBJ-13.**
+
+Further, **no outcome artifact for that package is in the artifact set.** The only statement of the result is `HELDOUT_TRANSITION_FORMALIZATION_V1.md` line 46 ("The receipt records 20/20 transition predictions and 40/40 endpoint property predictions"), which Rule 2 bars me from crediting. The 20/20 outcome, the 65,552 census, the 146-summary control, the relabeling invariance and the two-searcher agreement are all **unverifiable from what I was given**. The formalization is at least candid about scope (§5 line 59: "This is replication across search procedures, not independent-team replication or real-system validation"). **OBJ-14.**
+
+Finally, `real-transition-receipts/CORE.md` line 9 attributes to #901 the law `lambda* = eta*p/(2B)`, while the #901 freeze states `lambda* = eta*p/2` with `lambda` the price of **one state bit**. The per-byte form is an extension; the extension is assumed by, not tested in, the real-system experiment, because every endpoint is placed at a fixed ratio to the assumed `lambda*`. **OBJ-15.**
+
+---
+
+## Part 2 — C4 (held-out and OOD evaluation of the exact capability predictor)
+
+Of the six rows KE-1/2/4/5/6/7, **no outcome artifact is in the artifact set**. `CORE.md`'s headline table is self-assessment, which Rule 2 excludes. The one outcome file provided, `REAL_RUNS_V3/REAL_MEASURED_V3.json`, belongs to the row `CORE.md` already reports as open. My findings below are therefore about design and about that one file.
+
+### The evaluation's only informative content sits in its weakest-custody stratum, by its own account
+
+`CORE.md` lines 73–74: "On `SIGMA_SYN` and `SIGMA_ARCH` **every** point `F` emitted was degenerate — `UNSATISFIED` or `0`." A predictor emitting only degenerate values cannot be wrong informatively; the "0 violations on 45,800 and 121,920 pairs" of KE-1/KE-2 are vacuous as originally run, as the package concedes.
+
+`CORE.md` lines 25–28: for the repaired stratum, "`SIGMA_SYN2` / `SIGMA_ARCH2` predictions were committed before their outcomes were computed, but the external evaluator already existed at `50451f23`" and "every non-degenerate emission in KE-1 and KE-2 comes from those two populations."
+
+So the entire non-vacuous content of both headline rows lives in the one stratum where the evaluator predated the predictions, and the repair lever — "a finer registered observation `obs = (1+w, ·, h mod 4)`" (line 78) — was chosen after inspecting how `F` behaved. The disclosure is honest; it does not change what it discloses. Prospectivity for the informative part of KE-1/KE-2 is not established. **OBJ-16.**
+
+### The label-permutation check cannot detect what it is presented as detecting
+
+`BLINDNESS_V1.md` §1: "`ARCH_LABELS` is a third, separate sequence that no predictor path ever touches." §3 then permutes exactly that sequence 24 ways and requires the prediction stream sha256 to be unchanged. If §1 is true, §3 is an identity and cannot fail; if §3 could fail, §1 is false. `CORE.md` line 42 nevertheless reports "family names blind under all **24** permutations" as evidence. The live leakage channel is the descriptor `ARCH_RAW[i] = (param, w, h, k, rho, dev, obs)`, and §2 concedes the encoder "does consult `ARCH_K[mech]`, i.e. the *mechanism* tag". The defence offered — that `k = 1` for both `REC` and `CTR` — shows `k` alone is not injective on families; it does not show the seven-coordinate descriptor fails to determine the machine. §4 is candid ("It does not claim `F` is unable to *infer* an architecture class from structure"), but the narrower conclusion drawn there — "the held-out known-architecture result is not a lookup" — does not follow: a lookup keyed on a faithful structural descriptor is still a lookup. **OBJ-17.**
+
+### Two protocols that cannot return a negative
+
+KE-6, `SCOPE_V1.md` lines 60–71: coverage is measured "under the **registered fault law** ... each of the four relations `M`, `D`, `B`, `H` independently fails with exactly its registered probability", against `L = max(0, 1 - alpha - sum(beta))` with those same `beta`. Empirical coverage is computed under precisely the distribution the bound assumes, by exact enumeration of 16 fault patterns. This verifies the slack in a union bound; it does not measure calibration against any observed fault frequency. The hostile HE5 ("inflate every `beta` twenty-fold") confirms the check is sensitive to a bound-derivation error, which is the only failure mode it has. **OBJ-18.**
+
+KE-7, `SCOPE_V1.md` lines 89–96: in-universe, "KP-1B predicts 0 soundness violations"; out-of-universe, "a wrong point is *not* a new finding: it is the parent's declared boundary KP-1D restated, attributable to registration." Errors in the first stratum are excluded by prediction, errors in the second are pre-declared non-findings. No observable outcome of this row is a negative result. **OBJ-19.**
+
+KE-4 is reported without its result: `CORE.md` line 43 gives stratum sizes (19,880 / 28,304 / 3,656) and states the matrices are "never pooled", but no confusion-matrix number appears in any artifact, and `SCOPE_V1.md` lines 47–49 pre-declares that a mismatch on the `CONJUNCTIVE` stratum "measures the ambiguity, not the predictor" — an excuse covering 28,304 of 51,840 inputs, issued in advance. **OBJ-20.**
+
+The single null, `NULL_MODAL` ("always emit the modal externally-measured capability", `CORE.md` line 133), is a constant predictor competing against point emissions of `4/11, 5/11, 9/11, 4/13, 7/13, 11/13`. That it "is wrong on all of them and `F` on none" is arithmetically forced. A structural-descriptor-nearest-neighbour null would be the informative comparison; none is reported. **OBJ-21.**
+
+### The one outcome file provided contains two contradictory acceptance rules, and exactly one measurement sits between them
+
+`REAL_MEASURED_V3.json` carries, at top level:
+
+> `"band": "99/100"`, `"solved_rule": "exact accuracy >= 99/100 on the protected split (V3 band)"`
+
+and inside `training`:
+
+> `"solved_rule": "exact accuracy Fraction(correct, total) == 1 on the protected split"`
+
+Of the 24 heads, 23 have `trained` equal to `"1"` or clearly below the band. Exactly one sits between the two rules: `"GRU|32|1|2": {"trained": "124/125"}` — 1984/2000, four items above the 1980/2000 band edge and short of exact. Under the `== 1` rule, `GRU|32|1`'s solved set would be `{0,1}`, so the entries `"GRU|32|1|5": 5` and `"GRU|32|1|7": 7` in `measured_solved_bits` could not read 5 and 7. The band is load-bearing for this system's measured capability, and hence for the registration-truthfulness counts (`CORE.md` line 65: "19/32 → 28/32 → 26/32") on which KE-3 and the KE-3D boundary argument rest. I make no claim about when or why the band was chosen — that is not determinable from the artifacts, which is itself the problem: a threshold that changes a recorded outcome appears in no readable registration document. **OBJ-22.**
+
+### The real population, and the denominators
+
+`REAL_MEASURED_V3.json` contains 24 heads = 2 mechanisms × 2 sizes × 2 `w` × 3 tasks, i.e. 8 machines, all trained on one 96,311-byte source (`/usr/lib/python3.8/argparse.py`), 6000 train / 2000 protected items. `CORE.md` lines 51–52 claim "96 real torch-trained systems across three prospectively frozen populations, 288 trained heads". Twenty-four of the claimed 288 heads are visible; the remainder is unverifiable here and the per-population arithmetic (288/3 = 96 heads) does not obviously reconcile with 24. **OBJ-23.**
+
+The measured content collapses to two facts: `measured_solved_bits` gives every `GRU|·` entry the value of its own key (1, 3, 5, 7 — solves everything), and every `MLP|·` entry the value 1 (solves task 0 only). "0 of 161,632 (input, truthfully-registered-world) pairs" (`CORE.md` line 56) is a combinatorial expansion of a handful of distinct machine measurements against registered worlds, not 161,632 independent trials; the same applies to KE-1's 45,800/25,216 and KE-2's 121,920/24,912. `CORE.md` does report machine counts alongside, which mitigates but does not remove the reading the headline invites. **OBJ-24.**
+
+I note one genuine strength: `CORE.md` lines 60–69 (KE-3D) report three prospectively frozen registration laws all falsified by their own pre-registered falsifiers, decline to fit a fourth, keep the row open, and explicitly refuse to close it on synthetic data. That is a failure reported as a failure with a pre-registered terminal, and it is the most credible passage in either package.
+
+---
+
+## Answers to the brief's questions
+
+**Is temporal separation established or only asserted?** Only asserted, everywhere. No artifact contains git evidence — no log, timestamps, or commit objects. Both packages rely on prose ("committed and pushed BEFORE any training", "`git log` proves the order") plus the receipts' own `prediction_frozen_before_outcome: true`, all barred by Rule 2. Two concrete holes go further: the receipts pin V1 by sha but cite the operative V2 amendment with no hash (OBJ-11), and C4's package itself discloses that the evaluator predated the only informative stratum (OBJ-16).
+
+**Are the amendments genuine registered revivals or post-hoc repairs?** V2's stated lever (empirical stateless floor) is a legitimate, well-attributed response to a premise failure. But V2 also halves the frozen threshold while declaring it unchanged (OBJ-1), replaces behavioural classification with a rule that reads `B` directly (OBJ-8), and introduces a licensing filter algebraically equivalent to the predicted outcome (OBJ-5). V3 expanded sampling toward the source class already known to land in band, with no stopping rule (OBJ-10). C4's V4 addendum repaired a degenerate instrument using a lever chosen with knowledge of `F`'s behaviour (OBJ-16).
+
+**Can the evaluation protocols fail, and do their controls show that?** KE-6 and KE-7 cannot return a negative (OBJ-18, OBJ-19). The real-transition protocol can fail only via recurrent-training failure, and systems where it would fail are filtered out before scoring (OBJ-5); its boundary-tie control cannot pass and is excluded from the receipts (OBJ-2); its shifted-law control is the main observation restated (OBJ-7). The 20-case held-out test can fail only through an implementation bug (OBJ-13). KE-3D is the exception: it demonstrably failed and was reported as failed.
+
+**Is the blindness argument sound?** Its strongest check is an identity (OBJ-17). What is established — the family *name* is not an input — is true and narrow; what is claimed to follow — "not a lookup" — does not.
+
+**Are "real systems" what the word implies?** No. C1's are a four-cell lookup MLP and a size-16/32 GRU over one file's bytes, scored twice under two prices with no retraining (OBJ-4, OBJ-12). C4's are 8 machines on one Python source file (OBJ-23).
+
+**Could I perform a genuine methods review from these artifacts?** Yes for design, custody structure and the receipts' internal arithmetic — the artifacts are specific enough to be audited against themselves, which is how OBJ-1, OBJ-2 and OBJ-22 were found. Not for outcomes: six of C4's rows and the whole 20/20 held-out result have no outcome artifact in the set.
+
+---
+
+VERDICT_BLOCK_BEGIN
+row: Z18-2 | verdict: SATISFIED | reason: The artifacts were specific enough to support a genuine, quotable experimental-methods review producing material objections traceable to exact lines and receipt fields, even though several claimed outcomes have no outcome artifact in the set.
+claim: C1 | verdict: REOPEN | reason: The executed intervention grid is half the grid written in the prediction-of-record under an amendment that declares it unchanged, and under the frozen grid the low-endpoint prediction fails on all five qualifying receipts for any non-negative persistent error.
+claim: C4 | verdict: REOPEN | reason: The package itself discloses that all non-degenerate emissions in both headline rows come from the stratum whose evaluator predated the predictions, its blindness check is an identity, two rows cannot return a negative, and the single provided outcome file carries two contradictory solved-rules with one measurement sitting between them.
+objection: OBJ-1 | claim: C1 | material: yes | text: FREEZE_V1.md §5 freezes "e.g. R01: 8/(8*32) = 1/32; lambda_low = 1/64, lambda_high = 3/64" while RECEIPTS_V1.json records lambda_star 0.015625 and resource_price_lambda 0.0078125/0.0234375, and FREEZE_V2_AMENDMENT A2 calls the grid "unchanged" while stating lambda* = p/(16H).
+objection: OBJ-2 | claim: C1 | material: yes | text: The boundary-tie control requires E0 = 1/4 but E0 ≈ floor_del/2 ≤ ≈1/4 by construction, so it fails on all five receipts ("winners": ["c1"], the B=0 candidate) — and FREEZE_V1 §3 pre-excludes that cell from the receipts.
+objection: OBJ-3 | claim: C1 | material: yes | text: The receipts' own E0 values place the true crossing at ≈0.75–0.96·lambda*, so the frozen boundary is empirically wrong by 4–25% and the ±50% bracket is too coarse to detect it while "2·lambda* falsified" is reported as a control.
+objection: OBJ-4 | claim: C1 | material: yes | text: FREEZE_V1 §5 states "Same trained candidates serve both lambda settings (lambda reprices only)" and every receipt has resources_before byte-identical to resources_after, so no transition was observed — one measurement pair was scored under two prices.
+objection: OBJ-5 | claim: C1 | material: yes | text: FREEZE_V2_AMENDMENT A4 derives the licensing band 1/8 < E0 < 3/8 from the same inequality as the prediction, so a system is admitted to the test exactly when the algebra already guarantees the predicted outcome given err_persist ≈ 0.
+objection: OBJ-6 | claim: C1 | material: yes | text: Since err_imm ≈ 0 forces E0 ≈ floor_del/2 ≤ ≈1/4, the band's upper edge 3/8 is unreachable under this design and every exclusion recorded in CORE.md line 10 is on the E0 < 1/8 side.
+objection: OBJ-7 | claim: C1 | material: no | text: The shifted-law control is falsified exactly when the main prediction succeeds and holds exactly when it fails, so it is the main observation restated and carries no independent information.
+objection: OBJ-8 | claim: C1 | material: yes | text: FREEZE_V2_AMENDMENT A3 classifies by "STATELESS iff B == 0" / "PERSISTENT_STATE iff B > 0" in a two-candidate pool where B is a one-to-one proxy for the architecture family, yet every receipt records classification_blind_to_target_family: true.
+objection: OBJ-9 | claim: C1 | material: yes | text: R07-frankenstein (p=6, T=350000) and R08-dict-words (p=4, T=300000) appear in no readable registration artifact, so two of the five receipts producing the terminal have unverifiable registration.
+objection: OBJ-10 | claim: C1 | material: yes | text: CORE.md lines 19-21 show twelve systems run to obtain five qualifying receipts, with the V3 lever "second text-weighted tranche" selecting the source class V2 had already shown lands in band, and no registered stopping rule or multiplicity accounting anywhere in the artifacts.
+objection: OBJ-11 | claim: C1 | material: yes | text: Every receipt's prediction_ref pins FREEZE_V1 by sha but cites FREEZE_V2_AMENDMENT.md with no commit hash, leaving the document that supplies the operative classification rule (A3) and licensing band (A4) unpinned.
+objection: OBJ-12 | claim: C1 | material: yes | text: The "real systems" are a four-cell lookup MLP with inputs "exactly (x_t, m_t)" and a size-16/32 GRU trained three epochs on one file's bytes with train and eval taken from the same file.
+objection: OBJ-13 | claim: C1 | material: yes | text: All 20 held-out rows fix lambda_low/lambda* = 1/2 and lambda_high/lambda* = 3/2 and the decision depends only on that ratio, so the twenty cases are twenty rescalings of one problem whose answer is proved in the freeze itself.
+objection: OBJ-14 | claim: C1 | material: yes | text: No outcome artifact for gmi-833-heldout-20-transitions-v1 is in the artifact set, so the 20/20 result, the 65,552 census, the relabeling invariance and the two-searcher agreement exist only as self-report barred by Rule 2.
+objection: OBJ-15 | claim: C1 | material: no | text: CORE.md line 9 attributes to #901 the per-byte law lambda* = eta*p/(2B) while the #901 freeze states lambda* = eta*p/2 for one state bit, an extension assumed rather than tested since all endpoints are fixed ratios of the assumed lambda*.
+objection: OBJ-16 | claim: C4 | material: yes | text: CORE.md lines 25-28 and 73-74 disclose that the pre-V4 census emitted only degenerate points and that every non-degenerate emission in KE-1 and KE-2 comes from the stratum whose external evaluator "already existed at 50451f23", with the repair lever chosen after inspecting F's behaviour.
+objection: OBJ-17 | claim: C4 | material: yes | text: BLINDNESS_V1 §1 states ARCH_LABELS is "a third, separate sequence that no predictor path ever touches" and §3 then permutes exactly that sequence, so the 24-permutation check cannot fail, while the live channel ARCH_RAW = (param, w, h, k, rho, dev, obs) is never permuted.
+objection: OBJ-18 | claim: C4 | material: yes | text: KE-6 computes coverage under a fault law in which "each of the four relations M, D, B, H independently fails with exactly its registered probability" and compares it to a bound built from those same betas, verifying union-bound slack rather than calibration against observed fault frequencies.
+objection: OBJ-19 | claim: C4 | material: yes | text: In KE-7 in-universe violations are excluded by prediction and out-of-universe errors are pre-declared "not a new finding ... attributable to registration", so no observable outcome of the row is a negative result.
+objection: OBJ-20 | claim: C4 | material: yes | text: KE-4 reports stratum sizes but no confusion-matrix result anywhere in the artifacts, while SCOPE_V1 pre-declares that mismatches on the 28,304-input CONJUNCTIVE stratum "measure the ambiguity, not the predictor".
+objection: OBJ-21 | claim: C4 | material: no | text: NULL_MODAL is a constant predictor competing against point emissions of 4/11, 5/11, 9/11, 4/13, 7/13 and 11/13, so beating it is arithmetically forced and no structural-descriptor null is reported.
+objection: OBJ-22 | claim: C4 | material: yes | text: REAL_MEASURED_V3.json carries both "exact accuracy >= 99/100 ... (V3 band)" and training.solved_rule "... == 1 ...", with exactly one head (GRU|32|1|2 at 124/125) between them whose classification determines the measured_solved_bits entries 5 and 7 and hence the registration-truthfulness counts.
+objection: OBJ-23 | claim: C4 | material: yes | text: The only real-systems outcome file contains 24 heads over 8 machines trained on a single 96,311-byte source, which cannot be reconciled with CORE.md's "96 real torch-trained systems ... 288 trained heads" from the artifacts I may read.
+objection: OBJ-24 | claim: C4 | material: yes | text: Headline denominators such as "0 of 161,632 pairs", 45,800, 121,920 and 24,912 are cross-products of a small number of distinct machine measurements against registered worlds, not independent trials, and the V3 measurements collapse to "GRU solves all tasks, MLP solves task 0".
+reopen: REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE | reason: The executed grid is half the prediction-of-record's frozen grid, under which the low-endpoint prediction fails on all five qualifying receipts for any non-negative persistent error.
+reopen: boundary-tie control (FREEZE_V1 §3 / FREEZE_V2_AMENDMENT A5) | reason: The predicted tie requires E0 = 1/4, is contradicted by a strict stateless win on all five receipts, and is pre-excluded from scoring by the freeze itself.
+reopen: licensed_band check (FREEZE_V2_AMENDMENT A4/A5) | reason: The admission criterion is algebraically the predicted outcome, so it removes exactly the systems on which the law could be falsified.
+reopen: #833 Section J row "Validate at least 5 transitions on real systems" | reason: Two of the five qualifying receipts have no verifiable registration, the tranche was expanded after seeing which source class passes, and no transition was observed — one measurement pair was repriced.
+reopen: KE-1 | reason: All non-degenerate emissions come from the V4 stratum whose evaluator predated the predictions, and the pre-V4 census was entirely degenerate by the package's own account.
+reopen: KE-2 | reason: Same custody inversion as KE-1, plus the 24-permutation family-blindness headline rests on a check that cannot fail.
+reopen: KE-3 | reason: Its measured capabilities derive from REAL_MEASURED_V3.json, which carries two contradictory solved-rules with one head between them that changes the recorded solved set.
+reopen: KE-6 | reason: Coverage is computed under the very fault distribution the bound assumes, so the row verifies union-bound slack rather than measuring calibration error.
+reopen: KE-7 | reason: In-universe errors are excluded by prediction and out-of-universe errors are pre-declared non-findings, so the row cannot return a negative result.
+reopen: KE-4 | reason: No confusion-matrix result appears in any artifact and mismatches on the largest stratum are pre-excused as ambiguity.
+model_self_report: claude-opus-5[1m]
+VERDICT_BLOCK_END

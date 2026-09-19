@@ -1,0 +1,82 @@
+# AA15 — proof-assistant targets for the flagship mathematical spine
+
+**Scope statement.** I read only the seven artifacts listed under "Artifacts" in the brief, plus the brief itself. I wrote files only into `/tmp/claude-501/revive-gates/aa15_targets/`. I ran no repository code; the only programs I executed were my own throwaway JSON-reading one-liners over the two permitted data/source artifacts, and `lean` on my own stub files.
+
+**Toolchain note.** `lean` is on PATH (`/opt/homebrew/bin/lean`) but bare `lean` fails with *"no default toolchain configured"*. A toolchain is installed, so every file here was checked with `elan run leanprover/lean4:v4.33.1 lean <file>`. All five files compile with **zero errors**.
+
+**Announced deviation from the output spec.** The brief asks for `theorem ... := by sorry`. The statements are exactly as specified, but where a target obligation was closable in the kernel by `decide`/`omega` I closed it rather than leaving `sorry` — a discharged obligation strictly dominates a stub. `TARGETS.json` records, per target, which obligations are proved here and which remain open. S4 has no `sorry` at all.
+
+---
+
+## 1. Practicality, result by result
+
+### S1 — state-class choice law — **PRACTICAL**
+`full_enumeration_v1.py` gives fully exact finite semantics: `_bit`, `_stateless_errors`, `_stateful_errors` are pure integer functions over 8 sequences, and `search` already compares candidates through integer coefficients (`_integer_coefficients`), so no rational field is needed — the argmin law can be stated over `Nat` coefficients `J = a·e0 + b·e1 + c·s`, and `lambda < eta·p/2` becomes exactly `c < 8·b`. What must be formalized: the universe re-encoding, two block lower bounds, two witnesses. Crucially the proof does **not** require kernel-evaluating the 65,536 stateful candidates: it needs only (i) the 16 stateless tables, (ii) an explicit stateful `(0,0)` witness, (iii) the trivial bound `c ≤ J` on the stateful block. I verified (i) and (ii) in the kernel already (`stateless_errDelay_const`, `statefulErrors 170 226 = (0,0)`, both by `decide`). Expected difficulty: low-to-moderate; the `census` lemma must be proved structurally (`List.length_append`/`length_flatMap`/`length_range`), never by evaluation, or the practicality argument collapses on the one lemma that did not need it.
+
+*What the Python leaves ambiguous:* `build_universe` assigns `state_bits = 1` to **all** 65,536 stateful transducers, including next-state tables that never change state. So `PERSISTENT_STATE` is a syntactic tag on the second enumeration block and a cost tag in the objective — **not** the property "this candidate's behaviour uses persistent state". Behaviourally stateless `(e0,e1)=(0,8)` candidates exist inside the stateful block and lose at `c > 8b` only because they are charged `c`. Second ambiguity: the brief's `p` and `eta` are rationals while the argmin is decided on integers; the scale factor is asserted to be order-preserving in `_integer_coefficients` but the cross-multiplication step itself is not formalizable in Lean core (no rationals), so I state it as an explicit integer bridge with its positivity side-conditions named.
+
+### S2 — CIP-1 exact partition — **PRACTICAL** (the easiest of the four)
+The proof in the artifact uses nothing but trichotomy of `J` vs `s`, axiom (M) `m ≤ J`, and `m ≤ s`. Additivity and (N) enter at exactly one point (Lemma 1.0). So the ℝ-valued statement needs no reals: I state it over an arbitrary strict linear order defined in-file (strictly more general than the artifact's `R_{>=0}` version, and free of any order library), then instantiate at `Int`, which is also the exact setting of the registered A4 accounting where `B(X) = |R(X)|` is a cardinality. The `Int` instance is closable by `omega`. Nothing is ambiguous here; the `m < s` guard and the degenerate case are stated explicitly and correctly in the artifact.
+
+### S3 — AG1-4 descent-stack acyclicity — **PRACTICAL, but only in repaired form** (see OBJ-1)
+The registry is a finite table; layer monotonicity and the rank witness are `decide`-sized. I computed a topological rank by Kahn peeling and **baked the 32-node rank vector into the file**, so acyclicity reduces to a 35-edge finite check plus one induction. Eight of the ten obligations are already discharged by `decide`; only `path_rank_decreases` and `derivedFrom_acyclic` remain. What is ambiguous — and it is not a small ambiguity — is the phrase "derived-from arrow": see OBJ-1.
+
+### S4 — AJ13 stopping predicate — **PRACTICAL; fully discharged, no `sorry`**
+A six-conjunct decidable predicate over a finite record is the standard easy case. The whole target is proved: the `Decidable` instance, the baseline satisfying all six conjuncts, all six hostiles rejected, each hostile flipping **exactly one** conjunct (`hostile_profiles`), and two checker gaps. One Lean-specific wrinkle: `String.startsWith` does not reduce in the kernel, so the `s.startswith("AJ5_")` test is respelled on `String.toList`. What the Python leaves ambiguous: see OBJ-3.
+
+---
+
+## 2. Objections
+
+### OBJ-1 (material) — AG1-4 equivocates on "derived-from arrow", and S3 as briefed is false
+Two sentences of `AG1_THEOREMS_V1.md` §AG1-4, verbatim:
+
+> "Cycles over derived-from arrows: **0**, by DFS colour-marking and independently by Kahn in-degree peeling (32 of 32 nodes removed)."
+
+> "Every apparent bottom node — the **5** nodes with no outgoing derived-from arrow — carries a non-empty metatheoretic assumption list…"
+
+Neither is wrong alone; they cannot both be true of one arrow set. The arithmetic from `FOUNDATION_DEPENDENCY_DAG_V1.json`:
+
+- Over all **37** arrows: sinks = **5** (`MTB_GODEL_TARSKI`, `PHY_SUBSTRATE_LAW`, `RES_COST_MODEL`, `VAL_REQUIREMENT_INPUT`, `GRM_G0_EXTENSIONS_UNADJUDICATED`) — but there **is** a cycle, `FND_SET_RELATION → FND_TYPED_ALGEBRAIC → FND_SET_RELATION`, the symmetric `MUTUAL_INTERPRETATION` pair, so Kahn peeling cannot remove 32 of 32.
+- Over the **35** non-`MUTUAL_INTERPRETATION` arrows: 0 cycles and 32/32 peeled — but sinks = **7**, the two `FND_*` nodes joining the five.
+
+So the cycle count uses 35 arrows and the bottom count uses 37, under one name. The brief's own S3 ("the 37-arrow derived-from relation … has no cycle") is therefore **false as literally written**; `S3_…lean` proves the counterexample outright (`cycle_over_all_37_arrows`, an explicit witness, no tactic and no `sorry`) and proves the 5-vs-7 split (`bottom_count_equivocation`, `sinks_explicit`, by `decide`). The repaired statement over the 35-arrow relation is the honest target and is eminently formalizable — which is why S3 stays PRACTICAL. Layer monotonicity is unaffected: `no_upward_arrow` holds over all 37 arrows (`decide`), and the mutual pair is symmetric and same-layer as required.
+
+### OBJ-2 (material) — S1's "persistent-state class" is a syntactic block tag, not persistence
+`build_universe` charges `state_bits = 1` to every one of the 65,536 stateful candidates regardless of whether its next-state table ever changes state, so the law is about a **cost-tagged partition of the enumeration**, not about whether persistent state is behaviourally used. `HELDOUT_TRANSITION_FORMALIZATION_V1.md` §2 is careful — "`STATELESS` and `PERSISTENT_STATE` are post-search classifications from the `state_bits` field" — but the claim ceiling reads `…BINARY_MORPHOLOGY_TRANSITIONS…`, and §7's "architecture-choice law" wording invites the behavioural reading. A formalization that does not pin this down would licence a stronger statement than the enumeration supports. My stub carries it as an explicit modelling note.
+
+*Corroboration, not objection:* my independent Lean re-encoding of the Python reproduces the registered controls exactly — census **65552**, **146** distinct `(state_bits, error_now, error_delay)` summaries, stateless delayed error ≡ **8/16** for all 16 tables, the `(0, 8)` stateless and `(0,0)` one-bit witnesses, and the argmin class flipping at exactly `c = 8b` with both classes tying at equality. (Those figures come from `#eval`, i.e. interpreter evaluation, not kernel proof; the 16-table facts and the `(0,0)` witness are additionally kernel-checked by `decide`.) The arithmetic in S1 is sound; my objection is about what the tag *means*.
+
+### OBJ-3 (material) — the AJ13 checker is weaker than the AJ13 prose, in two machine-checked ways
+`THEORY.md` conjunct 2 forbids "named mechanisms such as neuron, memory, attention, planner, world model or backpropagation … at the bottom". `check_aj13.py` implements `if base & BANNED_MI_PRIMITIVES:` — an exact, **case-sensitive** match against ten uppercase tokens. A base containing the literal `"neuron"` passes: proved by `decide` as `case_sensitivity_gap`. Second, conjunct 3 is implemented as `if set(irr.values()) != REQUIRED_OPERATIONAL_ROLES:` — only the **value** set; nothing ties `aj1_irredundancy`'s keys to `operational_base`, so loss witnesses keyed by symbols that appear nowhere in the base still satisfy the predicate: proved by `decide` as `irredundancy_key_gap`. These are statements about the checker, not refutations of the AJ13 theory, but the `status: GREEN` / `criteria_satisfied: 6` receipt inherits them silently.
+
+### OBJ-4 (not material) — cosmetic and labelling
+The failure constant `"FURTHER_DESCENT_NOT_CONFined_TO_FOUNDATION_PHYSICS_VALUE"` carries a casing typo; `audit` implements seven conditions where `THEORY.md` names six conjuncts (the seventh, the forbidden terminal, is treated separately in the prose, so this is labelling, not a defect); `RESOURCE_MODEL` is an allowed residual tag in conjunct 1 but excluded from conjunct 6's descent classification — consistent, though it deserves a sentence.
+
+**Which objections bind AA15: none.** The row asks whether at least one spine result is PRACTICAL with its target stub written. Four of four are practical and all four stubs exist and compile. OBJ-1 binds **AG1-4** (and the brief's phrasing of S3), OBJ-2 binds S1's claim wording, OBJ-3 binds the AJ13 receipt — none binds this row.
+
+---
+
+## 3. Deliverables (all under `/tmp/claude-501/revive-gates/aa15_targets/`)
+
+| file | errors | decls still `sorry` |
+|---|---|---|
+| `S1_state_class_choice_law.lean` | 0 | 8 |
+| `S2_cip1_partition.lean` | 0 | 6 |
+| `S3_ag1_descent_acyclicity.lean` | 0 | 2 |
+| `S4_aj13_stopping_predicate.lean` | 0 | 0 |
+| `S1_eval_scratch.lean` (auxiliary, not a target) | 0 | 8 |
+| `TARGETS.json` | valid | — |
+
+`checked_locally: true` in `TARGETS.json` means **the statement typechecks under Lean 4.33.1 with zero errors**; it does not mean the target is proved. Open obligations are listed per target.
+
+VERDICT_BLOCK_BEGIN
+row: AA15 | verdict: SATISFIED | reason: all four spine results are PRACTICAL as Lean 4 core targets and all four stubs were written and compile with zero errors, with S4 fully proved and S3 proved except two induction lemmas.
+objection: OBJ-1 | material: yes | text: AG1-4's "Cycles over derived-from arrows: 0 ... (32 of 32 nodes removed)" and "the 5 nodes with no outgoing derived-from arrow" use two different arrow sets under one name — 35 arrows give 0 cycles but 7 sinks, 37 arrows give 5 sinks but contain the MUTUAL_INTERPRETATION 2-cycle FND_SET_RELATION ↔ FND_TYPED_ALGEBRAIC — so S3 as literally briefed is false, and my file proves the counterexample.
+objection: OBJ-2 | material: yes | text: `build_universe` assigns `state_bits = 1` to all 65,536 stateful candidates including those that never change state, so S1's "persistent-state class" is a syntactic cost tag on an enumeration block rather than behavioural persistence, and the law must not be read as an architecture-choice law about using state.
+objection: OBJ-3 | material: yes | text: `check_aj13.py` tests banned MI primitives by exact case-sensitive string match (a base containing "neuron" passes) and tests AJ1 loss witnesses only through `set(irr.values())` (witnesses keyed by symbols absent from the operational base pass) — both gaps are now proved by `decide` in `S4_aj13_stopping_predicate.lean`.
+objection: OBJ-4 | material: no | text: the `CONFined` typo in a failure constant, `audit` implementing seven checks against THEORY.md's "six conjuncts", and the RESOURCE_MODEL tag/descent asymmetry are labelling issues, not defects.
+reopen: AG1-4 | reason: its acyclicity count and its apparent-bottom count cannot both be true of one arrow set, so the "0 cycles / 5 bottoms" row must be restated with the arrow set named explicitly (35 non-MUTUAL arrows for acyclicity, 37 for sinks) before it can stand.
+reopen: AJ13 RESULT_V1.json `status: GREEN` / `criteria_satisfied: 6` | reason: the checker that produces this receipt admits lowercase MI primitives and loss witnesses unconnected to the operational base, so the GREEN is narrower than conjuncts 2 and 3 of THEORY.md claim.
+model_self_report: claude-opus-5[1m]
+VERDICT_BLOCK_END

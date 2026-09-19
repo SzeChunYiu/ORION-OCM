@@ -1,0 +1,137 @@
+## Answer to the first question
+
+**NATURAL_CLAIMS_REMAIN: yes.**
+
+Deciding sentence — `/Users/billy/Desktop/projects/ORION-OCM-wt-833/revive-gates/research/gmi-natural-intelligence-bridge-v1/NATURAL_INTELLIGENCE_BRIDGE_THEOREM_V1.md` §7: *"Primates occupy social coordination ecology → exhibit protocol negotiation behavior"*. That is an unhedged assertion about primate behaviour, not a registration that something might later be asserted. The same file, §3, asserts more: *"If PVR-3(M,E) = satisfied, then any biological taxon T occupying ecology E will exhibit neural architecture structure J(T) that shares specific formal properties with M."* And `PREDICTIONS_REGISTRY_V1.json` contains seven taxon rows whose `C_pred.descriptors` assign concrete ordinal cognitive profiles to corvids, cephalopods, rodents, nonhuman primates, cetaceans, carnivores and humans. I note that `NATURAL_INTELLIGENCE_BRIDGE_THEOREM_V1.md` §1 states *"It does NOT make biological claims"*; per the brief's rule 2 I do not accept that self-assessment, and §3/§6/§7 of the same file contradict it.
+
+---
+
+# Review of C6 — the natural-intelligence bridge
+
+## 1. Are the species parameters (E, R, V) operationally defined, or numerology?
+
+**Numerology, by the programme's own standard.**
+
+The contract that governs these rows specifies what `E_bio` must contain — `BIOLOGICAL_BRIDGE_CONTRACT_V1.md` §L0.1: *"the species' ecology in GMI coordinates: resource budgets (energy/day, sensor bandwidth, actuator latency), lifespan/developmental timescale, social structure ... niche descriptors (foraging risk, predation, variability)."* Those are measurable quantities with units.
+
+What the frozen registry actually contains (`PREDICTIONS_REGISTRY_V1.json`, PRED-NH-01) is `"E": 8.0, "R": 5.0, "V": 7.0` with no unit, no measurement, no source, no estimation procedure and no uncertainty. No artifact I was permitted to read states how any energy/day, bandwidth or latency figure becomes `R = 5.0`. `BIOLOGY_PREDICTIONS_THEOREM_V1.md` §Parameters gives only prose glosses — *"R (Resource Abundance): Brain tissue cheapness relative to body, social support for development"* — which is not an operational definition and does not license a corvid/rodent ordering of 5.0 vs 7.0.
+
+Three further defects:
+
+- **Taxonomic granularity is a category error for comparative cognition.** A single scalar triple is assigned to "cephalopod", "rodent", "carnivore" and "nonhuman_primate" — classes and orders spanning thousands of species with radically different ecologies. The registry itself concedes the incoherence while still assigning the scalar: rodent `"social_structure": "colony_variable"`, carnivore `"social_structure": "solitary_or_pack"`. If sociality varies within the taxon, `V` ("social or per-step verification requirements", `BIOLOGY_PREDICTIONS_THEOREM_V1.md` §Parameters) cannot take one value for that taxon.
+- **No phylogenetic control.** Seven taxa are treated as independent data points. Comparative inference across species requires correction for phylogenetic non-independence; no artifact mentions it.
+- **The ordering reproduces a rejected scheme.** The values run rodent (5,7,3) → carnivore (7,5,5) → corvid/cephalopod/cetacean (8,·,·) → nonhuman_primate (9,8,9) → human (9,9,9), i.e. a single ascending ladder with humans at the apex. That is the *scala naturae*, which modern comparative psychology explicitly rejects: *"Our current model of nature rejects the validity of the scala naturae"* (Marino, "Classification: The Scala Naturae", *Encyclopedia of Human-Animal Relationships*, pp. 220–222, opened at https://www.kimmela.org/wp-content/uploads/2024/05/Marino-scala-naturae.pdf, p. 222). Nothing in the artifacts justifies a unidimensional ranking; the numbers look chosen to reproduce a prior intuitive ranking rather than measured.
+
+**The deeper problem (OBJ-1): the quantitative machinery has zero discriminative content.** The only computation in the entire chain is `BIOLOGY_PREDICTIONS_THEOREM_V1.md` §Theorem Statement: `M* = arg min_M B_M(E, R, V)`, returning one of {neural, symbolic, probabilistic}. In `PREDICTIONS_REGISTRY_V1.json`, **all seven rows return `"phase_winner": "neural"`** — corvid, cephalopod, rodent, primate, cetacean, carnivore, human alike. A function that returns the same value for every input distinguishes nothing. All of the actual cross-species content therefore lives in the `C_pred.descriptors` strings (`"high_episodic"`, `"mid"`, `"graded"`, `"shallow"`, …), and **no artifact states any function, threshold or rule mapping (E,R,V) to those strings.** `FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md` §2 offers only qualitative direction laws (*"niche variability ↑ → episodic weight ↑"*) with no cut-points telling you why E=8 yields `high_episodic` and E=5 yields `spatial_episodic`. The claim that the profiles are "derived from ecology/resource/verification parameters" is therefore unsupported by anything in the artifact set: the profiles are asserted, and they are asserted at exactly the values a comparative-cognition textbook would give (corvids: caching/episodic + planning; primates: ToM; cetaceans: culture; cephalopods: flexible solitary problem-solving; rodents: spatial navigation). That is the retrospective story-fitting the capsule forbids itself — `FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md` §1.2: *"Retrospective story-fitting of known ethology is assimilation food, never closure evidence."*
+
+## 2. Are the predicted profiles falsifiable? Is any contradicted by evidence?
+
+**They are not operationally falsifiable as written, and at least one row is contradicted by published behavioural work.**
+
+### 2a. The holdout is empty, so the voiding rule can never fire (OBJ-2)
+
+`BIOLOGICAL_BRIDGE_CONTRACT_V1.md` §L0.4 requires `D_holdout` to be *"the biological observations, held out from theory fitting where possible, with provenance (species, study, n)."* Every row in `PREDICTIONS_REGISTRY_V1.json` instead reads `"status": "HELD_OUT", "provenance_slot": "corvid_caching_phenotype_v1", "content": null` — no study, no n, no dataset. Nothing was sealed; a placeholder string was written. `FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md` §3 makes voiding conditional on unsealing: a row is voided *"after `D_holdout` is unsealed under a later protocol"* — and no such protocol is named anywhere in the artifacts. A falsifier whose trigger condition references a dataset that does not exist and a protocol that is not specified is inoperable by construction. This is not "not yet tested"; it is "cannot be tested as registered."
+
+### 2b. The descriptor values have no decision rule (OBJ-3)
+
+`FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md` §3 voids a row whose phenotype *"contradicts the frozen ordinal profile on ≥2 descriptors."* But nowhere is `"mid"` vs `"high"`, `"simple_stop"` vs `"graded"`, or `"shallow"` vs `"depth_ge_1"` tied to any measurement, task, or threshold. Two competent reviewers could not agree whether a given experiment contradicts `"D_meta": "simple_stop"`. An ordinal scale with no anchors cannot adjudicate anything, so the ≥2-descriptor rule is unusable even if data arrived.
+
+### 2c. Several registered "failure modes" are straw men
+
+`PRED-NH-03` (rodent): *"held-out phenotype shows primate-level protocol culture under rodent (E,R,V)"*. `PRED-NH-02` (cephalopod): *"held-out phenotype shows high social-TOM investment despite solitary ecology"*. `PRED-NH-07` (human): *"architecture profile collapses to a single undifferentiated memory regime under adult (E,R,V)"*. These name outcomes no informed researcher expects. A registered failure mode that is antecedently near-impossible does not make a prediction risky.
+
+### 2d. Rows contradicted by published behavioural evidence
+
+**PRED-NH-03 (rodent) — contradicted on two descriptors, which is exactly the registry's own voiding threshold.**
+
+- `"D_meta": "simple_stop"`. Foote & Crystal, "Metacognition in the Rat", *Current Biology* 17, 551–555 (2007), DOI 10.1016/j.cub.2007.01.061 (opened at https://shinyverse.org/al4ai/extras/FooteCrystal_MetcognitionInTheRat_CurrentBiology2007.pdf) report that rats declined a duration-discrimination test at rates that *"increased as the difficulty of the discrimination increased"* and that accuracy was lowest on difficult tests that could not be declined; the authors conclude *"a nonprimate has knowledge of its own cognitive state."* That is graded, difficulty-scaled confidence — `"graded"` in the registry's own vocabulary, not `"simple_stop"`. I flag that this literature is contested; the registry provides no means to adjudicate the dispute, which is itself the objection.
+- `"D_plan": "shallow"`. Miller, Botvinick & Brody, "Dorsal hippocampus contributes to model-based planning", DOI 10.1101/096594 (bioRxiv v2, opened at https://www.biorxiv.org/content/10.1101/096594v2; a *Nature Neuroscience* version exists, which I could not open) report a multi-trial rat task producing planned behaviour and *"the first causal evidence directly linking dorsal hippocampus with planning behavior."* Model-based planning in rats is not `"shallow"` under any stated criterion.
+
+Under `FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md` §3, two contradicted descriptors void PRED-NH-03 — except that, per OBJ-2, the voiding clause cannot fire because nothing was sealed. The row is simultaneously wrong and unfalsifiable by its own rules.
+
+**PRED-NH-02 (cephalopod) — `"D_comm": "none"`, `"social_structure": "mostly_solitary"`.** Scheel, Godfrey-Smith & Lawrence, "Signal Use by Octopuses in Agonistic Interactions", *Current Biology* (2016), reported field observation of *Octopus tetricus* producing colour and postural displays during conspecific agonistic interactions, with dark/"towering" displays associated with aggression and pale colouration with retreat. I could not open the publisher's copy (cell.com and ScienceDirect both returned HTTP 403); the account I actually opened is the co-author's own summary page, https://metazoan.net/33-octopus-signals/, which I cite as secondary and which does not print the volume/pages. Treat this as a flagged contradiction requiring primary confirmation rather than a closed one — but note that the registry gives no definition of `"none"` for `D_comm` that would let anyone settle it either way.
+
+**PRED-NH-01 (corvid)** — the descriptor `"D_mem": "high_episodic"` and the failure mode *"held-out phenotype lacks episodic-like caching advantage under matched spatial controls"* restate the best-known result in corvid comparative cognition. See §3 below for why this is fatal to the "frozen before phenotype" claim.
+
+### 2e. The "frozen before phenotype" claim collapses into a dilemma (OBJ-4)
+
+`BIOLOGICAL_BRIDGE_CONTRACT_V1.md`, "Next step (queued, highest cost)": *"The first real prediction candidate: corvid caching (episodic-like profile) vs rodent navigation under the memory-regime partition — registries first, phenotype data held out. Requires a biology-literature saturation pass (assimilation-first) before any `C_pred` is frozen. Not started."*
+
+`PREDICTIONS_REGISTRY_V1.json` nonetheless freezes exactly that `C_pred` (PRED-NH-01 corvid `"high_episodic"`, PRED-NH-03 rodent `"spatial_episodic"`), and `"frozen": true`.
+
+Either (a) the mandatory saturation pass was not performed, in which case the contract was violated and the rows are inadmissible; or (b) it was performed, in which case the phenotype literature was consulted and `C_pred` is not pre-phenotype. Both branches void the ceiling item `C_pred_frozen_pre_phenotype` listed in `PREDICTIONS_REGISTRY_V1.json` `claim_ceiling.admissible`. There is no third branch: the contract text says the pass is required *before* freezing, and the same corvid-vs-rodent pair is the frozen content.
+
+Independently: "pre-registration" against facts already in every comparative-cognition syllabus is not prospective prediction regardless of file timestamps. `BIOLOGICAL_BRIDGE_CONTRACT_V1.md` itself names *"corvid caching (episodic-like profile)"* — i.e. the answer — in the sentence proposing the experiment.
+
+## 3. Does any artifact claim a neural mechanism? Is function separated from implementation?
+
+**Yes, explicitly — and no, the separation does not hold across the composed set. This trips the final-target capsule's own falsifier (OBJ-5).**
+
+`FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md` §4 excludes *"any mapping to cortical areas, white-matter tracts, neurotransmitter systems, or clinical lesion topography"*, and §7 declares the capsule void if *"claim surface asserts `HUMAN_COGNITION_EXPLAINED`, G10 empirical, or neuroanatomy."*
+
+But §5.3 of that same file composes with `gmi-natural-intelligence-bridge-v1` (*"Composition with `gmi-natural-intelligence-bridge-v1`: morphology→taxon pressure classes remain consistent"*), and that parent's §6 table assigns, as the "Neural Architecture J(T)" for named taxa:
+
+- Primates → *"Prefrontal cortex + Wernicke's"*
+- Corvids, rodents → *"Hippocampal + prefrontal"*
+- Carnivores, raptors → *"Visual cortex + cerebellum"*
+- Cetaceans, primates → *"Wernicke's + mirror neurons"*
+
+§3 of the same file adds *"Memory organization → Hippocampal-cortical consolidation"*, and §9 instructs the reader to *"Compare J(M) to known neural architecture of T"* and *"Falsify if predicted J(M) ≠ actual J(T)"*. These are cortical-area identity claims about named taxa. The composed claim surface therefore asserts neuroanatomy, which is the condition `FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md` §7 says voids the capsule.
+
+The specific attributions are also stale or unsupported:
+
+- *"Wernicke's"* is applied to primates and cetaceans. The term has no stable referent even in human neurobiology: Tremblay & Dick, "Broca and Wernicke are dead, or moving past the classic model of language neurobiology", *Brain and Language* 162, 60–71 (2016), DOI 10.1016/j.bandl.2016.08.004 (opened at https://myweb.fiu.edu/adick/wp-content/uploads/sites/252/2016/02/tremblaydick_2016.pdf) *"demonstrate that there is no consistent anatomical definition of 'Broca's and Wernicke's area'"* and argue the Classic model *"is based on an outdated brain anatomy"* and should be replaced. Exporting an eponym with no consistent human definition onto non-human taxa is not a formal mapping.
+- *"mirror neurons"* is given as the architecture supporting social learning in cetaceans. Neither the artifacts nor any source I opened reports single-unit mirror-neuron recording in cetaceans, and the action-understanding interpretation the table relies on is contested: Hickok, "Eight Problems for the Mirror Neuron Theory of Action Understanding in Monkeys and Humans", *Journal of Cognitive Neuroscience* 21(7), 1229–1243 (2009) (opened at https://pages.ucsd.edu/~jpineda/COGS260Mirroring/readings/Hickok%20-%208%20problems%20for%20MN%20theory%20of%20action%20understanding.pdf) concludes *"there is no evidence from monkey data that directly tests this theory, and evidence from humans makes a strong case against the position."*
+
+Two further separation failures:
+
+- `NATURAL_INTELLIGENCE_BRIDGE_THEOREM_V1.md` §1 says it *"does NOT make biological claims"* while §3, §6 and §7 make behavioural and neuroanatomical claims about named taxa. That is an internal contradiction in the parent, and the child imports the parent.
+- `PREDICTIONS_REGISTRY_V1.json` `lesion_alignment` maps cognitive descriptors onto `L_mem`, `L_social`, `L_att`, `L_plan`, `L_causal`, and `FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md` §5.2 states these are *"the registered deficit footprint that a future empirical unseal must respect."* "Lesion" and "deficit footprint" are neurological constructs, and binding natural cognitive descriptors to them while excluding *"clinical lesion topography"* is at best equivocal. I **could not check** what `gmi-derived-lesion-v1` defines these as — that package is outside the set this brief permits me to read. I record that as unchecked, not as fine. The one alignment I can inspect is unjustified on its face: `D_pred`, defined in §2 as *"predictive-motor demand"*, is mapped to `L_causal`, with no stated reason why a motor-tracking descriptor maps to a causal-reasoning lesion.
+
+## 4. What the parent packages actually contribute
+
+`BIOLOGY_PREDICTIONS_THEOREM_V1.md` is cited as the source of the (E,R,V) regimes. Its own "Species Predictions" section states, identically for all four species, *"Predicted Morphology: Minimizes burden at these parameters"* — a restatement of the definition of `arg min`, containing no prediction. It supplies unsourced numbers and nothing else. `NATURAL_INTELLIGENCE_BRIDGE_THEOREM_V1.md` §2 caps itself at *"G2 — derives known correspondences"* and states the bridge *"cannot predict that a taxonomy should exist"*; the registry nonetheless issues seven forward taxon profiles, which is above that parent's declared ceiling.
+
+## 5. Verdict on the row
+
+I was able to read the artifacts, identify the parameters, the derivation chain, the predicted profiles, the failure modes, the holdout construction and the neuroanatomical content, and to test specific rows against literature I opened. A genuine cognitive-science review was possible from this artifact set. Z18-5 is SATISFIED on that basis — which is independent of, and must not be confused with, my verdict on C6.
+
+## 6. Gates I demand be reopened
+
+Exercising the authority in rule 5 and in `BIOLOGICAL_BRIDGE_CONTRACT_V1.md` §L3 (*"Any reviewer can void a claim by exhibiting one missing element"*), I demand reopening of:
+
+1. `C_pred_frozen_pre_phenotype` — OBJ-4 dilemma.
+2. `L2_seven_taxa_rows` — OBJ-1 (constant `M`, no (E,R,V)→descriptor function), OBJ-3 (no decision rule), OBJ-6 (taxon granularity / scala naturae ordering), plus the PRED-NH-03 contradiction.
+3. `V7_formal_holdout_composition` — OBJ-2: null holdouts with no unsealing protocol are not a holdout, and §5.2's lesion composition cannot be checked from the permitted artifacts.
+4. `L3_human_architecture_profile_no_neuroanatomy` and the terminal `FINAL_TARGET_NATURAL_HALF_ADMISSIBLE_V1` — OBJ-5: the composed claim surface asserts neuroanatomy, which the capsule's own §7 falsifier says voids it.
+5. The `gmi-natural-intelligence-bridge-v1` **G2 ceiling** — its §6 neuroanatomy table and §1 "does NOT make biological claims" cannot both stand, and the registry issues forward predictions above the declared G2 scope.
+
+## Sources opened
+
+- Foote & Crystal, *Current Biology* 17:551–555 (2007), DOI 10.1016/j.cub.2007.01.061 — https://shinyverse.org/al4ai/extras/FooteCrystal_MetcognitionInTheRat_CurrentBiology2007.pdf
+- Miller, Botvinick & Brody, DOI 10.1101/096594 (bioRxiv v2) — https://www.biorxiv.org/content/10.1101/096594v2
+- Tremblay & Dick, *Brain and Language* 162:60–71 (2016), DOI 10.1016/j.bandl.2016.08.004 — https://myweb.fiu.edu/adick/wp-content/uploads/sites/252/2016/02/tremblaydick_2016.pdf
+- Hickok, *Journal of Cognitive Neuroscience* 21(7):1229–1243 (2009) — https://pages.ucsd.edu/~jpineda/COGS260Mirroring/readings/Hickok%20-%208%20problems%20for%20MN%20theory%20of%20action%20understanding.pdf
+- Marino, "Classification: The Scala Naturae", *Encyclopedia of Human-Animal Relationships*, pp. 220–222 — https://www.kimmela.org/wp-content/uploads/2024/05/Marino-scala-naturae.pdf
+- Godfrey-Smith, "Octopus Signals" (secondary summary of Scheel, Godfrey-Smith & Lawrence 2016; publisher copies returned HTTP 403) — https://metazoan.net/33-octopus-signals/
+
+VERDICT_BLOCK_BEGIN
+row: Z18-5 | verdict: SATISFIED | reason: Natural-intelligence claims remain and the artifacts were sufficient for me to perform a genuine cognitive-science review — assessing parameter operationalization, falsifiability, contradicting behavioural evidence, neural-mechanism content and function/implementation separation.
+claim: C6 | verdict: REOPEN | reason: The only computation in the chain returns "neural" for all seven taxa so no stated function maps (E,R,V) to the cognitive profiles, the "frozen pre-phenotype" claim is caught in a contract dilemma, the holdouts are null so the falsifier cannot fire, and the composed claim surface asserts the neuroanatomy the capsule's own §7 says voids it.
+objection: OBJ-1 | claim: C6 | material: yes | text: All seven rows in PREDICTIONS_REGISTRY_V1.json carry "phase_winner": "neural", so the sole quantitative machinery (B_M in BIOLOGY_PREDICTIONS_THEOREM_V1.md) has zero discriminative content, and no artifact states any function or threshold mapping (E,R,V) to the C_pred descriptor values that carry all the cross-species content.
+objection: OBJ-2 | claim: C6 | material: yes | text: Every D_holdout is "content": null with only a provenance_slot string, contrary to BIOLOGICAL_BRIDGE_CONTRACT_V1.md §L0.4's requirement of "provenance (species, study, n)", and FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md §3 makes voiding conditional on unsealing "under a later protocol" that is never specified — so the falsifier is inoperable by construction.
+objection: OBJ-3 | claim: C6 | material: yes | text: The ordinal descriptor values ("mid", "graded", "simple_stop", "shallow", "depth_ge_1") are tied to no task, measure or threshold anywhere in the artifacts, so FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md §3's "contradicts ... on ≥2 descriptors" rule cannot be adjudicated even if data existed.
+objection: OBJ-4 | claim: C6 | material: yes | text: BIOLOGICAL_BRIDGE_CONTRACT_V1.md states the corvid-caching-vs-rodent-navigation prediction "Requires a biology-literature saturation pass (assimilation-first) before any `C_pred` is frozen. Not started", yet PREDICTIONS_REGISTRY_V1.json freezes exactly that C_pred — so either the mandatory pass was skipped or the phenotype literature was consulted, and both branches void `C_pred_frozen_pre_phenotype`.
+objection: OBJ-5 | claim: C6 | material: yes | text: FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md §5.3 composes with gmi-natural-intelligence-bridge-v1, whose §6 assigns "Prefrontal cortex + Wernicke's", "Hippocampal + prefrontal" and "Wernicke's + mirror neurons" to named taxa and whose §3 predicts taxa "will exhibit neural architecture structure J(T)", tripping the child capsule's own §7 falsifier ("claim surface asserts ... neuroanatomy") — and those attributions are additionally stale (Tremblay & Dick 2016, DOI 10.1016/j.bandl.2016.08.004) or unsupported (Hickok 2009, JOCN 21:1229–1243; no cetacean mirror-neuron recording appears in the artifacts or any source I opened).
+objection: OBJ-6 | claim: C6 | material: yes | text: Single (E,R,V) scalars are assigned to whole clades whose own registry fields concede internal variation ("colony_variable", "solitary_or_pack"), with no phylogenetic-independence control and an ascending rodent→carnivore→corvid→primate→human ordering that reinstates the scala naturae rejected by comparative psychology (Marino, Encyclopedia of Human-Animal Relationships, pp. 220–222).
+objection: OBJ-7 | claim: C6 | material: yes | text: PRED-NH-03's rodent profile is contradicted on two descriptors — "D_meta": "simple_stop" by difficulty-scaled test-declining in rats (Foote & Crystal, Current Biology 17:551–555, DOI 10.1016/j.cub.2007.01.061) and "D_plan": "shallow" by causal evidence for model-based planning in rats (Miller, Botvinick & Brody, DOI 10.1101/096594) — which is precisely the registry's own voiding threshold.
+objection: OBJ-8 | claim: C6 | material: no | text: PRED-NH-02's cephalopod "D_comm": "none" is challenged by reported conspecific agonistic display signalling in Octopus tetricus (Scheel, Godfrey-Smith & Lawrence 2016; I could open only the co-author's secondary summary at metazoan.net, publisher copies returning HTTP 403), and the registry supplies no definition of "none" that would settle it either way.
+objection: OBJ-9 | claim: C6 | material: no | text: PREDICTIONS_REGISTRY_V1.json's lesion_alignment maps "D_pred" ("predictive-motor demand", FINAL_TARGET §2) onto "L_causal" with no stated justification, and the meaning of the L_* footprints invoked by FINAL_TARGET §5.2 lies in gmi-derived-lesion-v1, which this brief does not permit me to read — so that composition is unchecked, not checked and fine.
+reopen: C_pred_frozen_pre_phenotype | reason: The contract requires a biology-literature saturation pass before any C_pred is frozen and records it as "Not started", yet the corvid/rodent C_pred rows are frozen, so the row is either contract-violating or not pre-phenotype.
+reopen: L2_seven_taxa_rows | reason: No stated function maps (E,R,V) to the descriptor profiles, the phase winner is constant across all seven rows, the taxa are whole clades with no phylogenetic control, and PRED-NH-03 is contradicted on two descriptors by published rat work.
+reopen: V7_formal_holdout_composition | reason: All D_holdout contents are null with no unsealing protocol named, so nothing was actually held out, and the lesion composition in FINAL_TARGET §5.2 cannot be verified from the permitted artifacts.
+reopen: L3_human_architecture_profile_no_neuroanatomy | reason: The capsule composes with a parent whose mapping tables assert cortical-area identities for named taxa, so the composed claim surface asserts the neuroanatomy this ceiling item forbids.
+reopen: FINAL_TARGET_NATURAL_HALF_ADMISSIBLE_V1 | reason: The capsule's own §7 falsifier voids it if the claim surface asserts neuroanatomy, and §5.3 imports a parent that does exactly that.
+reopen: gmi-natural-intelligence-bridge-v1 G2 ceiling | reason: Its §1 declares it "does NOT make biological claims" while §3/§6/§7 assert taxon-level behaviour and neural architecture, and the dependent registry issues forward taxon predictions above the declared G2 scope.
+model_self_report: claude-opus-5[1m]
+VERDICT_BLOCK_END

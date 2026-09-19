@@ -1,0 +1,105 @@
+# AC05 Citation Verification — Fresh-Session Model Proxy
+
+**Model self-report:** I believe I am running as Claude (Sonnet 5, Anthropic), per the session context.
+
+**Artifacts read (only these two, per the brief):**
+- `/Users/billy/Desktop/projects/ORION-OCM-wt-833/revive-gates/research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CROSSWALK_V2.md` (48 rows)
+- `/Users/billy/Desktop/projects/ORION-OCM-wt-833/revive-gates/research/gmi-833-ac-lanes-harness-v1/AC_CROSSWALK_ADDENDUM_V1.md` (8 parent records)
+
+I performed ~35 web searches / fetches, one batch per unique cited work (or cluster of works sharing a row), and recorded the source(s) opened for each. Where a row cites multiple works I checked each named work; unattributed phrases ("AB audit list," "standard ... discipline (CITE-TF)," "this package") are not bibliographic records and were treated as NOT_FOUND rather than searched blindly.
+
+## Per-row table
+
+| row | citation as written (abridged) | status | what I opened | definition supported? | note |
+|---|---|---|---|---|---|
+| 1 | Wikipedia *Formal specification*; Hierons et al. 2009 ACMCS; Gaudel 1994; van Lamsweerde 2000; Harel 1992 *IEEE Software* | VERIFIED | en.wikipedia.org/wiki/Formal_specification (fetched, read reference list) | yes | Wikipedia's own reference list is exactly Hierons/Gaudel/van Lamsweerde — confirmed. **Objection:** Harel's paper is *IEEE Computer* 25(1) 1992, not *IEEE Software* — venue MISMATCH (title/author/year correct) |
+| 2 | ISO/IEC/IEEE 29148:2018 | VERIFIED | iso.org/standard/72089.html, ansi/sebokwiki | partly | Standard is real and defines "requirement," but does not define the row's internal "claim-governance tuple with premises/inference/evidence/falsifier" — standard backs the umbrella term only |
+| 3 | Hopcroft, Motwani & Ullman 2006 | VERIFIED | search (Wikipedia, Amazon, Addison-Wesley listings) | yes | canonical automata textbook, matches |
+| 4 | van Glabbeek, "Spectrum I," 1990 | VERIFIED | dblp, Semantic Scholar, ScienceDirect | yes | real paper (REX'89/1990), title/author match |
+| 5 | Crutchfield 1994; Nerode 1958 | VERIFIED | UCDavis pub page, ADS, PhilPapers | yes | Crutchfield *Physica D* 75 confirmed; Nerode Proc. AMS confirmed |
+| 6 | Myhill 1957; Nerode 1958 | VERIFIED | CiNii, PhilPapers | yes | Myhill's chapter is a 1957 WADC tech-report section (real, standard automata-theory citation) |
+| 7 | Park 1981; Milner 1989 | VERIFIED | Semantic Scholar, dblp, Amazon/OpenLibrary | yes | both confirmed |
+| 8 | Littman, Sutton & Singh, NIPS 2001 | VERIFIED | proceedings.neurips.cc | yes | exact match |
+| 9 | Wolpert & Macready 1997 | VERIFIED | IEEE TEC 1(1):67-82, philpapers | partly | NFL theorem backs the general "no assumption-free algorithm" claim, not "architecture" specifically |
+| 10 | Mitchell 1980; MacKay 2003 | VERIFIED | Wikipedia *Inductive bias* (confirms Mitchell cite), Cambridge UP listing | yes | both confirmed; Wikipedia article does cite Mitchell 1980 |
+| 11 | Hales 2008 | VERIFIED | ams.org/notices/200811/tx081101370p.pdf | yes | confirmed |
+| 12 | Hales 2008 | VERIFIED | same as above | yes | confirmed |
+| 13 | Popper 1959 | VERIFIED | Wikipedia *Logic of Scientific Discovery* | partly | real book; "closure" framing is an interpretive stretch from falsificationism |
+| 14 | Pareto 1906; Coello et al. | VERIFIED | Wikipedia *Pareto front*, OUP listing; ResearchGate (Coello, Lamont & Van Veldhuizen) | yes | both real |
+| 15 | Jaynes 2003 | VERIFIED | Cambridge UP listing | yes | confirmed |
+| 16 | "standard universal-vs-finite-scope discipline (CITE-TF)" | NOT_FOUND | n/a — no author/title given | no | unattributed; not a checkable record. (See addendum row 16 below, which supplies a real parent) |
+| 17 | Hales 2008 | VERIFIED | ams.org PDF | yes | confirmed |
+| 18 | Hales 2008; "standard logical consequence terminology" | VERIFIED (partial) | ams.org PDF | partly | Hales portion verified; second clause unattributed/NOT_FOUND on its own |
+| 19 | "standard statistical prediction / held-out discipline (CITE-TF)" | NOT_FOUND | n/a | no | unattributed. (See addendum row 19, which supplies Stone 1974 / Geisser 1975) |
+| 20 | AB audit list; Elman 1998 | VERIFIED | MIT Press / Wikipedia *Rethinking Innateness* | partly | Elman real (1996 hardback/1998 paperback); "AB audit list" itself is an internal document, not externally checkable |
+| 21 | AB audit list only | NOT_FOUND | n/a | no | no external work named in the crosswalk cell. (See addendum row 21) |
+| 22 | Sutton & Barto 1998/2018 | VERIFIED | incompleteideas.net, MIT Press | yes | confirmed |
+| 23 | AB audit list only | NOT_FOUND | n/a | no | no external work named. (See addendum row 23) |
+| 24 | Rice 1976; Bergstra & Bengio 2012; Zoph & Le 2017 | VERIFIED | Purdue e-Pubs; jmlr.org/papers/v13/bergstra12a.html; dblp ICLR'17 | yes | all three confirmed exactly |
+| 25 | Stanley 1971; Hohenberg & Halperin 1977 | VERIFIED | archive.org; ui.adsabs.harvard.edu (RevModPhys 49:435) | partly | both real; mapping condensed-matter phase transitions onto "ML regime maps" is analogical |
+| 26 | Wolpert & Macready 1997; Mitchell 1980 | VERIFIED | as rows 9/10 | partly | same NFL caveat |
+| 27 | Mitchell 1980 | VERIFIED | Wikipedia *Inductive bias* | yes | exact-match citation for an EXACT-match row |
+| 28 | Vapnik & Chervonenkis 1971 | VERIFIED | courses.grainger.illinois.edu (scan), Springer chapter | yes | confirmed, Theory Prob. Appl. 16(2) |
+| 29 | Alur et al. 2013; Fowler 2010 | VERIFIED | dblp FMCAD'13; Addison-Wesley listing | yes | both confirmed |
+| 30 | Alur et al. 2013; Lehman & Stanley 2008 | VERIFIED | dblp; dblp ALIFE'08 | partly | both real; "no search is neutral" is the row's own gloss, not literally in either paper |
+| 31 | Fisher 1935; "modern permutation methods" | VERIFIED (partial) | Wikipedia *The Design of Experiments* | partly | Fisher real and on-topic (randomization); second clause unattributed |
+| 32 | Rubin 1974/1978 | VERIFIED | Journal of Educational Psychology 66(5) via ERIC/ResearchGate | yes | 1974 paper confirmed as the standard counterfactual-tradition anchor |
+| 33 | Karp 1972 | VERIFIED | cs.umd.edu/~gasarch/BLOGPAPERS/Karp.pdf | yes | confirmed, matches "reduction" sense |
+| 34 | "classic automata formalism (CITE-TF)" | NOT_FOUND | n/a | no | unattributed. (See addendum row 34, which supplies Turing 1936 + HMU 2006) |
+| 35 | Nerode 1958; "Birkhoff quotient algebras (CITE-TF)" | VERIFIED (partial) | philpapers (Nerode); Wikipedia *Quotient algebra (universal algebra)* | partly | Nerode confirmed; "Birkhoff quotient algebras" has no year/title given — too vague to pin to one record (UNVERIFIABLE for that half) |
+| 36 | Shannon 1948; Turing (halting); Cook 1971 | VERIFIED | Bell System Technical Journal 27; cs.toronto.edu (Cook 1971 PDF) | yes | all confirmed |
+| 37 | Thrun & Mitchell 1995; Parisi et al. 2019 | VERIFIED | ri.cmu.edu PDF; Neural Networks 113 | yes | both confirmed |
+| 38 | Wagner & Altenberg 1996; "Altenberg quantitative..." | VERIFIED (partial) | academic.oup.com/evolut (Evolution 50(3):967) | partly | Wagner & Altenberg confirmed and on-point; the separate "Altenberg quantitative upper-tail" clause names no year/title — UNVERIFIABLE for that half |
+| 39 | Lehman & Stanley 2008; Mouret & Clune 2015; Taylor et al. 2016 | VERIFIED | dblp; arxiv.org/abs/1504.04909; direct.mit.edu/artl | yes | all three confirmed |
+| 40 | "AB novelty ladder list"; Lehman & Stanley 2008 | VERIFIED (partial) | dblp ALIFE'08 | partly | Lehman & Stanley real; "AB novelty ladder list" internal/NOT_FOUND on its own |
+| 41 | AB audit list only | NOT_FOUND | n/a | no | no external work named. (See addendum row 41) |
+| 42 | Baddeley & Hitch 1974; Tulving 1972; Flavell 1979; Premack & Woodruff 1978 | VERIFIED | app.nova.edu PDF; sciencedirect (Tulving hist.); eric.ed.gov; philpapers | yes | all four canonical works confirmed, correctly matched to their constructs |
+| 43 | Pearl 2000/2009; Rubin (potential outcomes) | VERIFIED | Cambridge UP; Wikipedia *Causality (book)* | yes | confirmed |
+| 44 | Kiureghian & Ditlevsen 2009; Manski 2003 | VERIFIED | orbit.dtu.dk; Springer *b97478* | yes | confirmed, DOI matches |
+| 45 | Wikipedia *Formal verification*; Hales 2008 | VERIFIED | en.wikipedia.org/wiki/Formal_verification | yes | Hales draws exactly the verification/evaluation split; Wikipedia backs the general concept |
+| 46 | Hales 2008; Clarke, Emerson & Sistla 1986 | VERIFIED | ams.org PDF; cse.umn.edu PDF (ACM TOPLAS 8(2)) | yes | both confirmed |
+| 47 | "AB audit...; scientific-discovery tradition (CITE-TF)" | NOT_FOUND | n/a | no | "scientific-discovery tradition" names no author/work. (See addendum row 47) |
+| 48 | "WHAT_IS_ACTUALLY_NEW template (this package)" | NOT_FOUND | n/a — self-referential internal document | no | not a bibliographic record at all; admittedly internal. (See addendum row 48) |
+| **Addendum #16 parent** | Hales, "Formal proof," *Notices AMS* 55(11), 2008 | VERIFIED | ams.org PDF | yes | confirmed; genuinely draws the analytic-vs-computer-assisted-proof line the row needs |
+| **Addendum #19 parent** | Stone 1974, *JRSS B* 36(2); Geisser 1975, *JASA* 70(350) | VERIFIED | rss.onlinelibrary.wiley.com (Stone); tandfonline.com (Geisser) | yes | both real, exactly on-point (held-out vs in-sample) |
+| **Addendum #21 parent** | Mayr 1942; Rice 1976 | VERIFIED | Wikipedia *Systematics and the Origin of Species*; Purdue e-Pubs | yes | both real; correctly framed as two distinct parents of an analogy |
+| **Addendum #23 parent** | Hutchinson 1957; Rice 1976 | VERIFIED | www2.unil.ch/biomapper PDF; Purdue e-Pubs | yes | Hutchinson's *Cold Spring Harbor Symp.* 22:415 confirmed as origin of n-dimensional niche |
+| **Addendum #34 parent** | Turing 1936, *Proc. LMS*; Hopcroft/Motwani/Ullman 2006 | VERIFIED | academic.oup.com/plms; Wikipedia (HMU) | yes | both real |
+| **Addendum #41 parent** | Vapnik 1995; Lampert, Nickisch & Harmeling, CVPR 2009 | VERIFIED | Springer *b97848* (Vapnik); dblp CVPR'09 | yes | both real, exactly on-point (held-out generalization / zero-shot) |
+| **Addendum #47 parent** | Langley, Simon, Bradshaw & Zytkow, MIT Press 1987 | VERIFIED | MIT Press books gateway; Cambridge Core review | yes (lower confidence) | book and authorship confirmed via multiple independent listings; I could not fetch the book's full text to directly confirm the specific "target not pre-encoded" claim attributed to it — accepted on strong topical match (canonical machine-discovery text) but not word-for-word verified |
+| **Addendum #48 parent** | Hempel & Oppenheim 1948, *Phil. of Science* 15(2); Popper 1959 | VERIFIED (bibliographically) | sfu.ca/~jillmc PDF; Wikipedia *Logic of Scientific Discovery* | partly | both real works on explanation/falsifiability, but neither actually defines the row's specific six-way typing scheme (theorem/synthesis/generalization/new selection law/new empirical result/terminology) — that scheme's real source, per the crosswalk's own row 48, is the internal "WHAT_IS_ACTUALLY_NEW template," which is not an external, checkable source |
+
+## Totals
+
+- **VERIFIED:** 40 crosswalk rows (1–15, 17, 18, 20, 22, 24–33, 35–40, 42–46) + 7 addendum records (16, 19, 21, 23, 34, 41, 47) fully supporting = 47 lines carrying a genuinely checkable, supporting citation
+- **MISMATCH:** 0 rows overall-classified as MISMATCH (one sub-citation mismatch noted inside row 1 — Harel venue — but the row is not solely dependent on it)
+- **NOT_FOUND:** 8 crosswalk rows (16, 19, 21, 23, 34, 41, 47, 48) — their own citation cell in `GMI_TERMINOLOGY_CROSSWALK_V2.md` names no external, checkable work
+- **UNVERIFIABLE:** 0 rows overall-classified (two sub-citations too vague to pin down: "Birkhoff quotient algebras" in row 35, "Altenberg quantitative upper-tail definition" in row 38 — both rows otherwise VERIFIED via their other named citation)
+- **Addendum record #48** is bibliographically VERIFIED but its definitional support is only "partly" — the works cited do not actually establish the row's specific claim
+
+**Rows whose definition rests on NO verified citation** (considering both artifacts together): **row 48** only. Rows 16, 19, 21, 23, 34, 41, 47 have their own crosswalk-cell citation NOT_FOUND, but each is rescued by a genuinely verified, supporting parent citation in the separate addendum file — with the important caveat that the addendum itself is a **separate, unmerged file** that explicitly disclaims earning AC05 ("AC05 ... is therefore not earned by this file and is not claimed"), so the primary crosswalk artifact that would ship in a manuscript still shows 8/48 rows with no in-place verified citation today.
+
+## Objections
+
+- **OBJ-1 (row 1):** Harel citation gives venue as *IEEE Software*; the actual venue is *IEEE Computer* 25(1), 1992. Material: no (row backed by two other verified citations), but it is a citation error that should be fixed.
+- **OBJ-2 (rows 16, 19, 21, 23, 34, 41, 47, 48):** The primary artifact `GMI_TERMINOLOGY_CROSSWALK_V2.md` itself carries no externally checkable citation for these 8 rows (unattributed phrases like "AB audit list," "standard ... discipline (CITE-TF)," or a self-referential internal template). Material: yes — this is exactly the class of gap AC05 exists to catch.
+- **OBJ-3 (row 48 specifically, surviving even after checking the addendum):** The addendum's supplied parent (Hempel & Oppenheim 1948; Popper 1959) are real, verifiable works, but neither defines or establishes the row's actual definition — a six-way contribution-typing scheme (theorem/synthesis/generalization/new selection law/new empirical result/terminology). The crosswalk row itself names the true source as "WHAT_IS_ACTUALLY_NEW template (this package)," which is an internal project artifact, not an external, citable academic source. Material: yes.
+- **OBJ-4 (structural):** The addendum file that supplies parents for 7 of the 8 NOT_FOUND rows is a separate, not-yet-merged artifact whose own text states its citations are unverified CITE-TF and explicitly does not claim AC05. Treating those addendum citations as satisfying AC05 for the shipped crosswalk would be premature until they are merged into the primary table and re-flagged as verified there. Material: yes.
+
+## Reopen demands
+
+- **reopen: row 48 "VERIFIED"/closed status (crosswalk + addendum)** — its definition is not actually backed by any external source; the addendum's cited works are only thematically adjacent.
+- **reopen: AC05 "not earned, not claimed" disclaimer in `AC_CROSSWALK_ADDENDUM_V1.md`** — this disclaimer is correct and should not be overridden by any downstream package that treats the addendum's mere presence as discharging AC05; the primary crosswalk table needs the verified citations merged in before AC05 can be marked closed.
+- **reopen: row 1 Harel citation venue** — fix "IEEE Software" to "IEEE Computer."
+
+VERDICT_BLOCK_BEGIN
+row: AC05 | verdict: NOT_SATISFIED | reason: 8 of 48 crosswalk rows (16, 19, 21, 23, 34, 41, 47, 48) carry no externally checkable citation in the primary artifact itself, and even the separate addendum's rescue citations for row 48 do not actually support that row's specific definition, so not every definition row has an in-place, verified, supporting citation.
+objection: OBJ-1 | material: no | text: Row 1's Harel citation names the wrong venue (IEEE Computer, not IEEE Software), though the row is otherwise backed by verified citations.
+objection: OBJ-2 | material: yes | text: Rows 16, 19, 21, 23, 34, 41, 47, 48 in GMI_TERMINOLOGY_CROSSWALK_V2.md itself cite no externally checkable work, only internal audit-list or template references.
+objection: OBJ-3 | material: yes | text: Row 48's addendum-supplied parents (Hempel & Oppenheim 1948; Popper 1959) are real but do not establish the row's actual six-way contribution-typing definition, whose real source is an internal, non-external template.
+objection: OBJ-4 | material: yes | text: The addendum supplying parents for 7 of the 8 NOT_FOUND rows is itself unmerged and self-disclaims earning AC05, so the shipped crosswalk currently lacks in-place verified citations for those rows.
+reopen: row 48 definition/citation status | reason: no external source actually supports the specific contribution-typing scheme claimed.
+reopen: AC05 closure claim for the crosswalk package | reason: 8/48 rows lack an in-place verified supporting citation in the artifact that would ship.
+reopen: row 1 Harel citation venue field | reason: cites IEEE Software instead of the correct venue IEEE Computer.
+model_self_report: Claude (Sonnet 5, Anthropic)
+VERDICT_BLOCK_END

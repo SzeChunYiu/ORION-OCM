@@ -1,0 +1,100 @@
+{
+  "brief": "BRIEF_AA15_FORMAL_TARGETS.md",
+  "row": "AA15",
+  "toolchain": "leanprover/lean4:v4.33.1",
+  "invocation": "elan run leanprover/lean4:v4.33.1 lean <file>   (bare `lean` fails: no default toolchain configured)",
+  "checked_locally_means": "the file compiles under the toolchain above with ZERO errors; unproved obligations appear only as `sorry` warnings. It does NOT mean the target is proved.",
+  "imports": "none; every file is Lean 4 core only",
+  "targets": [
+    {
+      "id": "S1",
+      "file": "S1_state_class_choice_law.lean",
+      "statement_summary": "Over the registered 65,552-candidate universe rebuilt from full_enumeration_v1.py semantics, with the objective integerised as J = a*e0 + b*e1 + c*s: every exhaustive argmin carries the persistent-state tag iff c < 8b, every argmin is stateless iff c > 8b, and both classes are represented at c = 8b; plus the bridge c < 8b <-> 2*ln*pd*ed < en*pn*ld, i.e. lambda < eta*p/2.",
+      "practicality": "PRACTICAL",
+      "checked_locally": true,
+      "proved_here": [
+        "stateless_errDelay_const (decide)",
+        "stateless_witness (decide)",
+        "stateless_stateBits (decide)",
+        "statefulErrors_170_226 = (0,0) (decide)",
+        "threshold_bridge (omega)"
+      ],
+      "sorry_remaining": [
+        "census",
+        "stateful_witness",
+        "stateful_stateBits",
+        "stateless_lower_bound",
+        "stateful_lower_bound",
+        "argmin_persistent_iff",
+        "argmin_stateless_iff",
+        "argmin_tie_at_threshold"
+      ],
+      "notes": "No exhaustive kernel evaluation of the 65,536 stateful candidates is needed: the argmin argument uses only the 16-table stateless facts (decide), the explicit (0,0) stateful witness (decide), and the trivial lower bound c <= J on the stateful block. `census` must be proved structurally (List.length_append / length_map / length_flatMap / length_range), not by evaluation."
+    },
+    {
+      "id": "S2",
+      "file": "S2_cip1_partition.lean",
+      "statement_summary": "CIP-1: on the admissible region (N) and (M), exactly one of {J = s}, {J = m and m < s}, {m < J < s}, {J > s} holds; plus Corollary CIP-1a (SAVING splits disjointly into REDUNDANT and PARTIAL_SHARING), the degenerate case m = s, Lemma 1.0, and an integer instantiation.",
+      "practicality": "PRACTICAL",
+      "checked_locally": true,
+      "proved_here": [
+        "intOrder (the Int strict linear order, by omega)",
+        "five Iff.rfl argument-order guards on the class definitions"
+      ],
+      "sorry_remaining": [
+        "cip1_exact_partition",
+        "cip1a_saving_splits",
+        "cip1_degenerate",
+        "lemma_1_0",
+        "cip1_int",
+        "def1_witness"
+      ],
+      "notes": "Stated over an arbitrary strict linear order with m <= J and m <= s as hypotheses, which is strictly more general than the artifact's real-valued statement and needs no order library; the Int instantiation is closable by omega."
+    },
+    {
+      "id": "S3",
+      "file": "S3_ag1_descent_acyclicity.lean",
+      "statement_summary": "The 32 nodes and 37 arrows of FOUNDATION_DEPENDENCY_DAG_V1.json: no arrow points up a layer; MUTUAL_INTERPRETATION arrows are symmetric and same-layer; the 35-arrow derived-from relation (MUTUAL_INTERPRETATION excluded) is acyclic via a shipped Kahn rank; AND the refutation that the full 37-arrow relation DOES contain a cycle, together with the machine-checked 5-versus-7 bottom-node equivocation in AG1-4.",
+      "practicality": "PRACTICAL",
+      "checked_locally": true,
+      "proved_here": [
+        "node_census (decide)",
+        "arrow_census (decide)",
+        "no_upward_arrow (decide)",
+        "mutual_symmetric_same_layer (decide)",
+        "rank_decreases (decide)",
+        "cycle_over_all_37_arrows (explicit witness, no tactic)",
+        "bottom_count_equivocation (decide)",
+        "sinks_explicit (decide)"
+      ],
+      "sorry_remaining": [
+        "path_rank_decreases",
+        "derivedFrom_acyclic"
+      ],
+      "notes": "The brief's S3 as literally written ('the 37-arrow derived-from relation has no cycle') is FALSE and the file proves it false; the repaired 35-arrow statement is the real target. Only the two induction lemmas remain."
+    },
+    {
+      "id": "S4",
+      "file": "S4_aj13_stopping_predicate.lean",
+      "statement_summary": "The AJ13 six-conjunct stopping predicate as a decidable proposition over a finite record, at the exact semantics of check_aj13.py: decidability instance, the registered baseline satisfies it, each of the six hostile mutations is rejected and is single-conjunct, and two checker gaps (case-sensitive banned-primitive test; loss-witness test that ignores the keys).",
+      "practicality": "PRACTICAL",
+      "checked_locally": true,
+      "proved_here": [
+        "stopsDecidable and noAbsoluteDecidable (derived instances)",
+        "baseline_stops (decide)",
+        "all six hostile rejection theorems (decide)",
+        "hostile_profiles (decide): each hostile flips exactly one of the six conjuncts; the absolute-bottom hostile flips none",
+        "case_sensitivity_gap (decide)",
+        "irredundancy_key_gap (decide)"
+      ],
+      "sorry_remaining": [],
+      "notes": "Fully discharged; no sorry. String.startsWith does not reduce in the Lean kernel, so the prefix test is respelled on String.toList."
+    }
+  ],
+  "auxiliary_files": [
+    {
+      "file": "S1_eval_scratch.lean",
+      "purpose": "not a target: #eval self-check that the Lean re-encoding of full_enumeration_v1.py reproduces the registered controls (census 65552, 146 distinct risk/state summaries, stateless delayed error = 8/16, (0,8) and (0,0) witnesses, and the argmin class flipping exactly at c = 8b with a tie at equality)."
+    }
+  ]
+}

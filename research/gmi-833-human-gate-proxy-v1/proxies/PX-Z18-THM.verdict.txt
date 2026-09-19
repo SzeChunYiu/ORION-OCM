@@ -1,0 +1,229 @@
+# Independent hostile theorem review — Z18-THM
+
+I am a fresh session. I did not author any of this work, and I have read only the nine artifacts listed in the brief plus the brief itself. I have not read any checker, test, `RESULT_V1.json`, issue, or package outside that list, and I have run no repository code. Where I verified something myself I say so; where the artifacts do not let me verify, I say that instead of assuming.
+
+Per rule 2, I have ignored every self-assessment in the artifacts ("GREEN", "0 violations", "terminal reached", "all 50 machine checks GREEN", claim ceilings) as evidence of correctness. I used them only as *claims under test*.
+
+---
+
+## What I independently verified (so the negatives below are not blanket scepticism)
+
+**The C1 boundary derivation is mathematically correct.** I re-derived it from `gmi-833-heldout-20-transitions-v1/FREEZE_V1.md` §"Registered finite ecology" without using the artifact's conclusion. Over length-3 uniform binary sequences with scored times `t=1,2`, a stateless table on visible `(M,X)` has, under `M=1`, `P(f(1,x_t) ≠ x_{t-1}) = 1/2` for each scored `t` by independence of adjacent bits — so *every* stateless table has delayed error exactly `1/2`, and `M`'s visibility makes `(error_now, error_delay) = (0, 1/2)` simultaneously attainable. A one-bit transducer with next-state `δ(s,m,x)=x` loads `x_0` at the unscored step and outputs `S` under `M=1`, `X` under `M=0`, giving `(0,0)`. Hence `J_stateless = eta·p/2`, `J_stateful = lambda`, `lambda* = eta·p/2`, with the argmin strictly in one class off the boundary and both classes at it. The census `16 + 256·256 = 65,552` is right. **No error found.**
+
+**CIP-1, CIP-1a, CIP-2b, CIP-3 and CIP-4 are valid as written.** I checked each proof. CIP-1's exhaustiveness (trichotomy on `J` vs `s`, with `(M)` forcing `m < s` in the `J < s` branch) and exclusivity are correct, the `m < s` guard genuinely repairs the degenerate `min(B(X),B(Y)) = 0` collision, and CIP-1a's disjoint-union is right. CIP-3's clauses follow from inclusion–exclusion and from `|R(X) ∪ R(Y)| = max ⟺ nested` for finite sets. CIP-4's two counterexamples both check out (`Q_X={u1}, Q_Y={u3}` with `mu({u3})=0` gives `mu(∪)=1=max` with no nesting; `Q_X={u1,u3}, Q_Y={u2,u3}` gives `mu(∪)=2=sum` with `∩={u3}≠∅`). The census is internally consistent in a way that is hard to fake: `8+287+56=351`, `161+126=287`, `126+56=182` reproduces the shipped `redundant 182`, and `161+56=217` reproduces "217 of 351 labels change". **No error found in the CIP mathematics.**
+
+**I recomputed the AG1 registry from `FOUNDATION_DEPENDENCY_DAG_V1.json` myself.** Kind histogram `DERIVATION 20, DEVELOPMENT 5, INTERPRETATION_MODEL 4, SELECTION 4, MUTUAL_INTERPRETATION 2, COMPILATION 1, FREE_CONSTRUCTION 1` = 37 arrows: matches AG1-1 exactly. Node layer counts `F0 6, F1 4, F2 6, F3 2, F4 2, F5 3, F6 3, F7 2, F8 2, F9 2` = 32: matches AG1-2 exactly. Seven `"intra_layer": true` arrows: matches. I walked all 37 arrows against the node→layer map and confirm **no arrow points up a layer**, and that the only nodes with no outgoing arrow are `MTB_GODEL_TARSKI`, `PHY_SUBSTRATE_LAW`, `RES_COST_MODEL`, `VAL_REQUIREMENT_INPUT`, `GRM_G0_EXTENSIONS_UNADJUDICATED` — exactly the "5 nodes" AG1-4 names. I also tested my own first objection before filing it: I suspected the `MUTUAL_INTERPRETATION` pair let the two `F0` formalization nodes evade the "expose your assumptions" obligation; I read their records and both carry `metatheoretic_assumptions` entries, so that objection is withdrawn. AG1-3's path `GRM_G0 → SIG_G0 → PRS_AJ5_ROLE_BASIS → OPF_PROCESS_FRAME → FND_SET_RELATION` exists. **The structural claims of AG1-1/-2 hold on the file.**
+
+That is the honest positive half. The objections below are what survived it.
+
+---
+
+## C1 — the state-class choice law and its real-system extension
+
+### OBJ-1 (material) — the registered null cannot catch a boundary misplaced by less than 50%, and the quantity that *could* catch every misplacement was not used
+
+`gmi-833-z-z15-decisive-falsifiers-v1/FREEZE_V1.md`, §"Null the true result must beat": *"200 randomized boundary laws `lambda*_rand = r·eta·p/2` with `r` drawn from a seeded rational ladder excluding `r = 1`. Each must be **caught** by `F1`. Target: `200/200` random boundaries falsified, `0/200` surviving. If any survives undetected, `F1` is not decisive and the result is reported as a failure."*
+
+`F1`'s clean case is *"the 40 endpoints of the 20 registered `(p, eta)` worlds"*, and those endpoints are `lambda_low = lambda*/2`, `lambda_high = 3·lambda*/2` (`gmi-833-heldout-20-transitions-v1/HELDOUT_TRANSITION_FORMALIZATION_V1.md` §4: *"changes only persistent-state price from `lambda_low=lambda*/2` to `lambda_high=3lambda*/2`"*).
+
+A shifted law with ratio `r` predicts `PERSISTENT` iff `lambda < r·lambda*`. At the low endpoint it agrees with truth iff `r > 1/2`; at the high endpoint iff `r < 3/2`. **Therefore every `r ∈ (1/2, 3/2) \ {1}` reproduces the true prediction on all 40 endpoints and cannot be caught by `F1`.** The planted positive `2·lambda*` sits at `r = 2`, outside the blind interval.
+
+So exactly one of two things is true, and both are damaging:
+- the ladder can emit `r ∈ (1/2, 3/2)`, in which case the pre-registered target `200/200` is *mathematically unachievable* and the package's own self-falsifier *"Any randomized boundary surviving `F1`"* is triggered; or
+- the ladder is constructed to exclude `(1/2, 3/2)`, in which case `200/200` is a rigged null that demonstrates only that the checker catches boundaries misplaced by at least 50%, and licenses nothing about decisiveness.
+
+The artifacts do not disclose the ladder, so I cannot say which. Either way the inference "200/200 ⇒ `F1` is decisive" is invalid.
+
+The remedy is inside the package and was not taken: the 20 boundary worlds at `lambda = lambda*` (used by `F2`, *"all 60 registered worlds (endpoints and boundaries)"*) detect **every** `r ≠ 1`, because a shifted law predicts a strict winner where the truth is a tie. The programme owns a quantity with full power against misplaced boundaries and attached its 200-sample null to the one quantity that structurally cannot have it. I demand the ladder be disclosed and the null re-run against the boundary-inclusive quantity.
+
+### OBJ-2 (material) — no receipt-qualifying real system could have falsified the prediction
+
+`gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md` §A4 derives, from the frozen grid, that *"the transition `PERSISTENT_STATE -> STATELESS` between the frozen endpoints is licensed iff `1/8 < E0 < 3/8`"*, and then: *"Systems measuring `E0` outside `(1/8, 3/8)` are `UNAVAILABLE_BY_AMENDMENT` and take their pre-registered fallback/spare; predictions apply only to licensed systems."*
+
+The eligibility criterion is *the prediction's own sufficient condition*. §A5 adds the second gate, `persistent_beats_empirical_floor`, *"(else the system's persistent form has not demonstrated state use — the receipt fails closed)"*. So the two ways a real system could contradict the law — the price boundary falling outside the frozen `[lambda*/2, 3lambda*/2]` window, or the persistent form failing to exploit state — are respectively an exclusion criterion and a fail-closed abstention. A falsifying real system does not produce a RED receipt; it produces no receipt. That the ordering is clean (§A4: *"measured before any persistent outcome is consulted"*) protects custody but does not restore falsification risk.
+
+This is not hypothetical. The Z15 failed-prediction register (`gmi-833-z-z15-decisive-falsifiers-v1/FREEZE_V1.md`, row `FP-KE3D`) records *"three prospectively frozen registration laws for real trained systems, each falsified by its own pre-registered falsifier; the row stays open."* Ungated real systems falsified the programme's registration laws; gated real systems went 12/12. The gate is the difference, and it is the thing under test.
+
+### OBJ-3 (material) — the excluded systems are re-imported as confirmations
+
+`gmi-833-real-transition-receipts-v1/CORE.md`: *"3 unlicensed systems (two ELF binaries, Front_Center.wav; measured `E0 < 1/8`) — correctly predicted NOT to transition at either endpoint: the licensed-band boundary `1/8 < E0 < 3/8` is demonstrated on both sides by real data."*
+
+This directly contradicts §A4's *"predictions apply only to licensed systems."* Systems declared out of scope cannot then be counted as successful predictions; and "they did not transition" is the same arithmetic that excluded them, not a second, independent test.
+
+### OBJ-4 (material) — "family-blind" classification receives the morphology variable itself
+
+`CORE.md` line 7 advertises *"opaque-ID selection; family-blind binomial-banded classification"*. §A3 of the amendment states the classifier's inputs: *"the selected candidate's `(B, err_imm, N_imm, err_delay, N_delay)`"*, with *"`STATELESS` iff `B == 0` … `PERSISTENT_STATE` iff `B > 0` and …"*. `B` is the state-bit count — the morphology under prediction. Withholding the *name* while supplying the *variable* is not blinding. The same objection applies to the Z15 restatement's *"the search itself never sees an architecture name"* when the frozen objective is `J = eta·[…] + lambda·state_bits`: the architecture-relevant coordinate is a term in the objective.
+
+### OBJ-5 (material) — the deployed threshold does not visibly instantiate the law it cites
+
+`CORE.md` cites *"the #901 law `lambda* = eta*p/(2B)`"*; the amendment freezes *"`lambda* = p/(16H)`"* with `B_persist = 4H`. With `eta = 1` and `B = 4H`, `eta·p/(2B) = p/(8H)`, a factor of two from the frozen value. The frozen value instead corresponds to a stateless error of `1/4` rather than the `1/2` the #901 derivation supplies. No convention reconciling the two appears in any supplied artifact, so a reader cannot verify that the real-system package is testing the #901 law at all rather than a differently-scaled constant.
+
+### OBJ-6 (material) — "V1 predictions unchanged" survives a retracted premise
+
+`CORE.md` step 3: *"registered revival: empirical stateless floor, amended blind classification, exact licensed band; V1 predictions unchanged."* But §A5 says of V1's floor: *"the analytic-uniform expectation `1/2` is recorded but NOT asserted on real data (V1's assertion is retracted by this amendment)."* The numeric grid `lambda_low/lambda*/lambda_high` was *derived from* the retracted premise. Keeping the numbers while discarding the derivation means the real systems are being tested against the law's output for a hypothetical uniform-bit system, not against the law's output for themselves. That is a different, weaker claim than "the law predicts real transitions".
+
+### OBJ-7 (material) — "resource-bounded search" is not what the mathematics is about
+
+Z15 freeze, §"The flagship theory": *"the theory predicts which morphology a resource-bounded search will select … The prediction is made from the task's parameters alone, before any search is run."* The mathematics is the argmin of a linear, state-penalized objective over a fixed 65,552-element set. Nothing in it concerns search dynamics, budgets, or bounded resources; *any* exact optimizer returns the same answer, which is precisely why the two "materially independent routes" must agree. The prose attributes to a *search* a result that is a property of an *objective*.
+
+### OBJ-8 (material) — 20/20 and 40/40 are one verified fact used forty times
+
+`HELDOUT_TRANSITION_FORMALIZATION_V1.md` §4: *"The receipt records 20/20 transition predictions and 40/40 endpoint property predictions."* The enumeration independently confirms two numbers — `J0 = eta·p/2` and `J1 = lambda`. Given those, all 40 endpoint verdicts follow by comparing two rationals; they are arithmetic on a single verified derivation across 20 `(p, eta)` settings, not 40 independent trials. The enumeration is a real check and I credit it; the count is not evidential weight.
+
+### OBJ-9 (material) — `F4` cannot fire on a correct implementation, by Z15's own standard
+
+Z15 registers, as *claimed irrelevant*, `T_a` (permuting candidate identifiers) and `T_b` (*"common positive rational rescaling `(eta, lambda) -> (c·eta, c·lambda)`"*). Under the frozen objective, `J` scales by exactly `c` under `T_b`, so the argmin is identical by positive homogeneity; and scores depend only on semantics, so `T_a` cannot move a winner. Neither can fire against a correct implementation of the theory — they test code hygiene. The planted positives confirm this rather than rebutting it: both fire on transformations *not* claimed irrelevant (*"a pseudo-remint that also permutes the error counts"*; *"rescaling `eta` **only**, which is *not* claimed irrelevant"*). Z15's own rule applies: *"A falsifier that cannot fire tests nothing."*
+
+### OBJ-10 (material) — `F3`'s power is unquantified and unbounded below
+
+Z15 `F3`: *"it emits a *set* of values it claims the truth lies in, and abstains when the set has more than one member … If the truth falls outside even one emitted set, the capability law is false."* No artifact imposes any sharpness, width, or non-abstention requirement, and none reports the abstention rate or set sizes over the 480 records. A predictor emitting maximally wide sets passes `F3` while predicting nothing. I do not assert the predictor is vacuous — I assert that nothing supplied bounds `F3`'s power away from zero, so "no violation in 480 records" licenses nothing about calibration. Row 4 asks for *miscalibration beyond registered uncertainty*; `F3` redefines registered uncertainty as bare set-membership, which is the one reading under which calibration is unconstrained.
+
+### OBJ-11 (not material) — the "clean no-alarm case on real data" is not real data
+
+Z15: *"a **clean no-alarm case** on real data"*, then for `F1`/`F2`/`F4` the clean cases are the registered synthetic worlds — a 3-bit toy ecology. Self-disclosed two lines later, so this is loose phrasing rather than a hidden claim, but a reader who stops at the generic sentence is misled.
+
+### OBJ-12 (not material) — `F2` is not independent of `F1`
+
+`F2`'s quantity ("winner class set not contained in the predicted set" over all 60 worlds) is `F1`'s comparison extended to the boundary worlds, against a predicted set produced by the same closed-form law. Four falsifiers are registered; three of them (`F1`, `F2`, and the theory-side half of `F4`) interrogate one inequality.
+
+---
+
+## C2 — CIP-1 … CIP-4
+
+The mathematics survives; the package's disposition of its own parent does not.
+
+### OBJ-13 (material) — "Lemma B is SOUND and not weakened here" is refuted by CIP-4 in the same document
+
+`CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1.md` §0: *"**NOT under attack.** Lemmas A, B and C are SOUND and are not weakened here"*, and *"The defect is confined to the **naming/classification layer**"*, with CIP-4 characterised as *"sharpens Lemma B's hypothesis rather than replacing the lemma."*
+
+§4 then says the shipped text *"says only '`mu` measures claim size'"* and proves that the `only if` directions **require** strict positivity `(P)`, exhibiting a concrete additive non-negative `mu` under which *"The `iff nested` direction fails."* A stated `iff` that is false under its stated hypotheses is not sound and not merely under-sharpened — it is wrong, and CIP-4 is a correction of it. The consequence is that the defect in the parent object is **not** confined to the naming layer: there is a second defect in the lemma layer, and the parent's disposition must be reopened on that basis too, not only on DEF-1/2/3.
+
+### OBJ-14 (not material, scope-limiting) — the empirical half of C2 was not reviewable
+
+CIP-2's per-pair census, CIP-2a's two identities and DEF-3's claim that *"`interaction_type()` has no `"interfering"` return path"* rest on `DELTA_TABLE_V1.md`, `RESULT_V1.json`, `test_partition_v1.py` and `interactions_witness.py`, none of which the brief supplies. I verified only that the numbers are mutually consistent (8+287+56=351; 161+126=287; 126+56=182 = the shipped `redundant` count; 161+56=217 changed labels). Consistency is not verification.
+
+### OBJ-15 (not material) — a reused token with a changed meaning
+
+`REDUNDANT` names 287 pairs under CIP-1 and 182 under the shipped classifier. Any downstream reconciliation keyed on the label string will read a definition change as a count change. §7's forbidden extrapolations do not cover this.
+
+### OBJ-16 (not material) — (M)'s justification does not transfer to the accounting actually used
+
+CIP-1 justifies `(M) J >= m` by *"the joint system must satisfy both capabilities' claims, so its feasible set is contained in each single-capability feasible set"*. That argument presumes burden is an optimum over a feasible set; the A4 accounting defines `B(X) = |R(X)|`, a cardinality. The package hedges correctly by declaring `(M)` an admissibility axiom outside union accounting, so nothing false is asserted — but the offered justification is not valid at the generality claimed.
+
+---
+
+## C3 — AG1-1 … AG1-5 and AG8
+
+### OBJ-17 (material) — the acyclicity statement is false over the arrow set as the file defines it
+
+`AG1_THEOREMS_V1.md` AG1-4: *"Cycles over derived-from arrows: **0**, by DFS colour-marking and independently by Kahn in-degree peeling (32 of 32 nodes removed)."*
+
+`FOUNDATION_DEPENDENCY_DAG_V1.json`, `edge_semantics`: *"edge {from,to,kind} reads: `from` is obtained from `to` by `kind`."* Under that semantics every edge is an obtained-from edge, and the registry contains `FND_SET_RELATION → FND_TYPED_ALGEBRAIC` and `FND_TYPED_ALGEBRAIC → FND_SET_RELATION` (both `MUTUAL_INTERPRETATION`) — a 2-cycle. Kahn peeling over the full arrow set removes at most 30 of 32 nodes, not 32. The intended reading (exclude `MUTUAL_INTERPRETATION`) is signalled by AG1-4's next sentence but never stated as the quantifier of the cycle claim. As written the result is false on its own data; it needs "over non-`MUTUAL_INTERPRETATION` arrows". I checked that the related worry — the two nodes escaping the bottom-node assumption obligation — does *not* bite: both carry `metatheoretic_assumptions`.
+
+### OBJ-18 (material) — AG1-1/-2/-4 are consistency checks on authored labels, presented as descent results
+
+The layer of every node and the kind of every arrow are fields in the same hand-authored file, so *"no arrow points up a layer"* is a well-formedness property of the registry, not a discovered fact about the mathematics. AG1-1 concedes the strongest part: *"Witness verification is presence-of-field plus pinned blob sha, not re-derivation of the parent's mathematics."* I verified the file is internally well-formed (above) — that is all these results establish, and the heading "every arrow is typed, witnessed, and never points up a layer" invites the stronger reading that the programme's objects genuinely stand in these derivation relations.
+
+### OBJ-19 (material) — AG1-5 states a universal impossibility on an antecedent it says it did not verify
+
+Statement: *"the first layer at which the two systems differ is **`F6`**"*, computed *"by linear scan (route A) and independently by integer bitmask lowest-set-bit (route B)"*. Consequence: *"No predicate evaluated at or below `F4` can therefore separate them."* Assumptions: *"The `F0`-`F5` identity of the pair is **registered from AJ6's receipt** … It is not independently re-verified layer by layer here."*
+
+Two routes finding the first differing index of a 10-entry table are not two independent determinations of anything; the `F0`–`F5` entries of `divergence_profile` were written identical, so `F6` is the input, not the output. I also note that the profile's `F6`–`F9` entries (`DEV_NONE__FROZEN_EDIT_SET`, `MRP_CLASS_SINGLETON`, `CAP_BEST_IDENTITY_ERROR=1/2`, `SEL_NOT_PREFERRED`) are not registry node ids at all, unlike the `F0`–`F5` entries — the identical prefix and the divergent suffix are not even drawn from the same vocabulary. The Assumptions paragraph is honest; the Statement and Consequence paragraphs, read alone, are not, and an impossibility claim over *all* predicates at or below `F4` requires object identity, which sameness of a node label does not give.
+
+### OBJ-20 (material) — AG8's "machine-checked obligations" check presence, not discharge
+
+`AG1_THEOREMS_V1.md` AG8: *"The checker verifies all 8 steps present with distinct indices, every upward counterpart resolving, every discharge non-empty, and every pinned HSG artifact existing on disk (0 obligation violations)."* A non-empty discharge *reference* is indistinguishable from a placeholder; file existence is indistinguishable from file adequacy. `AG8_DESCENT_OBLIGATIONS_V1.json` was not supplied, so I cannot see the eight steps at all: the substance of the AG8 registration is unreviewable from the artifacts, and what is described is a schema lint.
+
+### OBJ-21 (not material) — "demotion earned, not asserted" is the one thing this package asserts
+
+AG1-3's checkable content (`GRM_G0` is at `F4`; a path exists to an `F0` node; *"0 demotion violations"*) is self-consistency of an assignment written into the same file. The earning lives in `gmi-833-aj5-g0-lowering-v1` and AG2, neither supplied. Disclosed in Assumptions, hence not material — but the heading claims the opposite of what is verified here.
+
+---
+
+## C5 — A1 … A14 and the CI-U statement in §3
+
+### OBJ-22 (material) — §3's "unconditional" Lemma B is false, and the C2 package proves it
+
+`gmi-833-theory-baseline-v1/BASELINE_V1.md` §3: *"Lemma B: shared channel ⇒ max ≤ joint ≤ sum with exact equality characterization (nested ⇔ max; disjoint ⇔ sum; partial overlap ⇔ strictly between) — *unconditional* (inclusion-exclusion)."*
+
+`CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1.md` §4 proves the `only if` directions need `(P)` and gives the counterexample. The two artifacts contradict each other on a load-bearing word. "Unconditional" must be withdrawn.
+
+### OBJ-23 (material) — A5 and A14 are contradicted by the correction package itself
+
+A5: *"No unsupported overclaim remains: the FIN2UNIV population (283 flags) adjudicated 283 PROPER; the one confirmed OVERSTRONG … was revived, not narrowed."* A14: *"The CI-U universal theorem stands at re-earned full strength."*
+
+The C2 artifact describes itself as *"**Status**: CORRECTION of a GREEN mainline object — `CAPABILITY_INTERACTIONS_UNIFIED_THEOREM_V1` (Theorem CI-U + Corollary CI-A4), prior disposition GREEN"*, and finds in that object: 56/351 shipped labels *"FALSE by Section 1.2's own defining condition"*, 287/351 non-uniquely labelled so that *"the four-class taxonomy does not partition"*, and a registered falsifier that *"cannot return `False`"*. §3 of the baseline retains `CI-A4` as *"the registered fully-shareable *instance*"* of the full-strength theorem. A theorem whose corollary mislabels 217 of 351 instances and whose Lemma B is conditional is not standing at re-earned full strength, and "no unsupported overclaim remains" is not a statement the corpus can carry.
+
+### OBJ-24 (material) — A7's completeness assertion does not self-reconcile
+
+A7: *"all six fields (scope/quantifiers, assumptions, falsifiers, strongest parents, forbidden extrapolations) registered for all 235 claim-bearing objects — 1,175 slots, 0 REGISTERED_GAP at v2."* `1,175 / 235 = 5` exactly. Either scope and quantifiers share one slot, in which case "six fields" miscounts the parenthetical list; or they are separate fields, in which case the registration is 235 slots short of the asserted completeness. I do not choose a horn — I observe that a completeness assertion whose own arithmetic is ambiguous cannot be relied upon as one.
+
+### OBJ-25 (material) — A7 certifies presence of falsifiers, not that they can fire
+
+DEF-3 in the C2 package exhibits a registered falsifier in a GREEN mainline object that could never return `False`, and notes *"Section 3 (Negative Twin) and the MANIFEST falsifier both rested on it."* So "falsifiers registered for all 235 claim-bearing objects, 0 REGISTERED_GAP" is a field-population statistic. A `0 REGISTERED_GAP` corpus containing a provably inert falsifier shows the discipline screen measures paperwork completeness, not falsifiability — exactly the distinction Z15 itself draws.
+
+### OBJ-26 (not material) — A12's arithmetic is not shown to close
+
+A12: *"held-out burden 50,052 → 1,307 (net −48,739, H− control regression preserved)"*. `50,052 − 1,307 = 48,745`, six more than the stated net. The parenthetical suggests a control regression of 6 is being netted out, which would reconcile it, but nothing states that, so a reader checking the headline finds it wrong.
+
+### OBJ-27 (not material) — a 283/283 self-audit pass whose sensitivity is now measurable, and low
+
+A5's FIN2UNIV screen returned *"283 PROPER"* with zero defects. The one OVERSTRONG it does record came from #939, and the three further defects in that same object (DEF-1/2/3) came later still, from the C2 package. A screen that passes everything it examines and misses a 56/351 false-label set in a GREEN object has demonstrated poor sensitivity, and A5's conclusion should be stated as "no overclaim was flagged", not "none remains".
+
+---
+
+## Answers to the brief's questions, in short
+
+- **Precision.** C1's finite statement is precise and correct; its *prose* ("resource-bounded search", "never sees an architecture name", "on real data", "family-blind") is not. C2's statements are precise, including their hypotheses — this package is the best-quantified of the four. C3's AG1-4 is under-quantified to the point of falsity (OBJ-17) and AG1-5's Statement/Consequence are unconditional where its Assumptions are conditional. C5's A5/A7/A14 are imprecise in ways that flatter the corpus.
+- **Validity as written.** I found no invalid proof in C1's derivation or in CIP-1…CIP-4, and I found the AG1 registry structurally as described. The invalidity is in inference from evidence to claim: OBJ-1 (null ⇒ decisiveness), OBJ-2 (gated receipts ⇒ real-system validation), OBJ-8 (40 arithmetic consequences ⇒ 40 tests), OBJ-18/-19/-20 (lint ⇒ descent result).
+- **Does the prose claim more than the mathematics shows.** Yes, in C1, C3 and C5. Least so in C2, which is the only package here that states its own parent's defect precisely — and then mis-describes that defect's extent (OBJ-13).
+- **Are the falsifiers real falsifiers.** `F1` is real but blind on `(1/2, 3/2)`. `F2` is `F1` extended. `F4` cannot fire on a correct implementation. `F3` has no lower bound on its power. `persistent_beats_empirical_floor` and `licensed_band` are not falsifiers at all — they are the prediction's own sufficient conditions used as entry criteria. CIP-1's registered falsifier (*"an admissible triple in 0 or ≥2 classes"*) is provably unsatisfiable, which is correct for a formal result but means instance-checking tests the code, not the theorem.
+
+## Scope of this review
+
+I could review the *stated mathematics*. I could not review: CIP-2's 351-pair census, AG1-1's witness resolution, AG8's eight obligations, `F3`'s 480 records, the 200-element boundary ladder, or any real-system receipt number — their bound artifacts were not supplied. Nothing below should be read as clearing those. And a fresh-session model is not an external human reviewer: I can attest that a theorem-level review was performable from these artifacts, not that the programme has obtained independent human review.
+
+VERDICT_BLOCK_BEGIN
+row: Z18-1 | verdict: SATISFIED | reason: The artifacts were sufficient to perform a genuine theorem-level review — I re-derived C1's boundary law from the frozen ecology, checked CIP-1..CIP-4 proof by proof, and recomputed the AG1 arrow/layer/monotonicity structure from the DAG file myself — though the numeric receipts and checker code were not supplied and a model proxy is not an external human reviewer.
+claim: C1 | verdict: REOPEN | reason: The finite boundary law is correct but trivial, its registered null is structurally blind to boundaries misplaced by under 50%, and the real-system extension gates entry on the prediction's own sufficient condition so that no qualifying system could have falsified it.
+claim: C2 | verdict: MATERIAL_OBJECTION | reason: CIP-1, CIP-1a, CIP-2b, CIP-3 and CIP-4 are valid as written and internally consistent, but the package's own §0 disposition ("Lemmas A, B and C are SOUND", "the defect is confined to the naming/classification layer") is refuted by its own CIP-4 counterexample to the shipped Lemma B iff.
+claim: C3 | verdict: MATERIAL_OBJECTION | reason: I independently confirmed AG1-1/-2's counts and the no-upward-arrow property, but AG1-4's zero-cycle statement is false over the arrow set as the file's own edge semantics define it, AG1-5 asserts a universal impossibility on an antecedent it says was not verified, and AG8's "machine-checked obligations" are presence and non-emptiness checks over a file that was not supplied.
+claim: C5 | verdict: REOPEN | reason: A14 and §3's "unconditional" Lemma B are directly contradicted by the CIP package, A5's "no unsupported overclaim remains" is refuted by that package's correction of a GREEN mainline object, and A7's "all six fields ... 1,175 slots" does not reconcile with 235 objects.
+objection: OBJ-1 | claim: C1 | material: yes | text: Every randomized boundary with r in (1/2,3/2) except r=1 reproduces the true prediction at both frozen endpoints, so F1 cannot catch it — making the registered target "200/200 random boundaries falsified" either mathematically unachievable or the product of a ladder that excludes exactly F1's blind interval, while the boundary-tie worlds that would catch every r≠1 were not used for the null.
+objection: OBJ-2 | claim: C1 | material: yes | text: FREEZE_V2_AMENDMENT §A4 derives that the transition "is licensed iff 1/8 < E0 < 3/8" and then excludes systems outside that band as UNAVAILABLE_BY_AMENDMENT, so the eligibility criterion is the prediction's own sufficient condition and the second gate (persistent_beats_empirical_floor) fails closed rather than falsifying.
+objection: OBJ-3 | claim: C1 | material: yes | text: CORE.md counts the three unlicensed systems as "correctly predicted NOT to transition at either endpoint" although §A4 states "predictions apply only to licensed systems", so systems excluded from scope are re-imported as confirming evidence.
+objection: OBJ-4 | claim: C1 | material: yes | text: CORE.md advertises "family-blind binomial-banded classification" while §A3 gives the classifier the state-bit count B and keys STATELESS/PERSISTENT_STATE directly on B==0 versus B>0, so the morphology variable under prediction is an input to the blinded classifier.
+objection: OBJ-5 | claim: C1 | material: yes | text: CORE.md cites "the #901 law lambda* = eta*p/(2B)" while the amendment freezes lambda* = p/(16H) with B_persist = 4H, a factor of two apart with no reconciling convention stated in any supplied artifact.
+objection: OBJ-6 | claim: C1 | material: yes | text: CORE.md says "V1 predictions unchanged" although §A5 records that "V1's assertion is retracted by this amendment", so the frozen price grid derived from the retracted uniform-bit floor is retained as the law's prediction for systems whose measured floor is different.
+objection: OBJ-7 | claim: C1 | material: yes | text: The Z15 restatement predicts "which morphology a resource-bounded search will select", but the mathematics is the argmin of a linear state-penalized objective over a fixed 65,552-candidate set, which any exact optimizer reproduces and which says nothing about search or resource bounds.
+objection: OBJ-8 | claim: C1 | material: yes | text: The "20/20 transition predictions and 40/40 endpoint property predictions" are arithmetic consequences of the two enumerated quantities J0 = eta*p/2 and J1 = lambda across 20 (p,eta) settings, so they are one verified derivation reused forty times rather than forty independent tests.
+objection: OBJ-9 | claim: C1 | material: yes | text: F4's claimed-irrelevant transformations cannot fire against a correct implementation — identifier permutation leaves semantics fixed and common rescaling (eta,lambda)->(c*eta,c*lambda) scales J by exactly c — and both planted positives fire only on transformations Z15 itself says are not claimed irrelevant, so by Z15's own rule "a falsifier that cannot fire tests nothing".
+objection: OBJ-10 | claim: C1 | material: yes | text: F3 imposes no sharpness, width or non-abstention requirement on the emitted prediction sets and no artifact discloses the abstention rate over the 480 records, so its power is unbounded below and a maximally wide predictor passes it.
+objection: OBJ-11 | claim: C1 | material: no | text: Z15 promises each falsifier "a clean no-alarm case on real data" while F1, F2 and F4's clean cases are the registered synthetic 3-bit worlds, disclosed two lines later but misleading as headline phrasing.
+objection: OBJ-12 | claim: C1 | material: no | text: F2's quantity is F1's comparison extended to the boundary worlds against a predicted set generated by the same closed-form law, so three of the four registered falsifiers interrogate one inequality.
+objection: OBJ-13 | claim: C2 | material: yes | text: §0 states "Lemmas A, B and C are SOUND and are not weakened here" and "the defect is confined to the naming/classification layer", but §4 proves the shipped Lemma B's iff directions are false without strict positivity and gives an explicit counterexample, so a second defect exists in the lemma layer and CIP-4 is a correction rather than a sharpening.
+objection: OBJ-14 | claim: C2 | material: no | text: CIP-2's per-pair census, CIP-2a's identities and DEF-3's claim about interaction_type()'s missing "interfering" return path rest on RESULT_V1.json, DELTA_TABLE_V1.md, test_partition_v1.py and interactions_witness.py, none supplied, so I could verify only mutual consistency of the counts (8+287+56=351, 161+126=287, 126+56=182, 161+56=217).
+objection: OBJ-15 | claim: C2 | material: no | text: The token REDUNDANT denotes 287 pairs under CIP-1 and 182 under the shipped classifier, so any downstream reconciliation keyed on the label string will read a definition change as a count change.
+objection: OBJ-16 | claim: C2 | material: no | text: Axiom (M) is justified by feasible-set inclusion, an argument that presumes burden is an optimum over a feasible set, whereas the A4 accounting defines B(X) = |R(X)| as a cardinality — correctly hedged as an admissibility axiom, but the justification does not hold at the generality offered.
+objection: OBJ-17 | claim: C3 | material: yes | text: AG1-4 states "Cycles over derived-from arrows: 0 ... (32 of 32 nodes removed)" while the registry contains the symmetric pair FND_SET_RELATION <-> FND_TYPED_ALGEBRAIC, which under the file's own edge_semantics ("from is obtained from to by kind") is a 2-cycle, so the statement is true only under an unstated restriction to non-MUTUAL_INTERPRETATION arrows and Kahn peeling over the full set removes at most 30 of 32.
+objection: OBJ-18 | claim: C3 | material: yes | text: AG1-1/-2/-4 verify internal well-formedness of a hand-authored registry whose layers and arrow kinds are fields of the same file, with witness checking that is "presence-of-field plus pinned blob sha, not re-derivation of the parent's mathematics", so "no arrow points up a layer" is a property of authored labels rather than of the programme's mathematics.
+objection: OBJ-19 | claim: C3 | material: yes | text: AG1-5 concludes "No predicate evaluated at or below F4 can therefore separate them" while its Assumptions state the F0-F5 identity "is not independently re-verified layer by layer here", and the two "independent routes" both scan a ten-entry hand-authored profile whose F0-F5 entries are registry node ids and whose F6-F9 entries are not.
+objection: OBJ-20 | claim: C3 | material: yes | text: AG8 claims "eight machine-checked obligations" whose checks are step presence, counterpart resolution, "every discharge non-empty" and file existence — none of which can distinguish a discharge from a placeholder — and AG8_DESCENT_OBLIGATIONS_V1.json was not supplied, so the registration's substance is unreviewable.
+objection: OBJ-21 | claim: C3 | material: no | text: AG1-3's heading "demotion earned, not asserted" is backed here only by the registry's own layer field and a path check ("0 demotion violations"), with the earning resting on gmi-833-aj5-g0-lowering-v1 and AG2, neither supplied.
+objection: OBJ-22 | claim: C5 | material: yes | text: BASELINE §3 calls Lemma B's equality characterization "unconditional (inclusion-exclusion)" while CIP-4 proves the only-if directions require strict positivity and exhibits a measure under which "the iff nested direction fails".
+objection: OBJ-23 | claim: C5 | material: yes | text: A5's "No unsupported overclaim remains" and A14's "CI-U ... stands at re-earned full strength" are contradicted by the C2 package, which corrects that same GREEN object for 56/351 labels "FALSE by Section 1.2's own defining condition", 287/351 non-unique labels, and a falsifier that "cannot return False".
+objection: OBJ-24 | claim: C5 | material: yes | text: A7 asserts "all six fields ... registered for all 235 claim-bearing objects — 1,175 slots", but 1,175/235 = 5 exactly, so either the field list is miscounted as six or the registration is 235 slots short of the asserted completeness.
+objection: OBJ-25 | claim: C5 | material: yes | text: A7 certifies presence of falsifier fields with "0 REGISTERED_GAP" while DEF-3 exhibits a registered falsifier in a GREEN object that could never fire, showing the discipline screen measures field population rather than falsifiability.
+objection: OBJ-26 | claim: C5 | material: no | text: A12 reports "held-out burden 50,052 -> 1,307 (net -48,739)" whereas 50,052 - 1,307 = 48,745, and no artifact states the six-unit netting the parenthetical implies.
+objection: OBJ-27 | claim: C5 | material: no | text: A5 rests on a FIN2UNIV screen that returned 283/283 PROPER yet missed the 56/351 false-label set and the inert falsifier later found in a GREEN object, so its conclusion should read "no overclaim was flagged" rather than "none remains".
+reopen: REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE (qualifying count 5) and Section-J row #903 | reason: Both receipt gates are the prediction's own sufficient conditions and the second fails closed, so no qualifying system could have falsified the law, and the three excluded systems are separately counted as confirmations against the amendment's own scope restriction.
+reopen: Z15 F1 decisiveness and the 200/200 randomized-boundary null | reason: F1 provably cannot catch any boundary with r in (1/2,3/2)\{1}, so the ladder must be disclosed and the null re-run against the boundary-inclusive quantity that does detect every r != 1.
+reopen: Z15 F4 (transformations T_a and T_b) | reason: Neither claimed-irrelevant transformation can fire against a correct implementation, and both planted positives fire only on transformations Z15 states are not claimed irrelevant.
+reopen: Z15 F3 (capability miscalibration falsifier) | reason: No sharpness, width or non-abstention constraint is registered and no abstention rate is reported, so a maximally wide prediction set passes and the falsifier's power is unquantified.
+reopen: BASELINE_V1 assertions A5, A7 and A14 | reason: A5 and A14 are contradicted by the CIP correction of the same object, and A7's slot arithmetic does not reconcile with its own field list.
+reopen: BASELINE_V1 §3 "Lemma B ... unconditional" and Corollary CI-A4's GREEN disposition | reason: CIP-4 supplies a counterexample to the shipped iff under its shipped hypotheses, and CIP-2a shows CI-A4 mislabels 217 of 351 instances with 56 false by the shipped definition.
+reopen: CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1 §0 disposition ("the defect is confined to the naming/classification layer") | reason: Its own CIP-4 establishes a second, lemma-layer defect in the parent, so the parent's correction scope must be widened beyond Section 1.2 and CI-A4.
+reopen: AG1-4's "0 cycles / 32 of 32 nodes removed" and AG8's "0 obligation violations" | reason: The cycle claim is false over the arrow set as the DAG's own edge_semantics defines it and must be re-quantified, and the AG8 checks certify presence and non-emptiness rather than discharge.
+reopen: BASELINE_V1 §5 supplement obligation | reason: §5 requires that "every change ... lands as a supplement", and no numbered supplement carrying the CIP-1..CIP-4 correction of A5/A14/§3 appears among the artifacts supplied.
+model_self_report: Claude Opus 5 (model id claude-opus-5[1m])
+VERDICT_BLOCK_END

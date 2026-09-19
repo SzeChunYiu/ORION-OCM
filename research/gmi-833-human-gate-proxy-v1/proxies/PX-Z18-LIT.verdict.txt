@@ -1,0 +1,192 @@
+Review complete. Here it is.
+
+---
+
+# Independent parent-literature review — brief Z18-LIT
+
+**Scope actually read.** The nine artifacts listed in the brief, and nothing else in the repository. Web search used for six parent checks; verification level for each is stated inline (search-result metadata: title/venue/year/DOI, not full text).
+
+---
+
+## 0. What I checked and found clean
+
+Naming verified-clean items first, so the objections below are read as findings rather than reflex.
+
+- **CIP arithmetic is internally consistent.** `CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1.md` claims "**217 of 351 labels change**" against shipped `independent 8, synergistic 161, redundant 182, interfering 0`. Reconstructing from CIP-3 clause 3 (`126` nested-proper, `56` non-nested): 161 (`synergistic`→`REDUNDANT`) + 56 (`redundant`→`PARTIAL_SHARING`) = 217, with the 126 nested-proper pairs keeping the name `redundant`/`REDUNDANT`. Consistent. CIP-2a's `REDUNDANT` = 287 likewise reconstructs as 161 + 126. Both check.
+- **AG1's Kahn attribution is correct where it is actually used.** `PARENT_LEDGER.md` cites "Kahn, *Topological sorting of large networks*, CACM 5(11), 1962, doi:10.1145/368996.369025", and AG1-4 uses "Kahn in-degree peeling" for cycle detection. That is the right parent for that use.
+- **AG1-5 discloses its own weakness honestly.** "It is not independently re-verified layer by layer here, and the claim must not be read as such." That is the correct disclosure and I raise no objection to it.
+- **`AC_CROSSWALK_ADDENDUM_V1.md` is candid about what it fails to do**: "It does not verify any citation. Every entry is `CITE-TF`; AC05 stays open." I credit this rather than objecting to it.
+- **`gmi-833-capability-predictor-evaluation-v1/PARENT_DISCLOSURE_V1.md` is the only disclosure in this set whose external parents are individually locatable, correctly venued, and correctly matched to the object they own** (Manski 1990/2003 for partial identification; Chow 1970 / El-Yaniv & Wiener 2010 for the reject option; Boole/Fréchet for the dependence-free bound; Dawid 1982 and Vovk et al. 2005 for coverage; Chambers 2013 for prospective registration; Nerode 1958 for the state-equivalence view). Section 3 ("Explicitly NOT claimed novel") is the correct shape for a parent disclosure.
+- Crosswalk rows 24 (Rice 1976), 38 (Wagner & Altenberg 1996) and 39 (Lehman & Stanley 2008 / Mouret & Clune / Taylor et al. 2016) name the right parents for the right objects.
+
+---
+
+## 1. C1 — the state-class choice law and its "flagship theory" statement
+
+**OBJ-C1-A (material). No external parent is disclosed for the *content* of the law; only for the method of testing it.**
+
+`FREEZE_V1.md` states the flagship theory as "stateless when `lambda > eta·p/2`, persistent when `lambda < eta·p/2`, and a tie exactly at `lambda = eta·p/2`". `PARENT_DISCLOSURE_V1.md` then heads its table "## External parents (nothing here is claimed novel against them)" — and every one of its five rows is methodological: Popper (falsificationism), Mayo (severe testing), Nosek et al. (preregistration), identifiability, Wigner (invariance). The only owner named for the law itself is in-corpus: "`gmi-833-heldout-20-transitions-v1` (#901) | the 20 held-out worlds, **the boundary law**, the 65,552-candidate universe".
+
+So the programme discloses parents for *how it tests* the flagship claim and none for *what the flagship claim says*. The object being claimed is a price-versus-benefit threshold on retained memory: a per-bit price `lambda` against an expected prediction penalty `eta·p/2`, with the class flipping at the crossing. Pricing retained past-information against prediction accuracy under a multiplier is an established framework — predictive rate–distortion, cast explicitly in terms of the causal states of computational mechanics (Marzen & Crutchfield, *Predictive Rate-Distortion for Infinite-Order Markov Processes*, https://csc.ucdavis.edu/~cmg/papers/cn.pdf; verified at search-result level). I do **not** claim that work contains the exact `eta·p/2` boundary, and I will not assert an attribution I have not opened in full. I claim the narrower and sufficient thing: a whole established parent *class* for the law's content is absent from the disclosure, and it was absent by omission rather than by ignorance — because the programme's own `GMI_TERMINOLOGY_CROSSWALK_V2.md` already cites the relevant literatures elsewhere: row 5 cites "Crutchfield, 'The calculi of emergence', 1994" and "epsilon-machine" for minimal sufficient state, and row 25 cites "Stanley, *Introduction to Phase Transitions and Critical Phenomena*, 1971" for phase diagrams, with the migration rule "QUALIFY (AB: control-parameter space + qualitative transition required)".
+
+This is the brief's "strongest parents, or only convenient ones?" question answered against the package: Popper and Mayo cost the claim nothing; computational mechanics and rate–distortion would require a residual argument against a parent that prices memory.
+
+**OBJ-C1-B (material). `F4b` cannot fire on the transformation it claims to test, and the package's own standard says such a falsifier tests nothing.**
+
+`FREEZE_V1.md` registers `T_b` as "common positive rational rescaling `(eta, lambda) -> (c·eta, c·lambda)`". Given the law as the package itself states it, the decision is the comparison of `lambda` against `eta·p/2`; under `(eta, lambda) -> (c·eta, c·lambda)` with `c > 0` both sides multiply by `c` and the comparison is unchanged by arithmetic. `F4b` is therefore a theorem about the stated law's functional form, not a test of it. The same page sets the standard it fails: "A falsifier that cannot fire tests nothing."
+
+The package half-sees this and does not follow it through. Its planted positive for `T_b` is "rescaling `eta` **only**, which is *not* claimed irrelevant" — i.e. the planted positive lives on a *different* transformation from the one `T_b` names. The stated justification, "the checker must stay silent on the genuinely irrelevant transformation and fire on the relevant one, so it is not merely a constant `False`", establishes that the *checker as a whole* is not constant-`False`; it does not establish that `F4b` is a falsifier of the theory. Restricted to `T_b`, it is constant-`False`. What `F4b` actually verifies is that the implementation computes a positively homogeneous objective — a useful implementation control, and one of only two falsifiers the freeze offers for issue row 5. Presenting invariance of a decision under a common rescaling of the two quantities that enter it as an empirical invariance test is a renaming of the arithmetic.
+
+**OBJ-C1-C (material). The freeze's registered null target and the disclosure's reported result are not reconciled anywhere in the artifacts.**
+
+`FREEZE_V1.md` registers: "Target: `200/200` random boundaries falsified, `0/200` surviving. If any survives undetected, `F1` is not decisive and the result is reported as a failure." It then registers, as a falsifier *of the package itself*, "Any randomized boundary surviving `F1`."
+
+`PARENT_DISCLOSURE_V1.md` reports, as residual item 2, "the *measured confirmation* that the frozen falsifier's blind set is exactly the analytically predicted interval — 57 survivors realizing 12 distinct multipliers, all inside `(1/2, 3/2)`, none outside", and separately, as residual item 3, "**`F1PLUS-DEC`**: the revival that turns a conditional falsifier into an unconditional one using evidence the frozen design already contained, proved and measured at `200/200`."
+
+I do not need to settle what denominator the 57 is drawn from. Under any reading, the frozen `F1` has a non-empty blind set of surviving boundaries, and the `200/200` figure is attributed to `F1PLUS-DEC`, which the disclosure itself calls "the revival" — a post-freeze object. The registered pass condition was for `F1`. The artifacts do not state that `F1` met it, do not report `F1`'s own catch count against the 200, and do not invoke the self-falsifier the freeze registered for exactly this contingency. Under the package's own cited preregistration parent (Nosek et al., PNAS 2018) and the Registered Report parent cited in the sibling package (Chambers 2013), an outcome-dependent substitution of a modified instrument for the frozen one is the deviation that must be reported as such. Here it is reported as a residual contribution.
+
+**OBJ-C1-D (not material). One parent row carries no locatable citation at all.**
+
+The identifiability row's citation cell reads, in full: "classical experimental-design identifiability; `Z15-F1-BLIND` is its exact finite instance here, not a new principle". No author, no year, no DOI, in a column headed "citation". This is the row that underwrites `Z15-F1-BLIND`, i.e. the residual most directly implicated by OBJ-C1-C. The programme's own rule, quoted verbatim in `AC_CROSSWALK_ADDENDUM_V1.md`, is 'AC06: *"Record earliest/strongest known parent for each mathematical idea."*' — and that addendum's whole purpose was to repair exactly this defect in eight crosswalk rows. The same defect is uncorrected here.
+
+---
+
+## 2. C2 — CIP-1 … CIP-4
+
+**Which established result already contains CIP-1?** The classification of a pair by comparing the joint value with the sum of the parts is the sign of the pairwise interaction in cooperative game theory — superadditive / additive / subadditive, equivalently the two-element Harsanyi dividend `v({X,Y}) − v({X}) − v({Y})`, axiomatized as the interaction index by Grabisch & Roubens, *An axiomatic approach to the concept of interaction among players in cooperative games*, **International Journal of Game Theory** 28:547–565 (1999), doi:10.1007/s001820050125 (verified at search-result level: venue, year, pages, DOI). CIP-1's `INTERFERING` / `INDEPENDENT` / `SAVING` split is that sign trichotomy under different names; the further split of `SAVING` at `J = m` is the nesting boundary, which under the registered accounting is elementary set theory.
+
+**OBJ-C2-A (material). Section 6 claims to name the "Strongest parents" and names neither the interaction-index nor the super-/sub-additivity parent.**
+
+Section 6 of `CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1.md` lists exactly two: the package's own shipped Lemmas A/B/C and CE-1/CE-2, and "**Inclusion–exclusion / submodularity of counting measure** (classical)". Inclusion–exclusion gives the *bound* `m <= J <= s`, which the section correctly says "is the standard union bound"; it does not give the classification. The section then states "CIP-1's content is not that inequality but the *partition* the three-way comparison induces" — which is precisely the part cooperative game theory owns, and precisely the part with no parent named. The programme's own terminology discipline would flag this: `GMI_TERMINOLOGY_CROSSWALK_V2.md` row 33 defines parent subtraction as "demonstrate residual claim after comparison to / absorption of strongest parent". No such comparison is exhibited for CIP-1.
+
+I do not object to CIP-2 or to the DEF-1/DEF-2/DEF-3 audit. Those concern the programme's own 27-row contract and its own shipped corollary; no external literature owns them, and their arithmetic checks (section 0 above).
+
+**OBJ-C2-B (material). The package's own designated parent disclosure was withheld from this review.**
+
+`CORE.md` names `PARENT_OWNERSHIP_V1.md` as "parent disclosure (4 Crossref-resolved DOIs) + named residual". That file is not in the brief's artifact list, and rule 1 forbids me from opening it. I therefore cannot certify C2's parent attributions in either direction. My objection is scoped precisely: it is against **Section 6 as the artifact that holds itself out as naming the "Strongest parents"**, which omits the strongest one. A parent-literature gate for this package cannot be closed on the artifact set I was given, and I demand it be reopened with `PARENT_OWNERSHIP_V1.md` in scope.
+
+**OBJ-C2-C (not material). CIP-4 is the standard measure-theoretic fact under a new name.** "Assume **(P) `mu(A) = 0 ⇒ A = ∅`**" is the classical hypothesis that `mu` is strictly positive / has full support, and the content — that equality in subadditivity holds only up to null sets, so the `iff`s need no null atoms — is textbook. The package uses the correct classical term ("strict positivity"), which is why I do not rate this material, but it names no citation and presents the observation as a named theorem with a "load-bearing" counterexample.
+
+---
+
+## 3. C3 — the AG1 foundation descent stack and its parent ledger
+
+**OBJ-C3-A (material). An incorrect attribution: typed provenance edges are credited to Kahn 1962.**
+
+`PARENT_LEDGER.md` opens: "**Dependency graphs, typed provenance edges, topological ordering, transitive closure.** Standard graph theory (Kahn, *Topological sorting of large networks*, CACM 5(11), 1962…)". Kahn 1962 owns topological sorting. It does not own typed provenance edges, which are the object of a distinct and well-developed modelling literature. The ledger folds a provenance-modelling construct into a sorting algorithm's citation, and AG1-1's residual — "**Arrow typing as a gate rather than prose**: a closed 7-term vocabulary, a witness field that must exist in the cited receipt" — is claimed against a parent that never addressed arrow typing. This is a wrong parent, not merely a thin one.
+
+**OBJ-C3-B (material). Two parent classes are asserted with no citation whatsoever, one of which carries a named AG1 arrow kind.**
+
+"**Foundational pluralism.** Set-theoretic, type-theoretic/univalent and categorical foundations are established parent programmes; AJ12 already owns the repository's relativity result. The two `MUTUAL_INTERPRETATION` `F0` nodes exist because neither style is privileged" — no author, no work, no year for any of the three programmes. `MUTUAL_INTERPRETATION`, constrained by AG1-4 to be "symmetric and same-layer", is the relative-interpretability-between-theories construct of mathematical logic; no parent is named for it. Likewise `FREE_CONSTRUCTION`: AG1-3 rests on "AG2 exhibits `G0` as the free term algebra over `Sigma_G0`", and the free-algebra-over-a-signature construction of universal algebra is given no parent anywhere in the ledger or the theorems file.
+
+Separately, the ten-layer stack's only disclosed parent is the programme's own issue: "`F0..F9` is quoted from issue #833 comment `5693520829` section AG1. AG1 formalizes it; it did not invent it." An internal comment is not a literature parent. A ten-level stratification of descriptions of a computing system is not an unclaimed area of the literature, and the ledger names nothing from it.
+
+**OBJ-C3-C (material). The instruction-set parent is not the earliest, by the programme's own rule.**
+
+AG1-3's strongest-parents line reads: "`gmi-833-aj5-g0-lowering-v1` (lowering), `gmi-833-g0-register-core-v1` (registered semantics), **Minsky 1967** (the instruction set)". The instruction set in question is `READ/EMIT/INC/DECJZ/HALT` — increment and decrement-or-jump-if-zero over registers. The unlimited register machine with that repertoire is Shepherdson & Sturgis, *Computability of Recursive Functions*, **JACM** 10(2):217–255, 1963, doi:10.1145/321160.321170 (verified at search-result level; the same sources record the paper as submitted December 1961, and register machines as introduced by Minsky in 1961). `AC_CROSSWALK_ADDENDUM_V1.md` quotes the programme's binding rule as 'AC06: *"Record earliest/strongest known parent for each mathematical idea."*' Minsky 1967 is neither the earliest work on this instruction set nor the earliest by that author.
+
+**OBJ-C3-D (not material). AG1-5's headline consequence has an established owner that the programme cites elsewhere but not here.** "Two systems identical through `F5` — including identical grammar at `F4` — can differ in developmental capability. No predicate evaluated at or below `F4` can therefore separate them." An equivalence that holds at one level and is not preserved by a further operation is the congruence/compositionality question for behavioural equivalences. `GMI_TERMINOLOGY_CROSSWALK_V2.md` row 4 already cites 'van Glabbeek, "The linear time — branching time spectrum I", 1990' for precisely this family. AG1-5's "Strongest parents" names only in-corpus packages plus #233.
+
+I raise **no** objection to AG1-4's declared `UNKNOWN` node. Displaying `GRM_G0_EXTENSIONS_UNADJUDICATED` with "`lowering_status: UNKNOWN`" rather than resolving it is the correct behaviour and I note it in the package's favour.
+
+---
+
+## 4. C4 — the exact capability predictor evaluation and its parent disclosure
+
+This is the strongest disclosure of the five, and section 0 records what checks out. Two objections remain.
+
+**OBJ-C4-A (material). On the single point where the programme's own registered law was falsified, the parents named are the convenient ones and the governing one is absent.**
+
+The disclosure states: "Our V1 registered law over-predicted parity learnability for exactly the reason this literature documents; we did not anticipate it" — citing Weiss, Goldberg & Yahav 2018 (arXiv:1805.04908) and Merrill 2019 (arXiv:1906.01615), both about finite-precision RNN expressivity. The established result that governs why statistics-driven learners fail on parity is Kearns, *Efficient noise-tolerant learning from statistical queries*, **JACM** 45(6), 1998, doi:10.1145/293347.293351: parity has statistical-query dimension `2^n` and is not efficiently SQ-learnable, while remaining PAC-learnable by Gaussian elimination (verified at search-result level, including the SQ-dimension result and the PAC/SQ separation). That is not a subtlety about RNN precision; it is the reason the learnability prediction was wrong in kind. A disclosure that says "we did not anticipate it" while citing the two most convenient recent papers and not the result that would have anticipated it has not named its strongest parent on the load-bearing point.
+
+**OBJ-C4-B (not material). No parent is named from the literature that predicts capabilities of trained systems.** Residual item 6 claims "**A quantified bridge failure on real trained systems**". Section 2 covers calibration, conformal coverage, OOD detection, partial identification and automata expressivity; it names nothing from the body of work that specifically attempts to forecast the capabilities of trained systems from their parameters. I do not assert which work is strongest there — I have not opened it — and I raise this as the brief's question rather than as an attribution: the disclosure should state whether that literature was searched and, if it was, what the residual is against it.
+
+---
+
+## 5. C5 — the terminology crosswalk
+
+**OBJ-C5-A (material). The `VERIFIED` field does not mean what the document's own key says it means.**
+
+The key states: "Citation status: `VERIFIED` = the reference was checked against a live source during tranche build (2026-09-15)". At least four `VERIFIED` marks are Wikipedia-mediated rather than primary:
+
+- row 1 — "Wikipedia *Formal specification* (VERIFIED)" and "van Lamsweerde 2000 (**VERIFIED as the Wikipedia-supporting trio**)";
+- row 10 — "Mitchell, 'The need for biases…', 1980 (**VERIFIED, cited in Wikipedia *Inductive bias***)";
+- row 29 — "Alur et al., 'Syntax-guided synthesis', FMCAD 2013 (**VERIFIED via Wikipedia *Program synthesis***)";
+- row 32 — "(**VERIFIED for counterfactual controls via Wikipedia *Causal inference* class**)".
+
+"A Wikipedia article cites this work" is not "the reference was checked against a live source"; it certifies that a tertiary page names the work, not that the work says what the row claims. Row 45 compounds it by entering "Wikipedia *Formal verification* (CITE-TF)" as the canonical-term anchor for formal verification. Since the whole crosswalk's downstream discipline turns on which rows still need re-verification before manuscript freeze — and since the AC re-run explicitly declined to verify anything ("It does not verify any citation. Every entry is `CITE-TF`; AC05 stays open") — an inflated `VERIFIED` field is the one defect that propagates silently into paper-facing text.
+
+**OBJ-C5-B (material). Row 48 records match = `EXACT` on the strength of a self-citation.**
+
+Row 48, "derive-claim typing": match **EXACT**, citations cell "WHAT_IS_ACTUALLY_NEW template (this package)". The key defines "`EXACT` = an established academic term accurately matches the object (adopt it in paper-facing text)". A citation to the package's own template cannot establish that an established academic term exists; this row certifies its own novelty as established usage. `AC_CROSSWALK_ADDENDUM_V1.md` identifies row 48 as carrying no parent and supplies Hempel & Oppenheim 1948 and Popper 1959 — but those own the logic of explanation and of falsification, not a taxonomy of research-contribution kinds, and the addendum explicitly leaves the match verdict untouched ("changes no match verdict in the parent crosswalk"). The `EXACT` stands unsupported.
+
+**OBJ-C5-C (material). Row 33 records match = `EXACT` with Karp 1972 for a research-methodology practice.**
+
+Row 33, "parent subtraction": match **EXACT**, citation "complexity-theory reduction tradition (Karp 1972)", definition "demonstrate residual claim after comparison to / absorption of strongest parent". Karp reducibility is a many-one polynomial-time relation between decision problems. The row's own definition column describes a methodological practice of comparing a contribution against baselines. The definition and the citation do not describe the same object, and `EXACT` asserts that they do. The AC addendum revisits row 33 to supply a term-choice rule and leaves both the citation and the verdict in place.
+
+**OBJ-C5-D (not material). Bibliographic error, row 7.** "Milner, *CCS*, 1989". The book titled *A Calculus of Communicating Systems* is Springer LNCS 92, 1980; the 1989 Prentice Hall book is *Communication and Concurrency* (verified at search-result level: LNCS 92 1980 vs Prentice Hall 1989). The entry fuses the title of one with the date of the other.
+
+**OBJ-C5-E (not material). Bibliographic error, row 32.** "Rubin, 'Causal inference using potential outcomes', 1974/1978-counterfactual tradition". Rubin 1974 is *Estimating causal effects of treatments in randomized and nonrandomized studies*, **J. Educ. Psychol.** 66(5):688–701; *Causal Inference Using Potential Outcomes: Design, Modeling, Decisions* is **JASA** 100(469):322–331, 2005 (both verified at search-result level). The row attaches a 2005 title to a 1974/1978 date — and carries a `VERIFIED` mark, which is how OBJ-C5-A bites in practice.
+
+**OBJ-C5-F (not material). Rows 9 and 26 rest a claim about the unavoidability of priors on a theorem about optimization performance.** Both cite 'Wolpert & Macready, "No free lunch theorems for optimization", 1997' as sole or lead support for "architecture-prior-free" / "prior-free", with definitions reading "no preselected named architecture family, invariance to relabeling, complete residual-prior ledger" and "no dedicated family prior; residual priors list; 'literally prior-free' is ill-posed". The rows give no account of how a result about performance averaged over objective functions licenses those definitions — and the programme supplies the correct parent itself in the same two cells and in row 27: 'Mitchell, "The need for biases in learning generalizations", 1980'. Mitchell is doing the work; the no-free-lunch citation is decoration on a row whose migration rule ("QUALIFY (never bare 'prior-free')") is otherwise sound.
+
+**What is renamed, for C5's purposes.** Rows 31 (remint → permutation/relabeling control), 32 (negative twin → matched negative control), 33 (parent subtraction → strongest-baseline comparison) and 34 (carrier → state space) are the crosswalk correctly identifying the programme's own coinages as renamings of established objects, and prescribing migration. That is the crosswalk working as intended, and I credit it. The defect is not that the renamings went undetected; it is that the evidentiary columns (`match`, `citations`) are not held to the key's own standard on the rows above.
+
+---
+
+## 6. Answers to the brief's questions, consolidated
+
+- **Which established result already contains the claim?** For C2, the cooperative-game interaction index / super-sub-additivity trichotomy (Grabisch & Roubens 1999, doi:10.1007/s001820050125). For C4's parity failure, SQ-hardness of parity (Kearns 1998, doi:10.1145/293347.293351). For C3's instruction set, Shepherdson & Sturgis 1963 (doi:10.1145/321160.321170) rather than Minsky 1967. For C1 I identify an uncited parent *class* — pricing retained memory against prediction error — without asserting an exact containment I did not verify in full.
+- **Is every parent attribution correct?** No. Typed provenance edges → Kahn 1962 is wrong (OBJ-C3-A). "Parent subtraction" → Karp 1972 at match `EXACT` is wrong (OBJ-C5-C). "Derive-claim typing" → the package's own template at match `EXACT` is not an attribution at all (OBJ-C5-B). Rows 7 and 32 carry bibliographic errors, one of them under a `VERIFIED` mark.
+- **Is anything presented as new that is a renaming?** Yes: `F4b` (invariance of a decision under a common rescaling of the two quantities entering it, presented as a decisive falsifier — OBJ-C1-B); CIP-1 (the additive/sub-additive/super-additive sign trichotomy, presented as an exact partition theorem — OBJ-C2-A); CIP-4 (strict positivity of a measure, presented as a named theorem — OBJ-C2-C).
+- **Are the strongest parents cited, or only convenient ones?** Convenient, on the points that matter most. Z15 discloses Popper and Mayo, which cost the claim nothing, and no parent for the law. C4 discloses two recent RNN-expressivity papers on the exact point where its registered law was falsified, and not the learning-theoretic result that governs it. C2's "Strongest parents" section names the union bound and omits the classification's owner.
+
+---
+
+## 7. Row Z18-3
+
+The artifacts were sufficient to locate every claim's object, to name candidate parents, to check attributions against their stated venues, and to find internal inconsistencies across packages. I could perform a genuine parent-literature review. Finding serious problems is evidence the review was possible, not evidence it was not. **SATISFIED** — with the recorded limitation that C2's own designated disclosure file (`PARENT_OWNERSHIP_V1.md`, named in `CORE.md`) was outside the permitted read set, so my C2 parent finding is scoped to Section 6 of the theorems file.
+
+**Sources opened for this review** (search-result metadata; full texts not fetched):
+- [Grabisch & Roubens 1999, IJGT 28:547–565, doi:10.1007/s001820050125](https://link.springer.com/article/10.1007/s001820050125)
+- [Kearns 1998, JACM, doi:10.1145/293347.293351](https://dl.acm.org/doi/pdf/10.1145/293347.293351)
+- [Shepherdson & Sturgis 1963, JACM 10(2):217–255, doi:10.1145/321160.321170](https://dl.acm.org/doi/10.1145/321160.321170)
+- [Rubin 1974, J. Educ. Psychol. 66(5):688–701](https://eric.ed.gov/?id=EJ118470) and [Rubin 2005, JASA 100:322–331](https://ideas.repec.org/a/bes/jnlasa/v100y2005p322-331.html)
+- [Milner CCS (Springer LNCS 92, 1980) vs Communication and Concurrency (Prentice Hall, 1989)](https://www.sciencedirect.com/science/article/pii/S1571066110000812)
+- [Marzen & Crutchfield, Predictive Rate-Distortion for Infinite-Order Markov Processes](https://csc.ucdavis.edu/~cmg/papers/cn.pdf)
+
+---
+
+VERDICT_BLOCK_BEGIN
+row: Z18-3 | verdict: SATISFIED | reason: The nine artifacts were sufficient to locate each claim's object, name candidate parents, check attributions against their stated venues, and find cross-package inconsistencies, so a genuine parent-literature review was performable.
+claim: C1 | verdict: REOPEN | reason: No external parent is disclosed for the content of the boundary law (only for the method of testing it), F4b cannot fire on the transformation it names while the freeze's own standard says such a falsifier tests nothing, and the registered "0/200 surviving" target for F1 is left unreconciled against a reported non-empty blind set with 200/200 attributed to a post-freeze revival.
+claim: C2 | verdict: MATERIAL_OBJECTION | reason: The section headed "Strongest parents" names the union bound but not the cooperative-game interaction index / super-sub-additivity trichotomy that owns the classification CIP-1 performs, and the package's own designated disclosure file was outside the permitted read set so the parent gate cannot be closed here.
+claim: C3 | verdict: MATERIAL_OBJECTION | reason: Typed provenance edges are attributed to Kahn 1962, foundational pluralism and the MUTUAL_INTERPRETATION and FREE_CONSTRUCTION constructs are asserted with no citation at all, and the instruction-set parent (Minsky 1967) is not the earliest by the programme's own AC06 rule.
+claim: C4 | verdict: MATERIAL_OBJECTION | reason: This is the best-disciplined disclosure of the five and its named parents check out, but on the one point where its own registered law was falsified it cites two convenient RNN-expressivity papers and omits the SQ-hardness result that governs the failure.
+claim: C5 | verdict: MATERIAL_OBJECTION | reason: The VERIFIED field is inflated by Wikipedia-mediated marks against the document's own key, and two rows record match=EXACT on unsupportable evidence (a self-citation in row 48, a complexity-theoretic reduction cited for a methodology practice in row 33), with two bibliographic errors carried through.
+objection: OBJ-C1-A | claim: C1 | material: yes | text: The external-parent table discloses only Popper, Mayo, Nosek, identifiability and Wigner — all methodology — while the boundary law itself is attributed solely to the in-corpus package gmi-833-heldout-20-transitions-v1, leaving the memory-pricing parent class the programme already cites in crosswalk rows 5 and 25 entirely absent.
+objection: OBJ-C1-B | claim: C1 | material: yes | text: F4b tests invariance of the lambda-versus-eta·p/2 comparison under (eta, lambda) -> (c·eta, c·lambda), which holds by arithmetic, so restricted to T_b it is constant-False against the freeze's own standard "A falsifier that cannot fire tests nothing", and its planted positive is admittedly on a different transformation.
+objection: OBJ-C1-C | claim: C1 | material: yes | text: The freeze registers "Target: 200/200 random boundaries falsified, 0/200 surviving" and registers "Any randomized boundary surviving F1" as a falsifier of the package itself, while the disclosure reports "57 survivors realizing 12 distinct multipliers" for the frozen falsifier and attributes 200/200 to F1PLUS-DEC, described as "the revival" — and no artifact reconciles the two.
+objection: OBJ-C1-D | claim: C1 | material: no | text: The identifiability parent row's citation cell is "classical experimental-design identifiability" with no author, year or DOI, which is the exact defect the programme's own AC06 rule and the AC addendum were created to repair in eight other rows.
+objection: OBJ-C2-A | claim: C2 | material: yes | text: Section 6 lists only the shipped in-corpus lemmas and "Inclusion–exclusion / submodularity of counting measure (classical)", and concedes "CIP-1's content is not that inequality but the partition the three-way comparison induces" — which is precisely the object owned by the cooperative-game interaction index (Grabisch & Roubens 1999, doi:10.1007/s001820050125) and never named.
+objection: OBJ-C2-B | claim: C2 | material: yes | text: CORE.md names PARENT_OWNERSHIP_V1.md as the package's "parent disclosure (4 Crossref-resolved DOIs)" but that file is outside the brief's artifact list, so C2's parent attributions cannot be certified in either direction from this set.
+objection: OBJ-C2-C | claim: C2 | material: no | text: CIP-4's content — that the equality cases of subadditivity characterize nesting and disjointness only under "(P) mu(A) = 0 ⇒ A = ∅" — is the textbook strict-positivity/full-support hypothesis presented as a named theorem with no citation.
+objection: OBJ-C3-A | claim: C3 | material: yes | text: The ledger credits "typed provenance edges" to "Standard graph theory (Kahn, Topological sorting of large networks, CACM 5(11), 1962)", but Kahn owns topological sorting and not arrow typing, which is exactly the construct AG1-1 claims as residual.
+objection: OBJ-C3-B | claim: C3 | material: yes | text: "Set-theoretic, type-theoretic/univalent and categorical foundations are established parent programmes" is asserted with zero citation, the MUTUAL_INTERPRETATION and FREE_CONSTRUCTION arrow kinds are given no literature parent, and the ten-layer stack's only disclosed parent is the programme's own issue comment 5693520829.
+objection: OBJ-C3-C | claim: C3 | material: yes | text: AG1-3 names "Minsky 1967 (the instruction set)" as strongest parent for READ/EMIT/INC/DECJZ/HALT, but the unlimited register machine with that repertoire is Shepherdson & Sturgis, JACM 10(2):217–255, 1963, doi:10.1145/321160.321170, violating the programme's own AC06 "earliest/strongest known parent" rule.
+objection: OBJ-C3-D | claim: C3 | material: no | text: AG1-5's consequence that "No predicate evaluated at or below F4 can therefore separate them" is the congruence property of behavioural equivalences, whose parent (van Glabbeek's linear-time–branching-time spectrum) the programme cites in crosswalk row 4 but not in AG1-5's strongest-parents list.
+objection: OBJ-C4-A | claim: C4 | material: yes | text: The disclosure says "we did not anticipate it" about its own falsified parity-learnability law while citing only Weiss et al. 2018 and Merrill 2019 on RNN precision, omitting the result that governs the failure — parity's SQ dimension 2^n and non-SQ-learnability (Kearns, JACM 1998, doi:10.1145/293347.293351).
+objection: OBJ-C4-B | claim: C4 | material: no | text: Residual item 6 claims "A quantified bridge failure on real trained systems" while section 2 names no parent from the literature that specifically forecasts capabilities of trained systems, and the artifacts do not state whether that literature was searched.
+objection: OBJ-C5-A | claim: C5 | material: yes | text: The key defines "VERIFIED = the reference was checked against a live source", yet rows 1, 10, 29 and 32 are marked VERIFIED on the basis of a Wikipedia article citing the work ("VERIFIED via Wikipedia Program synthesis", "cited in Wikipedia Inductive bias", "via Wikipedia Causal inference class"), so the field overstates verification on the rows that feed paper-facing text.
+objection: OBJ-C5-B | claim: C5 | material: yes | text: Row 48 records match=EXACT — defined by the key as "an established academic term accurately matches the object" — with its sole citation being "WHAT_IS_ACTUALLY_NEW template (this package)", so the row certifies its own coinage as established usage.
+objection: OBJ-C5-C | claim: C5 | material: yes | text: Row 33 records match=EXACT with "complexity-theory reduction tradition (Karp 1972)" for a definition reading "demonstrate residual claim after comparison to / absorption of strongest parent", and a polynomial-time many-one reduction between decision problems is not that object.
+objection: OBJ-C5-D | claim: C5 | material: no | text: Row 7 cites "Milner, CCS, 1989", fusing the title of A Calculus of Communicating Systems (Springer LNCS 92, 1980) with the date of Communication and Concurrency (Prentice Hall, 1989).
+objection: OBJ-C5-E | claim: C5 | material: no | text: Row 32 cites "Rubin, 'Causal inference using potential outcomes', 1974/1978", attaching the title of Rubin 2005 (JASA 100(469):322–331) to the date of Rubin 1974 (J. Educ. Psychol. 66(5):688–701), under a VERIFIED mark.
+objection: OBJ-C5-F | claim: C5 | material: no | text: Rows 9 and 26 rest "architecture-prior-free" and "prior-free" on Wolpert & Macready's no-free-lunch theorems with no account of how a result about performance averaged over objective functions licenses a claim about the unavoidability of inductive bias, while the correct parent (Mitchell 1980) sits in the same cells doing the actual work.
+reopen: Z15 F1 decisiveness and the 200/200 null result | reason: The freeze registers 0/200 surviving as the pass condition and "Any randomized boundary surviving F1" as a self-falsifier, the disclosure reports a non-empty blind set for the frozen falsifier, and 200/200 is credited to the post-freeze F1PLUS-DEC revival with no reconciliation in any artifact.
+reopen: Z15 F4b as a decisive falsifier for issue row 5 | reason: Invariance of the lambda-versus-eta·p/2 comparison under a common positive rescaling of (eta, lambda) holds by arithmetic, so F4b cannot fire on the transformation it names and does not discharge "invariance failure under transformations claimed irrelevant".
+reopen: the parent-literature gate for gmi-833-capability-interaction-partition-v1 | reason: The section that holds itself out as naming the "Strongest parents" omits the cooperative-game interaction-index parent, and the package's own designated disclosure file PARENT_OWNERSHIP_V1.md was outside the permitted read set so nothing here can close that gate.
+reopen: the citation-status field of GMI_TERMINOLOGY_CROSSWALK_V2 (every VERIFIED mark) and AC05 | reason: At least four VERIFIED marks rest on a Wikipedia article citing the work rather than on the live primary source the key requires, and the AC re-run that was meant to re-verify explicitly states "It does not verify any citation. Every entry is CITE-TF; AC05 stays open."
+reopen: the AG1 PARENT_LEDGER attributions and AG1-3's strongest-parents line | reason: Typed provenance edges are credited to Kahn 1962, foundational pluralism and two named arrow kinds carry no citation at all, and the instruction-set parent is not the earliest by the programme's own AC06 rule.
+model_self_report: Claude Opus 5 (exact model id as reported to me: claude-opus-5[1m])
+VERDICT_BLOCK_END
