@@ -1,0 +1,39 @@
+name: gmi-1068-r16-grand-fixed-point-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r16-grand-fixed-point-v1/**'
+      - 'research/gmi-1068-r14-formal-proof-bundle-v1/**'
+      - 'research/gmi-1068-r15-hostile-recursive-closure-v1/**'
+      - '.github/workflows/gmi-1068-r16-grand-fixed-point-v1.yml'
+jobs:
+  final-fixed-point:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=7caf543e0c07802860944e3aa13cab539ea3f287
+          P=research/gmi-1068-r16-grand-fixed-point-v1
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/RESULT_V1.json" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+      - name: Final concept/DAG/evidence gate
+        run: |
+          python3 -I -B research/gmi-1068-r16-grand-fixed-point-v1/check_fixed_point_v1.py
+          python3 -I -O -B research/gmi-1068-r16-grand-fixed-point-v1/check_fixed_point_v1.py
+      - name: Re-run hostile routes
+        run: |
+          python3 -I -B research/gmi-1068-r15-hostile-recursive-closure-v1/structural_static_audit_v1.py
+          python3 -I -B research/gmi-1068-r15-hostile-recursive-closure-v1/mutation_oracle_v1.py
+      - name: Install Lean 4.19.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Re-run formal bundle
+        run: lean research/gmi-1068-r14-formal-proof-bundle-v1/GrandGMI.lean
