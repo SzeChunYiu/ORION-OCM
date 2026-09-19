@@ -8,6 +8,7 @@ Vocabulary is lower-process/stratum vocabulary only (screened).
 from __future__ import annotations
 
 from fractions import Fraction
+from math import gcd
 import heapq
 import json
 from pathlib import Path
@@ -122,8 +123,7 @@ def scaled_beta(beta: list[Fraction]) -> tuple[list[int], int]:
     for b in beta:
         d = b.denominator
         if D % d:
-            from math import lcm
-            D = lcm(D, d)
+            D = D // gcd(D, d) * d
     return [int(b * D) for b in beta], D
 
 
