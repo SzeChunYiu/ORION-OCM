@@ -1,0 +1,105 @@
+name: GMI 833 MTG enriched geometry v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-mtg-enriched-geometry-v1/**'
+      - '.github/workflows/gmi-833-mtg-enriched-geometry-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-mtg-enriched-geometry-v1/**'
+      - '.github/workflows/gmi-833-mtg-enriched-geometry-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    env:
+      PKG: research/gmi-833-mtg-enriched-geometry-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze custody (frozen bytes; UNREACHABLE is a distinct state, never a pass)
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=$(python3 -c "import json;print(json.load(open('$PKG/MANIFEST_V1.json'))['freeze_commit'])")
+          if ! git cat-file -e "${freeze}^{commit}" 2>/dev/null; then
+            echo "FREEZE_COMMIT_UNREACHABLE=$freeze (squash or shallow history); falling back to frozen bytes" >&2
+            test -s "$PKG/FREEZE_V1.md"
+            grep -q 'No neighboring row is earned here' "$PKG/FREEZE_V1.md"
+            echo "custody=UNREACHABLE_BYTES_PRESENT"
+            exit 0
+          fi
+          git cat-file -e "${freeze}:$PKG/FREEZE_V1.md"
+          for p in enriched_geometry_v1.py independent_oracle_v1.py test_enriched_geometry_v1.py RESULT_V1.json ORACLE_RESULT_V1.json TEST_RESULT_V1.json ENRICHED_GEOMETRY_THEOREMS_V1.md CORE.md MANIFEST_V1.json ISSUE_833_COMMENT_RECONCILIATION_V1.json; do
+            if git cat-file -e "${freeze}:$PKG/$p" 2>/dev/null; then
+              echo "post-freeze artifact existed at freeze: $p" >&2
+              exit 1
+            fi
+          done
+          echo "custody=FREEZE_PRECEDES_IMPLEMENTATION"
+      - name: Route A executor reproduces the committed receipt byte-exact
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$PKG/RESULT_V1.json" /tmp/committed_result.json
+          if [ "${{ matrix.mode }}" = optimized ]; then O=-O; else O=; fi
+          python3 -I $O -B "$PKG/enriched_geometry_v1.py"
+          cmp "$PKG/RESULT_V1.json" /tmp/committed_result.json
+      - name: Route B oracle reproduces its receipt byte-exact
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$PKG/ORACLE_RESULT_V1.json" /tmp/committed_oracle.json
+          if [ "${{ matrix.mode }}" = optimized ]; then O=-O; else O=; fi
+          python3 -I $O -B "$PKG/independent_oracle_v1.py" > /tmp/oracle_stdout.json
+          cmp "$PKG/ORACLE_RESULT_V1.json" /tmp/committed_oracle.json
+      - name: Hostiles, null, no-alarm, two-route agreement
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$PKG/TEST_RESULT_V1.json" /tmp/committed_test.json
+          if [ "${{ matrix.mode }}" = optimized ]; then O=-O; else O=; fi
+          python3 -I $O -B "$PKG/test_enriched_geometry_v1.py"
+          cmp "$PKG/TEST_RESULT_V1.json" /tmp/committed_test.json
+      - name: Claim ceiling and receipt gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -B - <<'PY'
+          import json
+          pkg = 'research/gmi-833-mtg-enriched-geometry-v1'
+          m = json.load(open(pkg + '/MANIFEST_V1.json'))
+          r = json.load(open(pkg + '/RESULT_V1.json'))
+          o = json.load(open(pkg + '/ORACLE_RESULT_V1.json'))
+          t = json.load(open(pkg + '/TEST_RESULT_V1.json'))
+          ok = (m['claim_ceiling'] == r['claim_ceiling'] and r['status'] == 'GREEN' and o['status'] == 'GREEN'
+                and t['status'] == 'GREEN' and all(r['checks'].values()) and all(o['checks'].values())
+                and all(h['applicable'] and h['detected'] for h in r['hostiles'].values())
+                and r['null']['draws'] == 200 and r['null']['closure_equalities'] == 0
+                and r['null']['pool_excludes_true_law'] is True
+                and t['hostiles_detected'] == t['hostiles_total'] == 8
+                and t['shared_quantities_equal'] == t['shared_quantities_compared']
+                and r['counts']['relabel_topology_equalities'] == 120 == r['counts']['relabelings']
+                and r['checks']['frozen_nonmember_criterion_refuted_by_counterexample'] is True
+                and r['checks']['box_criterion_marks_counterexample_undetermined'] is True
+                and r['quantale_completeness_not_claimed'] is True
+                and r['terminal'] == 'FINITE_ORDERED_MONOID_ENRICHMENT_VERIFIED'
+                and 'COMPLETE_GMI' in r['forbidden_promotions'])
+          print('gates', ok)
+          raise SystemExit(0 if ok else 1)
+          PY

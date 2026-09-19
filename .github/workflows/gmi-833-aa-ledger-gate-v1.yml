@@ -60,13 +60,17 @@ jobs:
       - name: Ledger emission gate (BLOCKING, rows AA02-AA06)
         run: |
           set -euo pipefail
-          # NOTE: the `|| true` below guards only the enumeration of the PR's
-          # own changed files. It MUST NOT be moved onto the gate command -- the
-          # predecessor terminology gate ran its CHECK under `|| true` and
-          # therefore gated nothing.
+          # The PR scope is ONE rule, `owned_paths_from_git` in
+          # ledger_gate_v1.py, read here through `--print-owned` and by the
+          # test through the same function. On a pull_request checkout HEAD
+          # is GitHub's merge of the PR head into the CURRENT base tip, so the
+          # rule diffs HEAD^1..HEAD; `base.sha..HEAD` (two-dot) attributed
+          # every file main gained after the PR's last push to the PR, and
+          # `origin/<base>...HEAD` was a second rule the test did not share.
+          # Nothing here runs under `|| true`: the predecessor terminology
+          # gate ran its CHECK that way and therefore gated nothing.
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            git diff --name-only --diff-filter=ACMR \
-              "origin/${{ github.base_ref }}...HEAD" -- 'research/*.md' > /tmp/owned.txt || true
+            python3 -I -B "$PKG/ledger_gate_v1.py" --print-owned > /tmp/owned.txt
             wc -l /tmp/owned.txt
             python3 -I -B "$PKG/ledger_gate_v1.py" --gate --owned-files /tmp/owned.txt \
               | tee /tmp/ledger_gate.json

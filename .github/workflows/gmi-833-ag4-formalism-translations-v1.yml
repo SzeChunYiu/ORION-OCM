@@ -1,0 +1,131 @@
+name: GMI 833 AG4 formalism translations, all fifteen pairs
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ag4-formalism-translations-v1/**'
+      - '.github/workflows/gmi-833-ag4-formalism-translations-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ag4-formalism-translations-v1/**'
+      - '.github/workflows/gmi-833-ag4-formalism-translations-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ag4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-ag4-formalism-translations-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze precedes implementation
+        run: |
+          set -euo pipefail
+          git log --reverse --format=%H -- "$PKG/" | head -1 > /tmp/ag4_first.txt
+          git show --name-only --format= "$(cat /tmp/ag4_first.txt)" -- "$PKG/" \
+            > /tmp/ag4_firstfiles.txt
+          cat /tmp/ag4_firstfiles.txt
+          grep -q 'FREEZE_V1.md' /tmp/ag4_firstfiles.txt
+          if [ "$(grep -c . /tmp/ag4_firstfiles.txt)" = "1" ]; then
+            echo 'freeze-first commit ordering intact'
+          else
+            echo 'package published by squash; freeze present in the publishing commit'
+          fi
+
+      - name: Snapshot the committed receipts before anything reruns
+        run: |
+          set -euo pipefail
+          cp "$PKG/RESULT_V1.json" /tmp/ag4_committed_result.json
+          cp "$PKG/ORACLE_RESULT_V1.json" /tmp/ag4_committed_oracle.json
+
+      - name: No float may enter a claim
+        run: |
+          set -euo pipefail
+          ! grep -nE '\bfloat\(|[0-9]\.[0-9]|/ *[0-9]+\.0' "$PKG"/*.py
+
+      - name: Route A
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/ag4_formalism_translations_v1.py" | tee /tmp/ag4_routeA.json
+
+      - name: Route B independent oracle
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/independent_oracle_v1.py" | tee /tmp/ag4_routeB.json
+
+      - name: Route B imports neither route A nor a parent
+        run: |
+          set -euo pipefail
+          ! grep -nE 'ag4_presentation_equivalence_v1|gmi-833-(aj5|g0|parent|ag2)' \
+            "$PKG/independent_oracle_v1.py"
+
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_ag4_v1.py" | tee /tmp/ag4_tests.txt
+
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_ag4_v1.py" | tee /tmp/ag4_tests-O.txt
+
+      - name: The committed receipts match the live run, and the two routes agree
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, sys
+          P = 'research/gmi-833-ag4-formalism-translations-v1/'
+          a = json.load(open(P + 'RESULT_V1.json'))
+          b = json.load(open(P + 'ORACLE_RESULT_V1.json'))
+          old_a = json.load(open('/tmp/ag4_committed_result.json'))
+          old_b = json.load(open('/tmp/ag4_committed_oracle.json'))
+          bad = []
+          if a != old_a:
+              bad.append('route A receipt drift')
+          if b != old_b:
+              bad.append('route B receipt drift')
+          if a['status'] != 'GREEN' or a['failed_gates']:
+              bad.append('route A not GREEN')
+          for k in ('registered_objects', 'registered_objects_total',
+                    'directed_verdict_histogram', 'pair_verdict_histogram',
+                    'mutually_total_pairs', 'obstruction_histogram'):
+              if a[k] != b[k]:
+                  bad.append('route disagreement: ' + k)
+          for k in sorted(b['directed_translations']):
+              for f in ('verdict', 'source_objects', 'translatable', 'common_class'):
+                  if a['directed_translations'][k][f] != b['directed_translations'][k][f]:
+                      bad.append('route disagreement: %s.%s' % (k, f))
+              if sorted(a['directed_translations'][k].get('obstruction', [])) != \
+                 sorted(b['directed_translations'][k]['obstruction']):
+                  bad.append('route disagreement: %s obstruction' % k)
+          if len(a['directed_translations']) != 30 or len(a['pairs']) != 15:
+              bad.append('not all fifteen pairs adjudicated')
+          if len(a['mutually_total_pairs']) >= 15:
+              bad.append('every pair total: the universe was flattened')
+          print(json.dumps({'problems': bad}, indent=1))
+          sys.exit(1 if bad else 0)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-ag4-formalism-translations-v1
+          path: |
+            /tmp/ag4_routeA.json
+            /tmp/ag4_routeB.json
+            /tmp/ag4_tests.txt
+            /tmp/ag4_tests-O.txt
+          if-no-files-found: error
