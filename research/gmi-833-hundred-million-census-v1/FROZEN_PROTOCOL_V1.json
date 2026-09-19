@@ -1,0 +1,73 @@
+{
+  "claim_ceiling": "GMI_833_116570467_CANDIDATE_EXACT_CENSUS_AT_REGISTERED_FINITE_SCOPE",
+  "configuration": {
+    "budget": {
+      "code_cells": 5,
+      "register_cells": 1
+    },
+    "candidate_total": 116570467,
+    "execution_design": "COMPLETE_STREAMING_CENSUS",
+    "grammar": "G0-fin-v1",
+    "semantic_interface": {
+      "input_words": [[], [0], [1]],
+      "step_cap": 6
+    },
+    "strata": [
+      {"alphabet_size": 5, "candidates": 5, "labels": 1},
+      {"alphabet_size": 11, "candidates": 121, "labels": 2},
+      {"alphabet_size": 19, "candidates": 6859, "labels": 3},
+      {"alphabet_size": 29, "candidates": 707281, "labels": 4},
+      {"alphabet_size": 41, "candidates": 115856201, "labels": 5}
+    ]
+  },
+  "dependency_chain": [
+    {
+      "exact_head_at_registration": "13293a9c1482aee44fc8ccbae9e330f606eff9c0",
+      "pull_request": 1003
+    },
+    {
+      "exact_head_at_registration": "3bf854f3282f239c831e7ec026291c4c8c72aae0",
+      "pull_request": 1007
+    }
+  ],
+  "forbidden_promotions": [
+    "UNBOUNDED_GENERATION",
+    "EXHAUSTIVE_ALL_MACHINES_OR_SEMANTICS",
+    "HUNDRED_MILLION_AT_BUDGET_8_4",
+    "EQUIVALENT_COVERAGE_ALTERNATIVE_CLAIM",
+    "UNIQUE_OR_UNBIASED_GRAMMAR",
+    "ARCHITECTURE_FREE_IN_ABSOLUTE_SENSE",
+    "GRAMMAR_NEUTRALITY",
+    "PHYSICAL_RANDOMNESS",
+    "QD_OR_OPEN_ENDED_SEARCH",
+    "KNOWN_FAMILY_RECOVERY",
+    "CAPABILITY_RESULT",
+    "REAL_SCALE_VALIDATION",
+    "COMPLETE_GMI"
+  ],
+  "inclusion_probabilities": {
+    "distinct_pair": "1/1",
+    "first_order": "1/1",
+    "reason": "COMPLETE_CENSUS"
+  },
+  "independent_oracle": {
+    "full_scope_checks": [
+      "CLOSED_FORM_STRATUM_COUNTS",
+      "CLOSED_FORM_CONSECUTIVE_RANK_SUMS",
+      "CLOSED_FORM_CONSECUTIVE_RANK_SQUARE_SUMS"
+    ],
+    "source_separated": true,
+    "small_complete_budgets": [[1, 1], [2, 1], [3, 1], [4, 1]]
+  },
+  "outcome_status": "NOT_RUN",
+  "parent_issue": 833,
+  "resource_ceilings": {
+    "committed_evidence_bytes": 20971520,
+    "peak_rss_bytes": 8589934592,
+    "persistent_run_artifact_bytes": 2147483648,
+    "wall_seconds": 7200
+  },
+  "schema": "GMI833HundredMillionCensusProtocolV1",
+  "source_issue": 1008,
+  "target_row": "Scale to at least 10^8 candidates or justify an equivalent effective coverage method."
+}
