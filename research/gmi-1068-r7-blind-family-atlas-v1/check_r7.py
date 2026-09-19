@@ -33,14 +33,28 @@ rows["E05"]=inv and non
 cases=list(itertools.product((0,1),repeat=3));truth=lambda a,b,q:a if q==0 else b
 dyn=sum(truth(a,b,q)==truth(a,b,q) for a,b,q in cases);fa=sum(a==truth(a,b,q) for a,b,q in cases);fb=sum(b==truth(a,b,q) for a,b,q in cases)
 rows["E06"]=(dyn==8 and fa==6 and fb==6)
-rows["E07"]=all((x if m==0 else 1-x)==(x if m==0 else 1-x) for m,x in itertools.product((0,1),repeat=2)) and 1<2
+# E07 mode-selective computation: one specialist is sufficient per case; dense execution pays for both.
+mode_cases=list(itertools.product((0,1),repeat=2))
+def expert0(x): return x
+def expert1(x): return 1-x
+def mode_truth(m,x): return expert0(x) if m==0 else expert1(x)
+sparse_exact=all((expert0(x) if m==0 else expert1(x))==mode_truth(m,x) for m,x in mode_cases)
+dense_exact=all(((expert0(x),expert1(x))[m])==mode_truth(m,x) for m,x in mode_cases)
+sparse_cost=sum(1 for _ in mode_cases);dense_cost=sum(2 for _ in mode_cases)
+all_needed_twin=[(expert0(x),expert1(x)) for x in (0,1)]
+rows["E07"]=sparse_exact and dense_exact and sparse_cost<dense_cost and all(len(v)==2 for v in all_needed_twin)
 triples=list(itertools.product((0,1),repeat=3));target=lambda x:x[0]^x[2]
 own_possible=any(all((o0,o1)[x[1]]==target(x) for x in triples) for o0,o1 in itertools.product((0,1),repeat=2))
 rows["E08"]=(not own_possible) and all((x[0]^x[2])==target(x) for x in triples)
 post=Fraction(3,4)*Fraction(1,2)/(Fraction(3,4)*Fraction(1,2)+Fraction(1,4)*Fraction(1,2));rows["E09"]=(post==Fraction(3,4))
 rule=lambda a,b:b if a else 1-b;truths=[rule(a,b) for a,b in itertools.product((0,1),repeat=2)]
 rows["E10"]=(truths==[1,0,0,1] and max(truths.count(0),truths.count(1))==2)
-kv={0:1,1:0,2:1,3:0};rows["E11"]=(all(kv[k] in (0,1) for k in kv) and max(list(kv.values()).count(0),list(kv.values()).count(1))==2)
+# E11 multiple keys require key-conditioned lookup; no constant answer solves all. Single-key twin needs no lookup.
+kv={0:1,1:0,2:1,3:0}
+constant_exact=any(all(out==kv[k] for k in kv) for out in (0,1))
+lookup_exact=all(kv[k]==v for k,v in kv.items())
+single_key={0:1};single_constant_exact=all(1==v for v in single_key.values())
+rows["E11"]=(not constant_exact and lookup_exact and single_constant_exact)
 joint={}
 for x1,x2 in itertools.product((0,1),repeat=2):
  p1=Fraction(1,2);pc=Fraction(3,4) if x2==x1 else Fraction(1,4);joint[(x1,x2)]=p1*pc
