@@ -38,7 +38,7 @@ python3 -I -B research/gmi-833-ac05-citation-revival-v1/build_receipt_v1.py     
 ```
 
 Expected: `passing_rows: 48`, `failing_rows: []`, 7/7 hostiles applicable
-and detected, null 122/122 primary deletions caught over 200 draws, routes
+and detected, null 120/120 primary deletions caught over 200 draws, routes
 agree on every row, `ALL PASS` (both modes), `receipt matches the live
 two-route run`.
 

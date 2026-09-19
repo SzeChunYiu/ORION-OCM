@@ -38,7 +38,7 @@ def build():
         "AC05-1": "48/48 crosswalk rows carry, in their own citations cell, a resolvable identifier and a VERIFIED-2026-09-19 anchor whose register record has a supporting passage (<=15 words) with locator and a recorded resolution status",
         "AC05-2": "the eight rows the prior proxy found unbacked (16, 19, 21, 23, 34, 41, 47, 48) each carry an in-place verified primary anchor; row 48 is an honest programme-internal primary source, with Hempel & Oppenheim 1948 retired as non-supporting",
         "AC05-3": "row 1's Harel 1992 anchor is corrected to Computer 25(1):8-20, doi:10.1109/2.108047 (Crossref container-title 'Computer'); the first-tried DOI 10.1109/2.108007 resolves 404",
-        "AC05-4": "two independently written routes agree on the count, the failing set, the Harel verdict and every row's identifier set; 7/7 hostiles applicable and detected; 0/122 primary-identifier deletions missed over 200 null draws",
+        "AC05-4": "two independently written routes agree on the count, the failing set, the Harel verdict and every row's identifier set; %d/%d hostiles applicable and detected; %d/%d primary-identifier deletions missed over %d null draws" % (sum(1 for h in a["hostiles"] if h.get("applicable") and h.get("detected")), len(a["hostiles"]), a["null"]["primary_deletions_missed"], a["null"]["draws_hitting_primary"], a["null"]["draws"]),
     }
     out["forbidden_promotions"] = [
         "LITERATURE_SATURATED", "PARENT_IS_EARLIEST", "ALL_PARENTS_EXHAUSTED", "DEFINITIONS_CORRECT",
