@@ -65,7 +65,7 @@
   },
   "tests": {
     "suite": "test_checklist_mirror_v1.py",
-    "cases": 23,
+    "cases": 25,
     "hostiles_detected": 10,
     "modes": [
       "python3 -I -B",
@@ -75,11 +75,11 @@
   },
   "artifact_sha256": {
     "ISSUE_833_BODY_MIRROR.md": "73020a0580730aa25709d51c61307f0dc8b9acae00f1012699e6ec7cd48f00fd",
-    "EVIDENCE_LEDGER_V1.json": "6a500f602fe214fc6d30ae480dff0b1a587b58a4becff55e2f7a92129ec26aad",
+    "EVIDENCE_LEDGER_V1.json": "dae50a14b91a1b4e4a59e3325340dd6460c95c30d7a7a79c9b0884f7c6c3757e",
     "checklist_core_v1.py": "8369e8a6d8a5de3c9fd49a0631f117408179a71f0eeac67830683c95a96bfd16",
     "issue_body_safe_write_v1.py": "a3017e7b509b2102ca5c50b2ee85f9bc4bb4ed15f60f2ff2d7e20d84bdb17a90",
-    "compact_body_v1.py": "1584095a11772e6bebd26185611bfee5edcd7610ddd5358633a30a8af7b02183",
-    "test_checklist_mirror_v1.py": "6a7bcbec4e2dbffcb602f917805ca5f88f1a050cabea788585a2677d2374b975"
+    "compact_body_v1.py": "c511ad9d4812834c363591d2b3747016d3392f876853061feeba9f5472f1ee0c",
+    "test_checklist_mirror_v1.py": "ec08624b1dc88fe528044009c604c9fb58aa7bbd8c65d085f09a4404a5fa8659"
   },
   "scientific_rows_closed": [],
   "explicit_non_claims": [
@@ -96,5 +96,16 @@
     "checked": 167,
     "unchecked": 92,
     "closures_admitted_before_ceiling_at_mean_rate": 5
+  },
+  "evidence_recovery": {
+    "defect": "a second compaction pass rebuilt the ledger from the already-compacted body, replacing each entry's evidence with that row's own pointer",
+    "detected_via": "a lane reported body annotations looking truncated; the pointers were intact, the ledger was not",
+    "entries_degraded": 168,
+    "entries_intact": 34,
+    "unrecoverable": 0,
+    "recovered_from": "the 52 stored GitHub body revisions; revision at 2026-09-18T02:28:28Z (65,115 chars) predates the first compaction and carries all 169 full annotations",
+    "matched_by": "exact sha256(section NUL row_text) key",
+    "guard": "compact() now refuses to replace real evidence with a self-pointer, and I3 asserts the ledger never holds one",
+    "why_it_was_missed": "the idempotence test checked the row signature, which does survive re-compaction; it never checked that evidence survives, which is the property the ledger exists for"
   }
 }
