@@ -1,0 +1,524 @@
+{
+  "schema": "GMI_833_AE7_PREDICTION_TO_CONTROL_RESULT_V1",
+  "issue": 833,
+  "section": "AE7",
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae7-prediction-to-control-v1",
+  "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "freeze_commit": "65b45210b0cca60dba37d36fd556c8846fa3232f",
+  "claim_ceiling": "GMI_833_AE7_PREDICTION_TO_CONTROL_BOUNDARY_EXACTLY_SEPARATED_AND_PRICED_AT_REGISTERED_FINITE_SCOPE",
+  "scope": {
+    "latent_states": 8,
+    "prior": "uniform, exact mass 1/8 per state",
+    "sensors": 4140,
+    "registered_targets": [
+      "Y_b0",
+      "Y_b1",
+      "Y_xor01",
+      "Y_and01",
+      "Y_or01",
+      "Y_pair01"
+    ],
+    "registered_utilities": [
+      "U_hidden_coordinate",
+      "U_visible_coordinate",
+      "U_helly_triple",
+      "U_graded"
+    ],
+    "actions": [
+      "a0",
+      "a1",
+      "a2",
+      "a3"
+    ],
+    "arithmetic": "fractions.Fraction and int only; no float anywhere"
+  },
+  "results": {
+    "PC_1_prediction_insufficient_for_control": {
+      "definition": "two sensors have identical predictive content iff their predictive profiles -- the multiset over blocks of (block mass, conditional law of each registered target) -- are equal as exact rationals; any predictor's achievable expected score under any loss depends on the sensor only through that object",
+      "sensors_enumerated": 4140,
+      "distinct_predictive_profiles": 712,
+      "same_predictive_different_control_pairs": {
+        "U_hidden_coordinate": 10980,
+        "U_visible_coordinate": 0,
+        "U_helly_triple": 10236,
+        "U_graded": 15219
+      },
+      "named_witness": {
+        "sensor_A": "00001111",
+        "sensor_B": "01011010",
+        "identical_predictive_profile": true,
+        "control_value_A": "1",
+        "control_value_B": "1/2",
+        "gap": "1/2",
+        "utility": "U_hidden_coordinate"
+      },
+      "machine_found_witness": {
+        "sensor_A": "00000011",
+        "sensor_B": "00010010",
+        "control_value_A": "3/4",
+        "control_value_B": "1/2"
+      },
+      "scope_note": "insufficiency is proved AT THE REGISTERED SCOPE -- the registered target suite and utility family -- and is not a claim about general intelligence as such"
+    },
+    "PC_2_control_sufficiency": {
+      "definition_control_sufficient": "V(T) = V(full discrete sensor)",
+      "definition_predictively_sufficient": "T refines the level-set partition of s -> p(Y|s)",
+      "per_utility": {
+        "U_hidden_coordinate": {
+          "V_full": "1",
+          "V_blind": "1/2",
+          "control_sufficient_sensors": 225,
+          "coarsest_control_sufficient_sensors": 1,
+          "unique_coarsest": true,
+          "coarsest_examples": [
+            "00001111"
+          ],
+          "common_optimal_action_criterion_agrees": true
+        },
+        "U_visible_coordinate": {
+          "V_full": "1",
+          "V_blind": "1/2",
+          "control_sufficient_sensors": 225,
+          "coarsest_control_sufficient_sensors": 1,
+          "unique_coarsest": true,
+          "coarsest_examples": [
+            "01010101"
+          ],
+          "common_optimal_action_criterion_agrees": true
+        },
+        "U_helly_triple": {
+          "V_full": "1",
+          "V_blind": "5/8",
+          "control_sufficient_sensors": 208,
+          "coarsest_control_sufficient_sensors": 3,
+          "unique_coarsest": false,
+          "coarsest_examples": [
+            "00122222",
+            "01022222",
+            "01122222"
+          ],
+          "common_optimal_action_criterion_agrees": true
+        },
+        "U_graded": {
+          "V_full": "89/128",
+          "V_blind": "71/128",
+          "control_sufficient_sensors": 221,
+          "coarsest_control_sufficient_sensors": 8,
+          "unique_coarsest": false,
+          "coarsest_examples": [
+            "00001122",
+            "00001222",
+            "00011122",
+            "00011222"
+          ],
+          "common_optimal_action_criterion_agrees": true
+        }
+      },
+      "relation_to_predictive_sufficiency": {
+        "U_hidden_coordinate": {
+          "EQUAL": 0,
+          "CONTROL_STRICTLY_COARSER": 0,
+          "PREDICTIVE_STRICTLY_COARSER": 0,
+          "INCOMPARABLE": 6
+        },
+        "U_visible_coordinate": {
+          "EQUAL": 1,
+          "CONTROL_STRICTLY_COARSER": 1,
+          "PREDICTIVE_STRICTLY_COARSER": 0,
+          "INCOMPARABLE": 4
+        },
+        "U_helly_triple": {
+          "EQUAL": 0,
+          "CONTROL_STRICTLY_COARSER": 0,
+          "PREDICTIVE_STRICTLY_COARSER": 0,
+          "INCOMPARABLE": 18
+        },
+        "U_graded": {
+          "EQUAL": 0,
+          "CONTROL_STRICTLY_COARSER": 0,
+          "PREDICTIVE_STRICTLY_COARSER": 0,
+          "INCOMPARABLE": 48
+        }
+      },
+      "helly_failure": {
+        "claim": "pairwise mergeability does not imply block mergeability, so the coarsest control-sufficient sensor is not a pairwise-local object",
+        "utility": "U_helly_triple",
+        "pairwise_compatible_triples_without_common_optimum": 1,
+        "example": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    "PC_3_parent_crosswalk": [
+      {
+        "gmi_symbol": "control-sufficient sensor T with V(T)=V_full",
+        "parent": "belief-state / information-state sufficiency for POMDPs",
+        "citation": "Astrom 1965, doi:10.1016/0022-247X(65)90154-X; Smallwood & Sondik 1973, doi:10.1287/opre.21.5.1071",
+        "status": "PARENT_SUFFICIENT",
+        "residual": "none -- the sufficiency notion is parent-owned"
+      },
+      {
+        "gmi_symbol": "coarsest sufficient state aggregation",
+        "parent": "bisimulation / model minimisation for MDPs",
+        "citation": "Givan, Dean & Greig 2003, doi:10.1016/S0004-3702(02)00376-4",
+        "status": "PARENT_SUFFICIENT",
+        "residual": "the exhaustive census of ALL minimal elements, including the non-uniqueness and the Helly failure, is measured here"
+      },
+      {
+        "gmi_symbol": "V(T) - price*cost(T) sensor selection",
+        "parent": "rate-distortion control / information-theoretic bounded rationality",
+        "citation": "Tishby & Polani 2011, doi:10.1007/978-1-4419-1452-1_19; Rubin, Shamir & Tishby 2012, doi:10.1007/978-3-642-24647-0_3; Ortega & Braun 2013, doi:10.1098/rspa.2012.0683",
+        "status": "PARENT_OWNED_OBJECTIVE",
+        "residual": "the exact rational transition ladder over all 4140 sensors"
+      },
+      {
+        "gmi_symbol": "VoI(T,T') = V(T) - V(T')",
+        "parent": "value of information",
+        "citation": "Howard 1966, doi:10.1109/TSSC.1966.300074",
+        "status": "PARENT_SUFFICIENT",
+        "residual": "none -- the quantity is parent-owned; the break-even price table is the instantiation"
+      },
+      {
+        "gmi_symbol": "price on attention/sensing",
+        "parent": "rational inattention / bounded rationality",
+        "citation": "Sims 2003, doi:10.1016/S0304-3932(03)00029-1; Simon 1955, doi:10.2307/1884852",
+        "status": "PARENT_OWNED_FRAMING",
+        "residual": "none claimed"
+      }
+    ],
+    "PC_4_value_of_information": {
+      "rule": "acquire the finer sensor iff VoI(T,T') > price * (cost(T)-cost(T'))",
+      "comparable_sensor_pairs_checked": 163754,
+      "pairs_with_zero_value_of_information": 26790,
+      "pairs_with_positive_value_of_information": 136964,
+      "distinct_break_even_prices": 71,
+      "break_even_min": "0",
+      "break_even_max": "9/64",
+      "probe": {
+        "utility": "U_graded",
+        "fine": "full discrete sensor",
+        "coarse": "blind sensor",
+        "VoI": "9/64",
+        "cost_increment": "7",
+        "break_even_price": "9/448",
+        "net_below": [
+          "85/128",
+          "71/128"
+        ],
+        "acquire_below": true,
+        "net_at": [
+          "71/128",
+          "71/128"
+        ],
+        "tie_at_break_even": true,
+        "net_above": [
+          "57/128",
+          "71/128"
+        ],
+        "acquire_above": false
+      }
+    },
+    "PC_5_free_merges": {
+      "condition": "merging a set of states costs no control value iff they share an optimal action -- the intersection of their argmax action sets is non-empty; verified against the exact value function on every pairwise merge",
+      "per_utility": {
+        "U_hidden_coordinate": {
+          "free_state_pairs": 12,
+          "costly_state_pairs": 16,
+          "criterion_vs_value_mismatches": 0,
+          "free_example": [
+            0,
+            1
+          ],
+          "costly_example": [
+            0,
+            4
+          ]
+        },
+        "U_visible_coordinate": {
+          "free_state_pairs": 12,
+          "costly_state_pairs": 16,
+          "criterion_vs_value_mismatches": 0,
+          "free_example": [
+            0,
+            2
+          ],
+          "costly_example": [
+            0,
+            1
+          ]
+        },
+        "U_helly_triple": {
+          "free_state_pairs": 13,
+          "costly_state_pairs": 15,
+          "criterion_vs_value_mismatches": 0,
+          "free_example": [
+            0,
+            1
+          ],
+          "costly_example": [
+            0,
+            3
+          ]
+        },
+        "U_graded": {
+          "free_state_pairs": 14,
+          "costly_state_pairs": 14,
+          "criterion_vs_value_mismatches": 0,
+          "free_example": [
+            0,
+            1
+          ],
+          "costly_example": [
+            0,
+            4
+          ]
+        }
+      }
+    },
+    "PC_6_control_relevant_predictively_redundant": {
+      "claim": "a distinction that every registered prediction target discards can be strictly necessary for control",
+      "predictively_redundant_state_pairs": 4,
+      "control_relevant_among_them": {
+        "U_hidden_coordinate": 4,
+        "U_visible_coordinate": 0,
+        "U_helly_triple": 3,
+        "U_graded": 4
+      },
+      "witness": {
+        "pair": [
+          0,
+          4
+        ],
+        "utility": "U_hidden_coordinate",
+        "V_full": "1",
+        "V_after_merge": "7/8"
+      },
+      "converse_PC5_attested": true,
+      "boundary_of_the_witness": [
+        {
+          "probe_target": "Y_b2",
+          "redundant_pairs_surviving": 0
+        },
+        {
+          "probe_target": "Y_parity",
+          "redundant_pairs_surviving": 0
+        },
+        {
+          "probe_target": "Y_majority",
+          "redundant_pairs_surviving": 2
+        }
+      ],
+      "boundary_note": "the registered target suite is exactly the functions of (b0,b1). Reading the hidden coordinate does NOT by itself destroy the redundancy: Y_b2 and Y_parity do, but Y_majority does not, because on the four states with b0 == b1 the majority is pinned by b0 and b2 stays invisible, so two redundant pairs survive. The asymmetry is reported rather than rounded to 'any extra target kills it'."
+    },
+    "PC_7_priced_transitions": {
+      "frozen_before_executor": true,
+      "freeze_commit": "65b45210b0cca60dba37d36fd556c8846fa3232f",
+      "price_ladder": [
+        "0",
+        "1/16",
+        "1/8",
+        "3/16",
+        "1/4",
+        "5/16",
+        "3/8",
+        "7/16",
+        "1/2",
+        "9/16",
+        "5/8",
+        "11/16",
+        "3/4",
+        "13/16",
+        "7/8",
+        "15/16",
+        "1",
+        "17/16",
+        "9/8",
+        "19/16",
+        "5/4",
+        "21/16",
+        "11/8",
+        "23/16",
+        "3/2",
+        "25/16",
+        "13/8",
+        "27/16",
+        "7/4",
+        "29/16",
+        "15/8",
+        "31/16",
+        "2"
+      ],
+      "per_problem": {
+        "U_hidden_coordinate": {
+          "distinct_selected_sensors": 2,
+          "selection_sequence": [
+            "00001111",
+            "00000000"
+          ],
+          "price_points": 33,
+          "blind_at_high_price": "00000000",
+          "high_price": "9/16"
+        },
+        "U_visible_coordinate": {
+          "distinct_selected_sensors": 2,
+          "selection_sequence": [
+            "01010101",
+            "00000000"
+          ],
+          "price_points": 33,
+          "blind_at_high_price": "00000000",
+          "high_price": "9/16"
+        },
+        "U_helly_triple": {
+          "distinct_selected_sensors": 3,
+          "selection_sequence": [
+            "00122222",
+            "00011111",
+            "00000000"
+          ],
+          "price_points": 33,
+          "blind_at_high_price": "00000000",
+          "high_price": "7/16"
+        },
+        "U_graded": {
+          "distinct_selected_sensors": 3,
+          "selection_sequence": [
+            "00001122",
+            "00001111",
+            "00000000"
+          ],
+          "price_points": 33,
+          "blind_at_high_price": "00000000",
+          "high_price": "13/64"
+        }
+      },
+      "predictions": {
+        "R1_monotone_coarsening": {
+          "statement": "for pi <= pi', the sensor selected at pi refines the sensor selected at pi' -- no re-refinement anywhere",
+          "violations": 0,
+          "verdict": "HELD"
+        },
+        "R2_multistage_transition": {
+          "statement": "at least one registered control problem shows >= 3 distinct selected sensors across the ladder",
+          "problems_with_three_or_more": 2,
+          "verdict": "HELD"
+        },
+        "R3_transition_prices_in_exact_set": {
+          "statement": "every selection change is bracketed by a difference quotient (V(T)-V(T'))/(cost(T)-cost(T')) of the registered family",
+          "distinct_difference_quotients": 121,
+          "transitions_outside_the_set": 0,
+          "verdict": "HELD"
+        },
+        "R4_blind_above_max_gain": {
+          "statement": "above the maximal achievable gain the blind sensor is selected in every registered problem",
+          "failures": 0,
+          "verdict": "HELD"
+        },
+        "R5_control_order_is_not_predictive_order": {
+          "statement": "some registered problem selects, at some price, a sensor that is control-sufficient and not predictively sufficient for a registered target",
+          "problems_witnessing": 4,
+          "verdict": "HELD"
+        }
+      }
+    }
+  },
+  "hostiles": [
+    {
+      "id": "H1_sensor_leak",
+      "description": "value computed by per-state maximisation inside a block, i.e. the policy reads a distinction the sensor hides",
+      "true_value": "1/2",
+      "hostile_value": "1",
+      "moves_target_quantity": true,
+      "detected": true,
+      "detector": "V(blind) must equal max_a E[U(s,a)]; the leak exceeds it"
+    },
+    {
+      "id": "H2_pairwise_helly_trap",
+      "description": "a checker that merges a block because its states are pairwise compatible; the triple has no common optimum",
+      "pairwise_compatible": true,
+      "triple_compatible": false,
+      "true_value_after_merge": "7/8",
+      "hostile_claimed_value": "1",
+      "moves_target_quantity": true,
+      "detected": true,
+      "detector": "block_is_free is evaluated on the whole block, never pairwise"
+    },
+    {
+      "id": "H3_truncated_target_suite",
+      "description": "the predictive profile is computed against a truncated target suite, making distinguishable sensors look equal",
+      "equal_under_full_suite": false,
+      "equal_under_truncated_suite": true,
+      "moves_target_quantity": true,
+      "detected": true,
+      "detector": "the profile is always taken over the full registered suite, whose membership is a checked receipt field"
+    },
+    {
+      "id": "H4_inverted_sensing_cost",
+      "description": "sensing cost decreasing in resolution; the coarsening ladder must break",
+      "violations_under_hostile_cost": 1,
+      "moves_target_quantity": true,
+      "detected": true,
+      "detector": "R1 counts nesting violations and is not allowed to be vacuous: the honest cost yields 0, the inverted cost > 0"
+    },
+    {
+      "id": "H5_freeze_provenance",
+      "description": "receipt asserting a freeze commit that is not the one pinned in MANIFEST_V1.json",
+      "pinned": "65b45210b0cca60dba37d36fd556c8846fa3232f",
+      "hostile": "0000000000000000000000000000000000000000",
+      "moves_target_quantity": true,
+      "detected": true,
+      "detector": "the workflow greps the freeze commit out of git and the test compares manifest, receipt and workflow"
+    }
+  ],
+  "null": {
+    "detector": "fires iff some predictively redundant state pair has no common optimal action under the utility",
+    "fires_on_planted": true,
+    "planted_utility": "U_hidden_coordinate",
+    "named_clean_controls": [
+      "U_visible_coordinate"
+    ],
+    "alarms_on_clean_controls": 0,
+    "clean_controls_enumerated": 200,
+    "clean_controls_firing": 0,
+    "clean_control_construction": "utilities measurable with respect to the registered target suite, i.e. functions of (b0,b1) alone",
+    "planted_controls_enumerated": 200,
+    "planted_controls_firing": 200,
+    "recall_on_planted": "200/200",
+    "false_alarms_on_clean": "0/200",
+    "base_rate_reported_not_suppressed": true
+  },
+  "forbidden_promotions": [
+    "PREDICTION_INSUFFICIENT_FOR_INTELLIGENCE_IN_GENERAL",
+    "CONTROL_SUFFICIENCY_IMPLIES_PREDICTIVE_SUFFICIENCY",
+    "PREDICTIVE_SUFFICIENCY_IMPLIES_CONTROL_SUFFICIENCY",
+    "POMDP_BELIEF_SUFFICIENCY_REPROVED",
+    "INFINITE_HORIZON_CONTROL_PROVED",
+    "CONTINUOUS_STATE_EXTENSION_PROVED",
+    "ENERGY_OR_TIME_PRICE_MEASURED",
+    "ARCHITECTURE_SELECTION_LAW",
+    "GMI_MORPHOLOGY_PREDICTION",
+    "COMPLETE_GMI"
+  ],
+  "checks": {
+    "sensors_enumerated_is_bell_8": true,
+    "pc1_witness_exists": true,
+    "pc1_named_witness_same_profile": true,
+    "pc2_criterion_matches_value_everywhere": true,
+    "pc2_helly_failure_exhibited": true,
+    "pc2_non_uniqueness_reported": true,
+    "pc3_crosswalk_complete": true,
+    "pc4_zero_voi_pairs_exist": true,
+    "pc4_tie_at_break_even": true,
+    "pc6_witness_exists": true,
+    "pc6_converse_of_pc5": true,
+    "pc7_all_predictions_recorded": true,
+    "hostiles_potent_then_detected": true,
+    "null_no_alarm_on_clean": true,
+    "null_fires_on_planted": true,
+    "null_recall_on_planted_controls": true
+  },
+  "verdict": "GREEN"
+}

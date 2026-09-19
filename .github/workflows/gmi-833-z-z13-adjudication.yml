@@ -1,0 +1,104 @@
+name: gmi-833-z-z13-adjudication
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-z-z13-adjudication-v1/**'
+      - '.github/workflows/gmi-833-z-z13-adjudication.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-z-z13-adjudication-v1/**'
+      - '.github/workflows/gmi-833-z-z13-adjudication.yml'
+  workflow_dispatch:
+
+jobs:
+  z13:
+    name: Z13 adjudication of Z13-P1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Freeze precedes implementation, amendment precedes the receipt
+        run: |
+          set -euo pipefail
+          PKG=research/gmi-833-z-z13-adjudication-v1
+          # Strict form: the first commit that ever touched this package carries
+          # the freeze. After a squash merge the whole package arrives in one
+          # commit, so the timestamp form ("freeze strictly older than executor")
+          # is unusable on main; presence-in-the-publishing-commit is the form
+          # the sibling #833 workflows already use and it survives the squash.
+          git log --reverse --format=%H -- "$PKG/" > /tmp/all_z13.txt
+          FIRST=$(head -1 /tmp/all_z13.txt)
+          if [ -z "$FIRST" ]; then echo "negative control: package absent from history"; exit 1; fi
+          git show --name-only --format= "$FIRST" -- "$PKG/" > /tmp/firstfiles_z13.txt
+          cat /tmp/firstfiles_z13.txt
+          if ! grep -q 'FREEZE_V1.md' /tmp/firstfiles_z13.txt; then
+            echo "FREEZE IS NOT IN THE COMMIT THAT FIRST TOUCHED THIS PACKAGE"; exit 1
+          fi
+          if [ "$(grep -c . /tmp/firstfiles_z13.txt)" = "1" ]; then
+            echo 'freeze-first commit ordering intact'
+          else
+            echo 'package published by squash; freeze present in the publishing commit'
+          fi
+          # The amendment must not postdate the receipt it governs.
+          git log --reverse --format=%H --diff-filter=A -- "$PKG/FREEZE_V1_AMENDMENT_1.md" > /tmp/amend.txt
+          A=$(head -1 /tmp/amend.txt)
+          git log --reverse --format=%H --diff-filter=A -- "$PKG/RESULT_V1.json" > /tmp/receipt.txt
+          R=$(head -1 /tmp/receipt.txt)
+          if [ -z "$A" ]; then echo "negative control: amendment absent from history"; exit 1; fi
+          if [ -z "$R" ]; then echo "negative control: receipt absent from history"; exit 1; fi
+          echo "amendment=$A receipt=$R"
+          if [ "$A" != "$R" ] && ! git merge-base --is-ancestor "$A" "$R"; then
+            echo "AMENDMENT DOES NOT PRECEDE THE RECEIPT"; exit 1
+          fi
+
+      - name: Workflow integrity
+        run: python3 -I -B research/gmi-833-workflow-integrity-v1/check_workflows_v1.py
+
+      - name: Route B oracle
+        run: python3 -I -B research/gmi-833-z-z13-adjudication-v1/independent_z13_oracle_v1.py
+
+      - name: Route A executor
+        run: python3 -I -B research/gmi-833-z-z13-adjudication-v1/z13_adjudication_v1.py
+
+      - name: Receipts are byte-stable
+        run: |
+          set -eu
+          git diff --exit-code -- research/gmi-833-z-z13-adjudication-v1/RESULT_V1.json
+          git diff --exit-code -- research/gmi-833-z-z13-adjudication-v1/ORACLE_RESULT_V1.json
+
+      - name: Tests (normal mode)
+        run: python3 -I -B research/gmi-833-z-z13-adjudication-v1/test_z13_adjudication_v1.py -v
+
+      - name: Tests (optimized mode)
+        run: python3 -I -O -B research/gmi-833-z-z13-adjudication-v1/test_z13_adjudication_v1.py -v
+
+      - name: Verdict gate
+        run: |
+          set -eu
+          python3 -I -B - research/gmi-833-z-z13-adjudication-v1/RESULT_V1.json <<'PY'
+          import json, sys
+          with open(sys.argv[1]) as fh:
+              r = json.load(fh)
+          if r["verdict"] != "MISS":
+              sys.exit("verdict drifted to %s; a MISS may not be repaired into a HIT" % r["verdict"])
+          if r["HIT_conditions"]["H1_lower_endpoint"] is not True:
+              sys.exit("H-1 must stay confirmed")
+          for k in ("H2_upper_endpoint", "H3_minimiser_satisfies_Pa_Pb_Pc",
+                    "H4_Pd_nonvacuous", "H5_negative_ecology"):
+              if r["HIT_conditions"][k] is not False:
+                  sys.exit("%s drifted; the published refutation must stand" % k)
+          if r["P_d_status"] != "VACUOUSLY_TRUE":
+              sys.exit("P-d vacuity status drifted")
+          if not r["hostiles_all_detected"]:
+              sys.exit("an inert hostile is a defect of this package")
+          if not r["no_alarm_control"]["silent_as_required"]:
+              sys.exit("the no-alarm control fired")
+          if r["null"]["nulls_reaching_all_worlds"] != 0:
+              sys.exit("the null was not beaten")
+          print("Z13 verdict MISS, published;",
+                r["thresholds"]["H1_lower_endpoint_matches_frozen"], "/",
+                r["thresholds"]["H2_upper_endpoint_matches_frozen"])
+          PY
