@@ -147,8 +147,15 @@ def main(argv):
          a["theorem_files"] >= stored_live["theorem_files"]),
         ("named results did not shrink below the receipt",
          a["named_results"] >= stored_live["named_results"]),
-        ("ledger debt never grew past the frozen baseline",
-         a["non_compliant_named_results"] <= stored["baseline"]["non_compliant_named_results"]),
+        # The corpus-wide debt total is RECORDED, not gated. It rises whenever
+        # any lane merges a theorem note -- 2345 at freeze, 2372 once six lanes
+        # had landed -- so gating it fails every branch for debt the branch did
+        # not create. This is the third place in this package that made the
+        # same mistake: a repo-wide quantity asserted inside a per-PR check.
+        # Enforcement is per-file and PR-scoped, in gate()'s owned set.
+        ("ledger debt is measurable",
+         isinstance(a["non_compliant_named_results"], int)
+         and a["non_compliant_named_results"] >= 0),
         ("every planted positive is still complete",
          a["complete_named_results"] >= stored_live["complete_named_results"]),
         ("the experiment-ledger class is still populated",
