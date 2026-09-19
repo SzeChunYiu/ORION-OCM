@@ -1,0 +1,28 @@
+name: gmi-1068-r17-recursive-closure-audit-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r17-recursive-closure-audit-v1/**'
+      - 'research/gmi-1068-r16-grand-fixed-point-v1/**'
+      - '.github/workflows/gmi-1068-r17-recursive-closure-audit-v1.yml'
+jobs:
+  closure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=93cd635fcdcac8ff811a46b09cdd24de561c2c09
+          P=research/gmi-1068-r17-recursive-closure-audit-v1
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/RESULT_V1.json" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+      - name: Recursive dependency closure
+        run: |
+          python3 -I -B research/gmi-1068-r17-recursive-closure-audit-v1/check_r17.py
+          python3 -I -O -B research/gmi-1068-r17-recursive-closure-audit-v1/check_r17.py
+      - name: Re-run final fixed-point gate
+        run: python3 -I -B research/gmi-1068-r16-grand-fixed-point-v1/check_fixed_point_v1.py
