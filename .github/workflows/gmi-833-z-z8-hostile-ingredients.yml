@@ -1,0 +1,71 @@
+name: gmi-833-z-z8-hostile-ingredients
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-z-z8-hostile-ingredients-v1/**'
+      - '.github/workflows/gmi-833-z-z8-hostile-ingredients.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-z-z8-hostile-ingredients-v1/**'
+      - '.github/workflows/gmi-833-z-z8-hostile-ingredients.yml'
+  workflow_dispatch:
+
+jobs:
+  z8:
+    name: Z8 hostile ingredients
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Freeze precedes implementation (bytes, then git order when reachable)
+        run: |
+          set -eu
+          PKG=research/gmi-833-z-z8-hostile-ingredients-v1
+          SUM=$(sha256sum "$PKG/FREEZE_V1.md" | cut -d' ' -f1)
+          if [ "$SUM" != "651d3cb548df3f29112faae6bed47385ca221919de8c758cfc03b51b2f8bcc10" ]; then echo "FREEZE BYTES DRIFTED: $SUM"; exit 1; fi
+          FREEZE=$(git log --format=%ct --diff-filter=A -- "$PKG/FREEZE_V1.md" | tail -1)
+          IMPL=$(git log --format=%ct --diff-filter=A -- "$PKG/z8_hostile_ingredients_v1.py" | tail -1)
+          if [ -z "$FREEZE" ] || [ -z "$IMPL" ]; then echo "UNREACHABLE: history does not carry the adds (squash); bytes verified above"; exit 0; fi
+          echo "freeze=$FREEZE impl=$IMPL"
+          if [ "$FREEZE" -gt "$IMPL" ]; then echo "FREEZE DOES NOT PRECEDE IMPLEMENTATION"; exit 1; fi
+
+      - name: Workflow integrity
+        run: python3 -I -B research/gmi-833-workflow-integrity-v1/check_workflows_v1.py
+
+      - name: Route B oracle
+        run: python3 -I -B research/gmi-833-z-z8-hostile-ingredients-v1/independent_z8_oracle_v1.py
+
+      - name: Route A executor
+        run: python3 -I -B research/gmi-833-z-z8-hostile-ingredients-v1/z8_hostile_ingredients_v1.py
+
+      - name: Receipts are byte-stable
+        run: |
+          set -eu
+          git diff --exit-code -- research/gmi-833-z-z8-hostile-ingredients-v1/RESULT_V1.json
+          git diff --exit-code -- research/gmi-833-z-z8-hostile-ingredients-v1/ORACLE_RESULT_V1.json
+
+      - name: Tests (normal mode)
+        run: python3 -I -B research/gmi-833-z-z8-hostile-ingredients-v1/test_z8_hostile_ingredients_v1.py -v
+
+      - name: Tests (optimized mode)
+        run: python3 -I -O -B research/gmi-833-z-z8-hostile-ingredients-v1/test_z8_hostile_ingredients_v1.py -v
+
+      - name: Verdict gate
+        run: |
+          set -eu
+          python3 -I -B - research/gmi-833-z-z8-hostile-ingredients-v1/RESULT_V1.json <<'PY'
+          import json, sys
+          with open(sys.argv[1]) as fh:
+              r = json.load(fh)
+          bad = [k for k, v in r["gates"].items() if not v]
+          if bad:
+              sys.exit("gates failed: %s" % bad)
+          if r["verdict"] != "GREEN":
+              sys.exit("verdict %s" % r["verdict"])
+          if not r["hostiles_all_applicable"] or not r["hostiles_all_detected"]:
+              sys.exit("a hostile is inapplicable or undetected")
+          print("Z8 GREEN, gates:", len(r["gates"]), "misses published:", r["failed_predictions"])
+          PY
