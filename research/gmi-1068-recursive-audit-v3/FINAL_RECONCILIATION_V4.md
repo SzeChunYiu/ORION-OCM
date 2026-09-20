@@ -8,6 +8,10 @@ intelligence forms have been derived.
 `SCOPE_SNAPSHOT_V4.json` is additive. The V3 snapshot and every historical artifact
 record remain unchanged. V4 retains the earlier R5 repair and adds the actual
 source/result hashes and named witnesses for the R6, R11/R12 and R4 repairs.
+V4 also corrects the R14 summary label to proof-assistant formalization, as
+required by its unchanged 14 atomic requirements. V3 had mislabeled R14 as a
+prior/irreducibility audit. The historical-status string is preserved as an
+original record, not endorsed as a correct summary of R14.
 Parent digests are recomputed to bind this new evidence consistently. A changed
 parent binding does not itself earn a dependent round.
 
@@ -51,8 +55,8 @@ components now have evidence. No new whole-round EARNED status is asserted.
 | R7–R10 | STALE | Family recovery, architecture leakage, update-law and information/control claims still require their own corrected evidence and earned parents. |
 | R11–R12 | STALE, with repair C locally verified | The controlled-state theorem and finite source audit do not establish every physical-AI or registered family claim. |
 | R13 | STALE; historical adjudication already merged | Existing evidence adjudication is retained. New performance evidence and corrected parents are still required. |
-| R14 | OPEN | Prior and irreducibility audit remains. |
-| R15–R16 | NOT_STARTED | Integrated simplification and publication readiness depend on the unfinished chain. |
+| R14 | OPEN | Flagship proofs must establish the intended statements and bind corrected dependencies; the new general paper proofs still need kernel formalization. |
+| R15–R16 | NOT_STARTED | Full hostile theory review, final simplification and publication readiness depend on the unfinished chain. |
 | R17 | OPEN | Full scope-bound final audit, source ownership, empirical lineage, hostile review and unresolved-region reconciliation remain. |
 
 The canonical DAG is unchanged. The derived stale closure includes R5 through

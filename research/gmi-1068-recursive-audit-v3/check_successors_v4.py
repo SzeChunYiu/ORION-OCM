@@ -8,6 +8,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[1]
 V3_SHA256 = "05081b8b8b063f783be06a9286e6383e3cff441c7d7982af6311bab26a276284"
+SCOPE_CORRECTIONS = {
+    "R14": (
+        "Irreducibility/prior audit of surviving assumptions at declared scope.",
+        "Proof-assistant formalization and kernel verification of the flagship theory bundle.",
+    ),
+}
 EXPECTED_REPAIRS = {
     "R4": "R4-sufficiency-repair-v3",
     "R6": "R6-genesis-repair-v2",
@@ -42,8 +48,12 @@ def main():
     changed_paths = set()
     for name in gate.NODES:
         old, new = baseline["rounds"][name], current["rounds"][name]
-        for key in ("status", "scope", "historical_reconciliation_status", "obligations"):
+        for key in ("status", "historical_reconciliation_status", "obligations"):
             need(old[key] == new[key], "UNAUTHORIZED_REEARNING_OR_HISTORY_CHANGE:" + name + ":" + key)
+        if name in SCOPE_CORRECTIONS:
+            need((old["scope"], new["scope"]) == SCOPE_CORRECTIONS[name], "WRONG_SCOPE_CORRECTION:" + name)
+        else:
+            need(old["scope"] == new["scope"], "UNREGISTERED_SCOPE_CHANGE:" + name)
         old_artifacts = {a["path"]: a for a in old["artifacts"]}
         new_artifacts = {a["path"]: a for a in new["artifacts"]}
         need(all(new_artifacts.get(path) == artifact for path, artifact in old_artifacts.items()),
@@ -70,6 +80,7 @@ def main():
         "registered_atoms": 222,
         "unresolved_atoms": 222,
         "new_local_repairs": EXPECTED_REPAIRS,
+        "scope_label_corrections": sorted(SCOPE_CORRECTIONS),
         "physical_changed_rounds": touched,
         "overall_closure": result["overall_closure"],
         "scientific_truth_certified": False,
