@@ -1,0 +1,79 @@
+{
+  "schema": "GMI_RESOURCE_DISTINCTION_PARENTS_V10",
+  "freeze_commit": "52d2e139aaa033661b05175fc085ab7fabaae05c",
+  "ownership": "Classical and parent-owned distinction games, deterministic continuation semantics, shortest paths, finite refinement and ultrametric constructions. V10 adapts them to an explicit scalar operational resource and observation contract. No novelty or priority claim.",
+  "sources": [
+    {
+      "id": "BISPING_2023",
+      "title": "Process Equivalence Problems as Energy Games",
+      "authors": ["Benjamin Bisping"],
+      "url": "https://arxiv.org/pdf/2303.08904",
+      "publication": "CAV 2023; arXiv2303.08904v2",
+      "read_scope": "Primary full text: definitions6-9 and propositions2-3, PDFpp8-9; distinction soundness/completeness and theorem1, pp12-13; algorithm1 and section4.3, pp15-17.",
+      "parent_result": "Minimal winning initial energies characterize distinguishing logical observations; attacker-winning energies are upward closed, with witness extraction and equivalence spectra.",
+      "adaptation": "V10 replaces six expressiveness dimensions and a two-player spectroscopy game by deterministic paired executions with one consumed operational resource.",
+      "limits": "The paper's logical prices are not operational machine costs. V10's cost-observability iff and local mismatch thresholds are proved directly, not asserted to be its theorem verbatim."
+    },
+    {
+      "id": "RUTTEN_1996",
+      "title": "Elements of generalized ultrametric domain theory",
+      "authors": ["J. J. M. M. Rutten"],
+      "url": "https://ir.cwi.nl/pub/2186/2186D.pdf",
+      "publication": "Theoretical Computer Science170 (1996),349-381",
+      "read_scope": "Primary PDF section2, printedpp350-351/PDFpp2-3, definitions of generalized/pseudo ultrametrics and Example2.1(6).",
+      "parent_result": "Transition-system simulation approximants induce a generalized ultrametric inf{2^(-n):s approximates_n t}.",
+      "adaptation": "V10 uses symmetric response equivalences indexed by operational resource and the first-distinction convention 2^(-D), then separates zero-distance classes.",
+      "limits": "Approximation-depth and first-distinction indexing are not identical conventions. No novelty for the exponential metric construction; the chosen base is a scale. This symmetric D is not a directed transformation cost."
+    },
+    {
+      "id": "HANSEN_ET_AL_2018",
+      "title": "Reasoning About Bounds in Weighted Transition Systems",
+      "authors": ["Mikkel Hansen", "Kim Guldstrand Larsen", "Radu Mardare", "Mathias Ruggaard Pedersen"],
+      "url": "https://lmcs.episciences.org/4992/pdf",
+      "publication": "Logical Methods in Computer Science14(4:19),2018",
+      "read_scope": "Primary PDF model definition2.1,p4; weighted and generalized weighted bisimulation definitions2.6-2.7,p5.",
+      "parent_result": "Exact-weight matching differs from coarser matching of lower and upper weight bounds to equivalence classes.",
+      "adaptation": "Explicitly retain exact observed edge costs for baseline resource equivalence, and isolate hidden-cost event maps as a separate theorem/control.",
+      "limits": "Bounds-only equivalence cannot silently substitute for exact event/cost matching; the paper does not directly supply V10's initial-resource threshold."
+    },
+    {
+      "id": "DIJKSTRA_1959",
+      "title": "A Note on Two Problems in Connexion with Graphs",
+      "authors": ["E. W. Dijkstra"],
+      "url": "https://www.cs.cornell.edu/courses/JavaAndDS/shortestPath/1959dijkstra.pdf",
+      "publication": "Numerische Mathematik1 (1959),269-271",
+      "read_scope": "Original primary scan, Problem2 and remarks1-2, printedpp270-271/PDFpp2-3.",
+      "parent_result": "Shortest-path settlement by increasing tentative distance and predecessor records, including direction-dependent edge lengths.",
+      "adaptation": "Reverse shortest paths from mismatch on the finite unordered-pair graph, with infinity for unreachable vertices and settlement-rank witness links.",
+      "limits": "Product-graph correctness is proved separately. Zero-cost witness progress and unreachable cases are explicit implementation obligations, not inferred from Bellman equality alone."
+    },
+    {
+      "id": "BUSATTO_GASTON_MONMEGE_REYNIER_2017",
+      "title": "Optimal Reachability in Divergent Weighted Timed Games",
+      "authors": ["Damien Busatto-Gaston", "Benjamin Monmege", "Pierre-Alain Reynier"],
+      "url": "https://pageperso.lis-lab.fr/benjamin.monmege/papers/BMR17.pdf",
+      "publication": "arXiv1701.03716v1,2017",
+      "read_scope": "Primary PDF section2,pp3-4, finite weighted games, accumulated weight and first-target reachability value.",
+      "parent_result": "Reachability payoff sums costs until first target and assigns positive infinity when the target is never reached.",
+      "adaptation": "After reduction, V10 is a one-player nonnegative finite minimum-cost reachability instance.",
+      "limits": "No timed-game, negative-weight or adversarial-game result is imported into V10. Zero cycles are permitted here without invoking that paper's divergence restriction."
+    },
+    {
+      "id": "LOMBARDY_SAKAROVITCH_2021",
+      "title": "Morphisms and Minimisation of Weighted Automata",
+      "authors": ["Sylvain Lombardy", "Jacques Sakarovitch"],
+      "url": "https://arxiv.org/pdf/2112.09387",
+      "read_scope": "Primary PDF section3.4,theorems3.12-3.13 and remark3.14,pp10-11.",
+      "parent_result": "A weighted automaton has a unique coarsest congruence/minimal quotient, which need not be the globally smallest realization of its recognized series.",
+      "adaptation": "Restrict storage minimality to codes sufficient for the declared response family at externally known fixed resource.",
+      "limits": "No identification with unrestricted weighted realization minimization or total online-memory optimization."
+    }
+  ],
+  "local_parents": [
+    {"path": "research/gmi-1068-continuation-v8/THEORY_V8.md", "use": "Complete deterministic responses, quotient sufficiency, residual-resource lifting, and word-length refinement bound n-k; V10 derives a resource threshold from these semantics."},
+    {"path": "research/gmi-1068-continuation-v8/NEXT_RESOURCE_PREDICTION.md", "use": "Prior disclosed graph-threshold candidate, hidden-cost control, zero-cycle Bellman gap and distinction between snapshot codes and online memory. These are not newly discovered after the V10 freeze."},
+    {"path": "research/gmi-1068-r0-foundation-repair-v9/THEORY_V9.md", "use": "Recoverability is relative to declared observations and attained-image decoders. T3's cost recovery is likewise conditioned on the known action."}
+  ],
+  "proof_trust": "THEORY_V10.md contains direct general paper proofs. ResourceV10.lean and its separate scope record identify kernel-checked statements; Python is independently tested, not claimed extracted or kernel verified.",
+  "claim_boundary": "Finite deterministic supplied machines, natural consumption, exact retained events and explicit observation maps. No empirical accuracy, stochastic or divergent semantics, universal intelligence, all-family derivation or new literature priority."
+}

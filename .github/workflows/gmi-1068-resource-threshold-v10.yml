@@ -1,0 +1,65 @@
+name: gmi-1068-resource-threshold-v10
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068*/**'
+      - '.github/workflows/gmi-1068-resource-threshold-v10.yml'
+jobs:
+  resource-distinction-and-independent-oracle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Freeze and baseline custody
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -eu
+          test "$(/usr/bin/git rev-parse HEAD)" = "$HEAD_SHA"
+          F=52d2e139aaa033661b05175fc085ab7fabaae05c
+          P=research/gmi-1068-resource-threshold-v10
+          /usr/bin/git merge-base --is-ancestor "$F" HEAD
+          /usr/bin/git cat-file -e "$F:$P/FREEZE_V10.md"
+          if /usr/bin/git cat-file -e "$F:$P/threshold_v10.py" 2>/dev/null; then exit 1; fi
+          /usr/bin/git diff --exit-code "$F" HEAD -- "$P/FREEZE_V10.md"
+          C=7aa823bf97f54796f8645646b9644d599ff41e54
+          /usr/bin/git merge-base --is-ancestor "$C" HEAD
+          /usr/bin/git diff --exit-code "$C" HEAD -- "$P/PROTOCOL_CONTEXT_V10.md"
+          if /usr/bin/git cat-file -e "$C:$P/threshold_v10.py" 2>/dev/null; then exit 1; fi
+          V=research/gmi-1068-recursive-audit-v9/SCOPE_SNAPSHOT_V9.json
+          /usr/bin/git show "$BASE_SHA:$V" > /tmp/gmi-v9.json
+          cmp /tmp/gmi-v9.json "$V"
+          python3 -I -B research/gmi-1068-recursive-audit-v10/select_ci_baseline.py --base-sha "$BASE_SHA" --current research/gmi-1068-recursive-audit-v10/SCOPE_SNAPSHOT_V10.json --predecessor "$V" --output /tmp/gmi-v10-ci-base.json
+          /usr/bin/git diff --name-only "$BASE_SHA" HEAD > /tmp/gmi-changed.txt
+      - name: Exact independent replay
+        run: |
+          P=research/gmi-1068-resource-threshold-v10
+          python3 -I -B "$P/check_resource_v10.py" > /tmp/resource-v10.json
+          python3 -I -O -B "$P/check_resource_v10.py" > /tmp/resource-v10-opt.json
+          cmp /tmp/resource-v10.json /tmp/resource-v10-opt.json
+      - name: All-round successor integrity
+        run: |
+          P=research/gmi-1068-recursive-audit-v10
+          python3 -I -B "$P/check_snapshot_v10.py"
+          python3 -I -O -B "$P/check_snapshot_v10.py"
+          python3 -I -B research/gmi-1068-recursive-audit-v3/gate.py --snapshot "$P/SCOPE_SNAPSHOT_V10.json" --baseline /tmp/gmi-v10-ci-base.json --changed-files /tmp/gmi-changed.txt
+      - name: Existing-round baseline regression
+        run: |
+          python3 -I -B research/gmi-1068-recursive-audit-v10/test_ci_baseline_v10.py
+          python3 -I -O -B research/gmi-1068-recursive-audit-v10/test_ci_baseline_v10.py
+      - name: Pinned Lean 4.19.0
+        run: |
+          set -eu
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /tmp/elan-init.sh
+          sh /tmp/elan-init.sh -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Resource response kernel replay
+        run: |
+          set -euo pipefail
+          P=research/gmi-1068-resource-threshold-v10/ResourceV10.lean
+          if grep -En '\b(sorry|admit|axiom|unsafe)\b' "$P"; then exit 1; fi
+          lean -DwarningAsError=true "$P" | tee /tmp/resource-v10-lean.txt
+          if grep -q sorryAx /tmp/resource-v10-lean.txt; then exit 1; fi

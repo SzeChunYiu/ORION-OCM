@@ -28,6 +28,7 @@ jobs:
           V=research/gmi-1068-recursive-audit-v8/SCOPE_SNAPSHOT_V8.json
           /usr/bin/git show "$BASE_SHA:$V" > /tmp/gmi-v8.json
           cmp /tmp/gmi-v8.json "$V"
+          python3 -I -B research/gmi-1068-recursive-audit-v10/select_ci_baseline.py --base-sha "$BASE_SHA" --current research/gmi-1068-recursive-audit-v9/SCOPE_SNAPSHOT_V9.json --predecessor "$V" --output /tmp/gmi-v9-ci-base.json
           /usr/bin/git diff --name-only "$BASE_SHA" HEAD > /tmp/gmi-changed.txt
       - name: Exact independent replay
         run: |
@@ -40,7 +41,7 @@ jobs:
           P=research/gmi-1068-recursive-audit-v9
           python3 -I -B "$P/check_snapshot_v9.py"
           python3 -I -O -B "$P/check_snapshot_v9.py"
-          python3 -I -B research/gmi-1068-recursive-audit-v3/gate.py --snapshot "$P/SCOPE_SNAPSHOT_V9.json" --baseline /tmp/gmi-v8.json --changed-files /tmp/gmi-changed.txt
+          python3 -I -B research/gmi-1068-recursive-audit-v3/gate.py --snapshot "$P/SCOPE_SNAPSHOT_V9.json" --baseline /tmp/gmi-v9-ci-base.json --changed-files /tmp/gmi-changed.txt
       - name: Pinned Lean 4.19.0
         run: |
           set -eu
