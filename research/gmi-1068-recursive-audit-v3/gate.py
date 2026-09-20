@@ -222,6 +222,7 @@ def main():
     custody.add_argument("--initial-introduction", action="store_true", help="CI must independently verify no prior gate exists on the target base")
     parser.add_argument("--changed-files")
     args = parser.parse_args()
+    need(args.initial_introduction or bool(args.baseline), "EMPTY_BASELINE_FORBIDDEN")
     need(bool(args.baseline) == bool(args.changed_files), "BASELINE_AND_CHANGED_FILES_REQUIRED_TOGETHER")
     current = read_json(args.snapshot)
     result = validate(current, Path(args.repo))

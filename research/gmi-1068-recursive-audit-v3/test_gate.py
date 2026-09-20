@@ -185,6 +185,13 @@ class ScopeGateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "CHANGED_PARENT_WITHOUT_DESCENDANT_REVIEW:R1"):
             gate.validate_baseline(self.s, baseline, ["research/gmi-1068-grand-unified-v2-r0/RESULT_V1.json"])
 
+    def test_empty_baseline_cannot_disable_custody(self):
+        result = subprocess.run([
+            sys.executable, str(HERE / "gate.py"), "--baseline", "",
+        ], capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("EMPTY_BASELINE_FORBIDDEN", result.stderr)
+
     def test_cli_requires_explicit_custody_mode(self):
         result = subprocess.run([sys.executable, str(HERE / "gate.py")], capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)

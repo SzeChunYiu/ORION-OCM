@@ -17,7 +17,7 @@ parent receipt invalidates unreconciled dependent receipts, including transitive
 descendants. The output displays the derived stale closure without rewriting
 historical evidence.
 
-All 222 obligations remain unresolved in this successor audit ledger. For R0–R3,
+All 222 requirements remain unresolved in this successor audit ledger. For R0–R3,
 UNKNOWN means independent atom-by-atom successor adjudication was not performed;
 it does not retract every historical result. Historical initial atom statuses
 remain NOT_STARTED in a separate field and are not confused with current audit
@@ -80,7 +80,7 @@ reproduced these accepted mutations despite its baseline tests passing:
    artifacts had no content-hash invalidation semantics.
 
 The additive V3 gate rejects these mutation classes under its declared trust
-boundary. Its 24 tests also cover missing files, wrong hashes, missing/forged
+boundary. Its 25 tests also cover missing files, wrong hashes, missing/forged
 locators, deleted atoms, closed atoms without evidence, unresolved-parent closure,
 changed-parent descendant review, unsafe paths, global promotion, missing custody
 mode, and local repair without full closure. Tests pass with Python `-I -B` and
