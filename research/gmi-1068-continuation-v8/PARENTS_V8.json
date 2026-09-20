@@ -1,0 +1,67 @@
+{
+  "schema": "GMI_CONTINUATION_PARENTS_V8",
+  "freeze_commit": "7941f06d1f5a35df54615ac308439ead0e537d4d",
+  "ownership": "Adapted operational specialization of established automata/coalgebra mathematics; no novelty claim for equivalence, bisimulation, quotient, sufficient-representation factorization or minimization.",
+  "sources": [
+    {
+      "id": "RUTTEN_1998",
+      "title": "Automata and Coinduction (An Exercise in Coalgebra)",
+      "author": "J. J. M. M. Rutten",
+      "year": 1998,
+      "url": "https://ir.cwi.nl/pub/2114/2114D.pdf",
+      "read_scope": "Primary full text retrieved. Sections 2-4 definitions/derivatives/coinduction; section 7 finality, minimality and explicit Myhill-Nerode correspondence; section 13 partial automata.",
+      "parent_result": "Final behavior map identifies bisimilar states; generated language-derivative automaton is minimal. Partial automata bisimulation also preserves transition definedness.",
+      "adaptation": "Use arbitrary state observations and edge output/cost labels, with all intermediate events and illegal termination recorded. Prove concrete constructor-based response congruence and quotient in Lean.",
+      "limits": "Classical accepted-language semantics alone does not expose all partial enabledness; preserve defined paths too. No stochastic or nondeterministic trace-to-bisimulation implication imported."
+    },
+    {
+      "id": "RUTTEN_1996_2000",
+      "title": "Universal coalgebra: a theory of systems",
+      "author": "J. J. M. M. Rutten",
+      "year": 1996,
+      "publication": "CWI CS-R9652; journal version Theoretical Computer Science249 (2000),3-80",
+      "url": "https://ir.cwi.nl/pub/4802/4802D.pdf",
+      "journal_doi": "10.1016/S0304-3975(00)00056-6",
+      "read_scope": "Primary 1996 report retrieved, PDF pages26-29: isomorphism/factorization and simple-system results. Text extraction partially garbles mathematical glyphs; exact V8 claims are proved locally and supported by clear 1998 source.",
+      "parent_result": "Coalgebra quotients by bisimulation, homomorphism factorization, and greatest-bisimulation quotient simplicity.",
+      "adaptation": "Functor shape O × (Option(E × S))^A; no claim to construct a final object for all conceivable intelligence processes.",
+      "limits": "Set-indexed types and fixed observations. The quotient for a supplied machine is not a proof that this observation contract models reality."
+    },
+    {
+      "id": "MOHRI_1997",
+      "title": "Finite-State Transducers in Language and Speech Processing",
+      "author": "Mehryar Mohri",
+      "year": 1997,
+      "url": "https://cs.nyu.edu/~mohri/pub/cl1.pdf",
+      "read_scope": "Author-hosted corrected full text retrieved; sequential-transducer definitions pages2-3 and pushing/minimization pages27-28.",
+      "parent_result": "Weighted subsequential minimization uses weight pushing followed by automata minimization, under the stated semiring/model assumptions; pushing preserves realized completed-path function.",
+      "adaptation": "V8 keeps operational edge labels, hence ordinary stable partition refinement applies directly without weight pushing.",
+      "limits": "Redistributing a completed-path weight can change observed prefix costs and budget-enabledness; weighted-function equivalence is not our equivalence."
+    },
+    {
+      "id": "MOHRI_2004",
+      "title": "Weighted Finite-State Transducer Algorithms: An Overview",
+      "author": "Mehryar Mohri",
+      "year": 2004,
+      "url": "https://cs.nyu.edu/~mohri/pub/fla.pdf",
+      "read_scope": "Author-hosted primary full text retrieved; preliminaries and weight-pushing/minimization discussion, pages6-8 also read by root reviewer.",
+      "parent_result": "Semiring-labelled automata distinguish path products from aggregation across successful paths; applicability assumptions constrain determinization/minimization.",
+      "adaptation": "Declare one deterministic path per input and additive Nat operational resources; preserve individual edge costs.",
+      "limits": "No imported result for arbitrary semirings, nondeterminism or probability-law equality."
+    },
+    {
+      "id": "NERODE_1958",
+      "title": "Linear Automaton Transformations",
+      "author": "Anil Nerode",
+      "year": 1958,
+      "doi": "10.1090/S0002-9939-1958-0135681-9",
+      "url": "https://www.ams.org/journals/proc/1958-009-04/S0002-9939-1958-0135681-9/S0002-9939-1958-0135681-9.pdf",
+      "read_scope": "Original AMS PDF access denied403; not claimed read. Attribution and exact classical statement cross-checked in Rutten1998 section7 and bibliography.",
+      "parent_result": "Classical Myhill-Nerode ownership: right-continuation equivalence and finite-index characterization of deterministic finite recognition.",
+      "adaptation": "Total Boolean-observation, unobserved-constant-edge specialization of V8 recovers classical residual equivalence.",
+      "limits": "This is parent attribution, not a claim of independent novelty or a direct reading of the blocked original."
+    }
+  ],
+  "implementation": "Fresh compact specialization in Lean4.19.0 and Python; no copied parent implementation. Classical choice only in arbitrary attained-image representative selection.",
+  "claim_boundary": "Exact supplied deterministic process semantics. No prior over worlds is used; supplied process, observables, action alphabet, Nat resource model and full-test objective remain assumptions."
+}
