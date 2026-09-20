@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 import importlib.util,json,pathlib,sys
 ROOT=pathlib.Path(__file__).resolve().parent
+RESEARCH=ROOT.parent
 def need(cond,msg):
  if not cond: raise RuntimeError(msg)
+r7=json.loads((RESEARCH/"gmi-1068-r7-blind-family-atlas-v1/RESULT_V1.json").read_text())
+need(r7["status"]=="GREEN_AT_REGISTERED_FINITE_ATLAS_SCOPE","R7_PARENT_NOT_GREEN")
+need(r7["unknown_allowed"] is True and r7["unique_family_claims"]==0,"R7_BLINDNESS_BOUNDARY_MISSING")
 spec=importlib.util.spec_from_file_location("causal",ROOT/"causal_derivation_v1.py")
 causal=importlib.util.module_from_spec(spec);spec.loader.exec_module(causal)
 deny=["neuron","neural","relu","layer","network","backprop","attention","convolution","transformer","target-architecture"]
