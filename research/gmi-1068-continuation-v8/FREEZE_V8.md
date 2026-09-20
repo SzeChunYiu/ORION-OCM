@@ -37,7 +37,7 @@ one endpoint total, or a bounded/incomplete test set.
 
 Exhaust all two-state, two-action partial machines with observations from
 {UNDEFINED,0,1}, edge output in {0,1}, cost in {0,1}, and either next state.
-There are 9^2 * 9^4 = 59049 machines. Compare iterative partition refinement
+There are 3^2 * 9^4 = 59049 machines. Compare iterative partition refinement
 with independently implemented product-pair breadth-first distinguishing-word
 search; execute each returned witness, reject false distinctions, and compare
 actual quotient-machine execution. Include deterministic larger generated
