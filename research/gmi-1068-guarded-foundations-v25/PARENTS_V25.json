@@ -1,0 +1,73 @@
+{
+  "schema": "GMI_V25_PARENT_OWNERSHIP_V1",
+  "novelty_claim": false,
+  "sources": [
+    {
+      "id": "P1",
+      "title": "Riehl, Category Theory in Context",
+      "url": "https://emilyriehl.github.io/files/context.pdf",
+      "locator": "Example4.1.13, printed137",
+      "read_scope": "Free category of a graph; nullary paths at each vertex; unique extension of quiver maps.",
+      "mechanism": "Anchored nil is interpreted as the identity at its own object.",
+      "adaptation": "Y1 adds raw bracketed trees and failed joins, retaining identity guards at every empty leaf.",
+      "not_imported": "Free-category universal property alone does not establish arbitrary malformed-tree or presented-carrier recovery."
+    },
+    {
+      "id": "P2",
+      "title": "Mathlib PathCategory.Basic",
+      "url": "https://leanprover-community.github.io/mathlib4_docs/Mathlib/CategoryTheory/PathCategory/Basic.html",
+      "locator": "lift_nil, composePath_nil, composePath_comp, pathComposition",
+      "read_scope": "Mature implementation of typed paths and their category interpretation.",
+      "mechanism": "Source-indexed empty paths and functorial interpretation.",
+      "adaptation": "Actual immutable V11 Category/Path is used in our kernel; Mathlib is a design/reference parent, not an imported dependency.",
+      "not_imported": "No claim that a Mathlib declaration was replayed by this Std-only proof build."
+    },
+    {
+      "id": "P3",
+      "title": "Riccardi, Object-Free Definition of Categories",
+      "url": "https://mizar.uwb.edu.pl/version/current/html/cat_6.html",
+      "locator": "Category/partial-monoid reconstruction; Theorems51–53 roundtrips; Theorem28 identity issue",
+      "read_scope": "Classical arrows-only encoding, reconstruction and restrictions on multiplicative maps.",
+      "mechanism": "Objects can be recovered as units; explicit maps give category/partial-operation roundtrips.",
+      "adaptation": "Actual V19 unit, strong Option-associativity and coherence interface plus object/arrow maps are reused.",
+      "not_imported": "A multiplicative map alone is not presumed to preserve identities or arbitrary fixed object names."
+    },
+    {
+      "id": "P4",
+      "title": "Cranch, Doherty and Struth, Relational Semigroups and Object-Free Categories",
+      "url": "https://arxiv.org/html/2001.11895v1",
+      "locator": "Sections2–4, coherent partial semigroups and local-unit reconstruction",
+      "read_scope": "Strong partial associativity, coherence and local identities; V19 records the exact unit-premise mapping.",
+      "mechanism": "Coherence bridges composability to matched local units.",
+      "adaptation": "V19 true units require self-composition and BOTH conditional neutral directions. A weaker literal left-OR-right neutral reading is not silently identified with this interface.",
+      "not_imported": "No theorem is claimed under only weak jointly-defined associativity or one-sided designated-unit assumptions."
+    },
+    {
+      "id": "P5",
+      "title": "V9 attained-image recoverability",
+      "path": "../gmi-1068-r0-foundation-repair-v9/RecoverabilityV9.lean",
+      "locator": "Recoverable and recoverable_iff_fiber_constant",
+      "mechanism": "A decoder exists on attained codes exactly when the observation is constant on each code fiber.",
+      "adaptation": "Y2 and Y4 apply it to actual tree observers and extracted operation/map signatures.",
+      "not_imported": "No off-image default, literal-table incompressibility, shortest-description or independent-cell lower bound."
+    },
+    {
+      "id": "P6",
+      "title": "V19 actual reconstruction and response maps",
+      "path": "../gmi-1068-arrows-only-v19/CORE.md",
+      "locator": "PartialUnits, BundledCategory, Reconstructed, ArrowRoundtrip, CategoryRoundtrip, Responses and controls",
+      "mechanism": "Actual lawful arrows-only construction and explicit response-preserving roundtrip maps.",
+      "adaptation": "Y1 retains nested empty anchors; Y2 adds carrier checks on common ambient labels; Y4 treats named object maps explicitly.",
+      "not_imported": "V19 did not already close original R1-001/007; its bare singleton assumes membership."
+    },
+    {
+      "id": "P7",
+      "title": "V16 actual C4/V4 models",
+      "path": "../gmi-1068-corrected-targets-v16/GroupLawsV16.lean",
+      "locator": "Actual four-label group operations, units and laws",
+      "mechanism": "Same carrier/admission/unit with different composition.",
+      "adaptation": "Y3 observes the actual pair1,1, rather than semantic model-name selectors.",
+      "not_imported": "This witness does not distinguish admission and does not erase the qualified status of original R2-003."
+    }
+  ]
+}
