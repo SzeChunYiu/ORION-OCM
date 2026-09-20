@@ -1,0 +1,25 @@
+name: gmi-1068-r12-ai-findings-registry-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r12-ai-findings-registry-v1/**'
+      - '.github/workflows/gmi-1068-r12-ai-findings-registry-v1.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=e65f8e652c275d7e76990f3e1bde4e66f064bdfd
+          P=research/gmi-1068-r12-ai-findings-registry-v1
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/RESULT_V1.json" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+      - name: Registry coverage gate
+        run: |
+          python3 -I -B research/gmi-1068-r12-ai-findings-registry-v1/check_r12.py
+          python3 -I -O -B research/gmi-1068-r12-ai-findings-registry-v1/check_r12.py
