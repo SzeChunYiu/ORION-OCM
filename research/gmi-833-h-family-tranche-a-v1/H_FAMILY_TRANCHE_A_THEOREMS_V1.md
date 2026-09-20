@@ -25,7 +25,7 @@ Complete search gives the following exact minimum costs and structural classes:
 
 The lower bound is exhaustive: no tree of strictly lower node cost realizes the
 same complete truth table. The eight registered rows reuse these contracts by
-design, and family labels are attached only after this generic selection.
+design, and family labels are attached only after this generic recovery.
 
 ## HA-3 — serving resource crossover
 
@@ -43,7 +43,7 @@ replay costs `H * leaf_read_price`; stored serving costs
 Thus the winner changes under two exact integer regimes. This is a serving
 allocation theorem, not a claim that operator-tree spelling changes.
 
-## HA-4 — remint and independent search
+## HA-4 — alternate encoding and independent search
 
 Reversing candidate presentation order leaves the selected minimum and class
 unchanged. Coordinate-label transport over cyclic permutations of `x0,x1,x2`

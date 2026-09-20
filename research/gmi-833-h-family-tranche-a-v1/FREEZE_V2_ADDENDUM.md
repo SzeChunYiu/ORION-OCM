@@ -91,7 +91,7 @@ contracts under the unchanged search; `R08` is true iff both predictions hold.
 The first run scanned the entire executor source and reported hits coming from
 the disclosed post-hoc `ROWS` registry and the audit's own name list — the
 same names the classical and revival executors carry in their `ROW`/`ROWS`
-dictionaries. Those registries apply names only after selection and are not
+dictionaries. Those registries apply names only after recovery and are not
 causal code. The audit therefore scans the **causal code only**:
 
 1. the grammar module `grammar_ha_v1.py` in full;
@@ -118,7 +118,7 @@ H14. Those predictions stand.
 `R11` (real-scale, `n_fit >= 100,000`, `n_held >= 20,000`, sha256-bound SOURCE
 data, exact arithmetic, laptop/remote host) is not run in this tranche. The
 reason is registered: every ecology here is the complete 256-point truth-table
-cube — a finite carrier with no external byte-source analogue for the frozen
+cube — a finite point set with no external byte-source analogue for the frozen
 contracts, and building a real-scale ecology whose protected behavior IS one of
 the registered contracts is a separate construction that FREEZE_V1.md does not
 register. Per the caller's rule, a row with 10/11 closes only if the missing

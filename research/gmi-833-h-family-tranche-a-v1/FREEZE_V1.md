@@ -27,7 +27,7 @@ Before implementation, the common grammar `G_HA` is fixed. Leaves are constants
 `0`, `1` and generic input coordinates `x0` through `x7`. Operators are `NOT`,
 `XOR`, and `AND`; cost is one node per leaf or operator. Expressions are
 exhaustively enumerated and semantically quotiented over the registered finite
-carrier. The generator and selector receive no family name, row name, or
+point set. The generator and selector receive no family name, row name, or
 family-specific candidate menu. Structural family names are attached only by
 the post-hoc mapping in `POSTHOC_MAPPING_V1.json`.
 
@@ -57,14 +57,14 @@ architecture definition.
 The duplicate contract assignments are intentional matched scopes: the selector
 must recover the same structure without being told which row will be named
 post-hoc. For H05/H06/H11, the coordinate is varied over the full ecology; for
-H14, `x4` is interpreted as the registered history probe only after selection.
+H14, `x4` is interpreted as the registered history probe only after recovery.
 
 ## Eleven requirements and current prediction
 
 R01 property prediction, R02 shared grammar, R03 semantic no-family-macro audit,
-R04 family-blind recovery, R05 matched negative twin, R06 exact lower bound,
+R04 family-blind recovery, R05 matched negative control, R06 exact lower bound,
 R07 two price regimes with a winner crossover, R08 held-out frozen contract,
-R09 alternate encoding/remint, R10 source-separated independent search, and R11
+R09 alternate encoding, R10 source-separated independent search, and R11
 sha256-bound real-scale evaluation are each tracked at the same scope. The
 finite derivation is predicted to satisfy R01-R10. R11 is frozen as
 `OPEN_REAL_SCALE_PENDING`: no finite result licenses real scale, and no issue
@@ -72,8 +72,8 @@ row may be marked closed without it.
 
 ## Falsifiers and forbidden promotions
 
-Any family-name or row-name dependency in generation or selection, a grammar
-digest change, a negative twin selected as the positive class, a remint class
+Any family-name or row-name dependency in generation or recovery, a grammar
+digest change, a matched negative control recovered as the positive class, an alternate-encoding class
 change, disagreement between routes, a lower-bound mismatch, or a crossover
 that does not reverse the winner falsifies the corresponding coordinate. The
 checker must fail loudly on malformed or missing receipts.
