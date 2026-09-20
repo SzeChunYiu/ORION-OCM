@@ -1,0 +1,60 @@
+{
+  "schema": "GMI_1068_SCALARIZATION_PARENTS_V12",
+  "ownership": "Classical parent-owned mathematics; proof and calibration are not empirical novelty",
+  "entries": [
+    {
+      "id": "BV-DUAL-ORDER",
+      "source": "Boyd and Vandenberghe, Convex Optimization",
+      "url": "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf",
+      "actually_read": "Example2.23 p52; section2.6.2 p53; section2.6.3 pp54-57 (PDF pages65-70)",
+      "results": ["T1", "T3"],
+      "assumptions": "Finite real vector space; nonnegative orthant; explicit scalar order",
+      "dependencies": "Dual cone comparison; elementary finite sums",
+      "mechanism": "Nonnegative-orthant order characterized by linear comparisons; strictly positive separators distinguish violations",
+      "adaptation": "Division-free explicit coordinate separator using S=sum excluding chosen coordinate of absolute differences; extended to the stated ordered commutative ring laws",
+      "falsifier": "Failure of positive witness or claimed separating inequality",
+      "boundary": "The family of scalar comparisons does not determine one preferred weight"
+    },
+    {
+      "id": "BV-PARETO-SCALARIZATION",
+      "source": "Boyd and Vandenberghe, Convex Optimization",
+      "url": "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf",
+      "actually_read": "Sections4.7.3-4.7.4 pp177-180; Figure4.9 p179; sections4.7.5 pp182-184 (PDF pages190-193,195-197)",
+      "results": ["T2", "T4", "T5", "T6", "Boundary countermodels"],
+      "assumptions": "Coordinate order and declared weights; attained minimizer for efficiency conclusion",
+      "dependencies": "Positive pairing with a nonzero nonnegative vector; total scalar comparison",
+      "mechanism": "Positive weighted minimizers are efficient; trade-offs depend on weights; unsupported efficient points can escape every positive weighted sum",
+      "adaptation": "Construct both rankings for any incomparable pair; elementary no-order-reflection proof; explicit three-point integer unsupported-frontier witness",
+      "falsifier": "Dominated positive-weight minimizer, faithful total scalar on incomparable domain, or positive weights selecting the unsupported point",
+      "boundary": "Convex partial converse uses nonnegative nonzero weights and is not imported as an unconditional positive-weight completeness result"
+    },
+    {
+      "id": "ORIGINAL-R2-006",
+      "source": "research/gmi-1068-grand-unified-v2-r0/ATOMIC_CHECKLIST_V1.json",
+      "actually_read": "GMI2-R2-006 exact title: prove scalarization boundaries",
+      "related_sources": [
+        "research/gmi-1068-r2-context-irreducibility-v1/FREEZE_V1.md target6",
+        "research/gmi-1068-r2-context-irreducibility-v1/CONTEXT_SCHEMA_V1.json R2-3",
+        "research/gmi-1068-r2-context-irreducibility-v1/THEORY_V1.md Scalarization boundary",
+        "research/gmi-1068-r2-context-irreducibility-v1/ContextIrreducibility.lean scalarization_can_reverse_incomparables"
+      ],
+      "results": ["Original-atom adjudication", "T4"],
+      "assumptions": "Finite result vectors with coordinatewise order and positive linear scalarization",
+      "dependencies": "Original requirement identity and explicit countermodel",
+      "mechanism": "Retain original claim scope while replacing fixed two-dimensional calibration with a general proof",
+      "falsifier": "Changed original ID/title, silently reduced scalar domain, or closure promoted to another atom",
+      "boundary": "R2-007 universal aggregation remains separate"
+    },
+    {
+      "id": "V5-AGGREGATION-BOUNDARY",
+      "source": "research/gmi-1068-foundation-repair-v5/THEORY_V5.md",
+      "actually_read": "R2-A functional-versus-measure correction and R2-B finite linear representation",
+      "results": ["Evidence boundary"],
+      "assumptions": "Declared finite profile domain and functional; linearity only where stated",
+      "dependencies": "V5 correction of the historical universal measure requirement",
+      "mechanism": "Monotone nonlinear aggregation need not be expectation under any fixed prior",
+      "falsifier": "Using positive linear scalarization to claim every valid aggregate is linear or measure-based",
+      "boundary": "No change or closure of GMI2-R2-007 follows from V12"
+    }
+  ]
+}
