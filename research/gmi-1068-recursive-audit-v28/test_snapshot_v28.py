@@ -1,0 +1,197 @@
+"""Actual single-closure successor plus rehashed scope, closure and custody attacks."""
+from copy import deepcopy
+import importlib.util
+import json
+from pathlib import Path
+import unittest
+HERE=Path(__file__).resolve().parent
+spec=importlib.util.spec_from_file_location('checked_snapshot_v28',HERE/'check_snapshot_v28.py')
+checker=importlib.util.module_from_spec(spec);spec.loader.exec_module(checker)
+COVERAGE={}
+
+def replace(value,path,replacement):
+    for component in path[:-1]:value=value[component]
+    value[path[-1]]=replacement
+
+class SnapshotTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.snapshot=json.loads((HERE/'SCOPE_SNAPSHOT_V28.json').read_text())
+        cls.receipt=json.loads((checker.ROOT/checker.CONTRACT.PACKAGE/'RESULT_V28.json').read_text())
+        cls.gate=checker.load('test_gate',checker.ROOT/'research/gmi-1068-recursive-audit-v3/gate.py')
+
+    def rebind(self,snapshot):
+        for name in self.gate.NODES:
+            row=snapshot['rounds'][name]
+            row['parent_bindings']={p:snapshot['rounds'][p]['evidence_digest'] for p in self.gate.DAG[name]}
+            row['evidence_digest']=self.gate.evidence_digest(row)
+        return snapshot
+
+    def check(self,snapshot,receipt):
+        accounting=checker.CONTRACT.current_accounting(snapshot if 'rounds' in snapshot else self.snapshot,self.receipt['amendment_carry'])
+        return checker.evaluate(snapshot,receipt,accounting)
+
+    def test_actual_snapshot_no_alarm(self):
+        result=checker.evaluate()
+        self.assertEqual(result['status'],'PASS')
+        self.assertEqual(result['new_scientific_atoms_closed'],sorted(checker.CONTRACT.ATOM_SPECS))
+        self.assertEqual(len(result['scientific_atoms_closed']),27)
+        self.assertEqual((result['original_fulfilled'],result['remaining_atoms'],
+                          result['qualified_replacements'],result['active_unresolved']),(35,187,2,185))
+        self.assertEqual(result['earned_rounds'],['R0'])
+        COVERAGE['valid_snapshots']=1
+
+    def test_rehashed_snapshot_mutations(self):
+        repair=lambda owner,field:('rounds',owner,'local_repairs',-1,field)
+        atom=lambda owner,index,field:('rounds',owner,'obligations',index,field)
+        wrong=checker.CONTRACT.witness(checker.ROOT,'oracle_v28.py','python_symbol','raw')
+        changes=[(('source_issue',),1068.0),(('source_issue',),True),(('observed_main',),'0'*40),(('audited_base',),'0'*40),
+            (repair('R14','scope'),'all theories are complete'),(repair('R15','status'),'PENDING_REVIEW'),
+            (repair('R2','id'),'unregistered-repair'),(repair('R2','evidence'),[wrong]),
+            (atom('R1',0,'status'),'UNKNOWN'),(atom('R1',5,'status'),'UNKNOWN'),
+            (atom('R1',6,'status'),'UNKNOWN'),(atom('R1',0,'title'),'different original requirement'),
+            (atom('R1',0,'disposition'),'absolute minimality proved'),(atom('R1',0,'evidence'),[wrong]),
+            (atom('R1',0,'historical_status'),'CLOSED'),(atom('R1',0,'id'),'GMI2-R1-099'),
+            (atom('R1',1,'status'),'UNKNOWN'),(atom('R2',7,'status'),'UNKNOWN'),
+            (atom('R3',0,'disposition'),'unrelated edited scope'),
+            (atom('R3',3,'status'),'UNKNOWN'),(atom('R3',3,'title'),'all frontiers exist'),
+            (atom('R3',3,'disposition'),'infinite frontiers are always finite'),
+            (atom('R3',3,'evidence'),[wrong]),(atom('R3',7,'status'),'UNKNOWN'),
+            (('rounds','R3','status'),'EARNED'),(('rounds','R1','scope'),'unregistered scope'),(('rounds','R1','status'),'STALE'),
+            (('rounds','R1','local_repairs',0,'scope'),'rewritten history')]
+        for index in (0,1,2,4,5,6,9):
+            for field,value in (('status','UNKNOWN'),('title','retargeted obligation'),
+                                ('disposition','unrestricted infinite semantics'),('evidence',[wrong])):
+                changes.append((atom('R3',index,field),value))
+        for field,value in (('title','retargeted barrier'),('disposition','all physical causes identified'),('evidence',[wrong])):
+            changes.append((atom('R3',7,field),value))
+        for field,value in (('status','UNKNOWN'),('title','unrestricted legacy identity'),('disposition','all historical symbols identical'),('evidence',[wrong])):
+            changes.append((atom('R3',8,field),value))
+        for field,value in (('title','renamed survivor'),('disposition','absolute ontology'),('evidence',[wrong])):
+            changes.append((atom('R1',6,field),value))
+        for field,value in (('title','retargeted optional scope'),('disposition','all enriched information erased'),('evidence',[wrong])):
+            changes.append((atom('R1',5,field),value))
+        changes.append((atom('R1',8,'status'),'UNKNOWN'))
+        for field,value in (('title','different parent requirement'),('disposition','all ontology reconstructed'),('evidence',[wrong])):
+            changes.append((atom('R1',8,field),value))
+        for field,value in (('status','UNKNOWN'),('title','new false reading'),('disposition','full sources never recover admission'),('evidence',[wrong])):
+            changes.append((atom('R2',8,field),value))
+        changes.extend([(atom('R2',2,'status'),'CLOSED'),(atom('R2',6,'status'),'CLOSED')])
+        invalid=[]
+        for path,value in changes:
+            bad=deepcopy(self.snapshot);replace(bad,path,value);invalid.append(bad)
+        bad=deepcopy(self.snapshot);bad['rounds']['R1']['obligations'][0]['unsupported_authority']=True;invalid.append(bad)
+        bad=deepcopy(self.snapshot);bad['rounds']['R1']['local_repairs'].append(deepcopy(bad['rounds']['R1']['local_repairs'][-1]));invalid.append(bad)
+        bad=deepcopy(self.snapshot);bad['rounds']['R2']['artifacts']=[a for a in bad['rounds']['R2']['artifacts']
+            if a['path']!=checker.CONTRACT.PACKAGE+'/FREEZE_V28.md'];invalid.append(bad)
+        bad=deepcopy(self.snapshot);path=HERE/'audit_contract_v28.py'
+        bad['rounds']['R2']['artifacts'].append({'path':str(path.relative_to(checker.ROOT)),
+                                               'sha256':checker.CONTRACT.digest(path)});invalid.append(bad)
+        for key in self.snapshot:
+            bad=deepcopy(self.snapshot);del bad[key];invalid.append(bad)
+        bad=deepcopy(self.snapshot);bad['unsupported_top_level']=True;invalid.append(bad)
+        for bad in invalid:
+            with self.assertRaises(ValueError):self.check(self.rebind(bad) if 'rounds' in bad else bad,self.receipt)
+        self.assertEqual(len(invalid),94)
+        COVERAGE['snapshot_mutation_rejections']=len(invalid)
+
+    def test_receipt_mutations(self):
+        source=next(iter(self.receipt['kernel']['sources']))
+        coverage_key=next(iter(self.receipt['coverage']['test_forward_v28']))
+        local=next(iter(self.receipt['inputs']));historical=next(iter(self.receipt['source_bindings']))
+        changes=[(('atoms',),{'GMI2-R1-001':{'status':'VERIFIED_AT_REGISTERED_SCOPE'}}),
+            (('registered_results','AB1','scope'),'all process ontologies have the same unique primitive fields'),
+            (('registered_results','AB2','status'),'PENDING_REVIEW'),
+            (('kernel','status'),'FAIL'),(('kernel','lean_version'),'4.18.0'),
+            (('kernel','proof_entry_count'),True),(('kernel','proof_entry_count'),float(checker.CONTRACT.PROOF_COUNT)),
+            (('kernel','audit_sha256'),'0'*64),(('kernel','sources',source),'0'*64),
+            (('kernel','source_assumptions'),'no premises'),(('inputs',local),'0'*64),
+            (('coverage','test_forward_v28',coverage_key),True),
+            (('coverage','test_forward_v28',coverage_key),float(self.receipt['coverage']['test_forward_v28'][coverage_key])),
+            (('source_bindings',historical),'0'*64),(('source_bindings',),{}),
+            (('inherited_receipts',),{}),(('amendment_carry','qualified_revision_ids'),[]),
+            (('amendment_carry','ledger_sha256'),'0'*64),(('amendment_carry','scope'),'originals fulfilled'),
+            (('tests_run',),True),(('tests_run',),float(self.receipt['tests_run'])),(('tests_run',),self.receipt['tests_run']+1),
+            (('overall_closure',),'CLOSED'),(('scientific_truth_certified',),0),
+            (('claim_boundaries',),[]),(('kernel',),[]),(('registered_results',),{})]
+        for value in ({}, {'original_theorems':[],'reconciled_rows':5},
+                      {'original_theorems':self.receipt['witness_reconciliation']['original_theorems'],'reconciled_rows':True},
+                      {'original_theorems':self.receipt['witness_reconciliation']['original_theorems'],'reconciled_rows':5.0}):
+            changes.append((('witness_reconciliation',),value))
+        for atom_id in checker.CONTRACT.ATOM_SPECS:
+            for field,value in (('title','retargeted obligation'),('scope','unrestricted infinite semantics'),
+                                ('status','PENDING_REVIEW')):
+                changes.append((('atoms',atom_id,field),value))
+        invalid=[]
+        for path,value in changes:
+            bad=deepcopy(self.receipt);replace(bad,path,value);invalid.append(bad)
+        for key in self.receipt:
+            bad=deepcopy(self.receipt);del bad[key];invalid.append(bad)
+        for path in ((),('kernel',),('source_bindings',),('coverage','test_forward_v28'),('inputs',),('registered_results',)):
+            bad=deepcopy(self.receipt);cursor=bad
+            for key in path:cursor=cursor[key]
+            cursor['unexpected']='unexpected';invalid.append(bad)
+        for index in range(len(self.receipt['claim_boundaries'])):
+            bad=deepcopy(self.receipt);bad['claim_boundaries'][index]='unregistered promotion';invalid.append(bad)
+        bad=deepcopy(self.receipt);bad['claim_boundaries']=tuple(bad['claim_boundaries']);invalid.append(bad)
+        bad=deepcopy(self.receipt);bad['coverage'][0]={};invalid.append(bad)
+        for bad in invalid:
+            with self.assertRaises(ValueError):self.check(self.snapshot,bad)
+        self.assertEqual(len(invalid),71)
+        COVERAGE['receipt_mutation_rejections']=len(invalid)
+
+    def test_coupled_result_scope_and_original_promotion(self):
+        count=0
+        for result in checker.CONTRACT.RESULTS:
+            snapshot,receipt=deepcopy(self.snapshot),deepcopy(self.receipt)
+            claim='All context observations lose admission information.'
+            snapshot['rounds']['R2']['local_repairs'][-1]['scope']=claim
+            receipt['registered_results'][result]['scope']=claim
+            with self.assertRaisesRegex(ValueError,'registered result adjudication drift'):
+                self.check(self.rebind(snapshot),receipt)
+            count+=1
+        snapshot,receipt=deepcopy(self.snapshot),deepcopy(self.receipt)
+        atom=snapshot['rounds']['R4']['obligations'][0];atom['status']='CLOSED'
+        receipt['atoms'][atom['id']]={'status':'VERIFIED_AT_REGISTERED_SCOPE','scope':'minimum proved'}
+        with self.assertRaisesRegex(ValueError,'registered atom adjudication drift'):
+            self.check(self.rebind(snapshot),receipt)
+        count+=1
+        for atom_id in checker.CONTRACT.ATOM_SPECS:
+            snapshot,receipt=deepcopy(self.snapshot),deepcopy(self.receipt)
+            atom=next(row for row in snapshot['rounds']['R2']['obligations'] if row['id']==atom_id)
+            atom['disposition']='Full tagged observations fail to recover admission.'
+            receipt['atoms'][atom_id]['scope']=atom['disposition']
+            with self.assertRaisesRegex(ValueError,'registered atom adjudication drift'):
+                self.check(self.rebind(snapshot),receipt)
+            count+=1
+        helper=checker.load('snapshot_controls_v28',HERE/'snapshot_controls_v28.py')
+        with helper.formal_source_attack(checker.ROOT,self.receipt,checker.CONTRACT) as (root,bad):
+            with self.assertRaisesRegex(ValueError,'reviewed formal source drift'):
+                checker.CONTRACT.validate_receipt(root,bad)
+        count+=1
+        COVERAGE['coupled_scope_rejections']=count
+        self.assertEqual(count,7)
+
+    def test_current_accounting_mutations(self):
+        baseline=checker.CONTRACT.current_accounting(self.snapshot,self.receipt['amendment_carry'])
+        invalid=[]
+        for key in baseline:
+            bad=deepcopy(baseline);del bad[key];invalid.append(bad)
+        for path,value in [(('original_fulfilled',),36),(('original_unresolved',),186),
+                (('active_unresolved',),184),(('qualified_replacements',),3),(('original_total',),222.0),
+                (('original_fulfilled',),True),(('qualified_original_ids',),[]),
+                (('snapshot_content_sha256',),'0'*64),(('amendment_carry','ledger_sha256'),'0'*64),
+                (('scientific_truth_certified',),0),(('overall_closure',),'CLOSED')]:
+            bad=deepcopy(baseline);replace(bad,path,value);invalid.append(bad)
+        invalid.append(json.loads((checker.BASE.parent/'CURRENT_ACCOUNTING_V27.json').read_text()))
+        bad=deepcopy(baseline);bad['unsupported']=True;invalid.append(bad)
+        for bad in invalid:
+            with self.assertRaises(ValueError):checker.evaluate(self.snapshot,self.receipt,bad)
+        self.assertEqual(len(invalid),24)
+        COVERAGE['accounting_mutation_rejections']=len(invalid)
+
+
+if __name__=='__main__':
+    result=unittest.main(exit=False,verbosity=2)
+    print(json.dumps(COVERAGE,sort_keys=True))
+    raise SystemExit(not result.result.wasSuccessful())
