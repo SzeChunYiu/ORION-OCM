@@ -2,9 +2,13 @@
 import itertools,json,pathlib,sys,math
 from fractions import Fraction
 ROOT=pathlib.Path(__file__).resolve().parent
+RESEARCH=ROOT.parent
 def need(cond,msg):
  if not cond: raise RuntimeError(msg)
 rows={}
+r6=json.loads((RESEARCH/"gmi-1068-r6-blank-computer-genesis-v1/RESULT_V1.json").read_text())
+need(r6["status"]=="GREEN_AT_REGISTERED_BLANK_COMPUTER_SCOPE","R6_PARENT_NOT_GREEN")
+need(r6["unknown_terminal"] is True,"R6_UNKNOWN_NOT_PRESERVED")
 rows["E01"]=((-1)-2*1+3==0) and (1-2*0+1!=0)
 xor={(0,0):0,(0,1):1,(1,0):1,(1,1):0};ident={(a,b):a for a in (0,1) for b in (0,1)}
 aff=lambda f:f[(0,0)]+f[(1,1)]==f[(0,1)]+f[(1,0)];rows["E02"]=(not aff(xor)) and aff(ident)
