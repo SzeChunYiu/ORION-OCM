@@ -26,4 +26,4 @@ def boundaryComposable (a b : PrimitiveStep) : Prop :=
 
 theorem ill_typed_example_rejected :
     ¬ boundaryComposable ⟨0,1⟩ ⟨0,1⟩ := by
-  decide
+  simp [boundaryComposable]
