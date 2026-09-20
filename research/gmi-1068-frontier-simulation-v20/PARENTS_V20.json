@@ -1,0 +1,66 @@
+{
+  "schema": "GMI_1068_PARENTS_V20",
+  "originality_claim": false,
+  "parents": [
+    {
+      "id": "GEILEN_PARETO",
+      "source": "Geilen, Basten, Theelen and Otten, An Algebra of Pareto Points, revised and extended paper",
+      "url": "https://tbasten.estue.nl/papers/pareto.pdf",
+      "read_locators": [
+        "Section 4, Theorem 1 and Corollary 1, PDF page 8",
+        "Section 5, Theorems 2–3, PDF pages 9–10",
+        "Section 6.1, PDF page 14",
+        "Section 6.4, safe constraints, PDF pages 17–18"
+      ],
+      "mechanism": "Frontier sufficiency and dominance-preserving operations permit compositional Pareto minimization.",
+      "mapping": "Dualize smaller-is-better to larger-is-better; state actual domain guards for partial maps; retain preorder aliases until explicit representative selection.",
+      "boundary": "The cited source uses partial-order configuration spaces and its own well-ordered hypothesis. Do not conflate its extended-paper theorem numbering with the shorter ACSD2005 version, infer necessity of well-foundedness for a particular frontier, or claim every dominated configuration is irrelevant to nonmonotone goals."
+    },
+    {
+      "id": "DOYEN_RASKIN",
+      "source": "Doyen and Raskin, Antichain Algorithms for Finite Automata",
+      "url": "https://lsv.ens-paris-saclay.fr/~doyen/papers/Antichains_Algorithms_Finite_Automata.pdf",
+      "read_locators": [
+        "Section 2, PDF pages 3–4: preorders, quasi-antichains and simulations",
+        "Section 3.1, Lemmas 2–4 and Theorem 6, PDF pages 6–7",
+        "Section 3.2, Lemmas 12–13, PDF pages 8–9"
+      ],
+      "mechanism": "Simulation makes closed-set and promising-state pruning preserve reachability information. The source explicitly handles preorders and equivalent incomparable-class representatives.",
+      "mapping": "Use the declared preference orientation; restrict the all-same-word converse to deterministic partial transitions; compute the greatest simulation below a supplied base order and retain partial endpoint-observation guards.",
+      "boundary": "General nondeterministic trace-language equality does not imply forward simulation. The parent includes infinite-word applications under additional structure; V20 proves only its registered finite-word endpoint claim and makes no performance or infinite-run promotion."
+    },
+    {
+      "id": "WF_ORDER",
+      "source": "Mathlib mature primary implementation of well-founded order theory",
+      "url": "https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/WellFounded.html",
+      "read_locators": [
+        "WellFounded.has_min",
+        "WellFounded.wellFoundedGT_iff_exists_maximal",
+        "WellFoundedGT.exists_maximal"
+      ],
+      "mechanism": "Well-founded induction provides maximal elements after reversing strict order.",
+      "mapping": "Apply to the actual attained subtype and strict ascent relation; finite orders are a special case.",
+      "boundary": "The implementation is read as prior formal work, not imported into the Std-only kernel. Well-foundedness is sufficient, not necessary for cofinal maxima of one set; it does not bound frontier cardinality or give an effective infinite-input algorithm."
+    },
+    {
+      "id": "V15",
+      "source": "Immutable V15 Context, admission and tagged partial evaluation",
+      "path": "research/gmi-1068-partial-context-v15/PartialContextV15.lean",
+      "executable_path": "research/gmi-1068-partial-context-v15/context_v15.py",
+      "binding": "FREEZE_V20.md",
+      "mechanism": "Ambient evaluator domain E is separate from admission P; actual values are obtained on P∩E.",
+      "mapping": "Construct selected attainable images and actual partial postcomposition, shrinking E by the successful Option domain while leaving P unchanged.",
+      "boundary": "Illegal ambient evaluations must not disappear by putting P into E; total V17 unchanged-domain transport cannot be imported for a partial map."
+    },
+    {
+      "id": "V8",
+      "source": "Immutable V8 finite continuation machine and residual-budget lift",
+      "path": "research/gmi-1068-continuation-v8/continuation_v8.py",
+      "formal_path": "research/gmi-1068-continuation-v8/ContinuationV8.lean",
+      "binding": "FREEZE_V20.md",
+      "mechanism": "Explicit cost admission and subtraction on state×residual-budget product.",
+      "mapping": "Read actual lifted destinations as deterministic endpoint transitions; check the declared endpoint-value observation guard separately.",
+      "boundary": "Endpoint simulation does not preserve full EDGE/output/cost traces. Existing V8 nonempty constructor restrictions do not apply to the generic empty-state/action theorem."
+    }
+  ]
+}
