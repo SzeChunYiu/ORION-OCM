@@ -1,0 +1,50 @@
+name: gmi-1068-corrected-targets-v16
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068*/**'
+      - '.github/workflows/gmi-1068-corrected-targets-v16.yml'
+jobs:
+  corrections-and-amendment-custody:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Preregistration and immutable original custody
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -eu
+          test "$(/usr/bin/git rev-parse HEAD)" = "$HEAD_SHA"
+          F=ef27aa6373403d3e9add7571bb97635320d63c50
+          P=research/gmi-1068-corrected-targets-v16
+          /usr/bin/git merge-base --is-ancestor "$F" HEAD
+          /usr/bin/git diff --exit-code "$F" HEAD -- "$P/FREEZE_V16.md" "$P/TARGET_CONTRACT_V16.json"
+          if /usr/bin/git cat-file -e "$F:$P/history_v16.py" 2>/dev/null; then exit 1; fi
+          V=research/gmi-1068-recursive-audit-v15/SCOPE_SNAPSHOT_V15.json
+          /usr/bin/git show "$BASE_SHA:$V" > /tmp/gmi-v15-original.json
+          cmp /tmp/gmi-v15-original.json "$V"
+          python3 -I -B research/gmi-1068-amendment-governance-v16/check_publication_v16.py --base-sha "$BASE_SHA"
+          /usr/bin/git diff --name-only "$BASE_SHA" HEAD > /tmp/gmi-v16-changed.txt
+      - name: Pinned Lean 4.19.0
+        run: |
+          set -eu
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /tmp/elan-init.sh
+          sh /tmp/elan-init.sh -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fresh scientific replay and independent amendment controls
+        run: |
+          set -eu
+          P=research/gmi-1068-amendment-governance-v16
+          python3 -I -B "$P/check_amendments_v16.py" > /tmp/amendments-v16.json
+          python3 -I -O -B "$P/check_amendments_v16.py" > /tmp/amendments-v16-opt.json
+          cmp /tmp/amendments-v16.json /tmp/amendments-v16-opt.json
+      - name: Preserved original programme integrity
+        run: |
+          set -eu
+          P=research/gmi-1068-recursive-audit-v15
+          python3 -I -B "$P/check_snapshot_v15.py"
+          python3 -I -B research/gmi-1068-recursive-audit-v3/gate.py --snapshot "$P/SCOPE_SNAPSHOT_V15.json" --baseline /tmp/gmi-v15-original.json --changed-files /tmp/gmi-v16-changed.txt
