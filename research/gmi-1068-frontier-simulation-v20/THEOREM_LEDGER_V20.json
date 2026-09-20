@@ -1,0 +1,188 @@
+{
+  "schema": "GMI_1068_THEOREM_LEDGER_V20",
+  "scope": "Classical frontier/pruning integration; only original R3-004 eligible.",
+  "results": [
+    {
+      "id": "T1.1",
+      "statement": "Finite maximal frontier is attained, cofinal and has the same downward closure",
+      "premises": "Finite attained set and declared preorder, including empty set",
+      "dependencies": "Strict ascent reduces finite strict-upper-set size",
+      "paper_locator": "THEORY_V20.md §T1.1",
+      "strongest_parent": "GEILEN_PARETO; DOYEN_RASKIN",
+      "falsifier": "Missing maximal class; infinite Nat without a maximal value",
+      "proof_level": "PAPER_AND_KERNEL; independent finite calibration",
+      "kernel_locator": "FrontierOrderV20.frontier_mem/frontier_cofinal/frontier_down; ConstructorBindingsV20.frontier_definition"
+    },
+    {
+      "id": "T1.2",
+      "statement": "Actual maximal-class representatives are cofinal and minimum-cardinality among cofinal subsets",
+      "premises": "Finite attained set; representative selector over supplied enumeration",
+      "dependencies": "T1.1; equivalence-class scan invariant and injection into any cofinal subset",
+      "paper_locator": "THEORY_V20.md §T1.2",
+      "strongest_parent": "GEILEN_PARETO; DOYEN_RASKIN",
+      "falsifier": "Alias mishandling, omitted maximal class or unattained representative",
+      "proof_level": "PAPER_AND_FINITE; no kernel cardinality claim",
+      "kernel_locator": "NONE: representative selector and minimum cardinality are paper plus finite evidence"
+    },
+    {
+      "id": "T1.3",
+      "statement": "Actual V15 selected history image has the constructed attained frontier",
+      "premises": "Declared H_x, independent P/E, actual subtype evaluation; finite image",
+      "dependencies": "T1.1–T1.2 and V15 Context",
+      "paper_locator": "THEORY_V20.md §T1.3",
+      "strongest_parent": "V15; original R3 finite-frontier requirement",
+      "falsifier": "Evaluate outside E, admit illegal history, or infer finite image merely from finite individual histories",
+      "proof_level": "PAPER_AND_KERNEL for finite history lists; finite-image extension by T1.1",
+      "kernel_locator": "AttainedFrontierV20.values_mem/attained_frontier_mem/attained_frontier_cofinal/attained_frontier_down"
+    },
+    {
+      "id": "T1.4",
+      "statement": "Well-founded strict ascent gives a maximal element above every attained value",
+      "premises": "WellFounded of reversed strict preorder on attained subtype",
+      "dependencies": "Well-founded induction and transitivity",
+      "paper_locator": "THEORY_V20.md §T1.4",
+      "strongest_parent": "WF_ORDER; GEILEN_PARETO",
+      "falsifier": "Infinite antichain disproves finite-size consequence; Nat with top disproves necessity",
+      "proof_level": "PAPER_AND_KERNEL for sufficient condition; separating infinite examples PAPER_ONLY",
+      "kernel_locator": "WellFoundedFrontierV20.maximal_extension/maximal_cofinal/maximal_down"
+    },
+    {
+      "id": "T2.1",
+      "statement": "Guarded monotonicity iff every finite cofinal pruning preserves downward outputs",
+      "premises": "Actual partial map between preorders; full two-point test family",
+      "dependencies": "Two-point necessity; arbitrary cofinal-subset sufficiency",
+      "paper_locator": "PARTIAL_MAPS_V20.md §T2.1",
+      "strongest_parent": "GEILEN_PARETO; DOYEN_RASKIN",
+      "falsifier": "Dominating retained input becomes undefined or yields worse output",
+      "proof_level": "PAPER_AND_KERNEL; independent finite calibration",
+      "kernel_locator": "GuardedMapsV20.guarded_iff_finite_preserves/image_cofinal/image_down"
+    },
+    {
+      "id": "T2.2",
+      "statement": "Downward equality iff equality of existential attainment for all upward goals",
+      "premises": "Declared preorders and all upward-closed goal predicates",
+      "dependencies": "Principal upper-set separation and cofinal witness transport",
+      "paper_locator": "PARTIAL_MAPS_V20.md §T2.2",
+      "strongest_parent": "GEILEN_PARETO; DOYEN_RASKIN",
+      "falsifier": "Non-upward singleton goal is lost under valid pruning",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "GuardedMapsV20.down_iff_upward_goals/cofinal_goals"
+    },
+    {
+      "id": "T2.3",
+      "statement": "Guarded partial maps compose through actual Option bind",
+      "premises": "Two guarded partial maps with compatible intermediate preorder",
+      "dependencies": "Extract actual successful bind witness; apply both guards",
+      "paper_locator": "PARTIAL_MAPS_V20.md §T2.3",
+      "strongest_parent": "Classical monotone composition; GEILEN_PARETO",
+      "falsifier": "Dropping definedness from either guard",
+      "proof_level": "PAPER_AND_KERNEL; independent finite calibration",
+      "kernel_locator": "GuardedMapsV20.guarded_compose; ConstructorBindingsV20.composition_definition"
+    },
+    {
+      "id": "T2.4",
+      "statement": "Partial postcomposition has the exact new E, unchanged P and transported attained image",
+      "premises": "Actual V15 Context and any partial map into declared target preorder",
+      "dependencies": "Actual Option output, proof irrelevance, V15 tags; T2.1 for pruning consequence",
+      "paper_locator": "PARTIAL_MAPS_V20.md §T2.4",
+      "strongest_parent": "V15; GEILEN_PARETO",
+      "falsifier": "Reuse total unchanged-E law or suppress illegal ambient evaluations",
+      "proof_level": "PAPER_AND_KERNEL; independent finite calibration",
+      "kernel_locator": "PartialPostcontextV20.post_domain/post_eval/post_active/post_observe/post_valueMap/post_attained; ConstructorBindingsV20.post_order/outcome_value"
+    },
+    {
+      "id": "T3.1",
+      "statement": "Greatest base-contained deterministic simulation equals all-same-finite-word domination and is a preorder",
+      "premises": "Deterministic partial transitions; base preorder; empty word included",
+      "dependencies": "Actual recursive runs, word induction, unique successor and preorder laws",
+      "paper_locator": "SIMULATION_V20.md §T3.1",
+      "strongest_parent": "DOYEN_RASKIN",
+      "falsifier": "Nondeterministic branching or substituting different action labels",
+      "proof_level": "PAPER_AND_KERNEL; independent finite calibration",
+      "kernel_locator": "SimulationV20.greatest_iff_words/greatest_simulation/greatest_contains/simulationOrder/simulation_base"
+    },
+    {
+      "id": "T3.2",
+      "statement": "Cofinal simulation pruning preserves finite-word downward endpoint attainment",
+      "premises": "Finite candidate set; cofinal pruning under greatest simulation",
+      "dependencies": "T1; T2 guard composition; T3.1 simulation clause",
+      "paper_locator": "SIMULATION_V20.md §T3.2",
+      "strongest_parent": "DOYEN_RASKIN; GEILEN_PARETO",
+      "falsifier": "Current-value dominance without continuation guard loses an upward goal",
+      "proof_level": "PAPER_AND_KERNEL for each word; unions/repeated pruning are paper corollaries",
+      "kernel_locator": "SimulationV20.word_guarded; SimulationPruningV20.word_pruning/frontier_word_pruning"
+    },
+    {
+      "id": "T3.3",
+      "statement": "Finite descending refinement computes G; rejected pairs have words of length at most n²",
+      "premises": "Finite states/actions; synchronous pair deletion starting from base preorder",
+      "dependencies": "Simulation inclusion invariant, finite deletion bound and simple pair-path witness",
+      "paper_locator": "SIMULATION_V20.md §T3.3",
+      "strongest_parent": "DOYEN_RASKIN; classical finite simulation refinement",
+      "falsifier": "Omit final stability check or accept a rejected pair without its actual word",
+      "proof_level": "PAPER_AND_FINITE; no kernel Python solver correspondence",
+      "kernel_locator": "NONE: finite refinement, termination and shortest pair-path correspondence are paper plus finite evidence"
+    },
+    {
+      "id": "T3.4",
+      "statement": "Actual V8 resource lift supplies endpoint transitions; guarded endpoint Context transports values",
+      "premises": "Actual V8 lift, supplied finite maximum budget/base order; guarded active evaluator for value claim",
+      "dependencies": "V8 admission/subtraction; endpoint induction; T2 and T3",
+      "paper_locator": "SIMULATION_V20.md §T3.4",
+      "strongest_parent": "V8; DOYEN_RASKIN; V15",
+      "falsifier": "Drop residual budget or use undefined/nonmonotone endpoint values without the guard",
+      "proof_level": "KERNEL for generic guarded endpoint values; PAPER_AND_FINITE for actual V8 adapter",
+      "kernel_locator": "SimulationPruningV20.endpoint_guarded/endpoint_image_cofinal/endpoint_value_pruning/endpoint_goal_pruning"
+    },
+    {
+      "id": "T4.1",
+      "statement": "Lost continuation is repaired by the derived simulation frontier",
+      "premises": "Displayed three-state machine and candidate pair",
+      "dependencies": "Actual domain-guard failure and removal of unsafe comparison",
+      "paper_locator": "CONTROLS_V20.md §T4.1",
+      "strongest_parent": "DOYEN_RASKIN",
+      "falsifier": "Derived relation still prunes the sole goal-reaching candidate",
+      "proof_level": "PAPER_AND_FINITE",
+      "kernel_locator": "NONE: direct displayed countermodel and actual test_controls_v20 revival"
+    },
+    {
+      "id": "T4.2",
+      "statement": "Order reversal, non-upward goals and class omissions delimit pruning",
+      "premises": "Displayed two-point updates/goals and representative conditions",
+      "dependencies": "Direct attained-output and cofinality calculations",
+      "paper_locator": "CONTROLS_V20.md §T4.2",
+      "strongest_parent": "GEILEN_PARETO; DOYEN_RASKIN",
+      "falsifier": "Claim exact attainable-set or arbitrary-goal preservation",
+      "proof_level": "PAPER_AND_FINITE",
+      "kernel_locator": "NONE: displayed finite countermodels and independent finite controls"
+    },
+    {
+      "id": "T4.3",
+      "statement": "Residual resources, endpoint domains, action labels and nondeterminism are indispensable scope distinctions",
+      "premises": "Displayed budget lift, partial observer and branch examples",
+      "dependencies": "Actual enabledness and same-word versus existential witness comparison",
+      "paper_locator": "CONTROLS_V20.md §T4.3",
+      "strongest_parent": "V8; DOYEN_RASKIN",
+      "falsifier": "Treat equal current observations or equal nondeterministic languages as simulation",
+      "proof_level": "PAPER_AND_FINITE",
+      "kernel_locator": "NONE: actual test_bridge_v20/test_controls_v20 endpoint and nondeterministic controls"
+    },
+    {
+      "id": "T4.4",
+      "statement": "Infinite examples separate existence, cofinality, finiteness and well-foundedness",
+      "premises": "Nat, Nat with top, infinite antichain and disjoint isolated maximum",
+      "dependencies": "Direct order definitions and maximality calculations",
+      "paper_locator": "CONTROLS_V20.md §T4.4",
+      "strongest_parent": "WF_ORDER; classical order theory",
+      "falsifier": "Promote finite calibration into unconditional infinite frontier claims",
+      "proof_level": "PAPER_ONLY",
+      "kernel_locator": "NONE: four explicit infinite order countermodels"
+    }
+  ],
+  "reviewed_registration": {
+    "sources": 10,
+    "typed_entries": 100,
+    "audit_sha256": "5eecc29b032a58934de79edd0383da1858ddfa09963b69bc31dd4d57660f90fc",
+    "scope": "FORMAL_SCOPE_V20.md; FORMAL_REVIEW_V20.md; registrations are not independent result counts"
+  }
+}
