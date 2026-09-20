@@ -1,0 +1,63 @@
+{
+  "schema": "GMI_1068_PARTIAL_CONTEXT_PARENTS_V15",
+  "ownership": "Partial maps, preorder antisymmetrization and factorization through fibers are classical. Indicator separation and the finite corpus are deductive diagnostics, not empirical novelty.",
+  "entries": [
+    {
+      "id": "FIORE-PLOTKIN-PARTIAL-MAPS",
+      "source": "Fiore and Plotkin, An Axiomatisation of Computationally Adequate Domain Theoretic Models of FPC (1994), section3 Definition3.2, PDF page3",
+      "url": "https://homepages.inf.ed.ac.uk/gdp/publications/Ax_FPC.pdf",
+      "actually_read": "Partial maps are domain-inclusion/function spans, with equivalence under domain isomorphism. Section3 distinguishes partial from total maps.",
+      "mechanism": "Keep the defined subdomain separate from the codomain and function values",
+      "use": "O1-A: partial context on P is represented by inclusion P∩E into P and restriction of ν:E→W",
+      "adaptation": "Only the set-based explicit-domain representation is used; the process admission predicate is not the categorical class of admissible monomorphisms",
+      "boundary": "No computational adequacy, domain-equation theorem, or behavioral contextual equivalence is imported"
+    },
+    {
+      "id": "STACKS-ANTISYMMETRIZATION",
+      "source": "The Stacks Project, section4.21 Definition4.21.1 and Remark4.21.3",
+      "url": "https://stacks.math.columbia.edu/tag/002Z",
+      "actually_read": "Preorder and partial-order definitions; quotient by mutual comparison and exact agreement of quotient comparison with representatives",
+      "mechanism": "Identify mutually comparable elements of a preorder",
+      "use": "O1-B: apply the classical construction to the evaluator-induced comparison on D",
+      "adaptation": "The preorder is pulled back through the actual evaluator before quotienting",
+      "boundary": "This is contextual order equivalence, not equality of histories or process behavior"
+    },
+    {
+      "id": "MATHLIB-ANTISYMMETRIZATION",
+      "source": "Mathlib.Order.Antisymmetrization",
+      "url": "https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/Antisymmetrization.html",
+      "actually_read": "AntisymmRel, its Setoid, Antisymmetrization, representative comparison congruence and partial-order instance declarations",
+      "mechanism": "Established mechanization of the preorder-to-partial-order quotient",
+      "use": "Construction reference for O1-B and its independent Std-only proof",
+      "boundary": "This online implementation is not installed as a Lean4.19 dependency; no imported Mathlib theorem is claimed"
+    },
+    {
+      "id": "NG-RUSSELL-COMPARISON",
+      "source": "Ng and Russell, Algorithms for Inverse Reinforcement Learning (ICML2000); author-hosted abstract",
+      "url": "https://ai.stanford.edu/~ang/papers/icml00-irl.pdf",
+      "readable_author_abstract": "https://wordpress.andrewng.org/index.php/publication/algorithms-for-inverse-reinforcement-learning/",
+      "actually_read": "The author-hosted abstract states that multiple reward functions can make an observed policy optimal; the Stanford PDF text layer was garbled, so no further theorem-level reading is claimed",
+      "mechanism": "Observed behavior may fail to identify a unique reward",
+      "use": "Comparison parent motivating careful observation-map and model-class declarations in O2",
+      "boundary": "IRL policy-to-reward ambiguity is not the proof of our fixed-process-to-evaluator/order collision; no algorithm or numerical gain is transferred"
+    },
+    {
+      "id": "V9-FIBER-CRITERION",
+      "source": "research/gmi-1068-r0-foundation-repair-v9/RecoverabilityV9.lean",
+      "sha256": "164768fbda9a973001312c04e8ad07626de64b3fa0ec44fbd45391d7a0a704bd",
+      "actually_read": "Image, encoded, Recoverable, FiberConstant, recoverable_iff_fiber_constant and no_recovery_of_collision with proofs",
+      "mechanism": "A decoder on attained observations exists exactly when outputs are constant on observation fibers",
+      "use": "O2-B: instantiate the unchanged complete-process map and actual allowed evaluator ordering maps",
+      "adaptation": "Fresh typed registration and source replay are mandatory; old finite V11 registrations do not certify this new generic application",
+      "boundary": "Classical choice is used for general decoder existence on Image; no total decoder on unattained observations or statistical independence is inferred"
+    },
+    {
+      "id": "ORIGINAL-R2-TARGETS",
+      "source": "research/gmi-1068-r2-context-irreducibility-v1/FREEZE_V1.md and research/gmi-1068-grand-unified-v2-r0/ATOMIC_CHECKLIST_V1.json",
+      "actually_read": "Frozen targets1/4 and exact original titles GMI2-R2-001 formalize context/preorder; GMI2-R2-004 generalize AJ7 countermodel",
+      "mechanism": "Preserve the original partial-on-admitted domain while generalizing the finite fixed-process ranking witness",
+      "use": "Adjudicate only these two original atoms with complete registered evidence",
+      "boundary": "R2-003 reverse-admission and R2-007 universal weighting claims are not amended or closed; all other dispositions stay fixed"
+    }
+  ]
+}
