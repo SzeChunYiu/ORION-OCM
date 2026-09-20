@@ -70,12 +70,21 @@ def vendored_blob_ok():
 
 
 def build_stream(parent, table, machines, mu):
-    """Route A: recompute the set-valued stream exactly as frozen."""
+    """Route A: recompute the set-valued stream exactly as frozen.
+
+    Mirrors `freeze_predictions_real4_v1.py::set_valued_sweep` byte-for-byte:
+    I_PROTO(x) is built from `proto_admissible_bits` (CB-PROTO), refused
+    survivors add UNSATISFIED to both image and reference, and `& full` masks
+    `~res` to the parent's realization width.
+    """
     n = parent.N
+    full = (1 << n) - 1
     sets = {}
+    proto = {}
     for contract in parent.CONTRACTS:
         verified = hu.VERIFIED[contract]
         sets[contract] = [r4.value_set(mu, verified, r4.admissible_bits(table, m)) for m in machines]
+        proto[contract] = [r4.value_set(mu, verified, r4.proto_admissible_bits(m)) for m in machines]
     totals = {"inputs": 0, "inconsistent": 0, "point": 0, "set": 0,
               "nd1": 0, "nd2": 0, "point_degenerate": 0, "set_sizes": {}, "nd2_values": {}}
     lines = []
@@ -90,13 +99,17 @@ def build_stream(parent, table, machines, mu):
             continue
         res = parent.RES_MASKS[r_value]
         admissible = survivors & res
-        refused = survivors & ~res
+        refused = survivors & ~res & full
         image = set()
+        ref = set()
         if refused:
             image.add(UNSAT)
+            ref.add(UNSAT)
         for i in parent.bits_of(admissible):
             image |= sets[contract][i]
+            ref |= proto[contract][i]
         has_positive = any(v != UNSAT and v > 0 for v in image)
+        nd1 = (image < ref) and has_positive
         if len(image) == 1:
             v = next(iter(image))
             nd2 = (v != UNSAT and v > 0)
@@ -112,10 +125,6 @@ def build_stream(parent, table, machines, mu):
             totals["set"] += 1
             totals["set_sizes"][str(len(image))] = totals["set_sizes"].get(str(len(image)), 0) + 1
             disp = "CANNOT_IDENTIFY"
-        ref = set()
-        for i in parent.bits_of(survivors):
-            ref |= set([v for v in sets[contract][i]]) | ({UNSAT} if not ((res >> i) & 1) else set())
-        nd1 = (image < ref) and has_positive
         if nd1:
             totals["nd1"] += 1
         lines.append("%d\t%s\t%s\t%s\t%d\t%d" % (idx, disp, image_str(image), image_str(ref),
@@ -181,29 +190,38 @@ def truthfulness(table, machines, measured):
 
 
 def null_random_commit(table, machines, measured, seeds=200, seed0=833):
-    """200 seeded random bridges with the same committed-cell set as SB-L*."""
-    rng = random.Random(seed0)
-    cells = r4.committed_cells(table, machines)
-    cell_index = dict((c, j) for j, c in enumerate(cells))
-    # SB-L* commits a band value per (machine, head); flip committed singleton
-    # intervals to a random singleton from {UNSOLVED, SOLVED}.
+    """NULL_RANDOM_COMMIT (FREEZE_V1 3.8): 200 seeded bridges with EXACTLY the
+    same committed (machine, head) cell set as SB-L*, each committed singleton
+    drawn uniformly from {UNSOLVED, SOLVED}.  Draws per (machine, head) cell --
+    never at the table-parameter level, which would collapse cells and change
+    the committed-cell set (the misspecification that inflated the old null).
+    """
+    committed = set(r4.committed_cells(table, machines))
+    bands = (0, 1)  # UNSOLVED, SOLVED
     truthful = 0
     for s in range(seeds):
         draw = random.Random(seed0 + 1 + s)
-        alt = dict(table)
-        for j, (mi, hj) in enumerate(cells):
-            m = machines[mi]
-            mech, size, w, h = m
-            if not (h >> hj) & 1:
-                alt["untrained"] = "SOLVED" if draw.getrandbits(1) else "UNSOLVED"
-            elif hj == 0:
-                alt["T0_trained"] = "SOLVED" if draw.getrandbits(1) else "UNSOLVED"
-            elif mech == "MLP":
-                alt["MLP_T%d_trained" % hj] = "SOLVED" if draw.getrandbits(1) else "UNSOLVED"
-            else:
-                alt["GRU_T%d_threshold" % hj] = 0 if draw.getrandbits(1) else None
-        good, _ = truthfulness(alt, machines, measured)
-        if good == len(machines):
+        good = True
+        for i, m in enumerate(machines):
+            out = [None, None, None]
+            for j in range(3):
+                if (i, j) in committed:
+                    out[j] = draw.choice(bands)
+            in_adm = False
+            for bits in range(8):
+                ok = True
+                for j in range(3):
+                    if out[j] is not None and ((bits >> j) & 1) != out[j]:
+                        ok = False
+                        break
+                if ok:
+                    in_adm = True
+                    break
+            if not in_adm or measured[i] not in {b for b in range(8)
+                    if all(out[j] is None or ((b >> j) & 1) == out[j] for j in range(3))}:
+                good = False
+                break
+        if good:
             truthful += 1
     return truthful
 
@@ -281,8 +299,19 @@ def hostile_hk4(table, machines, measured):
 
 
 def hostile_hk7():
-    blob = git_blob_sha((Path(PRED_PKG) / "capability_predictor_v1.py").read_bytes())
-    return {"parent_blob": blob, "detected": blob != PARENT_BLOB_SHA}
+    """Mutate the parent F blob -> blob-sha mismatch refused.
+
+    Self-test of the custody detector: the actual parent file must match the
+    pinned blob, and a synthetic one-byte mutation of the same bytes must
+    produce a different sha (so a real mutation would be refused).
+    """
+    data = (Path(PRED_PKG) / "capability_predictor_v1.py").read_bytes()
+    blob = git_blob_sha(data)
+    mutated = bytearray(data)
+    mutated[0] ^= 0x01
+    mutated_blob = git_blob_sha(bytes(mutated))
+    detected = (blob == PARENT_BLOB_SHA) and (mutated_blob != PARENT_BLOB_SHA) and (mutated_blob != blob)
+    return {"parent_blob": blob, "mutated_blob": mutated_blob, "detected": detected}
 
 
 def main():
