@@ -94,7 +94,7 @@ def main():
     no_positive_stasis_primitives=all(src!=dst for src,dst in PRIM.values())
     empty_still_identity=all(path_end(t,())==t for t in TYPES)
 
-    category_not_unique_encoding=(reach==direct and len(paths)!=len(direct))
+    category_not_unique_encoding=(reach==direct and len(PRIM)<len(direct) and any(len(p)>1 for _,p,_ in paths))
 
     hostiles=[
         typed_reject,
