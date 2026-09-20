@@ -1,0 +1,35 @@
+name: gmi-1068-r13-real-scale-evidence-adjudication-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r13-real-scale-evidence-adjudication-v1/**'
+      - '.github/workflows/gmi-1068-r13-real-scale-evidence-adjudication-v1.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=98d317bd8f82185b3b626abb78ae9796fa940bb9
+          P=research/gmi-1068-r13-real-scale-evidence-adjudication-v1
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/RESULT_V1.json" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+      - name: Imported evidence still exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f research/gmi-833-h-real-scale-classical-v1/RESULT_V1.json
+          test -f research/gmi-833-real-developmental-validation-v1/RESULT_V1.json
+          test -f research/gmi-833-real-transition-receipts-v1/RESULT_V1.json
+          test "$(git rev-parse HEAD:research/gmi-833-h-real-scale-classical-v1/RESULT_V1.json)" = fb4569285bced6734b409865271ce857aa116512
+          test "$(git rev-parse HEAD:research/gmi-833-real-developmental-validation-v1/RESULT_V1.json)" = 495360a81d57ce361fffaef74d55aa5cfcbc13c4
+          test "$(git rev-parse HEAD:research/gmi-833-real-transition-receipts-v1/RESULT_V1.json)" = a87c3d244f0f7fbb82770f121e1dea9fb40f02c5
+      - name: Adjudication and finite calibrations
+        run: |
+          python3 -I -B research/gmi-1068-r13-real-scale-evidence-adjudication-v1/check_r13.py
+          python3 -I -O -B research/gmi-1068-r13-real-scale-evidence-adjudication-v1/check_r13.py
