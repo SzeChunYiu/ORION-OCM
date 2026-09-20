@@ -1,0 +1,31 @@
+name: gmi-1068-r0-programme-registry-v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-grand-unified-v2-r0/**'
+      - '.github/workflows/gmi-1068-r0-programme-registry-v1.yml'
+
+jobs:
+  verify-r0:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=852b7665f86798c334bfd0eccafb5cfb0de463c5
+          P=research/gmi-1068-grand-unified-v2-r0
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/ATOMIC_CHECKLIST_V1.json" 2>/dev/null; then
+            echo "registry existed at freeze" >&2
+            exit 1
+          fi
+          git merge-base --is-ancestor "${F}" HEAD
+      - name: Verify normal
+        run: python3 -I -B research/gmi-1068-grand-unified-v2-r0/check_r0.py
+      - name: Verify optimized
+        run: python3 -I -O -B research/gmi-1068-grand-unified-v2-r0/check_r0.py

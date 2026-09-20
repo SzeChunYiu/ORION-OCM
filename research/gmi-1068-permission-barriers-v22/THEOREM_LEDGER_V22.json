@@ -1,0 +1,138 @@
+{
+  "schema": "GMI_1068_THEOREM_LEDGER_V22",
+  "scope": "Only unchanged original R3-007 eligible; relative permission semantics",
+  "results": [
+    {
+      "id": "V1.1",
+      "statement": "Actual gate, support recursion and concatenation",
+      "premises": "Fixed V8 machine; state/action-sensitive declared requirements; finite words",
+      "dependencies": "Word induction, actual intermediate endpoint and union associativity",
+      "paper_locator": "THEORY_V22.md §V1.1",
+      "strongest_parent": "V8_V15_V21",
+      "falsifier": "Wrong-state requirements, shared-payload aliasing or missing physical edge",
+      "proof_level": "PAPER + KERNEL; actual finite Python calibration separate",
+      "kernel_locator": "PermissionMachineV22.gated_obs/gated_missing/gated_present/gated_denied/support_nil/support_cons/support_endpoint/endpoint_support/support_append; ConstructorBindingsV22.gated_next"
+    },
+    {
+      "id": "V1.2",
+      "statement": "Gated execution iff physical execution and support containment",
+      "premises": "Actual gate constructor; unchanged transition semantics",
+      "dependencies": "V1.1 and union containment",
+      "paper_locator": "THEORY_V22.md §V1.2",
+      "strongest_parent": "V8_V15_V21",
+      "falsifier": "Assumed support callback or fabricated physical edge",
+      "proof_level": "PAPER + KERNEL for arbitrary types and finite words",
+      "kernel_locator": "PermissionExecutionV22.gated_success/success_mono/all_permissions/successful_base"
+    },
+    {
+      "id": "V1.3",
+      "statement": "Full successful response equality",
+      "premises": "Complete gated success on same initial state and word",
+      "dependencies": "Actual V8 response constructors and word induction",
+      "paper_locator": "THEORY_V22.md §V1.3",
+      "strongest_parent": "V8_V15_V21",
+      "falsifier": "Compare arbitrary failed traces or charge undeclared activation overhead",
+      "proof_level": "PAPER + KERNEL; no equality of arbitrary failed traces",
+      "kernel_locator": "PermissionExecutionV22.full_successful_response; PermissionMachineV22.support_append"
+    },
+    {
+      "id": "V2.1",
+      "statement": "Actual partial-context image, target incidence and monotonicity",
+      "premises": "Fixed P/E/evaluator/target; actual success and selector",
+      "dependencies": "V1.2 and same evaluated history witness",
+      "paper_locator": "CONTEXTS_V22.md §V2.1",
+      "strongest_parent": "V8_V15_V21; R3_AF",
+      "falsifier": "Illegal or undefined witness leaks; changed evaluator",
+      "proof_level": "PAPER + KERNEL; actual Python Context calibration separate",
+      "kernel_locator": "PermissionContextsV22.image_membership/context_incidence/context_impossible/image_mono/context_preserved/view_illegal/view_undefined/view_value/from_start; ConstructorBindingsV22.scenario_*"
+    },
+    {
+      "id": "V2.2",
+      "statement": "Available-witness deficit characterization",
+      "premises": "S0 contained in U; additions contained in U minus S0",
+      "dependencies": "Set difference/union and actual target incidence",
+      "paper_locator": "CONTEXTS_V22.md §V2.2",
+      "strongest_parent": "EITER_GOTTLOB; R3_AF",
+      "falsifier": "Off-universe witness or already-successful baseline called relief",
+      "proof_level": "PAPER + KERNEL; U/baseline/addition premises explicit",
+      "kernel_locator": "PermissionMinimalityV22.enabling_deficits/deficit_admissible; PermissionIncidenceV22.available_restrict; PermissionControlsV22.admitted_baseline"
+    },
+    {
+      "id": "V2.3",
+      "statement": "Minimal additions equal minimal witness deficits",
+      "premises": "All subsets of U minus S0 are permitted",
+      "dependencies": "Extracted deficit is itself an allowed enabling addition",
+      "paper_locator": "CONTEXTS_V22.md §V2.3",
+      "strongest_parent": "EITER_GOTTLOB",
+      "falsifier": "Restricted interventions omit the witnessing deficit",
+      "proof_level": "PAPER + KERNEL; restricted-intervention counterexample PAPER + FINITE",
+      "kernel_locator": "PermissionMinimalityV22.minimal_enabling; PermissionIncidenceV22.minimal_upper"
+    },
+    {
+      "id": "V2.4",
+      "statement": "Original one-history relaxation specialization",
+      "premises": "Freely admitted baseline; one permission per missing candidate; fixed evaluation",
+      "dependencies": "Actual admission union and target witness equivalence",
+      "paper_locator": "CONTEXTS_V22.md §V2.4",
+      "strongest_parent": "R3_AF",
+      "falsifier": "Deduplicate distinct equal-valued histories or conflate arbitrary edge gating",
+      "proof_level": "KERNEL generic history incidence; actual old helper replay FINITE; instantiation with fixed partial target witness explained in PAPER",
+      "kernel_locator": "HistoryPermissionsV22.history_admission/history_capability/one_history_relief"
+    },
+    {
+      "id": "V3.1",
+      "statement": "Blockers equal hitting current target supports",
+      "premises": "Deletion subset of S; retain only eligible supports contained in S",
+      "dependencies": "Target incidence and complement quantifiers",
+      "paper_locator": "BLOCKERS_V22.md §V3.1",
+      "strongest_parent": "EITER_GOTTLOB",
+      "falsifier": "Include unavailable supports or hit only one surviving alternative",
+      "proof_level": "PAPER + KERNEL; actual currently available support family",
+      "kernel_locator": "PermissionIncidenceV22.blocks_iff_hits/blocks_mono; ConstructorBindingsV22.block_binding"
+    },
+    {
+      "id": "V3.2",
+      "statement": "Minimal blocker iff blocker plus private witnesses",
+      "premises": "Actual blocking and eligible currently available private witness for each deleted permission",
+      "dependencies": "Restore one permission; proper-subset counterwitness",
+      "paper_locator": "BLOCKERS_V22.md §V3.2",
+      "strongest_parent": "EITER_GOTTLOB",
+      "falsifier": "Private-witness condition alone is vacuous for empty deletion",
+      "proof_level": "PAPER + KERNEL; deletion API B subset S is a restriction of the stronger theorem",
+      "kernel_locator": "PermissionMinimalityV22.minimal_blocker; ConstructorBindingsV22.private_binding; PermissionControlsV22.private_is_insufficient/empty_private_is_insufficient"
+    },
+    {
+      "id": "V3.3",
+      "statement": "Finite minimal existence and exact subset enumeration",
+      "premises": "Finite covering universe; all subsets permitted; effective tests only if exact decidable property supplied",
+      "dependencies": "Powerset coverage and finite descent/reverse-inclusion frontier",
+      "paper_locator": "BLOCKERS_V22.md §V3.3",
+      "strongest_parent": "V20_FINITE; EITER_GOTTLOB",
+      "falsifier": "Finite word cutoff treated as all-history completeness",
+      "proof_level": "PAPER + KERNEL classical predicate/list construction; Python enumeration tested separately, no code-generation equivalence",
+      "kernel_locator": "FinitePermissionsV22.choices_sound/choices_complete/candidates_mem/minimal_membership/minimal_below/finite_enabler/finite_blocker"
+    },
+    {
+      "id": "V3.4",
+      "statement": "Support compression and infinite boundaries",
+      "premises": "Finite complete support family for antichain reduction; retain identity scope",
+      "dependencies": "Contained minimal support; explicit infinite-tail family",
+      "paper_locator": "BLOCKERS_V22.md §V3.4",
+      "strongest_parent": "EITER_GOTTLOB; V20_FINITE",
+      "falsifier": "Promote Boolean preservation to all profiles or infinite minimal existence",
+      "proof_level": "PAPER + KERNEL for finite support-frontier and infinite tails; grouped Python identity backpointers PAPER + FINITE",
+      "kernel_locator": "SupportFrontierV22.antichain_capability/antichain_blockers/minimal_history_membership; PermissionControlsV22.no_minimal_tail_enabler/no_minimal_tail_blocker/tail_binding"
+    },
+    {
+      "id": "V4",
+      "statement": "Scope failures and revival controls",
+      "premises": "Displayed declared models and changed premises",
+      "dependencies": "Exact set/path/partiality calculations",
+      "paper_locator": "CONTROLS_V22.md §§V4.1–4.4",
+      "strongest_parent": "R3_AF; EITER_GOTTLOB; HALPERN_PEARL",
+      "falsifier": "Overhead, negative gates, history loss, missing blocker premise or unique-cause claim",
+      "proof_level": "Named controls KERNEL; conjunction/alternative/history/overhead/negative-permission/cardinality-price controls PAPER + FINITE; malformed APIs FINITE",
+      "kernel_locator": "PermissionControlsV22.state_sensitive_payload/private_is_insufficient/empty_private_is_insufficient/baseline_not_identifying/admitted_baseline and explicit model bindings"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+ "claims": [
+  {
+   "claim_id": "FDT_T2_AFFINE_BOUNDARY",
+   "fields": {
+    "assumptions": "frozen basis/guard; battery = complete class on the canonical de Bruijn stream (order 3, two periods, zero prefix)",
+    "falsifiers": "any gate-free machine realizing a non-affine table on the battery stream, or any affine table certified unrealizable while a legal gate-free expression exists",
+    "forbidden_extrapolations": "no claim for k>2 machine-verified scope, other bases, wider windows, boolean codomains, or trained/learned machines",
+    "scope_quantifiers": "forall of the 2401 B_W2 tasks: gate-free M_STREAM(k<=2) realizability coincides exactly with the D-valued affine truth tables (231), modulo guard-legal realization; certified by exhaustive matrix enumeration (k=1: 117,649 coefficient tuples; k=2: 5^8 x 3^4) and the induction proof for k <= cell cap",
+    "strongest_parents": "linear-recurrence realizability (superposition argument); v2 M_STATE lag machines (k=1 special case)"
+   }
+  },
+  {
+   "claim_id": "FDT_T2_RECOVERY",
+   "fields": {
+    "assumptions": "terminal depends on search outcome; C2 executed as superposition intervention on found machines",
+    "falsifiers": "a found 'gate-free' machine failing superposition or simulation verification; an affine task whose DP-minimal machine is NOT gate-free within the completed scope",
+    "forbidden_extrapolations": "no claim that non-affine tasks admit state-space morphology (they are certified counterexamples)",
+    "scope_quantifiers": "exists among B_W2 tasks: the affine-and-realizable subclass carries minimal (within DP-completed cost scope) gate-free machines satisfying M-FAM C1-C3; count and machines recorded in BLIND_OUTCOME_V1_T2.json (terminal RECOVERED_FOR_SUBSET_SEE_LIST)",
+    "strongest_parents": "M-FAM fingerprint (this package, frozen pre-search); v2 blind-recovery v2 T2"
+   }
+  },
+  {
+   "claim_id": "FDT_T3_ORDER_SWAP_FORCES_COMPARISON",
+   "fields": {
+    "assumptions": "frozen basis; episode shape (2 pairs + query); order-complete enumeration",
+    "falsifiers": "a GE-free machine with 0 errors on all 56 episodes",
+    "forbidden_extrapolations": "no claim about episode shapes with fixed presentation order (the order-fixed counterexample battery admits cheaper positional machines)",
+    "scope_quantifiers": "forall GE-free M_STREAM machines, any k, any cost: none solves B_EP (exhaustive [-3,3]^6 coefficient check + Theorem 2 induction)",
+    "strongest_parents": "order-swap symmetry argument; content-addressing necessity"
+   }
+  },
+  {
+   "claim_id": "FDT_T3_RECOVERY",
+   "fields": {
+    "assumptions": "terminal depends on the search outcome reaching 0 errors",
+    "falsifiers": "champion failing independent re-simulation; intervention battery failing any clause",
+    "forbidden_extrapolations": "no key alphabets beyond 2 (bounded probes only), no value domains beyond {0,1} primary, no learned retrieval",
+    "scope_quantifiers": "terminal NOT_RECOVERED_AT_SCOPE on B_EP with interventions executed: persistent items, query-content selection, store-alteration causality",
+    "strongest_parents": "K08 frozen benchmark fingerprint (blob 6b9ac30...); Hopfield-lineage content-addressed selection"
+   }
+  },
+  {
+   "claim_id": "FDT_T1_BOUNDARY",
+   "fields": {
+    "assumptions": "frozen layout encoding; readout classes as declared",
+    "falsifiers": "any certified readout machine with 0 battery errors",
+    "forbidden_extrapolations": "no claim about deeper readout trees, other layouts, or recurrent readouts",
+    "scope_quantifiers": "forall sparse-affine (<=4 nonzero) and single-gate readout machines over the 18-cell layout: none solves B_CONTR (exhaustive certificate)",
+    "strongest_parents": "description-length/capacity arguments (cross-grammar four-family Grammar A precedent)"
+   }
+  },
+  {
+   "claim_id": "FDT_T1_RECOVERY",
+   "fields": {
+    "assumptions": "terminal depends on the search outcome reaching 0 errors on the full battery",
+    "falsifiers": "champion failing independent re-simulation; witness batteries returning no divergence/match",
+    "forbidden_extrapolations": "no variable-rhs rules, no terms beyond 3 leaves, no claim beyond M_ITER(24 cells, 16 steps)",
+    "scope_quantifiers": "terminal NOT_RECOVERED_AT_SCOPE on B_CONTR with subterm-divergence, staged-convergence, and successor-selection witnesses executed where the battery provides them",
+    "strongest_parents": "K05 frozen benchmark fingerprint (blob 6b9ac30...); term-contraction reachability class; aj9f finite-scope recovery"
+   }
+  },
+  {
+   "claim_id": "FDT_NULL_SEPARATION",
+   "fields": {
+    "assumptions": "declared budgets; frozen hash",
+    "falsifiers": "a null battery champion reaching 0 errors at lower cost",
+    "forbidden_extrapolations": "no distributional claim beyond the drawn nulls",
+    "scope_quantifiers": "TR-3/TR-1 null batteries: 200 seeds each, outputs uniform {0,1}; no null champion strictly better than the true battery's champion on its statistic (counts in outcomes)",
+    "strongest_parents": "grammar-growth NULL-1 recipe"
+   }
+  }
+ ],
+ "fields": [
+  "scope_quantifiers",
+  "assumptions",
+  "falsifiers",
+  "strongest_parents",
+  "forbidden_extrapolations"
+ ],
+ "schema": "FDT_CLAIMS_V1"
+}

@@ -1,0 +1,160 @@
+{
+  "schema": "GMI_1068_THEOREM_LEDGER_V27",
+  "scope": "Classical paper derivations with separately registered kernel and finite evidence; no observed gate outcome asserted by this ledger.",
+  "results": [
+    {
+      "id": "AA1-A",
+      "statement": "Successor/relation extensional roundtrips; hom square iff Forward and Back iff graph bisimulation.",
+      "premises": "Fixed-label relation-LTS; actual powerset image map.",
+      "dependencies": "Actual LTSCoalgebra definitions; extensional equality.",
+      "paper": "LTS_V27.md AA1-A",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT",
+      "kernel_registration": "LTSCoalgebraV27.relation_successors; LTSCoalgebraV27.successors_relation; LTSCoalgebraV27.hom_iff; LTSCoalgebraV27.graph_bisimulation; ProofTargetsV27.hom_equation_contract",
+      "falsifier": "Mismatch of either square inclusion or use of trace equality.",
+      "strongest_parent": "RUTTEN-LTS"
+    },
+    {
+      "id": "AA1-B",
+      "statement": "Path nil/cons/append and mapped labels are preserved; singleton generators recover transition triples.",
+      "premises": "Labelled generators with declared state/label types; actual V11 Path.",
+      "dependencies": "Immutable V11 path category and generator mapping.",
+      "paper": "LTS_V27.md AA1-B",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT; arbitrary lawful target interpretation is PAPER beyond registered path-category map_eval",
+      "kernel_registration": "LTSPathsV27.generator_iff; LTSPathsV27.map_nil; LTSPathsV27.map_cons; LTSPathsV27.map_append; LTSPathsV27.map_labels; LTSPathsV27.map_eval; ParentBindingsV27.labels_append",
+      "falsifier": "Unlabelled endpoint graph used to reconstruct omitted labels or cardinality.",
+      "strongest_parent": "RIEHL-PATHS"
+    },
+    {
+      "id": "AA1-C",
+      "statement": "A source path maps to that exact dependent endpoint/path bundle.",
+      "premises": "Forward and Back; a finite target path from the image of the supplied start.",
+      "dependencies": "Actual path recursion; Back witness at each first edge.",
+      "paper": "LTS_V27.md AA1-C",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT",
+      "kernel_registration": "LTSPathsV27.lift_path",
+      "falsifier": "Returning only a same-label path with another intermediate state.",
+      "strongest_parent": "RUTTEN-LTS"
+    },
+    {
+      "id": "AA2-A",
+      "statement": "Whole systems form a category and actual carrier forgetting is faithful.",
+      "premises": "Actual Set endofunctor laws and commuting Hom squares.",
+      "dependencies": "Function composition and endofunctor id/comp equations.",
+      "paper": "COALGEBRA_V27.md AA2-A",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT",
+      "kernel_registration": "SetCoalgebraV27.SetEndo.mk; SetCoalgebraV27.System.mk; SetCoalgebraV27.category; SetCoalgebraV27.forget_faithful; ParentBindingsV27.system_hom; ParentBindingsV27.system_id; ParentBindingsV27.system_comp",
+      "falsifier": "Assuming category laws or confusing Hom with internal transitions.",
+      "strongest_parent": "MATHLIB-COALGEBRA"
+    },
+    {
+      "id": "AA2-B/C",
+      "statement": "Faithful forgetting revives an unequal-Empty failure; retaining actual System objects restores raw transport.",
+      "premises": "Actual Bool×X singleton systems; literal raw object names; lawful ProcessMaps.",
+      "dependencies": "Actual V26 collapsed-empty/object-injective transport.",
+      "paper": "COALGEBRA_V27.md AA2-B/AA2-C",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT",
+      "kernel_registration": "CoalgebraControlsV27.singleton_distinct; CoalgebraControlsV27.same_carrier; CoalgebraControlsV27.forgotten_empty_loss; CoalgebraControlsV27.tagged_revival; SetCoalgebraV27.tagged_raw_transport; SystemBindingsV27.tagged_map",
+      "falsifier": "Object injection inferred from Hom faithfulness or tags erased in the repair.",
+      "strongest_parent": "MATHLIB-COALGEBRA"
+    },
+    {
+      "id": "AA3-A",
+      "statement": "Sequential reduct preserves exactly its objects/arrows/id/composition, without reconstructing enrichment.",
+      "premises": "A supplied standard monoidal/symmetric category.",
+      "dependencies": "Standard category component of the supplied structure.",
+      "paper": "THEORY_V27.md AA3-A",
+      "proof_level": "PAPER_ONLY standard-definition extraction; reused core-law kernel statements are narrower",
+      "kernel_registration": "NONE for general monoidal reduct extraction; actual inherited core laws are separately registered, not an extraction certificate",
+      "falsifier": "Claiming tensor/symmetry uniquely recoverable from this projection.",
+      "strongest_parent": "CDP-EVENTS-TESTS"
+    },
+    {
+      "id": "AA3-B",
+      "statement": "Rel category laws and faithful same-object inclusion of actual TotalRel; empty-output obstruction.",
+      "premises": "Arbitrary relation predicates; totality only on the TotalRel slice.",
+      "dependencies": "Actual V14 relation operations and subtype proof irrelevance.",
+      "paper": "THEORY_V27.md AA3-B",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT",
+      "kernel_registration": "RelParentV27.assoc; RelParentV27.left_id; RelParentV27.right_id; RelParentV27.inclusion_faithful; RelParentV27.empty_not_total; ParentBindingsV27.rel_comp; ParentBindingsV27.inclusion_rel",
+      "falsifier": "Forbid empty-domain arrows or force total outputs in arbitrary Rel.",
+      "strongest_parent": "V14-V26-RELATIONS-KERNELS"
+    },
+    {
+      "id": "AA3-C",
+      "statement": "Finite channel operations and Dirac/support bridges retain their exact scope; support loses magnitudes.",
+      "premises": "Actual inherited Weight and normalized finite matrices.",
+      "dependencies": "Immutable V14/V26 matrix/category and concrete Rat sources.",
+      "paper": "THEORY_V27.md AA3-C",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT; arbitrary measurable kernels are not constructed",
+      "kernel_registration": "StochasticV14.mcomp_assoc; StochasticV14.comp_normalized; StochasticV14.Kernel.embed_faithful; StochasticV14.Kernel.support_comp; StochasticV14.RationalModel.support_probability_loss; EventBindingsV27.inherited_dirac; EventBindingsV27.inherited_support",
+      "falsifier": "Present arbitrary measurable kernels or probability recovery from support as proved.",
+      "strongest_parent": "V14-V26-RELATIONS-KERNELS"
+    },
+    {
+      "id": "AA4-A",
+      "statement": "Subnormalized matrices form Event category; Kernel has exact coefficient-preserving normalized-slice inverse.",
+      "premises": "Actual V14 Weight plus primitive OrderedWeight laws.",
+      "dependencies": "Finite sum laws and derived row-composition inequality.",
+      "paper": "EVENTS_V27.md AA4-A",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT",
+      "kernel_registration": "OrderedWeightsV27.OrderedWeight.mk; OrderedWeightsV27.comp_bound; SubEventsV27.Event.mk; SubEventsV27.Event.assoc; SubEventsV27.Event.kernel_roundtrip; SubEventsV27.Event.event_roundtrip; SubEventsV27.inclusion_faithful; EventBindingsV27.event_comp",
+      "falsifier": "Assume the row bound in a composition field or renormalize subnormalized data.",
+      "strongest_parent": "CDP-EVENTS-TESTS"
+    },
+    {
+      "id": "AA4-B",
+      "statement": "Component bounds, paired-label composition, aggregate matrix equation, normalization and empty-outcome boundary.",
+      "premises": "Finite atom/product outcome shape; matrices with normalized aggregate; injective supplied IDs.",
+      "dependencies": "Actual nested sums and matrix products; inherited one_ne_zero.",
+      "paper": "EVENTS_V27.md AA4-B",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT",
+      "kernel_registration": "EventTestsV27.Test.mk; EventTestsV27.Test.component; EventTestsV27.aggregate_product; EventTestsV27.Test.comp_value; EventTestsV27.Test.comp_aggregate; EventTestsV27.Test.no_empty_outcomes; EventTestsV27.Test.empty_input; EventTestsV27.paired_labels; ProofTargetsV27.test_composition_contract",
+      "falsifier": "Erase zero IDs, assume component bounds as the generic conclusion or flatten labels.",
+      "strongest_parent": "CDP-EVENTS-TESTS"
+    },
+    {
+      "id": "AA4-C/D",
+      "statement": "Closed basis observations extract and separate coefficients; closed scalars multiply; aggregation can lose test labels.",
+      "premises": "Classical finite Event matrices and actual basis preparations/effects.",
+      "dependencies": "Actual matrix multiplication; valid basis Event bounds.",
+      "paper": "EVENTS_V27.md AA4-C/AA4-D",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT; fractional controls are Rat arithmetic, not general Event Rat or Test Rat instances",
+      "kernel_registration": "EventObservationsV27.observation_entry; EventObservationsV27.separation; EventObservationsV27.scalar_comp; EventObservationsV27.fractional_scalar_control; EventObservationsV27.equal_aggregate_different_tests; ControlBindingsV27.rational_tests",
+      "falsifier": "Generalize classical separation to arbitrary ancilla equivalence.",
+      "strongest_parent": "CDP-EVENTS-TESTS"
+    },
+    {
+      "id": "AA5-A",
+      "statement": "Canonical decode is exact; regular typed composite decodes R;S and has Dom R, with only range containment in Ran S.",
+      "premises": "Ambient relation with actual Dom/Ran subtype labels; explicit range-in-domain inclusion.",
+      "dependencies": "Actual V14 TotalRel and inclusion graph.",
+      "paper": "TASKS_V27.md AA5-A",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT",
+      "kernel_registration": "TaskInterfacesV27.decode_canonical; TaskInterfacesV27.decoded_domain; TaskInterfacesV27.decoded_range; RegularTasksV27.decode_regular; RegularTasksV27.regular_domain; TaskBindingsV27.regular_task; ProofTargetsV27.regular_task_contract",
+      "falsifier": "Replace the retained target by the composite image.",
+      "strongest_parent": "DEUTSCH-TASKS"
+    },
+    {
+      "id": "AA5-B",
+      "statement": "Exact-image regularity fails strong partial associativity; genuine typed arrows retain endpoints and lawful composition.",
+      "premises": "Five distinct labels in the specified R/S/T relations; declared-interface TotalRel repair.",
+      "dependencies": "Explicit relational witnesses and inherited category laws.",
+      "paper": "TASKS_V27.md AA5-B",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT",
+      "kernel_registration": "RegularTasksV27.inferred_interface_failure; RegularTasksV27.declared_output_larger; TaskBindingsV27.task_comp; TaskBindingsV27.source_R; TaskBindingsV27.source_S; TaskBindingsV27.source_T",
+      "falsifier": "Call the repaired observer identical to the range-normalizing one.",
+      "strongest_parent": "DEUTSCH-TASKS"
+    },
+    {
+      "id": "AA5-C",
+      "statement": "Actual V26 restriction gives a category; possible composites need not have possible factors; resource endpoints remain explicit.",
+      "premises": "Chosen Poss contains identities and is closed under actual typed composition.",
+      "dependencies": "Immutable V26 restriction/resource bridges and actual finite function composition.",
+      "paper": "TASKS_V27.md AA5-C",
+      "proof_level": "KERNEL generic statements at the explicit registered premises; PAPER interpretation and FINITE Python correspondence remain distinct; replay outcomes in FORMAL_REVIEW and RESULT",
+      "kernel_registration": "TaskInterfacesV27.possible_hom; SystemBindingsV27.possible_category; RestrictedV26.exact_closure; TaskControlsV27.possible_closed; TaskControlsV27.possible_composite_not_factors; TaskControlsV27.candidate_not_closed; ResourcePathsV26.exact_lift; ResourceControlsV26.bad_join; ResourceControlsV26.forgotten_join",
+      "falsifier": "Infer physical repeatability or bridge feasibility from the mathematical closure predicate.",
+      "strongest_parent": "DEUTSCH-TASKS"
+    }
+  ]
+}

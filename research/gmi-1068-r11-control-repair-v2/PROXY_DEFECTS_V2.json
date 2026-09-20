@@ -1,0 +1,96 @@
+{
+  "schema": "GMI_PROXY_DEFECTS_V2",
+  "scope": "Specific inspected code defects; original finite facts retained where valid.",
+  "entries": [
+    {
+      "id": "D01",
+      "claim": "R7/E06",
+      "path": "../gmi-1068-r7-blind-family-atlas-v1/check_r7.py",
+      "observed_code": "dyn compares truth(a,b,q) to itself; fixed competitors are only a and b.",
+      "established_scope": "A binary multiplexer exactly solves its supplied truth table and two fixed-coordinate baselines miss cases.",
+      "unsupported_promotion": "Derivation of dot-product attention or full Transformer.",
+      "repair_obligation": "Supply score/normalization/readout assumptions and compare explicit resource-matched competitors."
+    },
+    {
+      "id": "D02",
+      "claim": "R7/E13",
+      "path": "../gmi-1068-r7-blind-family-atlas-v1/check_r7.py",
+      "observed_code": "step=lambda d:max(d-1,0); only step(2), step(step(2)), step(1) are checked.",
+      "established_scope": "Two scalar decrement steps suffice on one input.",
+      "unsupported_promotion": "Derivation of stochastic diffusion/denoising or a generative distribution.",
+      "repair_obligation": "Define normalized stochastic kernels, schedule and trained objective."
+    },
+    {
+      "id": "D03",
+      "claim": "R7/E18",
+      "path": "../gmi-1068-r7-blind-family-atlas-v1/check_r7.py",
+      "observed_code": "The profiles table assigns A and B error4 cost3, HYBRID error0 cost5.",
+      "established_scope": "Only the supplied HYBRID profile satisfies supplied zero-error viability.",
+      "unsupported_promotion": "A task-derived theorem of hybrid superiority.",
+      "repair_obligation": "Compute profiles from independently specified tasks and implementations."
+    },
+    {
+      "id": "D04",
+      "claim": "R7/E04",
+      "path": "../gmi-1068-r7-blind-family-atlas-v1/check_r7.py",
+      "observed_code": "Checks local XOR under rotations of four bits.",
+      "established_scope": "This particular Boolean map is equivariant on the tested finite domain.",
+      "unsupported_promotion": "Necessity or optimality of convolutional architecture.",
+      "repair_obligation": "Specify linearity, group action, locality and task/resource assumptions."
+    },
+    {
+      "id": "D05",
+      "claim": "R7/E03/E10",
+      "path": "../gmi-1068-r7-blind-family-atlas-v1/check_r7.py",
+      "observed_code": "Delay transducer enumeration and one supplied conditional XNOR rule.",
+      "established_scope": "Finite delay-state requirement and a conditional Boolean realization.",
+      "unsupported_promotion": "Learning recurrence/gates or superiority of tree induction.",
+      "repair_obligation": "Separate state-memory lower bound, gate form, learned updates and induction method."
+    },
+    {
+      "id": "D06",
+      "claim": "R8/routeB",
+      "path": "../gmi-1068-r8-civilization-blind-neural-v1/causal_derivation_v1.py",
+      "observed_code": "branch_value immediately calls world_value; run compares it back to world_value.",
+      "established_scope": "The alias returns the same function output.",
+      "unsupported_promotion": "Independent derivation or independent semantic verification.",
+      "repair_obligation": "Use a distinct implementation or derivation and test semantic agreement."
+    },
+    {
+      "id": "D07",
+      "claim": "R8/search scope",
+      "path": "../gmi-1068-r8-civilization-blind-neural-v1/causal_derivation_v1.py",
+      "observed_code": "Knots are fixed at -8 and 8; candidates are TABLE/BRANCH/AFFINE/HINGE with supplied costs.",
+      "established_scope": "A piecewise-affine identity plus selection among four supplied representation classes under two supplied tariffs.",
+      "unsupported_promotion": "Prior-free synthesis, unknown-family discovery, measured hardware superiority or training generalization.",
+      "repair_obligation": "Disclose supplied classes, primitives, knots and tariffs; new discovery requires an actual search protocol and independent outcomes."
+    },
+    {
+      "id": "D08",
+      "claim": "R8/blinding",
+      "path": "../gmi-1068-r8-civilization-blind-neural-v1/check_r8.py",
+      "observed_code": "A forbidden-word list is checked in source text.",
+      "established_scope": "The listed words do not occur.",
+      "unsupported_promotion": "Semantic absence of architecture-specific choices.",
+      "repair_obligation": "Audit generator, primitives, candidate grammar and selection objectives; names alone cannot certify blindness."
+    },
+    {
+      "id": "D09",
+      "claim": "R11/planning sufficiency",
+      "path": "../gmi-1068-r11-lecun-physical-ai-v1/check_r11.py",
+      "observed_code": "Tests include all(t==t...), constant-zero loss and one four-action planning table.",
+      "established_scope": "Declared two-bit quotient, constant-collapse and finite planning witnesses.",
+      "unsupported_promotion": "A learned latent is sufficient for controlled planning.",
+      "repair_obligation": "T1/T2 provide a conditional repair; measure/verify reward and action-conditioned transition compatibility."
+    },
+    {
+      "id": "D10",
+      "claim": "R12/verdict gate",
+      "path": "../gmi-1068-r12-ai-findings-registry-v1/check_r12.py",
+      "observed_code": "Validates names, row counts, verdict vocabulary and two scaling labels without implication/theorem witnesses.",
+      "established_scope": "Registry schema and selected claim-boundary consistency.",
+      "unsupported_promotion": "Truth of DERIVED or CONDITIONALLY_EXPLAINED verdicts.",
+      "repair_obligation": "Require explicit assumptions, proof/source locator, semantic map and appropriate evidence level."
+    }
+  ]
+}

@@ -1,0 +1,1452 @@
+{
+  "schema": "GMI_833_AE4_INFORMATION_BOTTLENECK_RESULT_V1",
+  "issue": 833,
+  "section": "AE4",
+  "issue_comment_id": 5692689542,
+  "package": "gmi-833-ae-ae4-information-bottleneck-v1",
+  "source_main": "5e57d4292266bccf435136e1f7d72caa32e920a0",
+  "freeze_commit": "c05f8f4ce6e5614993dff1e69177a58b53938f87",
+  "claim_ceiling": "GMI_833_AE4_IB_RELEVANT_INFORMATION_BOUNDARY_EXACTLY_CLASSIFIED_OVER_DETERMINISTIC_ENCODERS_AT_REGISTERED_FINITE_SCOPE",
+  "scope": {
+    "support_atoms": 8,
+    "prior": "uniform, exact mass 1/8",
+    "encoders": 4140,
+    "encoder_class": "deterministic (hard partitions) only",
+    "worlds": [
+      "W_dictator",
+      "W_and",
+      "W_parity",
+      "W_pair",
+      "W_skew",
+      "W_noisy",
+      "W_triple"
+    ],
+    "beta_ladder": [
+      "0",
+      "1/2",
+      "1",
+      "3/2",
+      "2",
+      "3",
+      "4",
+      "6",
+      "8"
+    ],
+    "arithmetic": "exact rational combinations of prime logarithms; no float, no evaluated logarithm"
+  },
+  "results": {
+    "IB_1_formalisation": {
+      "objective": "L_beta(T) = I(T;X) - beta*I(T;Y), minimised over the registered encoder family",
+      "encoder_family": "all deterministic encoders, i.e. all Bell(8) = 4140 set partitions of the 8-atom support",
+      "scope_restriction": "DETERMINISTIC encoders only -- this is the deterministic information bottleneck, not the stochastic-encoder IB",
+      "stochastic_encoders_optimised": false,
+      "arithmetic": "every entropy is an exact rational combination of prime logarithms; order is decided by an exact integer comparison; no logarithm is ever evaluated",
+      "crosswalk": [
+        {
+          "symbol": "I(T;X)",
+          "parent": "information bottleneck compression term",
+          "citation": "Tishby, Pereira & Bialek 1999, arXiv:physics/0004057",
+          "status": "PARENT_OWNED"
+        },
+        {
+          "symbol": "I(T;Y)",
+          "parent": "information bottleneck relevance term",
+          "citation": "Tishby, Pereira & Bialek 1999, arXiv:physics/0004057",
+          "status": "PARENT_OWNED"
+        },
+        {
+          "symbol": "deterministic encoder / hard partition",
+          "parent": "deterministic information bottleneck",
+          "citation": "Strouse & Schwab 2017, doi:10.1162/NECO_a_00961",
+          "status": "PARENT_OWNED"
+        },
+        {
+          "symbol": "T_GMI, coarsest partition sufficient for Y",
+          "parent": "minimal sufficient statistic",
+          "citation": "Lehmann & Scheffe 1950, doi:10.1214/aoms/1177729695",
+          "status": "PARENT_SUFFICIENT"
+        },
+        {
+          "symbol": "capacity vs distortion frontier",
+          "parent": "rate-distortion theory",
+          "citation": "Shannon 1959; Cover & Thomas 2006",
+          "status": "PARENT_OWNED"
+        },
+        {
+          "symbol": "retain-for-control under utility U",
+          "parent": "information theory of decisions and actions; rational inattention",
+          "citation": "Tishby & Polani 2011, doi:10.1007/978-1-4419-1452-1_19; Sims 2003, doi:10.1016/S0304-3932(03)00029-1",
+          "status": "PARENT_OWNED"
+        }
+      ]
+    },
+    "IB_2_relation_over_the_beta_ladder": {
+      "claim": "the GMI minimal predictive state is IB-optimal only above an exact tradeoff threshold; below it the optimum is strictly coarser, and incomparable optima occur",
+      "relation_totals": {
+        "EQUAL": 44,
+        "GMI_STRICTLY_REFINES": 41,
+        "IB_STRICTLY_REFINES": 0,
+        "INCOMPARABLE": 0
+      },
+      "incomparable_witness": null,
+      "per_world": {
+        "W_dictator": {
+          "T_GMI": "01010101",
+          "T_GMI_blocks": 2,
+          "H_Y": "1",
+          "smallest_beta_at_which_T_GMI_is_IB_optimal": "1",
+          "ladder": [
+            {
+              "beta": "0",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1/2",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1",
+              "optima": 2,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "3/2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01010101"
+            },
+            {
+              "beta": "2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01010101"
+            },
+            {
+              "beta": "3",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01010101"
+            },
+            {
+              "beta": "4",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01010101"
+            },
+            {
+              "beta": "6",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01010101"
+            },
+            {
+              "beta": "8",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01010101"
+            }
+          ]
+        },
+        "W_and": {
+          "T_GMI": "00010001",
+          "T_GMI_blocks": 2,
+          "H_Y": "2*log2(2) + -3/4*log2(3)",
+          "smallest_beta_at_which_T_GMI_is_IB_optimal": "1",
+          "ladder": [
+            {
+              "beta": "0",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1/2",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1",
+              "optima": 2,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "3/2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00010001"
+            },
+            {
+              "beta": "2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00010001"
+            },
+            {
+              "beta": "3",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00010001"
+            },
+            {
+              "beta": "4",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00010001"
+            },
+            {
+              "beta": "6",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00010001"
+            },
+            {
+              "beta": "8",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00010001"
+            }
+          ]
+        },
+        "W_parity": {
+          "T_GMI": "01101001",
+          "T_GMI_blocks": 2,
+          "H_Y": "1",
+          "smallest_beta_at_which_T_GMI_is_IB_optimal": "1",
+          "ladder": [
+            {
+              "beta": "0",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1/2",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1",
+              "optima": 2,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "3/2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01101001"
+            },
+            {
+              "beta": "2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01101001"
+            },
+            {
+              "beta": "3",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01101001"
+            },
+            {
+              "beta": "4",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01101001"
+            },
+            {
+              "beta": "6",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01101001"
+            },
+            {
+              "beta": "8",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01101001"
+            }
+          ]
+        },
+        "W_pair": {
+          "T_GMI": "01230123",
+          "T_GMI_blocks": 4,
+          "H_Y": "2",
+          "smallest_beta_at_which_T_GMI_is_IB_optimal": "1",
+          "ladder": [
+            {
+              "beta": "0",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1/2",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1",
+              "optima": 15,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 14,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "3/2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01230123"
+            },
+            {
+              "beta": "2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01230123"
+            },
+            {
+              "beta": "3",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01230123"
+            },
+            {
+              "beta": "4",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01230123"
+            },
+            {
+              "beta": "6",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01230123"
+            },
+            {
+              "beta": "8",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01230123"
+            }
+          ]
+        },
+        "W_skew": {
+          "T_GMI": "01111111",
+          "T_GMI_blocks": 2,
+          "H_Y": "3*log2(2) + -7/8*log2(7)",
+          "smallest_beta_at_which_T_GMI_is_IB_optimal": "1",
+          "ladder": [
+            {
+              "beta": "0",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1/2",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1",
+              "optima": 2,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "3/2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01111111"
+            },
+            {
+              "beta": "2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01111111"
+            },
+            {
+              "beta": "3",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01111111"
+            },
+            {
+              "beta": "4",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01111111"
+            },
+            {
+              "beta": "6",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01111111"
+            },
+            {
+              "beta": "8",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01111111"
+            }
+          ]
+        },
+        "W_noisy": {
+          "T_GMI": "01010101",
+          "T_GMI_blocks": 2,
+          "H_Y": "1",
+          "smallest_beta_at_which_T_GMI_is_IB_optimal": "6",
+          "ladder": [
+            {
+              "beta": "0",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1/2",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "3/2",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "2",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "3",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "4",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "6",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01010101"
+            },
+            {
+              "beta": "8",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "01010101"
+            }
+          ]
+        },
+        "W_triple": {
+          "T_GMI": "00011122",
+          "T_GMI_blocks": 3,
+          "H_Y": "11/4*log2(2) + -3/4*log2(3)",
+          "smallest_beta_at_which_T_GMI_is_IB_optimal": "1",
+          "ladder": [
+            {
+              "beta": "0",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1/2",
+              "optima": 1,
+              "gmi_state_is_optimal": false,
+              "relations": {
+                "EQUAL": 0,
+                "GMI_STRICTLY_REFINES": 1,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "1",
+              "optima": 5,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 4,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00000000"
+            },
+            {
+              "beta": "3/2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00011122"
+            },
+            {
+              "beta": "2",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00011122"
+            },
+            {
+              "beta": "3",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00011122"
+            },
+            {
+              "beta": "4",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00011122"
+            },
+            {
+              "beta": "6",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00011122"
+            },
+            {
+              "beta": "8",
+              "optima": 1,
+              "gmi_state_is_optimal": true,
+              "relations": {
+                "EQUAL": 1,
+                "GMI_STRICTLY_REFINES": 0,
+                "IB_STRICTLY_REFINES": 0,
+                "INCOMPARABLE": 0
+              },
+              "example_optimum": "00011122"
+            }
+          ]
+        }
+      }
+    },
+    "IB_3_smallest_counterexample": {
+      "counterexample_kind": "T_GMI is not an IB optimum, so the two cannot be identified without a tradeoff qualifier",
+      "smallest_support_size": 2,
+      "smallest_support_size_at_beta_at_least_one": null,
+      "per_size": [
+        {
+          "support_size": 2,
+          "encoders": 2,
+          "deterministic_targets": 2,
+          "beta_points": 9,
+          "instances_where_T_GMI_is_not_an_IB_optimum": 2,
+          "of_those_at_beta_at_least_one": 0,
+          "incomparable_instances": 0,
+          "first_not_optimal": {
+            "target_partition": "01",
+            "beta": "0",
+            "IB_optimum": "00",
+            "optima": 1
+          },
+          "first_not_optimal_at_beta_at_least_one": null,
+          "first_incomparable": null
+        },
+        {
+          "support_size": 3,
+          "encoders": 5,
+          "deterministic_targets": 5,
+          "beta_points": 9,
+          "instances_where_T_GMI_is_not_an_IB_optimum": 8,
+          "of_those_at_beta_at_least_one": 0,
+          "incomparable_instances": 0,
+          "first_not_optimal": {
+            "target_partition": "001",
+            "beta": "0",
+            "IB_optimum": "000",
+            "optima": 1
+          },
+          "first_not_optimal_at_beta_at_least_one": null,
+          "first_incomparable": null
+        },
+        {
+          "support_size": 4,
+          "encoders": 15,
+          "deterministic_targets": 15,
+          "beta_points": 9,
+          "instances_where_T_GMI_is_not_an_IB_optimum": 28,
+          "of_those_at_beta_at_least_one": 0,
+          "incomparable_instances": 0,
+          "first_not_optimal": {
+            "target_partition": "0001",
+            "beta": "0",
+            "IB_optimum": "0000",
+            "optima": 1
+          },
+          "first_not_optimal_at_beta_at_least_one": null,
+          "first_incomparable": null
+        },
+        {
+          "support_size": 5,
+          "encoders": 52,
+          "deterministic_targets": 52,
+          "beta_points": 9,
+          "instances_where_T_GMI_is_not_an_IB_optimum": 102,
+          "of_those_at_beta_at_least_one": 0,
+          "incomparable_instances": 0,
+          "first_not_optimal": {
+            "target_partition": "00001",
+            "beta": "0",
+            "IB_optimum": "00000",
+            "optima": 1
+          },
+          "first_not_optimal_at_beta_at_least_one": null,
+          "first_incomparable": null
+        },
+        {
+          "support_size": 6,
+          "encoders": 203,
+          "deterministic_targets": 203,
+          "beta_points": 9,
+          "instances_where_T_GMI_is_not_an_IB_optimum": 404,
+          "of_those_at_beta_at_least_one": 0,
+          "incomparable_instances": 0,
+          "first_not_optimal": {
+            "target_partition": "000001",
+            "beta": "0",
+            "IB_optimum": "000000",
+            "optima": 1
+          },
+          "first_not_optimal_at_beta_at_least_one": null,
+          "first_incomparable": null
+        }
+      ],
+      "smaller_sizes_with_a_counterexample": 0,
+      "smaller_sizes_with_a_counterexample_at_beta_at_least_one": 0,
+      "minimality_proved": true,
+      "deterministic_targets_never_fail_above_beta_one": true,
+      "channel_search": {
+        "target_family": "registered rational channels p(Y=1|x) over the frozen grid {0, 1/4, 1/2, 3/4, 1}",
+        "support_sizes_searched": [
+          2,
+          3
+        ],
+        "smallest_support_size": 2,
+        "per_size": [
+          {
+            "support_size": 2,
+            "channels_enumerated": 25,
+            "encoders": 2,
+            "instances_at_beta_at_least_one": 86,
+            "first": {
+              "channel": [
+                "0",
+                "1/4"
+              ],
+              "T_GMI": "01",
+              "beta": "1",
+              "IB_optimum": "00"
+            }
+          },
+          {
+            "support_size": 3,
+            "channels_enumerated": 125,
+            "encoders": 5,
+            "instances_at_beta_at_least_one": 636,
+            "first": {
+              "channel": [
+                "0",
+                "0",
+                "1/4"
+              ],
+              "T_GMI": "001",
+              "beta": "1",
+              "IB_optimum": "000"
+            }
+          }
+        ],
+        "smaller_sizes_with_a_counterexample": 0,
+        "minimality_proved": true,
+        "why_the_search_stops_at_three": "support size 1 is vacuous, so 2 is the smallest support that can carry a counterexample at all; once one is found there, every strictly smaller size has been exhausted and a larger search could only find non-minimal instances",
+        "minimality_note": "support size 2 is the smallest support carrying two distinguishable atoms, so a counterexample there is minimal by construction; every smaller size is vacuous and every searched size is reported",
+        "revival_record": "the first predicate tried -- an INCOMPARABLE IB optimum -- was refuted by exhaustion, and the second -- T_GMI not optimal -- held only at beta = 0 over deterministic targets. The failure was attributed to a single stage, the target family, and the matching lever (rational channels) was applied and re-tested. Both earlier outcomes are reported, not deleted."
+      },
+      "minimality_method": "every support size strictly below the reported one is searched exhaustively over all its partitions, all its deterministic targets and the whole beta ladder",
+      "proved_absence_of_the_stronger_counterexample": {
+        "kind": "an IB optimum INCOMPARABLE with T_GMI",
+        "smallest_support_size_found": null,
+        "exhausted_support_sizes": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "instances_found": 0,
+        "status": "EARNED_BY_EXHAUSTION -- at this scope every IB optimum is EQUAL to T_GMI or a STRICT COARSENING of it, never incomparable and never a strict refinement",
+        "conjecture_not_claimed": "that this holds for every finite deterministic target and every deterministic encoder is a CONJECTURE, not a theorem of this package; it is verified exhaustively to support size 6 and on the registered 8-atom worlds, and no general proof is offered"
+      }
+    },
+    "IB_4_relevance_versus_control": {
+      "world": "W_pair",
+      "capacity_classes": 8,
+      "relevance_beats_control_pairs": 162242,
+      "control_beats_relevance_pairs": 280779,
+      "claim": "within a fixed capacity class the encoder carrying strictly more information about Y can be strictly worse for control under the registered utility, and the ordering reverses elsewhere, so the two objectives are not the same ordering",
+      "witness": {
+        "capacity_blocks": 2,
+        "encoder_more_informative": "00000011",
+        "encoder_better_for_control": "00000100",
+        "H_Y_given_T_more_informative": "1/2*log2(2) + 3/4*log2(3)",
+        "H_Y_given_T_better_for_control": "-3/4*log2(2) + 7/8*log2(7)",
+        "control_value_more_informative": "21/32",
+        "control_value_better_for_control": "11/16"
+      }
+    },
+    "IB_5_when_forgetting_is_optimal": {
+      "world": "W_noisy",
+      "condition": "merging two atoms costs no relevant information iff they carry the same conditional law p(Y|x); capacity I(T;X) strictly falls, so under any capacity constraint the merge is optimal",
+      "free_merges": 12,
+      "costly_merges": 16,
+      "criterion_mismatches": 0,
+      "free_witness": {
+        "atoms": [
+          0,
+          2
+        ],
+        "H_Y_given_T_before": "2*log2(2) + -3/4*log2(3)",
+        "H_Y_given_T_after": "2*log2(2) + -3/4*log2(3)",
+        "capacity_before": "3",
+        "capacity_after": "11/4"
+      },
+      "costly_witness": {
+        "atoms": [
+          0,
+          1
+        ],
+        "H_Y_given_T_before": "2*log2(2) + -3/4*log2(3)",
+        "H_Y_given_T_after": "7/4*log2(2) + -9/16*log2(3)"
+      }
+    },
+    "IB_6_when_apparent_irrelevance_must_be_retained": {
+      "mechanisms": [
+        {
+          "mechanism": "future task uncertainty",
+          "verdict": "WITNESSED",
+          "present_target": "W_dictator",
+          "future_target": "W_and",
+          "atom_pairs_irrelevant_to_the_present_target": 4,
+          "of_those_required_by_the_future_target": 2,
+          "witness_pair": [
+            1,
+            3
+          ]
+        },
+        {
+          "mechanism": "transfer",
+          "verdict": "WITNESSED",
+          "target_transferred_to": "W_parity",
+          "atom_pairs_required_after_transfer": 4,
+          "witness_pair": [
+            0,
+            2
+          ]
+        },
+        {
+          "mechanism": "revision",
+          "verdict": "WITNESSED",
+          "revision": "the label is flipped on the half of the support with b2=1",
+          "atom_pairs_irrelevant_before_revision": 4,
+          "of_those_required_after_revision": 4,
+          "witness_pair": [
+            0,
+            4
+          ]
+        },
+        {
+          "mechanism": "causal intervention",
+          "verdict": "WITNESSED",
+          "model": "b2 -> b0 with P(b0=1|b2) = 3/4 or 1/4; b2 -> Y and b0 -> Y with P(Y=1|b0,b2) = (1 + 2*b0 + 4*b2)/8",
+          "observational_contrast": "1/2",
+          "interventional_contrast": "1/4",
+          "note": "the two contrasts differ exactly, so an encoder that keeps b0 and discards the confounder b2 cannot answer the interventional query even though it reproduces the observational conditional; AE13 earns the causal rows, this entry only witnesses the retention mechanism"
+        },
+        {
+          "mechanism": "verifier need",
+          "verdict": "WITNESSED",
+          "verifier": "V(x,y) holds iff b1(x) == y; the present target reads b0 only, so b1 is irrelevant to producing the answer and necessary to checking it",
+          "atom_pairs_where_the_check_differs": 4,
+          "witness_pair": [
+            0,
+            2
+          ]
+        }
+      ],
+      "witnessed": 5,
+      "not_witnessed": 0,
+      "silence_is_a_defect": true
+    },
+    "IB_7_capacity_distortion_frontiers": {
+      "world": "W_pair",
+      "capacity_measure": "number of blocks of the encoder",
+      "predictive_distortion": "H(Y|T), exact",
+      "control_distortion": "V_full - V(T), exact rational",
+      "predictive_frontier_size": 11,
+      "control_frontier_size": 8,
+      "predictive_frontier_points": [
+        [
+          1,
+          "2"
+        ],
+        [
+          2,
+          "1"
+        ],
+        [
+          3,
+          "1/2"
+        ],
+        [
+          4,
+          "0"
+        ]
+      ],
+      "control_frontier_points": [
+        [
+          1,
+          "3/8"
+        ],
+        [
+          2,
+          "1/4"
+        ],
+        [
+          3,
+          "1/8"
+        ],
+        [
+          4,
+          "0"
+        ]
+      ],
+      "frontiers_differ": true,
+      "sweep_verified_against_quadratic_test_on_slice": true,
+      "verification_slice_size": 112,
+      "shared_encoders": 5,
+      "note": "the two frontiers are reported separately because an encoder on the predictive frontier need not be on the control one; the overlap count is given rather than assumed"
+    },
+    "IB_8_priced_crossover_predictions": {
+      "frozen_before_executor": true,
+      "freeze_commit": "c05f8f4ce6e5614993dff1e69177a58b53938f87",
+      "price_ladder": [
+        "0",
+        "1/16",
+        "1/8",
+        "3/16",
+        "1/4",
+        "5/16",
+        "3/8",
+        "7/16",
+        "1/2",
+        "9/16",
+        "5/8",
+        "11/16",
+        "3/4",
+        "13/16",
+        "7/8",
+        "15/16",
+        "1",
+        "17/16",
+        "9/8",
+        "19/16",
+        "5/4",
+        "21/16",
+        "11/8",
+        "23/16",
+        "3/2"
+      ],
+      "worlds_evaluated": 7,
+      "per_world": {
+        "W_dictator": {
+          "distinct_selected_encoders": 2,
+          "selection_sequence": [
+            "01010101",
+            "00000000"
+          ],
+          "ib_optimal_encoders": 2,
+          "ib_optimal_but_never_price_selected": 0,
+          "blocks_at_high_price": 1
+        },
+        "W_and": {
+          "distinct_selected_encoders": 2,
+          "selection_sequence": [
+            "00010001",
+            "00000000"
+          ],
+          "ib_optimal_encoders": 2,
+          "ib_optimal_but_never_price_selected": 0,
+          "blocks_at_high_price": 1
+        },
+        "W_parity": {
+          "distinct_selected_encoders": 2,
+          "selection_sequence": [
+            "01101001",
+            "00000000"
+          ],
+          "ib_optimal_encoders": 2,
+          "ib_optimal_but_never_price_selected": 0,
+          "blocks_at_high_price": 1
+        },
+        "W_pair": {
+          "distinct_selected_encoders": 2,
+          "selection_sequence": [
+            "01230123",
+            "00000000"
+          ],
+          "ib_optimal_encoders": 15,
+          "ib_optimal_but_never_price_selected": 13,
+          "blocks_at_high_price": 1
+        },
+        "W_skew": {
+          "distinct_selected_encoders": 2,
+          "selection_sequence": [
+            "01111111",
+            "00000000"
+          ],
+          "ib_optimal_encoders": 2,
+          "ib_optimal_but_never_price_selected": 0,
+          "blocks_at_high_price": 1
+        },
+        "W_noisy": {
+          "distinct_selected_encoders": 2,
+          "selection_sequence": [
+            "01010101",
+            "00000000"
+          ],
+          "ib_optimal_encoders": 2,
+          "ib_optimal_but_never_price_selected": 0,
+          "blocks_at_high_price": 1
+        },
+        "W_triple": {
+          "distinct_selected_encoders": 3,
+          "selection_sequence": [
+            "00011122",
+            "00011100",
+            "00000000"
+          ],
+          "ib_optimal_encoders": 5,
+          "ib_optimal_but_never_price_selected": 2,
+          "blocks_at_high_price": 1
+        }
+      },
+      "predictions": {
+        "Q1_block_count_monotone_non_increasing": {
+          "statement": "the block count of the priced selection never rises as the memory price rises, in any registered world",
+          "violations": 0,
+          "verdict": "HELD"
+        },
+        "Q2_multistage_transition": {
+          "statement": "at least one registered world shows three or more distinct selected encoders across the ladder",
+          "worlds_with_three_or_more": 1,
+          "verdict": "HELD"
+        },
+        "Q3_transition_prices_in_the_exact_set": {
+          "statement": "every transition price is bracketed by a pairwise gain difference quotient of the registered family",
+          "distinct_gain_capacity_points": 205,
+          "distinct_difference_quotients": 8,
+          "transitions_outside_the_set": 0,
+          "verdict": "HELD"
+        },
+        "Q4_trivial_encoder_above_max_gain": {
+          "statement": "above the maximal achievable gain the one-block encoder is selected in every registered world",
+          "failures": 0,
+          "verdict": "HELD"
+        },
+        "Q5_ib_order_is_not_price_order": {
+          "statement": "some registered world has an encoder that is IB-optimal at some ladder beta yet selected at no price",
+          "worlds_witnessing": 2,
+          "verdict": "HELD"
+        }
+      }
+    }
+  },
+  "hostiles": [
+    {
+      "id": "H1_dyadic_only_entropy",
+      "description": "compare two entropies by their log2(2) coefficients alone, i.e. pretend every entropy is a dyadic rational",
+      "exact_sign": 1,
+      "hostile_sign": -1,
+      "exact_values": [
+        "1*log2(3)",
+        "1"
+      ],
+      "dyadic_parts": [
+        "0",
+        "1"
+      ],
+      "moves_target_quantity": true,
+      "detected": true,
+      "detector": "Ent.cmp decides the sign by an exact comparison of prod q^(D c_q) against 1 over EVERY prime in the support, and as_str refuses to print a value as a plain rational unless its prime support is exactly {2}"
+    },
+    {
+      "id": "H2_unqualified_identification",
+      "description": "assert T_GMI is the IB optimum with no beta qualifier",
+      "T_GMI": "00011122",
+      "ib_optimum_at_beta_0": "00000000",
+      "moves_target_quantity": true,
+      "detected": true,
+      "detector": "the relation is classified at EVERY beta on the ladder and the smallest beta at which T_GMI becomes optimal is a reported field"
+    },
+    {
+      "id": "H3_stochastic_scope_creep",
+      "description": "read the deterministic-IB result as the stochastic-IB result",
+      "encoder_class_computed": "deterministic",
+      "claim_made": "stochastic",
+      "moves_target_quantity": true,
+      "detected": true,
+      "detector": "IB_OPTIMUM_OVER_STOCHASTIC_ENCODERS_PROVED is a registered forbidden promotion and the receipt carries stochastic_encoders_optimised: false as a checked field"
+    },
+    {
+      "id": "H4_silent_tie_break",
+      "description": "report a single IB optimum where the argmin is a set",
+      "beta_points_with_a_tie": 1,
+      "beta_points": 9,
+      "moves_target_quantity": true,
+      "detected": true,
+      "detector": "ib_optima returns the whole argmin set and the receipt reports its size at every beta"
+    },
+    {
+      "id": "H5_freeze_provenance",
+      "description": "receipt asserting a freeze commit that is not the pinned one",
+      "pinned": "c05f8f4ce6e5614993dff1e69177a58b53938f87",
+      "hostile": "0000000000000000000000000000000000000000",
+      "moves_target_quantity": true,
+      "detected": true,
+      "detector": "the workflow resolves the freeze commit in git and the test compares manifest, receipt and reconciliation"
+    }
+  ],
+  "null": {
+    "detector": "fires iff the GMI minimal predictive state is not an IB optimum at the stated beta",
+    "clean_control_construction": "worlds whose target is a bijection of the support, evaluated at the top of the beta ladder, where the minimal sufficient statistic is the discrete partition",
+    "clean_controls_enumerated": 24,
+    "clean_controls_firing": 0,
+    "alarms_on_clean_controls": 0,
+    "planted_control_construction": "threshold targets evaluated at beta = 0, where the objective is pure compression and the one-block encoder provably wins",
+    "planted_controls_enumerated": 7,
+    "planted_controls_firing": 7,
+    "recall_on_planted": "7/7",
+    "false_alarms_on_clean": "0/24",
+    "base_rate_reported_not_suppressed": true
+  },
+  "forbidden_promotions": [
+    "IB_OPTIMUM_OVER_STOCHASTIC_ENCODERS_PROVED",
+    "GMI_PREDICTIVE_STATE_IS_THE_IB_OPTIMUM",
+    "IB_OPTIMAL_IMPLIES_CONTROL_OPTIMAL",
+    "INFINITE_SUPPORT_EXTENSION_PROVED",
+    "CONTINUOUS_VARIABLE_EXTENSION_PROVED",
+    "RATE_DISTORTION_THEOREM_REPROVED",
+    "FORGETTING_IS_ALWAYS_OPTIMAL",
+    "ENERGY_OR_TIME_PRICE_MEASURED",
+    "ARCHITECTURE_SELECTION_LAW",
+    "COMPLETE_GMI"
+  ],
+  "checks": {
+    "encoders_enumerated_is_bell_8": true,
+    "no_logarithm_evaluated": true,
+    "ib2_all_four_relations_reported": true,
+    "ib2_threshold_found_for_every_world": true,
+    "ib2_identification_fails_somewhere": true,
+    "ib3_minimality_proved_exhaustively": true,
+    "ib3_smaller_sizes_all_clean": true,
+    "ib3_counterexample_survives_a_nontrivial_beta": true,
+    "ib3_revival_recorded": true,
+    "ib3_proved_absence_reported": true,
+    "ib4_both_orderings_exhibited": true,
+    "ib5_both_sides_witnessed": true,
+    "ib5_criterion_matches_exactly": true,
+    "ib6_every_mechanism_resolved": true,
+    "ib6_at_least_four_witnessed": true,
+    "ib7_two_frontiers_reported": true,
+    "ib7_sweep_verified_against_quadratic_test": true,
+    "ib7_frontiers_differ_or_stated": true,
+    "ib8_all_predictions_recorded": true,
+    "hostiles_potent_then_detected": true,
+    "null_no_alarm_on_clean": true,
+    "null_recall_on_planted": true
+  },
+  "verdict": "GREEN"
+}

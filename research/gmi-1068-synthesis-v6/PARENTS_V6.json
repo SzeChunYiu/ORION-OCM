@@ -1,0 +1,60 @@
+{
+  "schema": "GMI_1068_SYNTHESIS_PARENTS_V6",
+  "source_issue": 1068,
+  "accessed": "2026-09-20",
+  "entries": [
+    {
+      "id": "CORNELL_NAND_CONSTRUCTION",
+      "title": "CS 3410 Gates & Logic",
+      "owner": "Cornell University CS 3410",
+      "url": "https://courses.cs.cornell.edu/cs3410/2026sp/notes/logic.html",
+      "locators": [
+        "Building Nand: complete truth table",
+        "Universal Gates, and a Recipe for Building Anything: sum of products and NAND implementation"
+      ],
+      "role": "PARENT_OWNED_DOCUMENTATION",
+      "access_level": "Full institutional teaching document read",
+      "import": "NAND truth semantics and constructive Boolean functional completeness are established parent knowledge.",
+      "adaptation": "Use one NAND constructor and two inputs, discover expressions with semantic dynamic programming, then independently certify every binary Boolean truth table.",
+      "boundary": "Functional completeness of Boolean combinational expressions is not Turing completeness, learning theory, unique architecture recovery or realistic hardware cost. Formula-tree minima differ from shared-circuit minima."
+    },
+    {
+      "id": "LEROY_COMPILER_RESEARCH",
+      "title": "A formally verified compiler back-end",
+      "author": "Xavier Leroy",
+      "url": "https://arxiv.org/abs/0902.2137",
+      "role": "PARENT_OWNED_RESEARCH",
+      "access_level": "Primary paper abstract and author-provided implementation documentation read; no claim of reproducing the CompCert proof",
+      "import": "Compiler correctness concerns semantic preservation between source and target operational languages.",
+      "adaptation": "Apply the standard preservation requirement to a separately defined finite Boolean expression and stack language.",
+      "boundary": "The present compiler is not CompCert, does not compile C or arbitrary source families, and does not inherit the source paper's verification claims."
+    },
+    {
+      "id": "LEROY_MECHANIZED_SEMANTICS",
+      "title": "Mechanized semantics: Compil and Simulation modules",
+      "author": "Xavier Leroy",
+      "urls": [
+        "https://xavierleroy.org/cdf-mech-sem/CDF.Compil.html",
+        "https://xavierleroy.org/cdf-mech-sem/CDF.Simulation.html",
+        "https://github.com/xavierleroy/cdf-mech-sem"
+      ],
+      "locators": [
+        "Compil 2.1: stack-machine instruction and transition semantics",
+        "Compil 2.2: compile_aexp and postorder expression compilation",
+        "Simulation: simulation diagrams between transition systems"
+      ],
+      "role": "MATURE_PRIMARY_IMPLEMENTATION",
+      "access_level": "Author-provided rendered Coq modules read",
+      "import": "Separate machine transitions, source semantics and compilation; prove preservation with an arbitrary initial stack and distinguish termination, divergence and stuck execution.",
+      "adaptation": "Independently implemented NAND-only AST compiler and finite stack evaluator; general coverage contract states positive finite simulation blocks and explicit resource bounds.",
+      "boundary": "Conceptual method adapted; no source code copied. The finite stack language has no jumps or divergent programs. General divergence preservation is a separate conditional theorem, not an experiment on this stack language."
+    }
+  ],
+  "ownership": {
+    "boolean_basis": "Established parent mathematics; no novelty claim.",
+    "semantic_worklist": "Finite-algebra dynamic programming with an independently checked optimality certificate; no generic search-efficiency claim.",
+    "certificate": "Structural-induction lower bound plus attained witness; explicit local proof, not a new Boolean-completeness theorem.",
+    "compiler": "Standard postorder stack compilation and compositional semantic preservation, specialized to the disclosed grammar."
+  },
+  "pre_freeze_disclosure": "An exploratory in-memory calculation observed binary Boolean coverage before FREEZE_V6.md. Successor implementation, proofs and hostile tests followed that disclosed protocol; no prospective empirical-discovery claim."
+}

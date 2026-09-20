@@ -1,0 +1,182 @@
+{
+  "schema": "GMI_1068_THEOREM_LEDGER_V21",
+  "scope": "Declared resource execution and actual partial images; six eligible unchanged R3 records only",
+  "results": [
+    {
+      "id": "U1.1",
+      "statement": "Actual weighted execution and endpoint composition",
+      "premises": "Fixed V8 transitions, declared Nat edge cost, finite words",
+      "dependencies": "Word induction, actual intermediate endpoint, Nat associativity",
+      "paper_locator": "THEORY_V21.md §U1.1",
+      "strongest_parent": "MOHRI_JALC; V8",
+      "falsifier": "Concatenate at an unrelated endpoint or reset cost",
+      "proof_level": "PAPER + KERNEL; exact finite calibration separate",
+      "kernel_locator": "WeightedExecutionV21.weighted_append; SuccessfulResponseV21.weighted_endpoint"
+    },
+    {
+      "id": "U1.2",
+      "statement": "Actual residual success iff unrestricted success and accumulated cost fits",
+      "premises": "Actual V8 budgetMachine, Nat costs, same finite word",
+      "dependencies": "Word induction and guarded Nat subtraction",
+      "paper_locator": "THEORY_V21.md §U1.2",
+      "strongest_parent": "V8; MOHRI_HWA",
+      "falsifier": "Truncated subtraction without admission; per-edge initial allowance reuse",
+      "proof_level": "PAPER + KERNEL; actual V8 adapter finite calibration separate",
+      "kernel_locator": "BudgetResidualV21.residual_iff; larger_budget"
+    },
+    {
+      "id": "U1.3",
+      "statement": "Full successful Response equality and residual continuation",
+      "premises": "Successful actual resource execution on the same initial state/word",
+      "dependencies": "U1.1/U1.2; exact V8 response constructors",
+      "paper_locator": "THEORY_V21.md §U1.3",
+      "strongest_parent": "V8; MOHRI_JALC",
+      "falsifier": "Compare arbitrary failure traces or different-state endpoint equivalents",
+      "proof_level": "PAPER + KERNEL; conditional on successful complete word",
+      "kernel_locator": "SuccessfulResponseV21.successful_full_response; BudgetResidualV21.budget_append"
+    },
+    {
+      "id": "U2.1",
+      "statement": "Actual selected V15 images, tags, restriction and monotonicity",
+      "premises": "Separate P/E; fixed evaluator/order; actual physical success; nested selectors",
+      "dependencies": "Actual valueMap/Attained and U1 resource semantics",
+      "paper_locator": "CONTEXTS_V21.md §U2.1",
+      "strongest_parent": "V15_V20_R3; V8",
+      "falsifier": "Defined illegal values leak; resource labels without inclusion; changing evaluator",
+      "proof_level": "PAPER + KERNEL; concrete finite Context and tag calibration separate",
+      "kernel_locator": "HistoryContextsV21.image_iff/image_mono/selector_mono/within_operational/bounded_mono; HistoryUnionsV21.from_image"
+    },
+    {
+      "id": "U2.2",
+      "statement": "All finite histories equal length unions and Nat resource unions",
+      "premises": "Finite words, actual finite Nat costs, fixed selection/P/E/evaluator",
+      "dependencies": "Use each witness length/cost; reverse inclusion",
+      "paper_locator": "CONTEXTS_V21.md §U2.2",
+      "strongest_parent": "V15_V20_R3; MOHRI_JALC",
+      "falsifier": "Treat an unattained limit or infinite trace as a finite witness",
+      "proof_level": "PAPER + KERNEL for all finite witnesses; finite tests are not the general union proof",
+      "kernel_locator": "HistoryUnionsV21.all_horizon_union; JointImagesV21.all_budget_union"
+    },
+    {
+      "id": "U2.3",
+      "statement": "Original Attain is the actual V15/V20 restricted image",
+      "premises": "Exact immutable original source and actual restricted valueMap",
+      "dependencies": "Same history witness; P already in admission; proof irrelevance",
+      "paper_locator": "CONTEXTS_V21.md §U2.3",
+      "strongest_parent": "V15_V20_R3",
+      "falsifier": "Name-only replay without old statements or erase history identity",
+      "proof_level": "PAPER + KERNEL; immutable original source freshly replayed",
+      "kernel_locator": "HistoryUnionsV21.original_attain_bridge/v15_active_bridge/v20_attained_bridge/original_maximal_bridge; original attain_mono/maximal_is_attainable/impossible_means_no_target"
+    },
+    {
+      "id": "U3.1",
+      "statement": "Joint cost/value filtration and distinct declared coordinate response",
+      "premises": "Actual execution cost; fixed evaluation; declared coordinate map and target order",
+      "dependencies": "Same witness in J and A_b; actual evaluator composition",
+      "paper_locator": "CONTEXTS_V21.md §U3.1",
+      "strongest_parent": "V15_V20_R3; MOHRI_HWA",
+      "falsifier": "Equal marginal sets with different cost/value pairings",
+      "proof_level": "PAPER + KERNEL; distinct coordinate and resource-index meanings",
+      "kernel_locator": "JointImagesV21.joint_filtration/projection_image; ConstructorBindingsV21.projection_domain/projection_evaluator/projection_order/projection_admission"
+    },
+    {
+      "id": "U3.2",
+      "statement": "Actual target capability and attained least Nat threshold",
+      "premises": "Declared target; successful P/E witness; Nat costs",
+      "dependencies": "Joint image equivalence; Nat well-ordering; witness at minimum",
+      "paper_locator": "CONTEXTS_V21.md §U3.2",
+      "strongest_parent": "MOHRI_HWA; V15_V20_R3",
+      "falsifier": "Unattained Real infimum or incomparable vector minima",
+      "proof_level": "PAPER + KERNEL for minimum/cutoff; filtration recovers singleton profile and cannot recover full J: paper corollaries",
+      "kernel_locator": "CapabilityThresholdV21.capability_cutoff/threshold_attained/value_cutoff"
+    },
+    {
+      "id": "U4.1",
+      "statement": "Ordered accumulation, concatenation, prefix semantics and nesting",
+      "premises": "Associative unital ordered product monotone in both slots; initial prefix checked",
+      "dependencies": "Finite-word induction and transitivity; no commutation",
+      "paper_locator": "RESOURCES_V21.md §U4.1",
+      "strongest_parent": "MOHRI_JALC; FRITZ",
+      "falsifier": "Swap noncommuting factors or omit initial affordability",
+      "proof_level": "PAPER + KERNEL for execution/nesting; explicit prefix-list semantics and general-resource image corollaries paper",
+      "kernel_locator": "WeightedExecutionV21.weighted_append; CumulativeV21.capacity_nesting; ConstructorBindingsV21.cumulative_cons"
+    },
+    {
+      "id": "U4.2",
+      "statement": "Final affordability characterizes prefix success under positive increments",
+      "premises": "Identity≤each actual edge increment; fixed initial spent and capacity",
+      "dependencies": "Monotonicity gives increasing prefix aggregates",
+      "paper_locator": "RESOURCES_V21.md §U4.2",
+      "strongest_parent": "MOHRI_JALC; FRITZ",
+      "falsifier": "Signed positive-then-negative costs fit final total but fail prefix",
+      "proof_level": "PAPER + KERNEL; positivity only on actual encountered increments suffices",
+      "kernel_locator": "PathPositiveV21.prefix_path_iff_final/nonnegative_of_global"
+    },
+    {
+      "id": "U4.3",
+      "statement": "Nat cumulative and actual V8 residual semantics agree",
+      "premises": "Nat addition; initial spent zero or explicitly affordable q",
+      "dependencies": "U1.2/U4.2 and invariant spent+residual=capacity",
+      "paper_locator": "RESOURCES_V21.md §U4.3",
+      "strongest_parent": "V8; MOHRI_HWA",
+      "falsifier": "Blindly export subtraction to peak or arbitrary resource monoids",
+      "proof_level": "PAPER + KERNEL at zero initial spending; explicitly affordable nonzero initial spending corollary paper",
+      "kernel_locator": "BudgetResidualV21.cumulative_nat/cumulative_residual"
+    },
+    {
+      "id": "U4.4",
+      "statement": "Concrete models and maximum-prefix revival for signed addition",
+      "premises": "Declared Nat/vector/max/mixed/matrix or signed models",
+      "dependencies": "Coordinate laws; nonnegative matrix product; finite prefix maximum",
+      "paper_locator": "RESOURCES_V21.md §U4.4",
+      "strongest_parent": "MOHRI_JALC; FRITZ",
+      "falsifier": "Assume commutativity, a generic least vector, or final signed sum suffices",
+      "proof_level": "PAPER + KERNEL for declared models/signed word theorem; matrices paper + finite, no generic physical signed solver",
+      "kernel_locator": "OrderedCostsV21.natAdd/natMax/vectorAdd/mixed; ResourceControlsV21.signed_prefix_demand and operation bindings"
+    },
+    {
+      "id": "U5.1",
+      "statement": "Residual/prefix/peak countermodels locate failed assumptions",
+      "premises": "Displayed concrete costs and declared resource semantics",
+      "dependencies": "Direct finite calculations and matching repaired mechanics",
+      "paper_locator": "CONTROLS_V21.md §U5.1",
+      "strongest_parent": "V8; FRITZ",
+      "falsifier": "Reset allowance or subtract a reusable peak demand",
+      "proof_level": "PAPER + KERNEL for named controls; reset counterexample paper + finite",
+      "kernel_locator": "ResourceControlsV21.signed_final_countermodel/initial_prefix_countermodel/peak_is_not_additive"
+    },
+    {
+      "id": "U5.2",
+      "statement": "Joint association and fixed-evaluator conditions are necessary",
+      "premises": "Displayed two joint relations and resource-dependent evaluator",
+      "dependencies": "Exact images and target-cost calculations",
+      "paper_locator": "CONTROLS_V21.md §U5.2",
+      "strongest_parent": "V15_V20_R3",
+      "falsifier": "Infer response or objective from an unlabelled marginal image",
+      "proof_level": "PAPER + FINITE exact joint/fixed-evaluator controls",
+      "kernel_locator": "No direct kernel countermodel declaration"
+    },
+    {
+      "id": "U5.3",
+      "statement": "History-sensitive targets and distinct failure modes survive",
+      "premises": "Actual loop with length-two evaluator; P/E/transition distinctions",
+      "dependencies": "Actual finite word witness and three observation cases",
+      "paper_locator": "CONTROLS_V21.md §U5.3",
+      "strongest_parent": "V8; V15_V20_R3",
+      "falsifier": "Endpoint-only simple paths erase the only evaluated witness",
+      "proof_level": "KERNEL for generic tags; concrete length-two history and failure controls PAPER + FINITE",
+      "kernel_locator": "HistoryContextsV21.view_illegal/view_undefined/view_value"
+    },
+    {
+      "id": "U5.4",
+      "statement": "Nat scalar minimum does not imply vector/Real/limit attainment",
+      "premises": "Displayed incomparable vectors and Real costs1+1/n",
+      "dependencies": "Explicit minima/infimum and finite-witness arguments",
+      "paper_locator": "CONTROLS_V21.md §U5.4",
+      "strongest_parent": "MOHRI_JALC; classical order theory",
+      "falsifier": "Promote infimum≤allowance to existence of an attained witness",
+      "proof_level": "KERNEL for vector incomparability; no least-vector conclusion PAPER + FINITE; Real infimum/infinite-witness boundary PAPER ONLY",
+      "kernel_locator": "ResourceControlsV21.vector_incomparability"
+    }
+  ]
+}

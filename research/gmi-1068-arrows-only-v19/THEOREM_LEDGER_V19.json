@@ -1,0 +1,178 @@
+{
+  "schema": "GMI_1068_THEOREM_LEDGER_V19",
+  "scope": "Classical parent-owned reconstruction and operational information correction; no original closure.",
+  "results": [
+    {
+      "id": "S1.2",
+      "statement": "Unique derived left/right units",
+      "premises": "A,L and both-sided Unit",
+      "dependencies": "Algebra laws A and L; actual IsUnit",
+      "paper_locator": "THEORY_V19.md §S1.2",
+      "strongest_parent": "CDS2020; RICCARDI_CAT6",
+      "falsifier": "Weak-associativity model S4.3 loses uniqueness",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "PartialUnitsV19.Algebra.left_unique, right_unique, left_mul, mul_right"
+    },
+    {
+      "id": "S1.3",
+      "statement": "Definedness exactly matches derived endpoints; composite endpoint laws",
+      "premises": "A,L,C and both-sided Unit",
+      "dependencies": "S1.2 plus coherence C",
+      "paper_locator": "THEORY_V19.md §S1.3",
+      "strongest_parent": "CDS2020; RICCARDI_CAT6",
+      "falsifier": "Coherence deletion S4.1",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "PartialUnitsV19.Algebra.defined_iff_matched, left_product, right_product"
+    },
+    {
+      "id": "S1.4",
+      "statement": "Actual lawful typed category reconstructed from the partial operation",
+      "premises": "S1.2–S1.3; arbitrary small carrier including empty",
+      "dependencies": "S1.2–S1.3 and V11 Category definition",
+      "paper_locator": "THEORY_V19.md §S1.4",
+      "strongest_parent": "RICCARDI_CAT6",
+      "falsifier": "Total unital nonassociativity S4.2",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "ReconstructedV19.category_hom, category_identity, category_composition, compose_assoc, identity_left, identity_right"
+    },
+    {
+      "id": "S1.5",
+      "statement": "Equivalence with side-specific local identities",
+      "premises": "Conditional left/right neutrality and side-specific local identity equations",
+      "dependencies": "Definitions of conditional left/right neutrality and local identity",
+      "paper_locator": "THEORY_V19.md §S1.5",
+      "strongest_parent": "RICCARDI_CAT6",
+      "falsifier": "Left-OR-right domain-only reading S4.6",
+      "proof_level": "PAPER_ONLY",
+      "kernel_locator": "None; paper-only premise equivalence"
+    },
+    {
+      "id": "S2.1",
+      "statement": "Bundled lawful category yields the registered partial algebra and exact units",
+      "premises": "Actual small category; equality transport; bundle retains source and target",
+      "dependencies": "V11 lawful Category and equality elimination",
+      "paper_locator": "ROUNDTRIPS_V19.md §S2.1",
+      "strongest_parent": "RICCARDI_CAT6",
+      "falsifier": "Discard endpoint tags or actual composition",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "BundledCategoryV19.aligned, not_aligned, associative, coherent, algebra_mul, unit_iff_identity"
+    },
+    {
+      "id": "S2.2",
+      "statement": "Object-changing category roundtrip with inverse Hom maps",
+      "premises": "S2.1 and actual S1 reconstruction",
+      "dependencies": "S1.4, S2.1; dependent transport and proof irrelevance",
+      "paper_locator": "ROUNDTRIPS_V19.md §S2.2",
+      "strongest_parent": "RICCARDI_CAT6",
+      "falsifier": "Fixed-object map is insufficient; empty category must remain admitted",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "CategoryRoundtripV19.object_backward_forward, object_forward_backward, hom_backward_forward, hom_forward_backward, forward_identity, forward_comp, backward_identity, backward_comp"
+    },
+    {
+      "id": "S2.3",
+      "statement": "Partial-algebra roundtrip preserves and reflects the whole Option operation",
+      "premises": "S1 laws; actual encode/decode inverse maps",
+      "dependencies": "S1.3–S1.4 and S2.1",
+      "paper_locator": "ROUNDTRIPS_V19.md §S2.3",
+      "strongest_parent": "RICCARDI_CAT6",
+      "falsifier": "Mere multiplicativity S4.5",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "ArrowRoundtripV19.unpack_pack, pack_unpack, packed_mul, unpacked_mul"
+    },
+    {
+      "id": "S3.1",
+      "statement": "All raw-word and anchored-empty responses preserved",
+      "premises": "Bijective full Option-operation transport; actual fold and unit predicate",
+      "dependencies": "Actual fold; inverse operation transport; derived unit transport",
+      "paper_locator": "ROUNDTRIPS_V19.md §S3.1",
+      "strongest_parent": "V11; classical fold induction",
+      "falsifier": "Failure-erasing totalization or hidden illegal query domain",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "ResponsesV19.run_cons, run_transport, response_transport; RoundtripResponsesV19.pack_response, unpack_response, category_forward_response, category_backward_response"
+    },
+    {
+      "id": "S3.2",
+      "statement": "Response recovery iff partial-table recovery for any encoding",
+      "premises": "Fixed carrier/model class; actual full raw interface; attained-image decoders",
+      "dependencies": "S3.1 actual evaluator; pair query; V9 attained-image recovery",
+      "paper_locator": "ROUNDTRIPS_V19.md §S3.2",
+      "strongest_parent": "V9",
+      "falsifier": "Coarser interface omits length-two products",
+      "proof_level": "KERNEL_EQUIVALENCE; PAPER_INFORMATION_ORDER_INTERPRETATION",
+      "kernel_locator": "ResponsesV19.pair_binding, responses_eq_iff_tables_eq, response_recovery_iff_table_recovery; RecoverabilityV9.recoverable_iff_fiber_constant"
+    },
+    {
+      "id": "S4.1",
+      "statement": "Strong associativity and local units do not imply coherence",
+      "premises": "Two-element table ee=e, ea=ae=a, aa undefined",
+      "dependencies": "Direct eight-triple check; S1 unit definition",
+      "paper_locator": "CONTROLS_V19.md §S4.1",
+      "strongest_parent": "CDS2020 Lemma 6.4(1)",
+      "falsifier": "Any failure of strong associativity or local units destroys the isolation",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "CountermodelsV19.coherence_isolated"
+    },
+    {
+      "id": "S4.2",
+      "statement": "Three is the minimum size of a total unital nonassociative magma",
+      "premises": "Totality, two-sided global identity and displayed three-element table",
+      "dependencies": "Case split on occurrence of identity and sole possible nonunit",
+      "paper_locator": "CONTROLS_V19.md §S4.2",
+      "strongest_parent": "Classical elementary finite algebra; RICCARDI_CAT6 law-independence programme",
+      "falsifier": "A retained identity failure, or a smaller total-unital nonassociative table",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "CountermodelsV19.associativity_isolated, nonassoc_witness, two_point_unital_associative, fin_small_unital_associative, nonassoc_minimum_size"
+    },
+    {
+      "id": "S4.3",
+      "statement": "Weak equality, local units and coherence do not imply strong definedness agreement",
+      "premises": "Six displayed products on {e,f,x}; all other entries undefined",
+      "dependencies": "Direct conditional equality and coherence cases",
+      "paper_locator": "CONTROLS_V19.md §S4.3",
+      "strongest_parent": "Classical partial-algebra distinction; CDS2020 strongest reconstruction parent",
+      "falsifier": "A violating retained-law triple would invalidate this witness",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "CountermodelsV19.strong_definedness_isolated, weak_only_witness"
+    },
+    {
+      "id": "S4.4",
+      "statement": "Existing-arrow filling loses definedness; endpoints do not determine products",
+      "premises": "Specified discrete and monoid tables; C4 and V4 labels fixed",
+      "dependencies": "Actual filled-table equality, unit counts and product (1,1)",
+      "paper_locator": "CONTROLS_V19.md §S4.4",
+      "strongest_parent": "CDS2020 Section 5 for totalization; V16 fixed C4/V4 witness",
+      "falsifier": "Fresh distinct tagged bottom is a positive control, not a loss example",
+      "proof_level": "KERNEL_COUNTERMODELS; PAPER_AND_FINITE_FRESH_TAG_CONTRAST",
+      "kernel_locator": "InformationControlsV19.default_collision, distinct_unit_information, c4_v4_same_admission_units, c4_v4_different_products"
+    },
+    {
+      "id": "S4.5",
+      "statement": "A multiplicative map can fail identity preservation",
+      "premises": "Singleton source monoid; target has nonidentity idempotent a",
+      "dependencies": "Actual equation aa=a and a different from e",
+      "paper_locator": "CONTROLS_V19.md §S4.5",
+      "strongest_parent": "RICCARDI_CAT6 Theorem 28",
+      "falsifier": "If the map were surjective and reflected full operation, this example would not apply",
+      "proof_level": "PAPER_AND_KERNEL",
+      "kernel_locator": "InformationControlsV19.multiplicative_not_unital"
+    },
+    {
+      "id": "S4.6",
+      "statement": "Literal left-OR-right/domain-only parent clauses are weaker than V19 units",
+      "premises": "Two-element total right projection; exact v1 displayed clauses",
+      "dependencies": "Direct projection laws; absence of a right identity",
+      "paper_locator": "CONTROLS_V19.md §S4.6",
+      "strongest_parent": "CDS2020 Section 2 and Definition 3.2; RICCARDI_CAT6 side-specific repair",
+      "falsifier": "A side-specific right-neutral premise excludes the example",
+      "proof_level": "KERNEL_PROJECTIONS; PAPER_SOURCE_PREMISE_MAPPING",
+      "kernel_locator": "CountermodelsV19.projection_controls, projections_have_no_opposite_unit"
+    }
+  ],
+  "kernel_audit": {
+    "entry_count": 123,
+    "source_count": 13,
+    "audit_sha256": "05a24aca7d0a1bdc21bae626c37519995c6738b15a8502d181ad040c7fb3894f",
+    "contract_sha256": "b696d032e88e3b48c48f1dc311ef909e769a88f3f5915653bb23466139420bf4",
+    "independent_fresh_replay": "PASS, Lean 4.19.0 on billy-laptop"
+  }
+}

@@ -1,0 +1,204 @@
+name: GMI 833 AE7 prediction to control v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ae-ae7-prediction-to-control-v1/**'
+      - '.github/workflows/gmi-833-ae-ae7-prediction-to-control-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ae-ae7-prediction-to-control-v1/**'
+      - '.github/workflows/gmi-833-ae-ae7-prediction-to-control-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze custody (the freeze predates every other blob)
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=65b45210b0cca60dba37d36fd556c8846fa3232f
+          pkg=research/gmi-833-ae-ae7-prediction-to-control-v1
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:$pkg/FREEZE_V1.md"
+          for p in \
+            "$pkg/ae7_prediction_to_control_v1.py" \
+            "$pkg/independent_control_oracle_v1.py" \
+            "$pkg/test_ae7_prediction_to_control_v1.py" \
+            "$pkg/RESULT_V1.json" \
+            "$pkg/MANIFEST_V1.json" \
+            "$pkg/AE7_THEOREMS_V1.md" \
+            "$pkg/PARENT_OWNERSHIP_V1.md" \
+            "$pkg/CORE.md" \
+            "$pkg/ISSUE_833_RECONCILIATION_AE7_PREDICTION_TO_CONTROL_V1.json"; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "post-freeze artifact already existed at the freeze: $p" >&2
+              exit 1
+            fi
+          done
+          echo "freeze order proved for $freeze"
+
+      - name: Verify pinned parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            actual="$(git rev-parse "HEAD:$1")"
+            if [ "$actual" != "$2" ]; then
+              echo "parent pin drift on $1: $actual != $2" >&2
+              exit 1
+            fi
+          }
+          verify_parent research/gmi-833-theory-baseline-v1/BASELINE_V1.md 201ee8e8b290f5bfa3e283e6f8be2429ce8eeb78
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+          verify_parent research/gmi-833-ae-ae1-structure-separation-v1/RESULT_V1.json ceb77f5beac99b5427d1350915b19df546495fb8
+          verify_parent research/gmi-833-ae-ae10-usable-information-v1/RESULT_V1.json 69aafebec4016f539c46b1f71546f740a8018421
+
+      - name: Exact census, hostiles, null and both routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-ae-ae7-prediction-to-control-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/test_ae7_prediction_to_control_v1.py" -v
+            python -I -O -B "$pkg/ae7_prediction_to_control_v1.py" > /tmp/ae7.json
+          else
+            python -I -B "$pkg/test_ae7_prediction_to_control_v1.py" -v
+            python -I -B "$pkg/ae7_prediction_to_control_v1.py" > /tmp/ae7.json
+          fi
+          cmp /tmp/ae7.json "$pkg/RESULT_V1.json"
+
+      - name: Check manifest, claim ceiling and every named number
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-ae-ae7-prediction-to-control-v1')
+          m = json.loads((root / 'MANIFEST_V1.json').read_text())
+          r = json.loads((root / 'RESULT_V1.json').read_text())
+          rec = json.loads((root /
+              'ISSUE_833_RECONCILIATION_AE7_PREDICTION_TO_CONTROL_V1.json'
+              ).read_text())
+          expected = ('GMI_833_AE7_PREDICTION_TO_CONTROL_BOUNDARY_EXACTLY_'
+                      'SEPARATED_AND_PRICED_AT_REGISTERED_FINITE_SCOPE')
+          assert m['claim_ceiling'] == r['claim_ceiling'] == rec['claim_ceiling'] == expected
+          assert m['source_main'] == r['source_main'] == (
+              '5e57d4292266bccf435136e1f7d72caa32e920a0')
+          assert m['freeze_commit'] == r['freeze_commit'] == (
+              '65b45210b0cca60dba37d36fd556c8846fa3232f')
+          assert r['verdict'] == 'GREEN' and all(r['checks'].values())
+          assert r['issue_comment_id'] == 5692689542 == rec['issue_comment_id']
+          res = r['results']
+
+          p1 = res['PC_1_prediction_insufficient_for_control']
+          assert p1['sensors_enumerated'] == 4140
+          assert p1['distinct_predictive_profiles'] == 712
+          assert p1['same_predictive_different_control_pairs'][
+              'U_hidden_coordinate'] == 10980
+          assert p1['same_predictive_different_control_pairs'][
+              'U_visible_coordinate'] == 0
+          assert p1['named_witness']['identical_predictive_profile'] is True
+          assert p1['named_witness']['control_value_A'] == '1'
+          assert p1['named_witness']['control_value_B'] == '1/2'
+          assert p1['named_witness']['gap'] == '1/2'
+
+          p2 = res['PC_2_control_sufficiency']
+          pu = p2['per_utility']
+          assert [pu[k]['control_sufficient_sensors'] for k in
+                  ('U_hidden_coordinate', 'U_visible_coordinate',
+                   'U_helly_triple', 'U_graded')] == [225, 225, 208, 221]
+          assert [pu[k]['coarsest_control_sufficient_sensors'] for k in
+                  ('U_hidden_coordinate', 'U_visible_coordinate',
+                   'U_helly_triple', 'U_graded')] == [1, 1, 3, 8]
+          assert all(pu[k]['common_optimal_action_criterion_agrees'] for k in pu)
+          assert p2['helly_failure'][
+              'pairwise_compatible_triples_without_common_optimum'] == 1
+          assert p2['helly_failure']['example'] == [0, 1, 2]
+
+          cw = res['PC_3_parent_crosswalk']
+          assert len(cw) == 5 and all('doi:' in e['citation'] for e in cw)
+          assert sum(1 for e in cw if e['status'] == 'PARENT_SUFFICIENT') == 3
+
+          p4 = res['PC_4_value_of_information']
+          assert p4['comparable_sensor_pairs_checked'] == 163754
+          assert p4['pairs_with_zero_value_of_information'] == 26790
+          assert p4['pairs_with_positive_value_of_information'] == 136964
+          assert p4['distinct_break_even_prices'] == 71
+          assert p4['break_even_max'] == '9/64'
+          pr = p4['probe']
+          assert pr['VoI'] == '9/64' and pr['break_even_price'] == '9/448'
+          assert pr['acquire_below'] is True
+          assert pr['tie_at_break_even'] is True
+          assert pr['acquire_above'] is False
+
+          p5 = res['PC_5_free_merges']['per_utility']
+          assert [p5[k]['free_state_pairs'] for k in
+                  ('U_hidden_coordinate', 'U_visible_coordinate',
+                   'U_helly_triple', 'U_graded')] == [12, 12, 13, 14]
+          assert all(p5[k]['criterion_vs_value_mismatches'] == 0 for k in p5)
+
+          p6 = res['PC_6_control_relevant_predictively_redundant']
+          assert p6['predictively_redundant_state_pairs'] == 4
+          assert p6['control_relevant_among_them']['U_hidden_coordinate'] == 4
+          assert p6['control_relevant_among_them']['U_visible_coordinate'] == 0
+          assert p6['witness']['V_full'] == '1'
+          assert p6['witness']['V_after_merge'] == '7/8'
+          b = dict((e['probe_target'], e['redundant_pairs_surviving'])
+                   for e in p6['boundary_of_the_witness'])
+          assert b == {'Y_b2': 0, 'Y_parity': 0, 'Y_majority': 2}
+
+          p7 = res['PC_7_priced_transitions']
+          assert p7['freeze_commit'] == m['freeze_commit']
+          preds = p7['predictions']
+          assert len(preds) == 5
+          assert all(v['verdict'] == 'HELD' for v in preds.values())
+          assert preds['R1_monotone_coarsening']['violations'] == 0
+          assert preds['R2_multistage_transition'][
+              'problems_with_three_or_more'] == 2
+          assert preds['R3_transition_prices_in_exact_set'][
+              'distinct_difference_quotients'] == 121
+          assert preds['R3_transition_prices_in_exact_set'][
+              'transitions_outside_the_set'] == 0
+          assert preds['R4_blind_above_max_gain']['failures'] == 0
+          assert preds['R5_control_order_is_not_predictive_order'][
+              'problems_witnessing'] == 4
+
+          assert len(r['hostiles']) == 5
+          assert all(h['moves_target_quantity'] and h['detected']
+                     for h in r['hostiles'])
+          n = r['null']
+          assert n['fires_on_planted'] is True
+          assert n['alarms_on_clean_controls'] == 0
+          assert n['clean_controls_firing'] == 0
+          assert n['planted_controls_firing'] == 200
+          assert n['recall_on_planted'] == '200/200'
+
+          assert rec['schema'] == 'GMI_ISSUE_RECONCILIATION_V2'
+          assert len(rec['replacements']) == 7
+          for rp in rec['replacements']:
+              assert rp['anchor'] == '### AE7 — From prediction to control'
+              assert rp['old'].startswith('- [ ] ')
+              assert rp['new'].startswith('- [x] ')
+              assert rp['new'].startswith(rp['old'].replace('- [ ] ', '- [x] ', 1))
+          print('AE7 receipt, manifest and reconciliation all check out')
+          PY

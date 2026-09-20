@@ -1,0 +1,77 @@
+"""Exact mandatory weighted-execution and resource-image calibration."""
+REQUIRED = {'test_controls_v21': {'failure_layer_controls': 4,
+                       'scope_and_revival_controls': 10},
+ 'test_coverage_v21': {'coverage_guard_rejections': 337},
+ 'test_custody_v21': {'inherited_custody_rejections': 11,
+                      'source_path_escape_rejections': 5,
+                      'unavailable_inherited_controls': 5,
+                      'valid_inherited_custody_controls': 1},
+ 'test_execution_v21': {'a_budget_cases': 137835,
+                        'a_cumulative_prefix_checks': 359163,
+                        'a_endpoint_residual_checks': 137835,
+                        'a_failed_budget_runs': 38736,
+                        'a_lift_trace_checks': 137835,
+                        'a_machines': 1542,
+                        'a_nested_success_checks': 85056,
+                        'a_physical_histories': 15315,
+                        'a_raw_trace_checks': 153150,
+                        'a_residual_cut_checks': 413505,
+                        'a_successful_budget_runs': 99099,
+                        'a_weighted_cut_checks': 45945,
+                        'b_budget_cases': 676620,
+                        'b_cumulative_prefix_checks': 1669122,
+                        'b_endpoint_residual_checks': 676620,
+                        'b_failed_budget_runs': 338436,
+                        'b_lift_trace_checks': 676620,
+                        'b_machines': 5652,
+                        'b_nested_success_checks': 223023,
+                        'b_physical_histories': 169155,
+                        'b_raw_trace_checks': 845775,
+                        'b_residual_cut_checks': 2210292,
+                        'b_successful_budget_runs': 338184,
+                        'b_weighted_cut_checks': 552573},
+ 'test_hostiles_v21': {'empty_generic_target_controls': 3,
+                       'execution_image_rejections': 149,
+                       'resource_input_rejections': 184},
+ 'test_images_v21': {'budget_images': 187962,
+                     'context_models': 8210,
+                     'coordinate_projections': 240123,
+                     'observation_checks': 555240,
+                     'selector_inclusions': 208266,
+                     'selectors': 62654,
+                     'target_cutoff_checks': 720369,
+                     'threshold_witness_checks': 240123},
+ 'test_kernel_guard_v21': {'kernel_registration_rejections': 4},
+ 'test_resources_v21': {'mixed_cut_checks': 2504,
+                        'mixed_final_only_failures': 0,
+                        'mixed_nesting_checks': 2550,
+                        'mixed_prefix_cases': 680,
+                        'nat_cut_checks': 994,
+                        'nat_final_only_failures': 0,
+                        'nat_nesting_checks': 1120,
+                        'nat_prefix_cases': 280,
+                        'noncommutative_matrix_law_cases': 125,
+                        'peak_cut_checks': 426,
+                        'peak_final_only_failures': 0,
+                        'peak_nesting_checks': 240,
+                        'peak_prefix_cases': 120,
+                        'signed_cut_checks': 2930,
+                        'signed_final_only_failures': 113,
+                        'signed_nesting_checks': 2340,
+                        'signed_prefix_cases': 780,
+                        'vector_cut_checks': 5008,
+                        'vector_final_only_failures': 0,
+                        'vector_nesting_checks': 8500,
+                        'vector_prefix_cases': 1360}}
+
+def validate_coverage(coverage):
+    if type(coverage) is not dict or set(coverage) != set(REQUIRED):
+        raise ValueError("missing or unexpected mandatory experiment")
+    for module, required in REQUIRED.items():
+        actual = coverage[module]
+        if type(actual) is not dict or set(actual) != set(required):
+            raise ValueError("missing or unexpected coverage field: " + module)
+        for key, expected in required.items():
+            if type(actual[key]) is not int or actual[key] != expected:
+                raise ValueError("required check not executed: " + module + "/" + key)
+    return True

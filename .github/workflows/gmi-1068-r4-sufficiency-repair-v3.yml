@@ -1,0 +1,40 @@
+name: gmi-1068-r4-sufficiency-repair-v3
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068*/**'
+      - '.github/workflows/gmi-1068-recursive-audit-v3.yml'
+      - '.github/workflows/gmi-1068-r4-sufficiency-repair-v3.yml'
+jobs:
+  conditional-sufficiency-and-successor-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=b1c83995c77c6c2bcc89db50872ff8f5d666a75c
+          git merge-base --is-ancestor "$F" HEAD
+          git cat-file -e "$F:research/gmi-1068-recursive-audit-v3/R4_RESIDUAL_FREEZE_V3.md"
+          if git cat-file -e "$F:research/gmi-1068-r4-sufficiency-repair-v3/sufficiency_v3.py" 2>/dev/null; then exit 1; fi
+      - name: Exact conditional-law and optimized replay
+        run: |
+          python3 -I -B research/gmi-1068-r4-sufficiency-repair-v3/check_sufficiency_v3.py > /tmp/sufficiency.json
+          python3 -I -O -B research/gmi-1068-r4-sufficiency-repair-v3/check_sufficiency_v3.py > /tmp/sufficiency-opt.json
+          cmp /tmp/sufficiency.json /tmp/sufficiency-opt.json
+      - name: Cross-round successor evidence
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          P=research/gmi-1068-recursive-audit-v3
+          git cat-file -e "${BASE_SHA}^{commit}"
+          git show "${BASE_SHA}:${P}/SCOPE_SNAPSHOT_V3.json" > /tmp/baseline-v3.json
+          cmp /tmp/baseline-v3.json "$P/SCOPE_SNAPSHOT_V3.json"
+          git diff --name-only "$BASE_SHA" HEAD > /tmp/changed-files.txt
+          python3 -I -B "$P/gate.py" --snapshot "$P/SCOPE_SNAPSHOT_V4.json" --baseline /tmp/baseline-v3.json --changed-files /tmp/changed-files.txt
+          python3 -I -B research/gmi-1068-recursive-audit-v3/check_successors_v4.py
+          python3 -I -O -B research/gmi-1068-recursive-audit-v3/check_successors_v4.py

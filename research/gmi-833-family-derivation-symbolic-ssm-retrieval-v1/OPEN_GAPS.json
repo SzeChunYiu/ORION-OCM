@@ -1,0 +1,30 @@
+{
+  "schema": "FDT_OPEN_GAPS_V1",
+  "gaps": [
+    {
+      "id": "FDT-G1",
+      "severity": "bounded",
+      "gap": "TR-2 gate-free machine verification at k=2 only (k=3 covered by the induction proof, not by matrix exhaustion); DP minimal-cost certificates bounded at cost 8 / width 300k"
+    },
+    {
+      "id": "FDT-G2",
+      "severity": "bounded",
+      "gap": "TR-3 key alphabet size 2 (size-3 probe battery feasibility-bounded); value domain {0,1} primary ({-1,0,1} probe reported)"
+    },
+    {
+      "id": "FDT-G3",
+      "severity": "bounded",
+      "gap": "TR-1 term universe <= 3 leaves, constant-rhs contraction rules, M_ITER(24 cells, 16 steps); variable-rhs rules (aj9f's cancellation pair) not in the class"
+    },
+    {
+      "id": "FDT-G4",
+      "severity": "declared",
+      "gap": "PROC2 finds carry no minimality certificate below their cost (stochastic search); all minimality statements rest on PROC1 certificates or are stated PROC2-relative"
+    },
+    {
+      "id": "FDT-G5",
+      "severity": "future",
+      "gap": "real-scale executions (larger windows, bigger key alphabets, deeper terms) require the numpy search stack on compute hosts; CI re-verifies only the frozen artifacts and cheap recomputation bindings"
+    }
+  ]
+}

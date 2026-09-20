@@ -1,0 +1,109 @@
+{
+  "schema": "GMI_1068_THEOREM_LEDGER_V18",
+  "authority": "Only original R2-008 relationship/parent-subtraction scope; no new mechanism or global theory closure.",
+  "proof_boundary": "PAPER_ONLY claims have complete paper proofs but no Lean registration. Kernel locators identify actual statements; final fresh registration/review receipts are separately mandatory. Finite calibration is not infinite proof.",
+  "kernel_review_status": "PASS: independent fresh Lean4.19.0 replay,75 exact typed entries,10 sources; nine additional concrete examples",
+  "entries": [
+    {
+      "id": "R1-A-SYNTAX",
+      "proof_level": "KERNEL_AND_FINITE",
+      "statement_locator": "PrefixWrapperV18.success_iff/wrapper_simulates/wrapper_empty/wrapper_prefix_free; ShortestCodesV18.target_minimum/nontarget_exists/nontarget_minimum_iff",
+      "premises": "Actual List Bool programmes; positive padding; prefix-free base for prefix theorem; unequal output for nontarget theorem",
+      "dependencies": "Actual wrapper parser and successful-word minimum definitions",
+      "falsifier": "Exact singleton/empty cases, missing output and aliased descriptions; replacing a conclusion by True must fail its typed registration",
+      "strongest_parent": "Elementary prefix coding; LH2007 §3.3",
+      "paper_locator": "THEORY_V18.md R1-A"
+    },
+    {
+      "id": "R1-A-UNIVERSALITY",
+      "proof_level": "PAPER_ONLY",
+      "statement_locator": "Partial-computable wrapper and compiler 1^L d_V",
+      "premises": "Partial computable prefix base with universal compiler simulation; finite hardcoded target; L≥2",
+      "dependencies": "R1-A-SYNTAX plus explicit operational simulation argument",
+      "falsifier": "Finite books or arbitrary Option denotations do not establish partial computability/universality",
+      "strongest_parent": "Universal prefix-machine simulation; LH2007 §3.3",
+      "paper_locator": "THEORY_V18.md R1-A"
+    },
+    {
+      "id": "R1-B",
+      "proof_level": "PAPER_ONLY_WITH_FINITE_CALIBRATION",
+      "statement_locator": "Dyadic Kraft inequality; selected shortest programmes; exact half-target/residual bound",
+      "premises": "Distinct output codes; actual prefix-free domain; one shortest programme per described code",
+      "dependencies": "R1-A; finite disjoint dyadic intervals and supremum of finite sums",
+      "falsifier": "Same-output00/01 weight must be1/4; nonprefix programmes cannot be assigned the same Kraft warrant",
+      "strongest_parent": "Classical Kraft inequality and LH2007 shortest-description weighting",
+      "paper_locator": "THEORY_V18.md R1-B"
+    },
+    {
+      "id": "R2-A-FINITE",
+      "proof_level": "KERNEL_AND_FINITE",
+      "statement_locator": "FiniteMarginsV18.score_bounds/omitted_bound/target_window/strict_separation",
+      "premises": "Finite Int weights nonnegative; profiles between0 and B; strict target advantage exceeds B times residual weight",
+      "dependencies": "V12 actual Int scalar laws and finite sums; direct score splitting",
+      "falsifier": "Strict margin omitted: positive target gap may tie; negative weights invalidate monotonicity",
+      "strongest_parent": "Elementary weighted-sum bound; concentration parent Leike–Hutter2015 Corollary14",
+      "paper_locator": "THEORY_V18.md R2-A and final denominator interpretation"
+    },
+    {
+      "id": "R2-A-COUNTABLE",
+      "proof_level": "PAPER_ONLY",
+      "statement_locator": "Convergence; all-universal-machine score order iff pointwise; coding-invariant envelope",
+      "premises": "Fixed countable environment class and reward semantics; injective codes; bounded Real profiles; full target/padding wrapper family",
+      "dependencies": "R1-A universality; R1-B; bounded monotone partial sums and absolute difference convergence; Archimedean padding",
+      "falsifier": "A restricted reference family need not separate; no common bound permits unbounded residual effects",
+      "strongest_parent": "Leike–Hutter2015 Lemma1/Corollary14 plus elementary concentration corollary; no originality claim",
+      "paper_locator": "THEORY_V18.md R2-A"
+    },
+    {
+      "id": "R2-B",
+      "proof_level": "PAPER_AND_FINITE",
+      "statement_locator": "Actual one-shot environmental measures and fixed-policy reversal",
+      "premises": "Two designated environments included; environment-first timing; nonnegative total reward≤1; fixed opposite policies",
+      "dependencies": "R1/R2 concentration and actual reward function in interaction_v18.py",
+      "falsifier": "Forever-reward discount witness is not LH reward-summable; labels without evaluated policy returns are insufficient",
+      "strongest_parent": "LH2007 §§3.2/3.3/3.5; adapted Leike–Hutter2015 Corollary14",
+      "paper_locator": "THEORY_V18.md R2-B; test_boundaries_v18.py"
+    },
+    {
+      "id": "R3-A-ALGEBRA",
+      "proof_level": "GENERIC_KERNEL_AND_FINITE; REAL_SPECIALIZATION_PAPER",
+      "statement_locator": "LowerFiniteV18.lower_monotone/lower_constant/lower_attained; ExpectationContextsV18.expected_monotone/expected_constant/no_empty_probability/envelope_monotone/envelope_constant/envelope_singleton/int_dirac_value",
+      "premises": "V12 Scalar interface; normalized nonnegative weights; nonempty indexed finite family; actual Int Dirac instance",
+      "dependencies": "V12 finite sums and derived lower minimum; no generic Real/Rat kernel instance",
+      "falsifier": "Empty normalized dimension/family invalid; min is nonlinear; zero weights need not reflect comparisons",
+      "strongest_parent": "Classical finite expectation/multiple-prior minimum; Epstein–Schneider comparison",
+      "paper_locator": "CONTEXTS_V18.md R3-A"
+    },
+    {
+      "id": "R3-A-CONTEXT",
+      "proof_level": "GENERIC_KERNEL_AND_FINITE",
+      "statement_locator": "ExpectationContextsV18.expectation_defined/expectation_value/expectation_active/expectation_observe/lower_defined/lower_value/lower_active/lower_observe",
+      "premises": "Actual evaluator on independent ambient E; caller-supplied P; declared scalar order and probability family",
+      "dependencies": "Immutable V15 Context; actual expectation/lowerContext constructors",
+      "falsifier": "Changing E to P, exposing values on illegal histories or defaulting undefined values breaks tag laws",
+      "strongest_parent": "V15/V17 partial-context transport; classical expectation",
+      "paper_locator": "CONTEXTS_V18.md R3-A"
+    },
+    {
+      "id": "R3-B",
+      "proof_level": "PAPER_AND_FINITE",
+      "statement_locator": "Explicit four-state conditional reversal and four-prior rectangular completion",
+      "premises": "Declared two-stage partition; positive branch mass under each prior; specified priors and acts",
+      "dependencies": "Exact Fraction conditioning and independent four-state calculations",
+      "falsifier": "Ex ante value1/2 versus recursive0; constant1/4 reverses preference; rectangular completion restores X value0",
+      "strongest_parent": "Epstein–Schneider §3.1/Theorem3.2",
+      "paper_locator": "CONTEXTS_V18.md R3-B; general dynamic theorem is parent-level only"
+    },
+    {
+      "id": "R4-A",
+      "proof_level": "KERNEL_AND_FINITE",
+      "statement_locator": "FreeMonotonesV18.can_refl/can_trans/target_context_value/target_context_observe/target_monotone/target_family_complete",
+      "premises": "Lawful category; free identities and composition; all targets; full admitted/defined object domain for observational completeness",
+      "dependencies": "Immutable V5 ProcCategory/Closed and V15 Context; actual free-arrow witnesses",
+      "falsifier": "Reverse inequality fails; equivalent distinct resources need not be equal; omitted targets/hidden objects need not separate",
+      "strongest_parent": "CFS2014 Definition3.3 and Proposition5.2, exact parent-owned family",
+      "paper_locator": "CONTEXTS_V18.md R4-A"
+    }
+  ],
+  "registered_audit_sha256": "6a474d99cd5c5b51c6c511fe9bd58e1340627edd712bb4e175b1e2883192cb09"
+}

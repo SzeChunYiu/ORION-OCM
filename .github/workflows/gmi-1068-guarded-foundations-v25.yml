@@ -1,0 +1,58 @@
+name: gmi-1068-guarded-foundations-v25
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068*/**'
+      - 'research/gmi-833*/**'
+      - 'research/gmi-prior-free-derivation/**'
+      - 'research/gmi-ledger-selection-transport-repair-v1/**'
+      - 'research/machine-intelligence-morphogenesis-v1/**'
+      - '.github/workflows/gmi-1068-guarded-foundations-v25.yml'
+jobs:
+  guarded-relative-foundations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Freeze and baseline custody
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -eu
+          test "$(/usr/bin/git rev-parse HEAD)" = "$HEAD_SHA"
+          F=967231aaa8063db732b2264984cce93727e73ca4
+          P=research/gmi-1068-guarded-foundations-v25
+          /usr/bin/git merge-base --is-ancestor "$F" HEAD
+          /usr/bin/git cat-file -e "$F:$P/FREEZE_V25.md"
+          if /usr/bin/git cat-file -e "$F:$P/trees_v25.py" 2>/dev/null; then exit 1; fi
+          /usr/bin/git diff --exit-code "$F" HEAD -- "$P/FREEZE_V25.md"
+          V=research/gmi-1068-recursive-audit-v24/SCOPE_SNAPSHOT_V24.json
+          /usr/bin/git show "$BASE_SHA:$V" > /tmp/gmi-v24-predecessor.json
+          cmp /tmp/gmi-v24-predecessor.json "$V"
+          python3 -I -B research/gmi-1068-recursive-audit-v10/select_ci_baseline.py --base-sha "$BASE_SHA" --current research/gmi-1068-recursive-audit-v25/SCOPE_SNAPSHOT_V25.json --predecessor "$V" --output /tmp/gmi-v25-ci-base.json
+          /usr/bin/git diff --name-only "$BASE_SHA" HEAD > /tmp/gmi-changed.txt
+      - name: Pinned Lean 4.19.0
+        run: |
+          set -eu
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /tmp/elan-init.sh
+          sh /tmp/elan-init.sh -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Exact kernel and independent replay
+        run: |
+          set -eu
+          P=research/gmi-1068-guarded-foundations-v25
+          python3 -I -B "$P/check_foundations_v25.py" > /tmp/foundations-v25.json
+          python3 -I -O -B "$P/check_foundations_v25.py" > /tmp/foundations-v25-opt.json
+          cmp /tmp/foundations-v25.json /tmp/foundations-v25-opt.json
+      - name: All-round successor integrity
+        run: |
+          set -eu
+          P=research/gmi-1068-recursive-audit-v25
+          python3 -I -B "$P/check_snapshot_v25.py"
+          python3 -I -O -B "$P/check_snapshot_v25.py"
+          python3 -I -B "$P/test_snapshot_v25.py"
+          python3 -I -O -B "$P/test_snapshot_v25.py"
+          python3 -I -B research/gmi-1068-recursive-audit-v3/gate.py --snapshot "$P/SCOPE_SNAPSHOT_V25.json" --baseline /tmp/gmi-v25-ci-base.json --changed-files /tmp/gmi-changed.txt

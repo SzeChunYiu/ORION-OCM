@@ -1,0 +1,66 @@
+name: GMI 833 family derivation tranche (symbolic / state-space / retrieval)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-family-derivation-symbolic-ssm-retrieval-v1/**'
+      - 'research/gmi-833-aj9a-known-family-benchmark-v1/KNOWN_FAMILY_BENCHMARK_V1.json'
+      - 'research/gmi-833-blind-recovery-v2-v1/NEUTRAL_BATTERY_FREEZE_V1.json'
+      - 'research/gmi-833-no-smuggling-audit-v1/audit_core_v1.py'
+      - '.github/workflows/gmi-833-family-derivation-symbolic-ssm-retrieval-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-family-derivation-symbolic-ssm-retrieval-v1/**'
+      - 'research/gmi-833-aj9a-known-family-benchmark-v1/KNOWN_FAMILY_BENCHMARK_V1.json'
+      - 'research/gmi-833-blind-recovery-v2-v1/NEUTRAL_BATTERY_FREEZE_V1.json'
+      - 'research/gmi-833-no-smuggling-audit-v1/audit_core_v1.py'
+      - '.github/workflows/gmi-833-family-derivation-symbolic-ssm-retrieval-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  custody-screen-adjudication:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.14'
+      - name: Screen, adjudication, custody, recomputation bindings
+        run: |
+          set -euo pipefail
+          cd research/gmi-833-family-derivation-symbolic-ssm-retrieval-v1
+          python3 -B screen_v1.py
+          python3 -B posthoc_adjudicate_v1.py
+          python3 -B check_v1.py
+          python3 - <<'EOF'
+          import json
+          from pathlib import Path
+          here = Path(".")
+          screen = json.loads((here/"SCREEN_RESULT_V1.json").read_text())
+          check = json.loads((here/"RESULT_V1.json").read_text())
+          post = json.loads((here/"POSTHOC_RESULT_V1.json").read_text())
+          assert screen["screen_verdict"] == "CLEAN"
+          assert check["status"] == "GREEN", check
+          assert check["freeze_custody"]["implementation_absent_at_freeze"]
+          assert check["battery"]["pinned_ok"]
+          assert check["battery"]["regeneration_deterministic"]
+          assert check["search_side"]["search_side_no_benchmark_reference"]
+          for k in ["battery_task_counts", "ep_no_affine_at_bound2",
+                    "t2_machines_resimulate",
+                    "t2_gatefree_machines_resimulate",
+                    "t1_readout_certs_empty"]:
+              assert check["recomputation_bindings"][k] is True, k
+          assert check["posthoc"]["selftest_pass"]
+          assert check["posthoc"]["clause_bijection"]
+          print("FDT_ALL_GREEN", json.dumps({"terminals":
+              check["posthoc"]["terminals"]}))
+          EOF

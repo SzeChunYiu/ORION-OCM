@@ -1,0 +1,40 @@
+name: gmi-1068-r4-equivalence-state-quotient-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r4-equivalence-state-quotient-v1/**'
+      - '.github/workflows/gmi-1068-r4-equivalence-state-quotient-v1.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=d16fb3ea5ce481b5244cf1473d7208f9eb40e744
+          P=research/gmi-1068-r4-equivalence-state-quotient-v1
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/RESULT_V1.json" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+      - name: Exact checks
+        run: |
+          python3 -I -B research/gmi-1068-r4-equivalence-state-quotient-v1/check_r4.py >/tmp/a.json
+          python3 -I -O -B research/gmi-1068-r4-equivalence-state-quotient-v1/check_r4.py >/tmp/ao.json
+          python3 -I -B research/gmi-1068-r4-equivalence-state-quotient-v1/independent_oracle_v1.py >/tmp/b.json
+          python3 - <<'PY'
+          import json
+          a=json.load(open('/tmp/a.json'));b=json.load(open('/tmp/b.json'))
+          assert a['full_quotient']==b['full_quotient']
+          assert a['restricted_quotient']==b['restricted_quotient']
+          PY
+      - name: Install Lean 4.19.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Lean kernel check
+        run: lean research/gmi-1068-r4-equivalence-state-quotient-v1/ContextualEquivalence.lean
