@@ -1,5 +1,3 @@
-import Std.Tactic.Omega
-
 universe u v w
 
 /- F01: minimal typed sequential process core -/
@@ -142,14 +140,14 @@ theorem F07_fair_eventually_visits {P : Type u}
 theorem F08_no_uniform_positive_bounded_prefix
     (p B : Nat) (hp : 0 < p)
     (hbound : ∀ n : Nat, n * p ≤ B) : False := by
-  have hp1 : 1 ≤ p := by omega
+  have hp1 : 1 ≤ p := hp
   have hmul : (B + 1) * 1 ≤ (B + 1) * p :=
     Nat.mul_le_mul_left (B + 1) hp1
   have hlow : B + 1 ≤ (B + 1) * p := by
     simpa using hmul
   have hhigh : (B + 1) * p ≤ B := hbound (B + 1)
-  have : B + 1 ≤ B := le_trans hlow hhigh
-  omega
+  have hbad : B + 1 ≤ B := le_trans hlow hhigh
+  exact (Nat.not_succ_le_self B) (by simpa using hbad)
 
 /- F09: registered abstraction crossover D=4,L=3,c=1 -/
 theorem F09_not_beneficial_at_two : ¬ (4 + 2 * 1 < 2 * 3) := by decide
