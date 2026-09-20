@@ -65,15 +65,7 @@ def base_status(base_sha):
         return None
     return json.loads(p.stdout)
 
-def main():
-    ap=argparse.ArgumentParser()
-    ap.add_argument("--base-sha",default="")
-    ap.add_argument("--changed-files",default="")
-    args=ap.parse_args()
-
-    dag=load(DAG_PATH)
-    stat=load(STATUS_PATH)
-    add=load(R17_PATH)
+def validate(dag, stat, add):
     nodes=[f"R{i}" for i in range(18)]
     need(dag["nodes"]==nodes,"NODE_SET")
     deps=dag["dependencies"]
@@ -105,7 +97,21 @@ def main():
     need(ids==[f"GMI2-R17-{i:03d}" for i in range(1,18)],"R17_IDS")
     need(add["row_count"]==17,"R17_COUNT")
     need(all(r["round"]=="R17" and r["status"]=="NOT_STARTED" and not r["closes_by_prose"] for r in add["rows"]),"R17_ROWS")
+    return nodes, deps, rounds, rev
 
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--base-sha",default="")
+    ap.add_argument("--changed-files",default="")
+    ap.add_argument("--dag-path",default=str(DAG_PATH))
+    ap.add_argument("--status-path",default=str(STATUS_PATH))
+    ap.add_argument("--r17-path",default=str(R17_PATH))
+    args=ap.parse_args()
+
+    dag=load(pathlib.Path(args.dag_path))
+    stat=load(pathlib.Path(args.status_path))
+    add=load(pathlib.Path(args.r17_path))
+    nodes,deps,rounds,rev=validate(dag,stat,add)
     touched=set()
     if args.changed_files:
         paths=[x.strip() for x in pathlib.Path(args.changed_files).read_text().splitlines() if x.strip()]
