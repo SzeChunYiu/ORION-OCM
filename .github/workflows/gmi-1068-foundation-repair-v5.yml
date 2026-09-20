@@ -1,0 +1,56 @@
+name: gmi-1068-foundation-repair-v5
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068*/**'
+      - '.github/workflows/gmi-1068-foundation-repair-v5.yml'
+jobs:
+  foundation-and-recursive-scope:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Freeze and baseline custody
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -eu
+          test "$(/usr/bin/git rev-parse HEAD)" = "$HEAD_SHA"
+          F=2576c97afb1968ddc6116d2c7790d1e648af4701
+          P=research/gmi-1068-foundation-repair-v5
+          git merge-base --is-ancestor "$F" HEAD
+          git cat-file -e "$F:$P/FREEZE_V5.md"
+          if git cat-file -e "$F:$P/foundation_v5.py" 2>/dev/null; then exit 1; fi
+          git diff --exit-code "$F" HEAD -- "$P/FREEZE_V5.md"
+          V=research/gmi-1068-recursive-audit-v3/SCOPE_SNAPSHOT_V4.json
+          git show "$BASE_SHA:$V" > /tmp/gmi-v4.json
+          cmp /tmp/gmi-v4.json "$V"
+          git diff --name-only "$BASE_SHA" HEAD > /tmp/gmi-changed.txt
+      - name: Exact independent replay
+        run: |
+          P=research/gmi-1068-foundation-repair-v5
+          python3 -I -B "$P/check_foundation_v5.py" > /tmp/foundation.json
+          python3 -I -O -B "$P/check_foundation_v5.py" > /tmp/foundation-opt.json
+          cmp /tmp/foundation.json /tmp/foundation-opt.json
+      - name: All-round successor integrity
+        run: |
+          P=research/gmi-1068-recursive-audit-v5
+          python3 -I -B "$P/check_snapshot_v5.py"
+          python3 -I -O -B "$P/check_snapshot_v5.py"
+          python3 -I -B research/gmi-1068-recursive-audit-v3/gate.py --snapshot "$P/SCOPE_SNAPSHOT_V5.json" --baseline /tmp/gmi-v4.json --changed-files /tmp/gmi-changed.txt
+      - name: Pinned Lean 4.19.0
+        run: |
+          set -eu
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /tmp/elan-init.sh
+          sh /tmp/elan-init.sh -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Admission-free kernel replay
+        run: |
+          set -euo pipefail
+          P=research/gmi-1068-foundation-repair-v5/AdmissibilityV5.lean
+          if grep -En '\b(sorry|admit|axiom|unsafe)\b' "$P"; then exit 1; fi
+          lean -DwarningAsError=true "$P" | tee /tmp/foundation-lean.txt
+          if grep -q sorryAx /tmp/foundation-lean.txt; then exit 1; fi
