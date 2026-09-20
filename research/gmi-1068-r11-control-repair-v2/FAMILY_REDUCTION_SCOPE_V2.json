@@ -1,0 +1,78 @@
+{
+  "schema": "GMI_FAMILY_REDUCTION_SCOPE_V2",
+  "universal_architecture_claim": false,
+  "rows": [
+    {
+      "family": "MLP/backpropagation",
+      "conditional_reduction": "Finite differentiable composition plus reverse chain rule",
+      "imported_assumptions": "Specified graph, differentiable primitives, loss, parameterization, update rule, optimizer state; nondifferentiable points need a declared convention.",
+      "not_established": "No unique neural architecture or optimizer follows.",
+      "source": "S10",
+      "empirical_reproduction": false
+    },
+    {
+      "family": "Attention",
+      "conditional_reduction": "Finite Gibbs variational identity in THEORY_V2.md; a binary multiplexer is weaker.",
+      "imported_assumptions": "Positive reference measure, temperature, energy; bilinear scores, vector features, mask and value readout for dot-product attention.",
+      "not_established": "Heads, positions, stack depth and empirical superiority remain unspecified.",
+      "source": "S07",
+      "empirical_reproduction": false
+    },
+    {
+      "family": "Bayesian inference",
+      "conditional_reduction": "Posterior proportional to prior times likelihood when evidence is positive.",
+      "imported_assumptions": "Hypothesis domain, prior measure, likelihood and observation event.",
+      "not_established": "No prior-free interpretation or universal learning advantage.",
+      "source": "LOCAL_ELEMENTARY_IDENTITY",
+      "empirical_reproduction": false
+    },
+    {
+      "family": "JEPA/world models",
+      "conditional_reduction": "T1 controlled-quotient trace/value theorem and T2 residual bound.",
+      "imported_assumptions": "Common action set, reward compatibility, normalized action-conditioned kernels, discount, reward bounds and uniform residuals.",
+      "not_established": "Learning/identifying a sufficient representation is separate.",
+      "source": "S04,S05",
+      "empirical_reproduction": false
+    },
+    {
+      "family": "RL/control",
+      "conditional_reduction": "Bellman fixed-point equations for supplied finite discounted MDP.",
+      "imported_assumptions": "Finite states/actions, known reward/kernel for planning; exploration and stochastic-approximation hypotheses for learning.",
+      "not_established": "Tabular convergence does not transfer automatically to function approximation.",
+      "source": "S11",
+      "empirical_reproduction": false
+    },
+    {
+      "family": "Diffusion",
+      "conditional_reduction": "Given normalized reverse kernels, their product and latent marginal define the sampling law.",
+      "imported_assumptions": "Base law, time index, forward corruption, reverse kernels, schedule, architecture and fitting objective.",
+      "not_established": "Scalar decrement/refinement does not supply these stochastic semantics.",
+      "source": "S08",
+      "empirical_reproduction": false
+    },
+    {
+      "family": "Selective state space",
+      "conditional_reduction": "Conditional gated-recurrence reduction in Mamba Theorem1.",
+      "imported_assumptions": "N=1, A=-1, B=1, linear step selector, softplus step and zero-order-hold discretization.",
+      "not_established": "The parameterization and useful data distribution are imported.",
+      "source": "S09",
+      "empirical_reproduction": false
+    },
+    {
+      "family": "Energy model",
+      "conditional_reduction": "Minimization of a supplied compatibility function.",
+      "imported_assumptions": "Domain, energy, existence of minimizer and search algorithm; finite partition function for probability interpretation.",
+      "not_established": "Not every energy defines a probability law; E=0 on R has divergent partition function.",
+      "source": "S12",
+      "empirical_reproduction": false
+    },
+    {
+      "family": "Symbolic/program systems",
+      "conditional_reduction": "Encode a specified formal machine state and its transition.",
+      "imported_assumptions": "Syntax, inference/transition rules, memory and execution semantics, input/output interface, cost accounting.",
+      "not_established": "Encoding is not a derivation of language, semantics, soundness or search efficiency.",
+      "source": "LOCAL_SCOPE_ONLY",
+      "empirical_reproduction": false
+    }
+  ]
+}
