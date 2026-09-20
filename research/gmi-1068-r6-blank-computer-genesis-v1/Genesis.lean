@@ -1,7 +1,7 @@
 inductive HiddenTask where | id | not
 inductive Bit where | z | o deriving DecidableEq
 
-def flip : Bit → Bit | .z => .o | .o => .z
+def bitFlip : Bit → Bit | .z => .o | .o => .z
 
 def trainLabel : HiddenTask → Bit
   | .id => .z
@@ -11,7 +11,7 @@ def queryTruth : HiddenTask → Bit
   | .id => .o
   | .not => .z
 
-def adaptive (train : Bit) : Bit := flip train
+def adaptive (train : Bit) : Bit := bitFlip train
 
 theorem adaptive_solves_both (t : HiddenTask) :
     adaptive (trainLabel t) = queryTruth t := by
