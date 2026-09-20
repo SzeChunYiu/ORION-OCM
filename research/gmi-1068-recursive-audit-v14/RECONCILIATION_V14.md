@@ -17,12 +17,12 @@ or supplies a uniquely justified probability assignment from the bare core.
 The general semiring interface includes Boolean weights; normalized binary
 rows are not generally functions. Deterministic embeddings remain faithful.
 
-Exact Fraction calibration checks typed empty carriers, every registered
+Exact Fraction calibration checks typed empty state spaces, every registered
 composable pair/triple, deterministic embeddings and actual counterexamples.
 The input grid need not contain its composites; category laws are evaluated
 in the larger exact rational space. Only the separate seven-arrow model is
 claimed closed. Independent code, source-valid proof corruptions and exact
-successor contracts bind the result to this one original obligation.
+successor contracts bind the result to this one original requirement.
 
 Inherited closures remain: eight R0 governance requirements, five R1
 requirements (002/003/004/005/010) and R2-002/006. The new closure yields
