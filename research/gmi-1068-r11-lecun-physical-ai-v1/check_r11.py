@@ -4,6 +4,9 @@ from fractions import Fraction
 ROOT=pathlib.Path(__file__).resolve().parent
 def need(cond,msg):
  if not cond: raise RuntimeError(msg)
+r10=json.loads((ROOT.parent/"gmi-1068-r10-information-control-unification-v1/RESULT_V1.json").read_text())
+need(r10["status"]=="GREEN_AT_REGISTERED_SEPARATION_SCOPE","R10_PARENT_NOT_GREEN")
+need("PREDICTION_EQUALS_CAUSATION" in r10["forbidden_promotions"],"R10_PREDICTION_CAUSAL_BOUNDARY")
 raw=list(itertools.product((0,1),repeat=2))
 need(all(t==t for t,n in raw),"W1_TARGET")
 classes={t:{(tt,n) for tt,n in raw if tt==t} for t in (0,1)}
