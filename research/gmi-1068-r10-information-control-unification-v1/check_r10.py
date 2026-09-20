@@ -5,6 +5,9 @@ ROOT=pathlib.Path(__file__).resolve().parent
 def need(cond,msg):
  if not cond: raise RuntimeError(msg)
 ok={}
+r9=json.loads((ROOT.parent/"gmi-1068-r9-update-law-unification-v1/RESULT_V1.json").read_text())
+need(r9["status"]=="GREEN_AT_REGISTERED_UPDATE_UNIFICATION_SCOPE","R9_PARENT_NOT_GREEN")
+need("UNIVERSAL_BEST_UPDATE_LAW" in r9["forbidden_promotions"],"R9_UNIVERSAL_UPDATE_BOUNDARY")
 
 # S1: biased but iid. Marginal 3/4 each; joint P(1,1)=9/16=product.
 p=Fraction(3,4)
