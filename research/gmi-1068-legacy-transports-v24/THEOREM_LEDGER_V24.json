@@ -1,0 +1,188 @@
+{
+  "schema": "gmi-v24-theorem-ledger-v1",
+  "claim_status": "Scope inventory; actual replay outcomes belong to RESULT_V24.json and FORMAL_REVIEW_V24.md.",
+  "results": [
+    {
+      "id": "X1.1",
+      "statement": "Actual partial-context projected image equals direct image; observation tags preserved.",
+      "premises": "Same history domain, independent P/E and explicit total value projection; no order-preservation needed for image equality.",
+      "dependencies": [
+        "V15 Context",
+        "V17 postcompose",
+        "V20 Attained"
+      ],
+      "falsifier": "Replacing active P\u2229E by E admits illegal histories; discarding undefined tag changes observation.",
+      "strongest_parent": "Mathematics in Lean4.1\u20134.2 and immutable V15/V17/V20",
+      "proof_level": "KERNEL general; FINITE serialized refinement separate",
+      "paper": "THEORY_V24.md X1.1",
+      "kernel_locators": [
+        "ImageTransportV24.projected_post",
+        "ImageTransportV24.projected_image",
+        "ProfileContextsV24.decode_post",
+        "ProfileContextsV24.decode_observe"
+      ]
+    },
+    {
+      "id": "X1.2",
+      "statement": "Selected/full projected images agree iff every active full history has active selected equal-projection witness.",
+      "premises": "Actual same P/E and projection; arbitrary selector interpreted through active intersection.",
+      "dependencies": [
+        "X1.1"
+      ],
+      "falsifier": "Terminal-only coverage by undefined selected histories fails.",
+      "strongest_parent": "Direct-image witness logic; V15 actual domains",
+      "proof_level": "KERNEL general",
+      "paper": "THEORY_V24.md X1.2",
+      "kernel_locators": [
+        "ImageTransportV24.selected_iff",
+        "ImageTransportV24.terminal_sufficient",
+        "ImageTransportV24.injective_boundary"
+      ]
+    },
+    {
+      "id": "X1.3",
+      "statement": "Full AF profile is a contextual image retaining all five coordinates.",
+      "premises": "Fixed source S,M0,Delta,Pi,R,H,Q,V and complete declared admitted/evaluated history universe.",
+      "dependencies": [
+        "X1.1",
+        "AF formalization section2"
+      ],
+      "falsifier": "Discarded history/provenance can equate profiles that differ in source.",
+      "strongest_parent": "AF FORMALIZATION_V1.md section2",
+      "proof_level": "KERNEL generic record/image; PAPER source interpretation",
+      "paper": "PROFILES_V24.md X1.3",
+      "kernel_locators": [
+        "ProfileContextsV24.profile_fields",
+        "ProfileContextsV24.profile_identity",
+        "ProfileContextsV24.decoded_image"
+      ]
+    },
+    {
+      "id": "X1.4-5",
+      "statement": "Old action-word profile factors through explicit possibly noninjective edge erasure; provenance uses union/presence.",
+      "premises": "Valid typed edge histories and action-keyed shared provenance; richer path identity retained separately.",
+      "dependencies": [
+        "AF actual gamma_profiles"
+      ],
+      "falsifier": "Parallel same-label edges erase to one old word; repeated presence is not additive.",
+      "strongest_parent": "Actual af_core_v1.py reachable/gamma_profiles",
+      "proof_level": "KERNEL generic erasure/presence; PAPER+FINITE concrete Python refinement",
+      "paper": "PROFILES_V24.md X1.4\u2013X1.5",
+      "kernel_locators": [
+        "AFErasureV24.erase_binding",
+        "AFErasureV24.projection_binding",
+        "AFErasureV24.repeated_presence",
+        "AFErasureV24.erasure_collision",
+        "AFContextBridgeV24.full_erasure_image",
+        "RichAFContextsV24.projection_post",
+        "RichAFContextsV24.projected_observe",
+        "RichAFContextsV24.rich_identity"
+      ]
+    },
+    {
+      "id": "X1.6",
+      "statement": "BFS record has a path lift; finite N-vertex reachability has path length\u2264N\u22121.",
+      "premises": "Ordered fixed finite graph; old helper actual queue/first-visit policy; repeated labels allowed.",
+      "dependencies": [
+        "Cycle-removal and queue induction",
+        "X1.2"
+      ],
+      "falsifier": "Short horizon loses terminals; covering horizon can still lose nonselected profile coordinates.",
+      "strongest_parent": "Classical BFS; official NetworkX tree/neighbor-order documentation (parent scope only)",
+      "proof_level": "PAPER+FINITE; no kernel BFS algorithm claim",
+      "paper": "PROFILES_V24.md X1.6",
+      "kernel_locators": []
+    },
+    {
+      "id": "X2.1",
+      "statement": "Full maximal attained resource-pair image projects exactly to all Pareto candidate IDs.",
+      "premises": "Complete candidate universe, actual active predicate, reversed coordinate order; faithful executable source additionally valid finite roster.",
+      "dependencies": [
+        "V20 Maximal",
+        "V12 coordinate order"
+      ],
+      "falsifier": "Dropping equal-vector ID aliases or substituting unattained coordinatewise infimum fails.",
+      "strongest_parent": "Original morphology-selection schema/theorems and V20 frontier",
+      "proof_level": "KERNEL general and finite membership; FINITE serialized old-source refinement",
+      "paper": "PREFERENCES_V24.md X2.1/X2.3",
+      "kernel_locators": [
+        "CandidateContextsV24.maximal_ids",
+        "CandidateContextsV24.pareto_nondominated",
+        "CandidateContextsV24.equal_vector_alias",
+        "FinitePreferenceV24.paretoList_mem"
+      ]
+    },
+    {
+      "id": "X2.2",
+      "statement": "All positive-price argmin IDs are exactly scalar-context maxima and are Pareto efficient.",
+      "premises": "Primitive ordered-ring scalar; all coordinate prices strictly positive; same active candidate domain.",
+      "dependencies": [
+        "V12 dot_strict",
+        "X2.1"
+      ],
+      "falsifier": "Zero price admits dominated tie; negative price reverses dominance; no all-Pareto-support converse.",
+      "strongest_parent": "Original morphology-selection theorem and V12 finite dot monotonicity",
+      "proof_level": "KERNEL general; FINITE actual old-code refinement",
+      "paper": "PREFERENCES_V24.md X2.2",
+      "kernel_locators": [
+        "PriceContextsV24.maximal_ids",
+        "PriceContextsV24.positive_price_pareto",
+        "PriceContextsV24.tied_argmin"
+      ]
+    },
+    {
+      "id": "X3.1",
+      "statement": "Plan/loss attained target image projects to exact feasible plan IDs; original total loss is explicit specialization.",
+      "premises": "Common plan universe, independent admission/definedness, fixed loss order and threshold; original source loss total.",
+      "dependencies": [
+        "V15 Context",
+        "X1.1"
+      ],
+      "falsifier": "Loss-only image loses plan identity; feasibility-as-admission changes tags despite same feasible set.",
+      "strongest_parent": "FORMAL_CORE_V1.md section4 and image witness logic",
+      "proof_level": "KERNEL general; PAPER exact source specialization; FINITE partial tables",
+      "paper": "PLANS_V24.md X3.1",
+      "kernel_locators": [
+        "PlanContextsV24.feasible_image",
+        "PlanContextsV24.total_specialization",
+        "PlanContextsV24.identity_feasible",
+        "PlanContextsV24.illegal",
+        "PlanContextsV24.undefined",
+        "PlanContextsV24.value"
+      ]
+    },
+    {
+      "id": "X3.2-3",
+      "statement": "Common-plan compatibility keeps one shared witness; injective transport preserves intersection within mapped universe.",
+      "premises": "Same history index set and common U; map injective, with q(U) guard even on empty families.",
+      "dependencies": [
+        "X3.1",
+        "Set-image intersection logic"
+      ],
+      "falsifier": "Pairwise three-set compatibility fails jointly; omitted q(U) fails empty families.",
+      "strongest_parent": "Original plan source and Mathematics in Lean4.1\u20134.2",
+      "proof_level": "KERNEL general; FINITE exact table refinement",
+      "paper": "PLANS_V24.md X3.2\u2013X3.3",
+      "kernel_locators": [
+        "CommonPlansV24.mapped_intersection",
+        "CommonPlansV24.empty_family",
+        "CommonPlansV24.empty_compatible",
+        "CommonPlansV24.feasible_common"
+      ]
+    },
+    {
+      "id": "X4.1",
+      "statement": "Source-specific equal expansions admit conservative substitution at unchanged signature/premises.",
+      "premises": "Equal denotations, same quantified domains, types, targets, orders and resource semantics; explicit decoder when representation differs.",
+      "dependencies": [
+        "X1\u2013X3",
+        "TRANSPORT_LEDGER_V24.json"
+      ],
+      "falsifier": "Using identical symbol spelling to merge AF, plans, adequate outputs or conditional opcode is invalid.",
+      "strongest_parent": "Classical equality congruence and original R3 THEORY R3-5/adjudication A8",
+      "proof_level": "PAPER source audit supported by registered component KERNEL/FINITE; no mechanized general syntax substitution claimed",
+      "paper": "THEORY_V24.md X4.1",
+      "kernel_locators": []
+    }
+  ]
+}
