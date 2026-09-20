@@ -1,0 +1,31 @@
+name: gmi-1068-r11-lecun-physical-ai-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r11-lecun-physical-ai-v1/**'
+      - '.github/workflows/gmi-1068-r11-lecun-physical-ai-v1.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=8782e67815a031d5a6e0d2c2bc4339bc1bd8a04b
+          P=research/gmi-1068-r11-lecun-physical-ai-v1
+          git cat-file -e "${F}:${P}/FREEZE_V1.md"
+          if git cat-file -e "${F}:${P}/RESULT_V1.json" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+      - name: Exact source-typed synthesis checks
+        run: |
+          python3 -I -B research/gmi-1068-r11-lecun-physical-ai-v1/check_r11.py >/tmp/a
+          python3 -I -O -B research/gmi-1068-r11-lecun-physical-ai-v1/check_r11.py >/tmp/ao
+          python3 -I -B research/gmi-1068-r11-lecun-physical-ai-v1/independent_oracle_v1.py >/tmp/b
+          python3 - <<'PY'
+          import json
+          a=json.load(open('/tmp/a'));b=json.load(open('/tmp/b'))
+          for k in ('latent_classes','raw_bits','latent_bits','planning_best','constant_collapse_loss','multimodal_point_optimum','source_entries'):assert a[k]==b[k]
+          PY
