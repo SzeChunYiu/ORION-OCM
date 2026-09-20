@@ -1,0 +1,84 @@
+name: gmi-1068-r4-successor-v2
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r4-equivalence-state-quotient-v1/**'
+      - '.github/workflows/gmi-1068-r4-successor-v2.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze and exact-head custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=f1f026cd4960d957b72e6abf5cb61d14f55cd4c5
+          P=research/gmi-1068-r4-equivalence-state-quotient-v1
+          H="${{ github.event.pull_request.head.sha }}"
+          test -n "$H"
+          git cat-file -e "${F}:${P}/SUCCESSOR_FREEZE_V2.md"
+          if git cat-file -e "${F}:${P}/RESULT_V2.json" 2>/dev/null; then exit 1; fi
+          if git cat-file -e "${F}:${P}/check_r4_successor_v2.py" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+          git merge-base --is-ancestor "$H" HEAD
+      - name: Exact dual-route checks
+        run: |
+          set -euo pipefail
+          P=research/gmi-1068-r4-equivalence-state-quotient-v1
+          python3 -I -B "$P/check_r4_successor_v2.py" >/tmp/a.json
+          python3 -I -O -B "$P/check_r4_successor_v2.py" >/tmp/ao.json
+          python3 -I -B "$P/independent_oracle_v2.py" >/tmp/b.json
+          cmp /tmp/a.json /tmp/ao.json
+          python3 - <<'PY'
+          import json
+          a=json.load(open('/tmp/a.json'))
+          b=json.load(open('/tmp/b.json'))
+          if a.get('status') != 'GREEN' or b.get('status') != 'GREEN':
+              raise SystemExit('non-GREEN route')
+          keys=(
+              'full_quotient','restricted_quotient','collapsed_missing_classes',
+              'all_partitions','sufficient_partitions','minimum_sufficient_states',
+              'coarsest_sufficient_partitions'
+          )
+          for key in keys:
+              if a.get(key) != b.get(key):
+                  raise SystemExit(f'route disagreement for {key}: {a.get(key)!r} != {b.get(key)!r}')
+          if a.get('hostiles_caught') != 12:
+              raise SystemExit('hostile count drift')
+          PY
+      - name: Successor registry checks
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('research/gmi-1068-r4-equivalence-state-quotient-v1')
+          result=json.loads((p/'RESULT_V2.json').read_text())
+          rec=json.loads((p/'RECONCILIATION_V2.json').read_text())
+          parent=json.loads((p/'PARENT_MAP_V2.json').read_text())
+          th=json.loads((p/'THEOREM_SUCCESSOR_V2.json').read_text())
+          expected=[f'GMI2-R4-{i:03d}' for i in range(1,11)]
+          ids=[x['id'] for x in rec['rows']]
+          if ids != expected:
+              raise SystemExit(f'R4 reconciliation drift: {ids}')
+          if rec['claim_ceiling'] != result['claim_ceiling']:
+              raise SystemExit('claim ceiling mismatch')
+          if len(parent['entries']) != 7:
+              raise SystemExit('parent map incomplete')
+          if th['supersedes_or_narrows'][0]['prior_id'] != 'T-STATE':
+              raise SystemExit('theorem successor binding drift')
+          if 'ILLEGAL_EQUALS_CONTEXT_UNDEFINED' not in result['forbidden_promotions']:
+              raise SystemExit('missing three-way response boundary')
+          if 'EQUIVALENCE_IMPLIES_CONGRUENCE_WITHOUT_TEST_CLOSURE' not in result['forbidden_promotions']:
+              raise SystemExit('missing congruence boundary')
+          PY
+      - name: Install Lean 4.19.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Lean kernel check
+        run: lean research/gmi-1068-r4-equivalence-state-quotient-v1/ContextualEquivalenceV2.lean

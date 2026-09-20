@@ -1,0 +1,64 @@
+name: gmi-1068-recursive-audit-v3
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-recursive-audit-v3/**'
+      - 'research/gmi-1068-r5-geometry-repair-v2/**'
+      - '.github/workflows/gmi-1068-recursive-audit-v3.yml'
+jobs:
+  resource-and-scope-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=3a56e2d1fe83909a9fb9bed10dbd8d14d32d2b65
+          G=d4f80ef774bd2a1ea717631951714ed581c422bc
+          git merge-base --is-ancestor "$F" HEAD
+          git merge-base --is-ancestor "$G" HEAD
+          git cat-file -e "$F:research/gmi-1068-recursive-audit-v3/FREEZE_V3.md"
+          git cat-file -e "$G:research/gmi-1068-recursive-audit-v3/GATE_FREEZE_V3.md"
+          if git cat-file -e "$F:research/gmi-1068-r5-geometry-repair-v2/check_geometry.py" 2>/dev/null; then exit 1; fi
+          if git cat-file -e "$G:research/gmi-1068-recursive-audit-v3/gate.py" 2>/dev/null; then exit 1; fi
+      - name: Exact resource checks and optimized replay
+        run: |
+          python3 -I -B research/gmi-1068-r5-geometry-repair-v2/check_geometry.py > /tmp/r5.json
+          python3 -I -O -B research/gmi-1068-r5-geometry-repair-v2/check_geometry.py > /tmp/r5-opt.json
+          cmp /tmp/r5.json /tmp/r5-opt.json
+          cmp /tmp/r5.json research/gmi-1068-r5-geometry-repair-v2/RESULT_V2.json
+      - name: Recursive dependency integrity and hostile mutations
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          P=research/gmi-1068-recursive-audit-v3/SCOPE_SNAPSHOT_V3.json
+          git cat-file -e "${BASE_SHA}^{commit}"
+          git diff --name-only "$BASE_SHA" HEAD > /tmp/changed-files.txt
+          if git cat-file -e "${BASE_SHA}:${P}" 2>/dev/null; then
+            git show "${BASE_SHA}:${P}" > /tmp/baseline.json
+            python3 -I -B research/gmi-1068-recursive-audit-v3/gate.py --baseline /tmp/baseline.json --changed-files /tmp/changed-files.txt
+          else
+            test -z "$(git ls-tree --name-only "$BASE_SHA" -- "$P")"
+            python3 -I -B research/gmi-1068-recursive-audit-v3/gate.py --initial-introduction
+          fi
+          python3 -I -B research/gmi-1068-recursive-audit-v3/test_gate.py
+          python3 -I -O -B research/gmi-1068-recursive-audit-v3/test_gate.py
+      - name: Install pinned proof checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /tmp/elan-init.sh
+          sh /tmp/elan-init.sh -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Admission-free Lean kernel check
+        shell: bash
+        run: |
+          set -euo pipefail
+          P=research/gmi-1068-r5-geometry-repair-v2/ResourceGeometryV2.lean
+          if grep -En '\b(sorry|admit|axiom|unsafe)\b' "$P"; then exit 1; fi
+          lean -DwarningAsError=true "$P" | tee /tmp/r5-kernel.txt
+          if grep -q 'sorryAx' /tmp/r5-kernel.txt; then exit 1; fi
