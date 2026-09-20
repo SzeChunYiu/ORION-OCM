@@ -2,8 +2,12 @@
 import json,pathlib,sys
 from fractions import Fraction
 ROOT=pathlib.Path(__file__).resolve().parent
+RESEARCH=ROOT.parent
 def need(cond,msg):
  if not cond: raise RuntimeError(msg)
+r8=json.loads((RESEARCH/"gmi-1068-r8-civilization-blind-neural-v1/RESULT_V1.json").read_text())
+need(r8["status"]=="GREEN_CAUSAL_BLINDNESS_AT_REGISTERED_CPWL_SCOPE","R8_PARENT_NOT_GREEN")
+need("NEURAL_INEVITABILITY" in r8["forbidden_promotions"] and r8["substrate_inversions"]==360,"R8_NONINEVITABILITY_BOUNDARY")
 need(1+Fraction(2)<4 and 1+Fraction(3)==4 and 1+Fraction(4)>4,"U1")
 forward=40
 def rev(s):return 10+3*s
