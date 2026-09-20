@@ -3,6 +3,8 @@ import json,pathlib,sys,itertools
 ROOT=pathlib.Path(__file__).resolve().parent
 def need(cond,msg):
  if not cond: raise RuntimeError(msg)
+r12=json.loads((ROOT.parent/"gmi-1068-r12-ai-findings-registry-v1/RESULT_V1.json").read_text())
+need(r12["status"]=="GREEN_CANONICAL_FINDING_REGISTRY_SCOPE","R12_PARENT_NOT_GREEN")
 acts=list(itertools.product((-1,1),repeat=2));ends={a:sum(a) for a in acts};best=[a for a,v in ends.items() if v==2]
 need(best==[(1,1)],"INTERACTIVE")
 post=[0,1];stationary=sum(x==(1-x) for x in post);adaptive=sum((1-x)==(1-x) for x in post)
