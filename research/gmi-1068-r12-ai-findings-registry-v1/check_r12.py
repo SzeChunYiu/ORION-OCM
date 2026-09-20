@@ -3,6 +3,8 @@ import json,pathlib,sys,collections
 ROOT=pathlib.Path(__file__).resolve().parent
 def need(cond,msg):
  if not cond: raise RuntimeError(msg)
+r11=json.loads((ROOT.parent/"gmi-1068-r11-lecun-physical-ai-v1/RESULT_V1.json").read_text())
+need(r11["status"]=="GREEN_SOURCE_TYPED_GMI_TRANSLATION_AT_REGISTERED_SCOPE","R11_PARENT_NOT_GREEN")
 r=json.loads((ROOT/"AI_FINDING_REGISTRY_V1.json").read_text());allowed=set(r["allowed_verdicts"]);rows=r["rows"]
 need(len(rows)==52 and len({x["id"] for x in rows})==52,"ROW_COUNT_OR_IDS")
 need(all(x["source_id"] and x["gmi_translation"] and x["boundary"] for x in rows),"MISSING_FIELDS")
