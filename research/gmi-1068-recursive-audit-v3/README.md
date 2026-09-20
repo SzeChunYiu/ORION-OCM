@@ -30,7 +30,7 @@ established. An unresolved entry does not erase a valid historical proof. A
 local repaired theorem does not imply its whole parent round is complete.
 
 The gate checks exact graph coverage, real evidence files and hashes, proof or
-witness locators, atomic obligations and parent evidence digests. It propagates
+witness locators, atomic requirements and parent evidence digests. It propagates
 the impact of stale premises and rejects unsupported status promotions. It does
 not decide mathematical truth. The checker and the adjudication remain a review
 trust boundary: a malicious simultaneous rewrite of code and evidence cannot be
@@ -51,7 +51,7 @@ weighted graphs against independent path enumeration and includes negative
 controls. `test_gate.py` adversarially tests evidence and dependency failures.
 
 The older R5 identity/triangle lemmas assumed their conclusions. The older
-frontier remint check copied the same costs. R6 fairness only enumerated a finite
+frontier relabeling check copied the same costs. R6 fairness only enumerated a finite
 list, and code reflection was ordinary composition. R7/R8 family recovery,
 R11 planning sufficiency and R12 derived-finding verdicts require stronger
 individual evidence. The independent review also found hardcoded predictive
