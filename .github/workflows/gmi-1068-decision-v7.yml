@@ -1,0 +1,56 @@
+name: gmi-1068-decision-v7
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068*/**'
+      - '.github/workflows/gmi-1068-decision-v7.yml'
+jobs:
+  decision-and-recursive-scope:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Freeze and baseline custody
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -eu
+          test "$(/usr/bin/git rev-parse HEAD)" = "$HEAD_SHA"
+          F=3288afa6250737120aa29752e85c0383863c0cfb
+          P=research/gmi-1068-decision-v7
+          git merge-base --is-ancestor "$F" HEAD
+          git cat-file -e "$F:$P/FREEZE_V7.md"
+          if git cat-file -e "$F:$P/decision_v7.py" 2>/dev/null; then exit 1; fi
+          git diff --exit-code "$F" HEAD -- "$P/FREEZE_V7.md"
+          V=research/gmi-1068-recursive-audit-v6/SCOPE_SNAPSHOT_V6.json
+          git show "$BASE_SHA:$V" > /tmp/gmi-v6.json
+          cmp /tmp/gmi-v6.json "$V"
+          git diff --name-only "$BASE_SHA" HEAD > /tmp/gmi-changed.txt
+      - name: Exact independent replay
+        run: |
+          P=research/gmi-1068-decision-v7
+          python3 -I -B "$P/check_decision_v7.py" > /tmp/decision.json
+          python3 -I -O -B "$P/check_decision_v7.py" > /tmp/decision-opt.json
+          cmp /tmp/decision.json /tmp/decision-opt.json
+      - name: All-round successor integrity
+        run: |
+          P=research/gmi-1068-recursive-audit-v7
+          python3 -I -B "$P/check_snapshot_v7.py"
+          python3 -I -O -B "$P/check_snapshot_v7.py"
+          python3 -I -B research/gmi-1068-recursive-audit-v3/gate.py --snapshot "$P/SCOPE_SNAPSHOT_V7.json" --baseline /tmp/gmi-v6.json --changed-files /tmp/gmi-changed.txt
+      - name: Pinned Lean 4.19.0
+        run: |
+          set -eu
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /tmp/elan-init.sh
+          sh /tmp/elan-init.sh -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Admission-free kernel replay
+        run: |
+          set -euo pipefail
+          P=research/gmi-1068-decision-v7/InformationOrderV7.lean
+          if grep -En '\b(sorry|admit|axiom|unsafe)\b' "$P"; then exit 1; fi
+          lean -DwarningAsError=true "$P" | tee /tmp/decision-lean.txt
+          if grep -q sorryAx /tmp/decision-lean.txt; then exit 1; fi
