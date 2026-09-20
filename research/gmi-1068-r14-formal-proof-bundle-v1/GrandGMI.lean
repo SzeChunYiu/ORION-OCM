@@ -146,7 +146,7 @@ theorem F08_no_uniform_positive_bounded_prefix
   have hlow : B + 1 ≤ (B + 1) * p := by
     simpa using hmul
   have hhigh : (B + 1) * p ≤ B := hbound (B + 1)
-  have hbad : B + 1 ≤ B := le_trans hlow hhigh
+  have hbad : B + 1 ≤ B := hlow.trans hhigh
   exact (Nat.not_succ_le_self B) (by simpa using hbad)
 
 /- F09: registered abstraction crossover D=4,L=3,c=1 -/
@@ -189,7 +189,7 @@ def composeFn {A B C : Type} (f : A → B) (g : B → C) : A → C :=
 theorem F11_reflective_finite_composition {P : Type u}
     (m1 m2 : P → P) :
     ∃ m : P → P, ∀ p, m p = m2 (m1 p) := by
-  exact ⟨composeFn m1 m2, by intro p; rfl⟩
+  exact ⟨(fun p : P => m2 (m1 p)), by intro p; rfl⟩
 
 /- F12: XOR response violates the affine rectangle identity -/
 def xorVal : Bool → Bool → Nat
