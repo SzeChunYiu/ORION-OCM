@@ -1,0 +1,25 @@
+name: gmi-1068-r6-genesis-repair-v2
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r6-genesis-repair-v2/**'
+      - '.github/workflows/gmi-1068-r6-genesis-repair-v2.yml'
+jobs:
+  operational-genesis-repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          F=3a56e2d1fe83909a9fb9bed10dbd8d14d32d2b65
+          git merge-base --is-ancestor "$F" HEAD
+          git cat-file -e "$F:research/gmi-1068-recursive-audit-v3/FREEZE_V3.md"
+          if git cat-file -e "$F:research/gmi-1068-r6-genesis-repair-v2/genesis_v2.py" 2>/dev/null; then exit 1; fi
+      - name: Operational replay and hostile controls
+        run: |
+          python3 -I -B research/gmi-1068-r6-genesis-repair-v2/check_r6_v2.py > /tmp/genesis.json
+          python3 -I -O -B research/gmi-1068-r6-genesis-repair-v2/check_r6_v2.py > /tmp/genesis-opt.json
+          cmp /tmp/genesis.json /tmp/genesis-opt.json
