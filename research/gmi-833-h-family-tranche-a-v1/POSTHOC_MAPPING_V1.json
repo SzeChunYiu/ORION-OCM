@@ -1,0 +1,35 @@
+{
+  "schema": "FAMILY_TRANCHE_A_POSTHOC_MAPPING_V1",
+  "sigma": "SIGMA_HA",
+  "note": "Family-row labels are attached AFTER the family-blind selection, by
+          a mapping applied only to the selected expression tree. The generator,
+          selector and evaluator never receive these names.",
+  "structural_class_to_family_row": {
+    "ADDRESSABLE_CONTEXT_READ": [
+      "H05 Nearest-neighbor / exemplar memory.",
+      "H06 Associative memory.",
+      "H11 Library-learning/program-reuse systems."
+    ],
+    "THRESHOLD_CONJUNCTION": [
+      "H08 Decision trees/rule systems.",
+      "H10 Program synthesis/program induction.",
+      "H12 Search/frontier algorithms.",
+      "H13 Planning systems."
+    ],
+    "PERSISTENT_STATE_READ": [
+      "H14 Dynamic programming/control."
+    ]
+  },
+  "contract_design": "contiguous families share one registered generic contract
+          by design: blind recovery must return the same structure for rows
+          that are not the same family; the per-row label is attached after
+          selection only.",
+  "excluded_rows": [
+    "H07 Retrieval-augmented systems.",
+    "H09 Symbolic logic systems.",
+    "H28 State-space models."
+  ],
+  "exclusion_reason": "owned by the abandoned-but-valuable
+          gmi-833-family-derivation-symbolic-ssm-retrieval-v1 package (a
+          separate lane is completing and merging it)."
+}
