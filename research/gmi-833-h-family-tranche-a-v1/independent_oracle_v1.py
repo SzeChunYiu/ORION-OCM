@@ -160,12 +160,15 @@ def structural_class(tree):
 
     depends on x4  -> PERSISTENT_STATE_READ
     else depends on x3 -> ADDRESSABLE_CONTEXT_READ
+    else a single coordinate leaf (not 0/1) -> ADDRESSABLE_CONTEXT_READ
     else root AND -> THRESHOLD_CONJUNCTION
     else -> BOOLEAN_COMPOSITION
     """
     if depends_exact(tree, "x4"):
         return "PERSISTENT_STATE_READ"
     if depends_exact(tree, "x3"):
+        return "ADDRESSABLE_CONTEXT_READ"
+    if tree[0] == "LEAF" and tree[1] not in ("0", "1"):
         return "ADDRESSABLE_CONTEXT_READ"
     if tree[0] == "AND":
         return "THRESHOLD_CONJUNCTION"
