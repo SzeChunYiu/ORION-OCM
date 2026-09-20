@@ -77,6 +77,26 @@ one-test states has 2, each sink has 1) and propagates its exact value — a
 genuinely different code path, zero mismatches across the hostile, clean and
 tie instances (144 policies in total).
 
+**Assumptions.** `s` is a state of a finite acyclic computation graph with a
+nonempty registered terminal-action set and exact rational test costs and
+transition probabilities summing to one; every cost is charged exactly once
+(first-use, storage, lookup, transport, execution); the graph is acyclic, so
+no computation is silently unbounded.
+
+**Dependencies.** The Bellman equation for finite acyclic computation graphs
+(Section 2); the claim-governance contract of the upgraded #833 foundation
+(`c0c574c4...`) and axiom core (`3366a3bc...`), pinned in MANIFEST_V1.json and
+re-checked at run time by `parents_v1.py`.
+
+**Falsifiers.** Any finite acyclic computation graph with all costs charged in
+which stopping is optimal at `s` yet `best(s) < cont(s,t)` for some test `t`;
+a cyclic graph silently completed; a missing goal/model silently completed;
+any floating-point arithmetic in the comparison.
+
+**Strongest parents.** #926/#927 freeze conclusion 2 (stopping is a Bellman
+comparison; pin `cb6d6a59`); the myopic META-3 EVC stop rule retained only at
+its proved scope (`gmi-planning-stopping-v1`, pin `7219b55a...`).
+
 ## 4. PS-2 — a merely myopic one-step EVC rule is not generally sufficient
 
 The **myopic one-step EVC** at `s` for test `t` is
@@ -120,6 +140,23 @@ stops. The control does not alarm on a genuinely stop-optimal instance.
 best(root) = 1/2`: the optimal choice set at the root is exactly
 `{stop, t1, t2}` (size 3) and the best terminal-action set is `{a0, a1}`
 (size 2). Optimal ties remain sets and are never silently broken.
+
+**Assumptions.** The registered hostile instance `X = f1 XOR f2` with `f1, f2`
+iid fair and tests `t1`, `t2` at exact cost `1/8`; the `k = 1` clean variant;
+the `k = 1/4` tie control; exact rational arithmetic throughout.
+
+**Dependencies.** PS-1's Bellman comparison and the independent full-policy
+enumeration oracle (`optimal_value_by_policy_search`); the retained myopic
+META-3 EVC scope (13/35) from the frozen `gmi-planning-stopping-v1`.
+
+**Falsifiers.** A registered instance on which the myopic one-step EVC rule and
+the Bellman comparison disagree in the opposite direction; the `k = 1` clean
+variant alarming (firing a false positive); optimal ties silently broken;
+`MYOPIC_EVC_IS_UNIVERSALLY_OPTIMAL` asserted anywhere.
+
+**Strongest parents.** #926/#927 freeze conclusion 2 (a merely myopic one-step
+EVC rule is not generally sufficient; pin `cb6d6a59`); the upgraded #833
+foundation (`c0c574c4...`) and axiom core (`3366a3bc...`).
 
 ## 5. Refusal controls
 
