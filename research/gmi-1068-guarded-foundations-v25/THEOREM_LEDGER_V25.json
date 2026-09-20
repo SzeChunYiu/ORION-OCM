@@ -1,0 +1,153 @@
+{
+  "schema": "GMI_V25_THEOREM_OWNERSHIP_V1",
+  "novelty_claim": false,
+  "records": [
+    {
+      "id": "Y1-fold",
+      "statement": "Nonempty-word concatenation is the lifted partial product; arbitrary bracketed trees equal their identity-guarded V19 fold.",
+      "premises": "Strong Option associativity; every tree leaf contributes one actual arrow.",
+      "dependencies": "Actual V19 run and actual bundled category multiplication.",
+      "falsifier": "Weak-only definedness or deleting empty anchors breaks the statement.",
+      "strongest_parent": "P1/P2/P6",
+      "paper": "HISTORIES_V25.md §§1–2",
+      "proof_level": "PAPER_AND_KERNEL; concrete Python refinement is separately calibrated",
+      "kernel": [
+        "OptionFoldV25.fold_append",
+        "OptionFoldV25.flatten_eval",
+        "CategoryTreesV25.guarded_flatten"
+      ]
+    },
+    {
+      "id": "Y1-path",
+      "statement": "Actual V11 paths map to trees observing their actual bundled evaluation, including nil at its source.",
+      "premises": "Lawful V11 category; actual identity and composition equations.",
+      "dependencies": "Y1-fold; immutable TypedPathsV11.",
+      "falsifier": "An unanchored nil or wrong endpoint identity breaks nil/cons equations.",
+      "strongest_parent": "P1/P2",
+      "paper": "HISTORIES_V25.md §3",
+      "proof_level": "PAPER_AND_KERNEL; concrete Python refinement is separately calibrated",
+      "kernel": [
+        "CategoryTreesV25.path_nil",
+        "CategoryTreesV25.path_cons",
+        "CategoryTreesV25.path_interpretation"
+      ]
+    },
+    {
+      "id": "Y2-census",
+      "statement": "Present carrier membership is exactly existence of a successful padded row product.",
+      "premises": "Actual lawful algebra on the declared subtype; local right units; tagged padded multiplication.",
+      "dependencies": "Actual subtype lifting and output mapping.",
+      "falsifier": "Lawless isolated present arrows are invisible in their all-None row.",
+      "strongest_parent": "P3/P6",
+      "paper": "INFORMATION_V25.md §1",
+      "proof_level": "PAPER_AND_KERNEL; concrete Python refinement is separately calibrated",
+      "kernel": [
+        "PresentedCoreV25.padded_lookup",
+        "PresentedCoreV25.result_membership",
+        "PresentedCoreV25.carrier_from_row",
+        "ConstructorBindingsV25.raw_arrow_census"
+      ]
+    },
+    {
+      "id": "Y2-padded",
+      "statement": "Padded strong associativity and true-unit correspondence hold across every ambient label.",
+      "premises": "Actual subtype algebra; absent labels fail both input lifts.",
+      "dependencies": "Subtype associativity and IsUnit; successful output membership.",
+      "falsifier": "Treating absent ambient labels as locally unital violates the scope.",
+      "strongest_parent": "P3/P6",
+      "paper": "INFORMATION_V25.md §2",
+      "proof_level": "PAPER_AND_KERNEL; concrete Python refinement is separately calibrated",
+      "kernel": [
+        "PresentedCoreV25.padded_assoc",
+        "PresentedUnitsV25.padded_unit"
+      ]
+    },
+    {
+      "id": "Y2-guard",
+      "statement": "Raw observation is None if any leaf guard fails, otherwise the actual nonempty guarded fold.",
+      "premises": "Membership for arrow leaves, true units for empty anchors, strong padded associativity.",
+      "dependencies": "Y1-fold; Y2-padded.",
+      "falsifier": "Calling the old unguarded singleton on an absent ambient label returns a false success.",
+      "strongest_parent": "P1/P6",
+      "paper": "HISTORIES_V25.md §4",
+      "proof_level": "PAPER_AND_KERNEL; concrete Python refinement is separately calibrated",
+      "kernel": [
+        "RawObserversV25.guarded",
+        "RawObserversV25.arrow",
+        "RawObserversV25.empty",
+        "RawObserversV25.seq"
+      ]
+    },
+    {
+      "id": "Y2-information",
+      "statement": "For every encoding, raw-observer recovery iff carrier/table recovery iff padded-table recovery.",
+      "premises": "Fixed ambient query/output labels; family of lawful Presented structures; decoders only on attained codes.",
+      "dependencies": "Y2-census; singleton and arrow-pair extraction; V9 fiber criterion.",
+      "falsifier": "Dropping local units or independently named object encoders invalidates the stronger scope.",
+      "strongest_parent": "P5/P6",
+      "paper": "INFORMATION_V25.md §§3–5",
+      "proof_level": "PAPER_AND_KERNEL; concrete Python refinement is separately calibrated",
+      "kernel": [
+        "RawObserversV25.observer_recovery",
+        "RawObserversV25.core_recovery",
+        "ConstructorBindingsV25.raw_threeway_recovery"
+      ]
+    },
+    {
+      "id": "Y3-survivors",
+      "statement": "All six original rows are reconciled to actual information-loss or omitted-law witnesses.",
+      "premises": "Each row has its own preserved premises; designated candidate units are not genuine IsUnit assumptions.",
+      "dependencies": "Actual inherited V19 controls and V16 C4/V4; SURVIVOR_LEDGER.",
+      "falsifier": "A claimed same lawful padded table with different carrier or deletion of a redundant TYPE field is not a valid witness.",
+      "strongest_parent": "P3/P4/P6/P7",
+      "paper": "CONTROLS_V25.md §§1–8",
+      "proof_level": "PAPER_RECONCILIATION_WITH_KERNEL_WITNESSES_AND_FINITE_CALIBRATION",
+      "kernel": [
+        "LawControlsV25.failure_tag_response_loss",
+        "CarrierControlsV25.absent_present_singleton",
+        "LawControlsV25.composition_response_loss",
+        "LawControlsV25.constant_unit_failure",
+        "LawControlsV25.nonassoc_brackets",
+        "LawControlsV25.weak_definedness_brackets",
+        "LawControlsV25.designated_insertion_changes",
+        "CountermodelsV19.associativity_isolated",
+        "CountermodelsV19.strong_definedness_isolated",
+        "CountermodelsV19.projection_controls"
+      ]
+    },
+    {
+      "id": "Y4-transport",
+      "statement": "Tree observation commutes with actual object/arrow roundtrip maps and their inverses, including None.",
+      "premises": "Actual identity/product-preserving maps; bijections for inverse/reflection statements.",
+      "dependencies": "V19 category/arrow roundtrips; structural induction.",
+      "falsifier": "Changing object names without transporting Empty anchors breaks the equation.",
+      "strongest_parent": "P3/P6",
+      "paper": "ENCODINGS_V25.md §§1–2",
+      "proof_level": "PAPER_AND_KERNEL; concrete Python refinement is separately calibrated",
+      "kernel": [
+        "TreeTransportV25.forward_response",
+        "TreeTransportV25.backward_response",
+        "TreeTransportV25.backward_forward_tree",
+        "TreeTransportV25.forward_backward_tree",
+        "AlgebraTreesV25.unpack_raw"
+      ]
+    },
+    {
+      "id": "Y4-named",
+      "statement": "For every encoding, named-observer recovery iff recovery of the pair(padded table,identity map).",
+      "premises": "Fixed O,L; actual Presented and map O→L landing in true units; full category specialization uses a bijection onto all units.",
+      "dependencies": "Y2-census; Empty and arrow-pair extraction; V9 fiber criterion.",
+      "falsifier": "Same discrete table with swapped two-object identity maps refutes table-only recovery.",
+      "strongest_parent": "P5/P6",
+      "paper": "ENCODINGS_V25.md §§3–4",
+      "proof_level": "PAPER_AND_KERNEL; concrete Python refinement is separately calibrated",
+      "kernel": [
+        "NamedObserversV25.observer_recovery",
+        "CategoryTreesV25.named_complete",
+        "CategoryTreesV25.named_observer",
+        "CarrierControlsV25.table_only_nonrecovery",
+        "CarrierControlsV25.paired_revival"
+      ]
+    }
+  ]
+}

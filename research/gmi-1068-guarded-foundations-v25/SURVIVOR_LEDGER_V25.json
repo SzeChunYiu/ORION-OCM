@@ -1,0 +1,84 @@
+{
+  "schema": "GMI_V25_SIX_SURVIVOR_REPAIR_V1",
+  "original_source": "../gmi-1068-r1-minimal-process-core-v1/IRREDUCIBILITY_V1.json",
+  "claim": "Relative observer information and laws, not six independently stored fields.",
+  "rows": [
+    {
+      "component": "TYPE",
+      "original_loss": "illegal boundary joins become expressible",
+      "corrected_survivor": "Independent TYPE field is reconstructible; tagged definedness is retained.",
+      "removed": "Erase None by filling it with1.",
+      "preserved": "Both discrete and join tables remain lawful before erasure.",
+      "model": "Discrete((0,None),(None,1)) versus join((0,1),(1,1)).",
+      "query": "Seq(Arrow0,Arrow1)",
+      "response": "None versus some1; erased arrays coincide.",
+      "strongest_parent": "P3/P6",
+      "paper": "CONTROLS_V25.md §1"
+    },
+    {
+      "component": "PROCESS",
+      "original_loss": "no transformations exist",
+      "corrected_survivor": "Availability is observable on fixed ambient labels; census derives from a lawful padded table.",
+      "removed": "Erase carrier identity, or retain only its cardinality.",
+      "preserved": "Each present subtype is lawful; empty subtype allowed.",
+      "model": "Empty versus singleton support on{0}; equal-size{0} versus{1} on{0,1}.",
+      "query": "Arrow0",
+      "response": "None versus some0; padded tables differ.",
+      "strongest_parent": "P5/P6",
+      "paper": "CONTROLS_V25.md §2"
+    },
+    {
+      "component": "COMPOSITION",
+      "original_loss": "no multi-step histories",
+      "corrected_survivor": "Actual outputs require actual multiplication, not only admission.",
+      "removed": "Retain carrier/units/admission while discarding product values.",
+      "preserved": "Both models lawful, total, associative, unit0.",
+      "model": "Actual C4 addition modulo4 and V4 xor.",
+      "query": "Seq(Arrow1,Arrow1)",
+      "response": "some2 versus some0.",
+      "strongest_parent": "P7",
+      "paper": "CONTROLS_V25.md §3"
+    },
+    {
+      "component": "IDENTITY",
+      "original_loss": "no internal empty/no-change history",
+      "corrected_survivor": "Stored identity field is derived; genuine internal neutral behavior remains a requirement.",
+      "removed": "Remove local true-unit existence while retaining associative composition.",
+      "preserved": "Total, associative, coherent two-label constant product.",
+      "model": "x*y=0 has no genuine IsUnit.",
+      "query": "Empty0 and Empty1",
+      "response": "Both fail; neither can interpret an internal empty history.",
+      "strongest_parent": "P3/P6",
+      "paper": "CONTROLS_V25.md §4"
+    },
+    {
+      "component": "ASSOCIATIVITY",
+      "original_loss": "history semantics can depend on bracketing",
+      "corrected_survivor": "Strong Option equality includes outputs and definedness.",
+      "removed": "Remove strong associativity or weaken it to equality only when both sides are defined.",
+      "preserved": "Nonassoc3 retains unit0/coherence; weakOnly3 retains local units/coherence and weak equality.",
+      "model": "Actual inherited nonassoc and weakOnly tables.",
+      "query": "Nonassoc:(1;1);2 vs1;(1;2); weakOnly:(0;1);2 vs0;(1;2)",
+      "response": "some2 vs some1; None vs some2.",
+      "strongest_parent": "P4/P6",
+      "paper": "CONTROLS_V25.md §5"
+    },
+    {
+      "component": "IDENTITY_LAWS",
+      "original_loss": "inserting no-change can alter a process",
+      "corrected_survivor": "A designated candidate is not a genuine two-sided unit.",
+      "removed": "Omit one neutral-insertion direction in a weakened named-unit interface.",
+      "preserved": "Total, associative, coherent projection semigroups and the opposite neutral direction.",
+      "model": "Right projection x*y=y with designatede0; left projection dual.",
+      "query": "Arrow1;designatedEmpty0, or designatedEmpty0;Arrow1",
+      "response": "Returns0 instead of1; lawful raw Empty rejects the false unit.",
+      "strongest_parent": "P3/P6",
+      "paper": "CONTROLS_V25.md §6"
+    }
+  ],
+  "additional_controls": {
+    "coherence": "CONTROLS_V25.md §7: strongly associative/local-unit two-label table lacks a matched join.",
+    "named_encoder": "ENCODINGS_V25.md §4: same table, swapped identity maps; paired encoding repairs.",
+    "equivalent_encodings": "Positive controls use commuting query/output maps; untransported labels are not compared."
+  }
+}
