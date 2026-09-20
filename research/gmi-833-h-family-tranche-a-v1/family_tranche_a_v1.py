@@ -419,10 +419,12 @@ def main():
 
     # R11 real-scale: registered open at this scope by construction.
     real_scale = {"status": "OPEN_REAL_SCALE_PENDING",
-                  "reason": "no finite Boolean cube certifies real scale; "
-                            "run gmi-833-h-family-tranche-a-v1/run_real_scale_v1.py "
-                            "on the registered host for D1/D2/D3-bound evidence "
-                            "(FREEZE_V1.md)"}
+                  "reason": "no finite Boolean cube certifies real scale; the "
+                            "registered definition requires n_fit >= 100000, "
+                            "n_held >= 20000, sha256-bound externally-originated "
+                            "source data and laptop/remote execution, which "
+                            "require a separately frozen real-scale ecology "
+                            "(FREEZE_V1.md, FREEZE_V2_ADDENDUM.md section 6)"}
 
     # assemble the eleven-coordinate ledger per row
     for hid, rd in row_data.items():
