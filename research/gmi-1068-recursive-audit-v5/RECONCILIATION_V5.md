@@ -19,7 +19,7 @@ requires a measure. No uniquely mandated objective follows from process law.
 
 ## Atomic impact and inherited debt
 
-| Region | Supported repair | Remaining obligation |
+| Region | Supported repair | Remaining requirement |
 |---|---|---|
 | R0 | Registry/history preserved | Independent original atom reconciliation |
 | R1 | Conditional closure and resource lifting | Representation-relative minimality and full original atom coverage |
