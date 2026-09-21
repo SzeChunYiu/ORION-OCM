@@ -270,7 +270,7 @@ class Reconciliation(unittest.TestCase):
             row = entry["old"].replace("- [ ] ", "")
             self.assertIn(row, closed)
             self.assertTrue(entry["new"].startswith("- [x] " + row))
-            self.assertIn("L:df58b799ec0d", entry["new"])
+            self.assertIn("L:fc6edb6f9fa2", entry["new"])
 
     def test_the_annotation_fits_the_measured_body_budget(self):
         budget = self.recon["annotation_budget"]["measured_payload_limit_characters"]
