@@ -1,0 +1,216 @@
+name: GMI 833 Section-M hierarchy/planning/causal re-audit v2 implementation
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-cognitive-reaudit-v2-implementation-v1/**'
+      - '.github/workflows/gmi-833-cognitive-reaudit-v2-implementation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-cognitive-reaudit-v2-implementation-v1/**'
+      - '.github/workflows/gmi-833-cognitive-reaudit-v2-implementation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze custody -- the freeze must predate every implementation artifact
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          freeze=cb6d6a590535e8660559b143cbe32308a880c482
+          git cat-file -e "$freeze^{commit}"
+          git cat-file -e "$freeze:research/gmi-833-cognitive-reaudit-v2/FREEZE_V1.md"
+          for p in \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/stopping_bellman_v1.py \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/parents_v1.py \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/executor_v1.py \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/test_reaudit_v1.py \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/replay_v1.py \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/RESULT_V1.json \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/MANIFEST_V1.json \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/CORE.md \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/STOPPING_THEOREM_V2.md \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/HIERARCHY_REAUDIT_V1.md \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/CAUSAL_REAUDIT_V1.md \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/RECEIPT_V1.md \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/VALIDATION_V1.md \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/ISSUE_833_RECONCILIATION_HIERARCHY_V2.json \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/ISSUE_833_RECONCILIATION_PLANNING_V2.json \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/ISSUE_833_RECONCILIATION_CAUSAL_V2.json \
+            .github/workflows/gmi-833-cognitive-reaudit-v2-implementation.yml; do
+            if git cat-file -e "$freeze:$p" 2>/dev/null; then
+              echo "POST_HOC_SUSPECT: artifact already existed at the freeze commit: $p" >&2
+              exit 1
+            fi
+          done
+
+      - name: Verify and materialize exact parent receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          verify_parent() {
+            path="$1"
+            expected="$2"
+            actual="$(git rev-parse "HEAD:$path")"
+            if [ "$actual" != "$expected" ]; then
+              echo "parent path/blob drift: $path expected=$expected actual=$actual" >&2
+              exit 1
+            fi
+            if [ ! -f "$path" ]; then
+              mkdir -p "$(dirname "$path")"
+              git show "HEAD:$path" > "$path"
+            fi
+            test "$(git hash-object "$path")" = "$expected"
+          }
+          verify_parent research/gmi-833-foundation-v1/RESULT_V1.json c0c574c4ec6e237d5fdafa694eac131399625a70
+          verify_parent research/gmi-833-axiom-core-v1/RESULT_V1.json 3366a3bc7236d286f8d123bf53e4e3b2d22ad7b9
+          verify_parent research/gmi-hierarchical-chunking-repair-v1/CORE.md 057ba5b705751d6fc2c6fc5f7571d78664a389a6
+          verify_parent research/gmi-hierarchical-chunking-repair-v1/source_evidence_v1.py 34266004877277de3e7c1faa377a462b383a4f56
+          verify_parent research/gmi-hierarchical-chunking-repair-v1/RECEIPT_V1.json a8aa57c64be94a21abc3bb6b1deba87a8043da87
+          verify_parent research/gmi-planning-stopping-v1/CORE.md 42d5531cf2be37e2c08417c6c60a2b7621486308
+          verify_parent research/gmi-planning-stopping-v1/planning_stopping_v1.py 7219b55a64d1baf5d9fe03a9b40f5c0bceec00b7
+          verify_parent research/gmi-causal-rung-repair-v1/CORE.md 8fca71ecdca2dec265460b8f27560f1957d779a5
+          verify_parent research/gmi-causal-rung-repair-v1/census_v1.py f0f80cd3c5377046d58b32019b69a9f92606d64b
+          verify_parent research/gmi-causal-rung-repair-v1/RECEIPT_V1.json dbc910b020ef086e36265cbe673f765cdf1405e0
+
+      - name: No float literal anywhere in the package
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import ast, pathlib, sys
+          root = pathlib.Path("research/gmi-833-cognitive-reaudit-v2-implementation-v1")
+          bad = []
+          for path in sorted(root.glob("*.py")):
+              tree = ast.parse(path.read_text(encoding="utf-8"))
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Constant) and isinstance(node.value, float):
+                      bad.append("%s:%d %r" % (path, node.lineno, node.value))
+          if bad:
+              sys.stderr.write("float literals found:\n" + "\n".join(bad) + "\n")
+              raise SystemExit(1)
+          print("no float literal in any package source file")
+          PY
+
+      - name: Exact executor, tests, hostiles and nulls (both modes byte-identical)
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-cognitive-reaudit-v2-implementation-v1
+          cp "$pkg/RESULT_V1.json" /tmp/committed_result.json
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/test_reaudit_v1.py" -v
+            python -I -O -B "$pkg/executor_v1.py"
+          else
+            python -I -B "$pkg/test_reaudit_v1.py" -v
+            python -I -B "$pkg/executor_v1.py"
+          fi
+          cmp /tmp/committed_result.json "$pkg/RESULT_V1.json"
+
+      - name: Isolated byte-exact replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-cognitive-reaudit-v2-implementation-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/replay_v1.py" | cmp - "$pkg/RESULT_V1.json"
+          else
+            python -I -B "$pkg/replay_v1.py" | cmp - "$pkg/RESULT_V1.json"
+          fi
+
+      - name: Claim ceiling, verdict and manifest checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('research/gmi-833-cognitive-reaudit-v2-implementation-v1')
+          manifest = json.loads((root/'MANIFEST_V1.json').read_text())
+          result = json.loads((root/'RESULT_V1.json').read_text())
+          expected = 'GMI_833_HIERARCHY_PLANNING_CAUSAL_REAUDIT_AT_REGISTERED_EXACT_SCOPE'
+          assert manifest['freeze_commit'] == 'cb6d6a590535e8660559b143cbe32308a880c482'
+          assert manifest['claim_ceiling'] == expected == result['claim_ceiling']
+          assert result['verdict'] == 'GREEN'
+          assert all(result['checks'].values())
+          assert result['rows']['planning']['hostile_fired'] is True
+          assert result['rows']['planning']['clean_variant_no_alarm'] is True
+          assert result['total_registered_cases'] == 42254
+          print("claim ceiling + verdict ok: %s" % result['total_registered_cases'])
+          PY
+
+      - name: Reconciliation specs are structurally valid and touch only the three owned rows
+        if: matrix.mode == 'normal'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -I -B - <<'PY'
+          import json, pathlib
+          root = pathlib.Path("research/gmi-833-cognitive-reaudit-v2-implementation-v1")
+          owned = {
+              "- [ ] Re-audit hierarchical skills/chunking.",
+              "- [ ] Re-audit planning and stopping.",
+              "- [ ] Re-audit causal cognition/intervention/counterfactuals.",
+          }
+          forbidden = {
+              "- [ ] Re-audit metacognition and value of computation.",
+              "- [ ] Re-audit social cognition/theory of mind.",
+              "- [ ] Re-audit communication.",
+              "- [ ] Re-audit imitation and teaching.",
+              "- [ ] Re-audit cultural accumulation.",
+              "- [ ] Re-audit memory differentiation under the upgraded foundation.",
+              "- [ ] Re-audit attention as resource-rational selective processing.",
+              "- [ ] Re-audit concept formation/abstraction.",
+          }
+          seen = set()
+          for spec_path in sorted(root.glob("ISSUE_833_RECONCILIATION_*_V2.json")):
+              spec = json.loads(spec_path.read_text(encoding="utf-8"))
+              assert spec["schema"] == "GMI_ISSUE_RECONCILIATION_V2", spec["schema"]
+              assert spec["issue"] == 833
+              assert spec["section"] == "M"
+              for entry in spec["replacements"]:
+                  assert entry["anchor"] == "# M. Cognitive-function derivation upgrade"
+                  assert entry["old"] in owned, "not an owned row: %r" % entry["old"]
+                  assert entry["old"] not in forbidden
+                  assert entry["new"].startswith("- [x] ")
+                  assert entry["old"][len("- [ ] "):] in entry["new"]
+                  assert "L:" in entry["new"]
+                  seen.add(entry["old"])
+          assert seen == owned, "expected exactly the three owned rows"
+          print("reconciliation specs ok: %d rows, all owned" % len(seen))
+          PY
+
+      - name: Reconcile check against the live issue body (read-only)
+        if: github.event_name == 'pull_request' && matrix.mode == 'normal'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          for spec in \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/ISSUE_833_RECONCILIATION_HIERARCHY_V2.json \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/ISSUE_833_RECONCILIATION_PLANNING_V2.json \
+            research/gmi-833-cognitive-reaudit-v2-implementation-v1/ISSUE_833_RECONCILIATION_CAUSAL_V2.json; do
+            python -I -B research/gmi-833-foundation-v1/reconcile_issue_833_v1.py \
+              --mode check \
+              --repository "$GITHUB_REPOSITORY" \
+              --spec "$spec"
+          done

@@ -1,0 +1,80 @@
+{
+ "schema": "FDT_REVIVAL_C3_WITNESS_V2",
+ "row": "State-space models.",
+ "v1_terminal": "RECOVERED_FOR_SUBSET_SEE_LIST",
+ "v1_c3_negative_cause": "the V1 adjudicator C3 probe tested ONLY the k=1 gatefree_machines_sample and ONLY the pre-step lag pair {1,0}: trajs[t][ci] == a*x[t-1] + b*x[t] with a,b nonzero. A causal pre-step state cannot depend on the current input x[t], so b=0 is forced while the probe requires b!=0: the probe is structurally incapable of firing on pre-step states. The k=2 gate-free closure (k2_realized_tasks=57) was never C3-probed.",
+ "battery_sha256": "5b385f0edfa035b28940f5dd982e0c69991a2ce6e0175e4c693073add26899f0",
+ "witness": {
+  "machine": {
+   "model": "M_STREAM",
+   "cells": 2,
+   "update": [
+    [
+     "add",
+     [
+      "atom",
+      "s1"
+     ],
+     [
+      "atom",
+      "x"
+     ]
+    ],
+    [
+     "atom",
+     "x"
+    ]
+   ],
+   "readout": [
+    "atom",
+    "s1"
+   ],
+   "rho": 1
+  },
+  "coefficients": [
+   0,
+   1,
+   1,
+   0,
+   0,
+   0,
+   1,
+   0,
+   0,
+   1,
+   0,
+   0
+  ],
+  "cells": 2,
+  "cost": 3,
+  "ge_sites": 0,
+  "realizes_task": 1208,
+  "truth_table": [
+   0,
+   0,
+   1,
+   1
+  ],
+  "independent_legal": true,
+  "independent_trace_match": true,
+  "in_frozen_k2_closure": true,
+  "within_frozen_bounds": true
+ },
+ "c3_check": {
+  "clause": "state cell with >= 2 nonzero history coefficients at distinct lags",
+  "cell": 0,
+  "nonzero_history_lags": [
+   1,
+   2
+  ],
+  "pre_step_s0_x[t-2]_plus_x[t-1]": true,
+  "post_step_s0_x[t-1]_plus_x[t]": true,
+  "v1_probe_pre_step_impossible": true,
+  "v1_probe_post_step": {
+   "cell": 0,
+   "a": 1,
+   "b": 1
+  }
+ },
+ "verdict": "C3_SUPERPOSED_WITNESS_VERIFIED"
+}

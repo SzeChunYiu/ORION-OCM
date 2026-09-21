@@ -1,0 +1,75 @@
+{
+ "schema": "FDT_REVIVAL_VERIFY_V2",
+ "battery_sha256": "5b385f0edfa035b28940f5dd982e0c69991a2ce6e0175e4c693073add26899f0",
+ "TR2_M_FAM": {
+  "terminal": "RECOVERED",
+  "verdict": "POSITIVE",
+  "task": 1208,
+  "truth_table": [
+   0,
+   0,
+   1,
+   1
+  ],
+  "legal": true,
+  "trace_match": true,
+  "gate_sites": 0,
+  "cost": 3,
+  "C1": {
+   "gate_free": true,
+   "persistent_dim": 2
+  },
+  "C2": {
+   "step_map_superposition_ok": true,
+   "n_tests": 1311
+  },
+  "C3": {
+   "superposed_memory": true,
+   "nonzero_history_lags": [
+    1,
+    2
+   ],
+   "pre_step_s0_x[t-2]_plus_x[t-1]": true,
+   "post_step_s0_x[t-1]_plus_x[t]": true
+  },
+  "in_frozen_k2_closure": true
+ },
+ "TR3_K08": {
+  "terminal": "NOT_RECOVERED_AT_SCOPE",
+  "verdict": "STRENGTHENED_NEGATIVE__SEARCH_DEPTH",
+  "constructive_witness": {
+   "errors": 0,
+   "illegal": 0,
+   "K08_clauses": {
+    "C1": true,
+    "C2": true,
+    "C3": true,
+    "store_cells": [
+     2,
+     3
+    ]
+   },
+   "within_frozen_bounds": true
+  },
+  "order_fixed_twin_still_rejected": true
+ },
+ "TR1_K05": {
+  "terminal": "NOT_RECOVERED_AT_SCOPE",
+  "verdict": "STRENGTHENED_NEGATIVE__SEARCH_DEPTH",
+  "constructive_witness": {
+   "subset_errors": 45,
+   "subset_one_tasks": 133,
+   "subset_reflexive_caught": 88,
+   "subset_false_positives": 0,
+   "full_battery_errors": 384,
+   "champion_subset_errors": 133,
+   "champion_full_battery_errors": 1176
+  },
+  "beats_champion": true
+ },
+ "terminals": {
+  "TR1_K05": "NOT_RECOVERED_AT_SCOPE",
+  "TR2_M_FAM": "RECOVERED",
+  "TR3_K08": "NOT_RECOVERED_AT_SCOPE"
+ }
+}

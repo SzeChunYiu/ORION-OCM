@@ -1,0 +1,61 @@
+{
+ "schema": "FDT_REVIVAL_B_FULL_V2",
+ "row": "State-space models.",
+ "machine": {
+  "model": "M_STREAM",
+  "cells": 2,
+  "update": [
+   [
+    "add",
+    [
+     "atom",
+     "s1"
+    ],
+    [
+     "atom",
+     "x"
+    ]
+   ],
+   [
+    "atom",
+    "x"
+   ]
+  ],
+  "readout": [
+   "atom",
+   "s1"
+  ],
+  "rho": 1
+ },
+ "task": 1208,
+ "truth_table": [
+  0,
+  0,
+  1,
+  1
+ ],
+ "legal": true,
+ "trace_match": true,
+ "cost": 3,
+ "ge_sites": 0,
+ "C1": {
+  "gate_free": true,
+  "affine": true,
+  "persistent_dim": 2,
+  "recurrent": true
+ },
+ "C2": {
+  "step_map_superposition": true,
+  "n_tests": 1311
+ },
+ "C3": {
+  "superposed_memory": true,
+  "cell": 0,
+  "nonzero_history_lags": [
+   1,
+   2
+  ],
+  "pre_step_decomposition": "s0[t] = x[t-2] + x[t-1]"
+ },
+ "verdict": "M_FAM_FULL_RECOVERY"
+}

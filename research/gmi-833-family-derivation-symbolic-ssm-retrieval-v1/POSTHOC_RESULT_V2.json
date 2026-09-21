@@ -1,0 +1,33 @@
+{
+ "schema": "FDT_POSTHOC_RESULT_V2",
+ "package": "research/gmi-833-family-derivation-symbolic-ssm-retrieval-v1",
+ "revival_evidence": "REVIVAL_V2.json",
+ "frozen_battery_sha256": "5b385f0edfa035b28940f5dd982e0c69991a2ce6e0175e4c693073add26899f0",
+ "frozen_battery_unchanged": true,
+ "frozen_grammar_unchanged": true,
+ "family_info_in_search": false,
+ "v1_artifacts_untouched": true,
+ "terminals": {
+  "TR1_K05": "NOT_RECOVERED_AT_SCOPE",
+  "TR2_M_FAM": "RECOVERED",
+  "TR3_K08": "NOT_RECOVERED_AT_SCOPE"
+ },
+ "per_row": {
+  "TR1_K05 (Symbolic logic systems.)": {
+   "terminal": "NOT_RECOVERED_AT_SCOPE",
+   "verdict": "STRENGTHENED_NEGATIVE__SEARCH_DEPTH",
+   "evidence": "REVIVAL_V2.json#rows/Symbolic logic systems."
+  },
+  "TR2_M_FAM (State-space models.)": {
+   "terminal": "RECOVERED",
+   "verdict": "POSITIVE",
+   "evidence": "REVIVAL_V2.json#rows/State-space models."
+  },
+  "TR3_K08 (Retrieval-augmented systems.)": {
+   "terminal": "NOT_RECOVERED_AT_SCOPE",
+   "verdict": "STRENGTHENED_NEGATIVE__SEARCH_DEPTH",
+   "evidence": "REVIVAL_V2.json#rows/Retrieval-augmented systems."
+  }
+ },
+ "note": "V2 revival terminals. TR2 flips to RECOVERED via clause-correct C3 adjudication on the frozen k=2 gate-free closure: the V1 'delay-degenerate' C3 report is attributed to a probe artifact (the V1 probe tested only k=1 machines at the PRE-step lag pair {1,0}, which is structurally impossible for causal pre-step states since it requires a nonzero coefficient on the current input x[t], and it never probed the k=2 closure); a k=2 gate-free machine inside the frozen closure bound realizes B_W2 task 1208 (lag-1 map) with a superposed-memory cell (pre-step s0 = x[t-2]+x[t-1], history lags {1,2}). TR1 and TR3 stay NOT_RECOVERED_AT_SCOPE with constructive in-grammar witnesses proving the terminals are search-depth failures (not structural boundaries). V1 artifacts (POSTHOC_RESULT_V1.json, BLIND_OUTCOME_V1_*.json, RESULT_V1.json, the frozen battery, and the grammar) are byte-untouched."
+}
