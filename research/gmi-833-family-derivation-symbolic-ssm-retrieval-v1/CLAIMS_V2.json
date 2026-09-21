@@ -1,0 +1,48 @@
+{
+  "schema": "FDT_CLAIMS_V2",
+  "package": "research/gmi-833-family-derivation-symbolic-ssm-retrieval-v1",
+  "fields": ["scope_quantifiers", "assumptions", "falsifiers", "strongest_parents", "forbidden_extrapolations"],
+  "note": "V2 claim ledger for the revival. V1 claims (CLAIMS_V1.json) are untouched. The M-FAM full recovery at the declared scope is a clause-correct adjudication on the SAME frozen battery, grammar, and frozen k=2 gate-free closure; the K05 and K08 constructive witnesses are diagnostic reachability witnesses (search-depth attribution), explicitly NOT promoted as recoveries.",
+  "claims": [
+    {
+      "claim_id": "FDT_T2_FULL_RECOVERY_V2",
+      "fields": {
+        "scope_quantifiers": "exists among the 57 realized tasks of the frozen k=2 gate-free closure (BLIND_OUTCOME_V1_T2.gatefree): task 1208 (lag-1 map, truth table (0,0,1,1)) is realized by an affine gate-free recurrent M_STREAM(2) machine (s0'=s1+x, s1'=x, readout=s1; cells 2 <= B_W2 cap 3; coefficients inside the frozen gatefree_k2_delay bound [-2,2]^8 x [-1,1]^4; cost 3; zero gate sites) that satisfies M-FAM C1-C3: C1 gate-free/affine/recurrent with persistent state dim 2 (independent-evaluator sim-correct on the frozen B_W2 stream); C2 step-map superposition (126 legal tests, all linear); C3 superposed memory (cell s0 pre-step = x[t-2]+x[t-1] at every position, nonzero history coefficients at lags {1,2}).",
+        "assumptions": "frozen basis/guard; frozen battery (sha256 5b385f0e...); the k=2 gate-free closure computed by the frozen gatefree_k2_delay (ab_bound=2, ro_bound=1); independent-evaluator re-simulation (posthoc_adjudicate_v1.run_stream); C3 clause per FAMILY_FINGERPRINTS_V1.json (a state cell holding an integer combination with >= 2 nonzero history coefficients at distinct lags)",
+        "falsifiers": "any re-simulation failure of the witness machine on the frozen battery stream; any affine table realized gate-free at k=2 that fails C2 superposition or C3 superposed memory while still realizing a B_W2 task; a V1-style C3 probe firing on a pre-step state of a causal machine (impossible: pre-step states cannot depend on the current input x[t])",
+        "strongest_parents": "M-FAM fingerprint (this package, frozen pre-search); the frozen k=2 gate-free closure outcome (BLIND_OUTCOME_V1_T2); linear state-space recurrence families",
+        "forbidden_extrapolations": "no claim beyond the frozen batteries/guards/caps; no claim that every affine task's C3 witness is superposed (delay-class tasks are certified pure-copy); no k>2 matrix-exhaustion claim; no real-scale or learning claim"
+      }
+    },
+    {
+      "claim_id": "FDT_T2_C3_PROBE_ARTIFACT_V2",
+      "fields": {
+        "scope_quantifiers": "the V1 adjudicator C3 probe (posthoc_adjudicate_v1.adjudicate_t2) tested ONLY the k=1 gatefree_machines_sample and ONLY the pre-step lag pair {1,0}: trajs[t][ci] == a*x[t-1] + b*x[t] with a,b nonzero. A causal pre-step state cannot depend on the current input x[t], so b=0 is forced while the probe requires b!=0: the probe is structurally incapable of firing on any pre-step state of any causal machine. The frozen k=2 closure (57 realized tasks) was never C3-probed. On the witness machine the same probe returns None on pre-step states and fires on post-step states (cell 0, a=1, b=1).",
+        "assumptions": "V1 probe source code is authoritative; pre-step state semantics (trajs[t] = state before x[t])",
+        "falsifiers": "a causal machine whose pre-step state matches a*x[t-1]+b*x[t] with b nonzero at any position",
+        "strongest_parents": "M-FAM fingerprint clause C3; V1 adjudicator source",
+        "forbidden_extrapolations": "no claim that the V1 probe was malicious; it was an indexing/scope artifact, disclosed transparently"
+      }
+    },
+    {
+      "claim_id": "FDT_T1_SEARCH_DEPTH_ATTRIBUTION_V2",
+      "fields": {
+        "scope_quantifiers": "a constructive IN-GRAMMAR M_ITER machine computing [t0==g] (zero-step reachability, the reflexive slice of the contraction class) exists on the frozen B_CONTR battery: input_cells 18, 6 work cells (24 <= cap 24), 16 steps, work-expr sizes [12,12,12,12,12,13] <= SIZE_CAP 40, cost 54, and it scores 45 errors on the frozen 2000-task subset (champion [133,2], 0 false positives) and 384 errors on the full battery (champion 1176) by independent-evaluator re-simulation.",
+        "assumptions": "frozen battery/layout; M_ITER(24,16) bounds; independent evaluator (posthoc run_iter)",
+        "falsifiers": "any re-simulation failure of the constructive machine; a certified in-grammar machine with equal or better fitness failing to exist (i.e., the machine failing the frozen subset protocol)",
+        "strongest_parents": "K05 fingerprint (compositional term transformation / successor selection); the frozen B_CONTR reachability class; the V1 readout-only boundary certificates",
+        "forbidden_extrapolations": "NOT a recovery: the blind search did not find this machine; no claim that the full B_CONTR class is solved; no variable-rhs rules or deeper terms; no claim that the search can reach it at any declared budget"
+      }
+    },
+    {
+      "claim_id": "FDT_T3_SEARCH_DEPTH_ATTRIBUTION_V2",
+      "fields": {
+        "scope_quantifiers": "a constructive IN-GRAMMAR M_STREAM(4) latch machine exists on the frozen B_EP battery (cells 4 <= cap 8, update sizes [1,4,36,36] <= SIZE_CAP 40, readout 22 ops <= 40, cost 72) that solves all 56 episodes with 0 errors and satisfies all three K08 clauses (C1 two persistent stored items [cells 2,3], C2 query-content selection with verified same-store two-query divergences, C3 store-alteration causality with verified clamps flipping the output 1->0), by independent-evaluator re-simulation.",
+        "assumptions": "frozen B_EP battery (56 episodes); M_STREAM(k<=8); K08 fingerprint clauses; independent evaluator (posthoc run_stream)",
+        "falsifiers": "any re-simulation failure on an episode; any K08 clause failing on the constructive machine; the order-fixed twin being promoted as a recovery (it fails C2 query-content dependence and remains the presentation-order counterexample boundary)",
+        "strongest_parents": "K08 fingerprint (persistent items / query selection / causal retrieval); the order-swap theorem (no GE-free machine solves B_EP); the order-fixed positional twin boundary",
+        "forbidden_extrapolations": "NOT a recovery: the blind search did not find this machine; no key alphabet beyond 2; no value domain beyond {0,1}; no claim the search reaches it at a declared budget"
+      }
+    }
+  ]
+}
