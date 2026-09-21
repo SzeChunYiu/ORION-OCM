@@ -125,23 +125,36 @@ def main(argv):
         if not cl["checker_validation"]["validated_both_directions"]:
             print("FAIL: custody checker not validated in both directions")
             ok = False
-        if not cl["ps1_replay"]["ok"]:
-            print("FAIL: PS-1 replay failed: %r" % cl["ps1_replay"]["checks"])
-            ok = False
-        for name, h in cl.get("hostiles", {}).items():
-            if not (h["detected"] or not h["applicable"]):
-                print("FAIL: hostile %s not detected" % name)
+        for wid in ("W1", "W2"):
+            w = (cl.get("windows") or {}).get(wid) or {}
+            if w.get("status") != "OK":
+                print("FAIL: window %s status %r" % (wid, w.get("status")))
                 ok = False
-        if cl["null"]["NULL_RANDOM_SIGN"] is not None and not cl["null"]["NULL_RANDOM_SIGN"]["beaten"]:
-            print("FAIL: row-L null not beaten")
-            ok = False
-        br = cl.get("bytes_reverification") or {}
-        if br.get("bytes_available") and not br.get("all_consistent"):
-            print("FAIL: off-repository bytes inconsistent with the record")
-            ok = False
-        print("row L: admissible %d/%d, EP-1 %d/%d, closes=%r"
-              % (cl["custody"]["admissible"], cl["custody"]["of"], cl["tally"]["EP1_hits"],
-                 cl["tally"]["scored_admissible_sources"], cl["decision"]["closes_pending_route_b"]))
+                continue
+            if not w["ps1_replay"]["ok"]:
+                print("FAIL: window %s PS-1 replay failed: %r" % (wid, w["ps1_replay"]["checks"]))
+                ok = False
+            for name, h in w.get("hostiles", {}).items():
+                if not (h["detected"] or not h["applicable"]):
+                    print("FAIL: hostile %s not detected (window %s)" % (name, wid))
+                    ok = False
+            if w["null"]["NULL_RANDOM_SIGN"] is not None and not w["null"]["NULL_RANDOM_SIGN"]["beaten"]:
+                print("FAIL: window %s row-L null not beaten" % wid)
+                ok = False
+            br = w.get("bytes_reverification") or {}
+            if br.get("bytes_available") and not br.get("all_consistent"):
+                print("FAIL: window %s off-repository bytes inconsistent with the record" % wid)
+                ok = False
+        w1 = (cl.get("windows") or {}).get("W1") or {}
+        w2 = (cl.get("windows") or {}).get("W2") or {}
+        c1 = w1.get("custody") or {}
+        c2 = w2.get("custody") or {}
+        t1 = w1.get("tally") or {}
+        t2 = w2.get("tally") or {}
+        print("row L: W1 admissible %d/%d EP-1 %d/%d; W2 admissible %d/%d EP-1 %d/%d; closes=%r"
+              % (c1.get("admissible"), c1.get("of"), t1.get("EP1_hits"), t1.get("scored_admissible_sources"),
+                 c2.get("admissible"), c2.get("of"), t2.get("EP1_hits"), t2.get("scored_admissible_sources"),
+                 (cl.get("decision") or {}).get("closes_pending_route_b")))
     else:
         print("row L status %r (freeze in place)" % cl.get("status"))
     print("RESULT: %s" % ("PASS" if ok else "FAIL"))

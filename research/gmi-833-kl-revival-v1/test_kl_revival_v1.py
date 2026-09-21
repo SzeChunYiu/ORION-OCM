@@ -26,6 +26,12 @@ if HERE not in sys.path:
 
 import heldout_universes_real4_v1 as r4   # noqa: E402
 import kl_revival_v1 as A                 # noqa: E402
+# heldout_universes_real4_v1 inserts the parent evaluation package (which has
+# its OWN unrelated oracle_route_b_v1.py) at the front of sys.path; restore
+# THIS package's directory to the front so `oracle_route_b_v1` resolves to the
+# row-L oracle and not to the parent package's module of the same name.
+if HERE not in sys.path[:1]:
+    sys.path.insert(0, HERE)
 import oracle_route_b_v1 as B             # noqa: E402
 
 hu = r4.hu
