@@ -1,0 +1,62 @@
+name: gmi-833-squash-safe-gates-v1
+
+on:
+  push:
+    paths:
+      - 'research/gmi-833-squash-safe-gates-v1/**'
+      - 'research/gmi-833-real-developmental-validation-v1/check_freeze_order_v1.py'
+      - '.github/workflows/gmi-833-squash-safe-gates-v1.yml'
+  pull_request:
+    paths:
+      - 'research/gmi-833-squash-safe-gates-v1/**'
+      - 'research/gmi-833-real-developmental-validation-v1/check_freeze_order_v1.py'
+      - '.github/workflows/gmi-833-squash-safe-gates-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  squash-safe-freeze-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PKG: research/gmi-833-squash-safe-gates-v1
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0          # the real-history proof below needs full history
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Stdlib only
+        run: |
+          set -eu
+          if grep -nE '^[[:space:]]*(import|from) (numpy|scipy|pandas|torch|sympy|yaml)' "$PKG"/*.py; then
+            echo "third-party import found"; exit 1
+          fi
+          echo "stdlib only: ok"
+
+      - name: Checker tests on throw-away git repositories (assertions on)
+        run: python3 -I -B "$PKG"/test_squash_safe_freeze_check_v1.py -v
+
+      - name: Checker tests (optimized mode)
+        run: python3 -I -O -B "$PKG"/test_squash_safe_freeze_check_v1.py -v
+
+      - name: Real history -- every registered gate, on this checkout
+        run: |
+          set -eu
+          # Each line is one gate's state on THIS history. On main and on every
+          # branch that merged main after the squash merges, the expected state is
+          # FREEZE_ORDER_NOT_REDERIVABLE with the HEAD-derivable checks listed; a
+          # violation (exit 1) or could-not-check (exit 2) fails this step.
+          bash "$PKG"/check_registered_packages_v1.sh . | tee /tmp/states.txt
+          test "${PIPESTATUS[0]}" -eq 0
+          n=$(grep -c -E '^FREEZE_ORDER_(OK|NOT_REDERIVABLE):' /tmp/states.txt)
+          echo "state lines: $n"
+          test "$n" -eq 14
+          if grep -E '^FREEZE_ORDER_(VIOLATION|COULD_NOT_CHECK)' /tmp/states.txt; then exit 1; fi

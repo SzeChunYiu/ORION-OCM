@@ -6,11 +6,13 @@ on:
       - 'research/gmi-833-z-z12-prediction-scoring-v1/**'
       - 'research/gmi-833-z-map-v1/**'
       - '.github/workflows/gmi-833-z-z12-prediction-scoring.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   pull_request:
     paths:
       - 'research/gmi-833-z-z12-prediction-scoring-v1/**'
       - 'research/gmi-833-z-map-v1/**'
       - '.github/workflows/gmi-833-z-z12-prediction-scoring.yml'
+      - 'research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py'
   workflow_dispatch:
 
 jobs:
@@ -22,29 +24,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Freeze precedes implementation
+      - name: Freeze precedes implementation (squash-safe)
         run: |
           set -eu
-          PKG=research/gmi-833-z-z12-prediction-scoring-v1
-          # Was: freeze timestamp strictly older than the executor timestamp.
-          # That form cannot hold once the package is squash-merged, because the
-          # freeze and the executor then share a single commit and a single
-          # committer time -- so the gate failed on main for a package whose
-          # custody is in fact intact. Replaced by the presence-in-the-
-          # publishing-commit form the sibling #833 workflows already use.
-          git log --reverse --format=%H -- "$PKG/" > /tmp/z12_all.txt
-          FIRST=$(head -1 /tmp/z12_all.txt)
-          if [ -z "$FIRST" ]; then echo "negative control: package absent from history"; exit 1; fi
-          git show --name-only --format= "$FIRST" -- "$PKG/" > /tmp/z12_firstfiles.txt
-          cat /tmp/z12_firstfiles.txt
-          if ! grep -q 'FREEZE_V1.md' /tmp/z12_firstfiles.txt; then
-            echo "FREEZE IS NOT IN THE COMMIT THAT FIRST TOUCHED THIS PACKAGE"; exit 1
-          fi
-          if [ "$(grep -c . /tmp/z12_firstfiles.txt)" = "1" ]; then
-            echo 'freeze-first commit ordering intact'
-          else
-            echo 'package published by squash; freeze present in the publishing commit'
-          fi
+          # Squash-safe custody (parent: PR #1053 freeze; doctrine of #1042). Once the
+          # package's PR is squash-merged, freeze and implementation first appear in ONE
+          # commit and the ordering can no longer be re-derived from history. The shared
+          # checker keeps the strict ordering proof on a linear history; on a squash-
+          # published one it withholds ONLY that assertion, still checks everything
+          # derivable from HEAD and from the source freeze commit, and prints
+          # FREEZE_ORDER_NOT_REDERIVABLE:<commit> checked:<list>. Violations exit 1,
+          # could-not-check exits 2; nothing is reported as passed unchecked.
+          python3 -I -B research/gmi-833-squash-safe-gates-v1/squash_safe_freeze_check_v1.py \
+            --repo . --pkg research/gmi-833-z-z12-prediction-scoring-v1 --freeze FREEZE_V1.md \
+            --freeze-commit 2ced72d59cabf44caf7394ab4d973d61f18c3cd8 \
+            --impl z12_prediction_scoring_v1.py --impl independent_scoring_oracle_v1.py \
+            --impl test_z12_prediction_scoring_v1.py --impl RESULT_V1.json --impl ORACLE_RESULT_V1.json
 
       - name: Section Z map integrity
         run: python3 -I -B research/gmi-833-z-map-v1/check_z_map_v1.py
