@@ -1,0 +1,127 @@
+name: GMI 833 K/L revival (set-valued bridge, posterior futurity)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-kl-revival-v1/**'
+      - '.github/workflows/gmi-833-kl-revival-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-kl-revival-v1/**'
+      - '.github/workflows/gmi-833-kl-revival-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  kl-revival:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-kl-revival-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze precedes every implementation and receipt (per-row chain, negative control)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/check_freeze_order_v1.py" . 2>&1 | tee /tmp/kl_freeze.txt
+      - name: HK6 -- the gate with its negative control neutralised must fail
+        run: |
+          set -euo pipefail
+          if python3 -I -B "$PKG/check_freeze_order_v1.py" . --hostile-typo > /tmp/kl_freeze_hostile.txt 2>&1; then
+            echo "HK6 NOT DETECTED: the hostile gate run passed"; exit 1
+          fi
+          echo "HK6 detected: hostile gate run failed as required"
+      - name: Route A executor (full null, 200 seeds; off-repository bytes absent here by design)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/kl_revival_v1.py" --out /tmp/kl_routeA.json 2>&1 | tee /tmp/kl_routeA.txt
+      - name: Route B independent black-box oracle (full, 8 random worlds)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/oracle_route_b_v1.py" --random-worlds 8 --route-a /tmp/kl_routeA.json \
+            --out /tmp/kl_routeB.json 2>&1 | tee /tmp/kl_routeB.txt
+      - name: Committed receipts match the live re-derivation; routes agree; hostiles detected; nulls beaten
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/check_receipt_v1.py" --route-a /tmp/kl_routeA.json --route-b /tmp/kl_routeB.json \
+            2>&1 | tee /tmp/kl_receipt.txt
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_kl_revival_v1.py" -v 2>&1 | tee /tmp/kl_tests.txt
+      - name: Tests (optimized)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_kl_revival_v1.py" -v 2>&1 | tee /tmp/kl_tests-O.txt
+      - name: Manifest digests match the committed package
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os
+          pkg = 'research/gmi-833-kl-revival-v1'
+          m = json.load(open(os.path.join(pkg, 'MANIFEST_V1.json')))
+          bad = []
+          for rel, ent in m['package_files'].items():
+              p = os.path.join(pkg, rel)
+              if not os.path.exists(p):
+                  bad.append('missing ' + rel); continue
+              if hashlib.sha256(open(p, 'rb').read()).hexdigest() != ent['sha256']:
+                  bad.append('drift ' + rel)
+          for pin in m['parent_pins']:
+              if hashlib.sha256(open(pin['path'], 'rb').read()).hexdigest() != pin['sha256']:
+                  bad.append('parent drift ' + pin['path'])
+          if bad:
+              raise SystemExit('manifest mismatch: %r' % bad)
+          print('manifest: %d package files and %d parent pins verified' % (len(m['package_files']), len(m['parent_pins'])))
+          PY
+      - name: Reconciliation JSON is well-formed and never edits the issue body
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          d = json.load(open('research/gmi-833-kl-revival-v1/ISSUE_833_RECONCILIATION_KL_REVIVAL_V1.json'))
+          assert d['schema'] == 'GMI_ISSUE_RECONCILIATION_V2', d['schema']
+          assert d['issue'] == 833
+          assert d['issue_body_edited_by_this_package'] is False
+          rows = json.load(open('research/gmi-833-kl-revival-v1/FREEZE_ROWS_V1.json'))['rows']
+          frozen_old = set(r['old'] for r in rows.values())
+          for rep in d['replacements']:
+              assert rep['old'] in frozen_old, rep['old']
+              assert rep['new'].startswith('- [x] '), rep['new']
+              assert ' — ✅ gmi-833-kl-revival-v1 ' in rep['new'], rep['new']
+          for row in d['rows_deliberately_left_open']:
+              assert row['old'] in frozen_old, row['old']
+          already = d.get('rows_already_closed_by_prior_packages', [])
+          for row in already:
+              assert row['old'] in frozen_old, row['old']
+              assert row['current_body_line'].startswith('- [x] '), row['current_body_line']
+          assert any(r['row'] == 'ROW_K' for r in already), 'ROW_K must be recorded as already closed by #1106'
+          assert len(d['replacements']) + len(d['rows_deliberately_left_open']) + len(already) == 2
+          assert all(r['row'] == 'ROW_L' for r in d['replacements'])
+          print('reconciliation: %d replacements, %d rows left open, %d rows already closed by prior packages'
+                % (len(d['replacements']), len(d['rows_deliberately_left_open']), len(already)))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-kl-revival-v1
+          path: |
+            /tmp/kl_freeze.txt
+            /tmp/kl_freeze_hostile.txt
+            /tmp/kl_routeA.json
+            /tmp/kl_routeA.txt
+            /tmp/kl_routeB.json
+            /tmp/kl_routeB.txt
+            /tmp/kl_receipt.txt
+            /tmp/kl_tests.txt
+            /tmp/kl_tests-O.txt
+          if-no-files-found: error
