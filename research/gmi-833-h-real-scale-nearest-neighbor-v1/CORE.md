@@ -17,7 +17,7 @@ scope other than its own.
 |---|---|---|
 | `Nearest-neighbor / exemplar memory.` | `SIGMA_H05R` | **closed**, 11 of 11 |
 
-The family-blind selection over the registered readout language `R` (frozen
+The family-blind recovery over the registered readout language `R` (frozen
 pre-outcome in `FREEZE_V1_SLICE_ADDENDUM.md`) recovers the family's own
 mechanism — the **addressable stored exemplar**: a query is predicted shared
 iff it is present in the stored exemplar table (`CNT>=1`). On 97,018
@@ -38,9 +38,9 @@ prefix of length ≥ 2 of every token, 776,142 descriptors in total. The
 registered presentation is the parent's target-independent Knuth multiplicative
 hash `key(i) = (i * 2654435761) mod 2**32`, then the arithmetic 7:1 slice
 (`n_fit` 679,124 / `n_held` 97,018, clear of the R11 bar), with a
-`rank_fit`/`rank_score` split of the fit for the selection stage. The readout
+`rank_fit`/`rank_score` split of the fit for the ranking stage. The readout
 language `R` (`C0`, `C1`, `LEN<=7..12`, `CNT>=1..3`, `PREF_VOTE`, `EXT_VOTE`)
-was closed before any outcome; the selection rule (fewest exact decision
+was closed before any outcome; the winner rule (fewest exact decision
 errors, ties by charged cost then name) chose `CNT>=1` at the rank stage (13,810
 errors vs the majority's 32,887), and the symmetric half-split regeneration
 (R09, corrected from the measured-asymmetric complementary split) recovers the

@@ -41,7 +41,7 @@ the charged-cost model.
   word list.
 - D. R. Wilson and T. R. Martinez (2000), "Reduction techniques for instance-
   based learning algorithms", *Machine Learning* 38(3):257–286.
-  DOI `10.1023/A:1007626913721`. Stored-exemplar reduction/selection — the
+  DOI `10.1023/A:1007626913721`. Stored-exemplar reduction — the
   resource dimension the store ladder (R07) measures.
 
 ## 3. What is NOT claimed novel
@@ -50,14 +50,14 @@ the charged-cost model.
   exemplar table, no prototype vote, no descriptor index is new.
 - "A query that occurs in the stored exemplar table is more likely to be a
   shared (multi-word) descriptor" is a property of the corpus, not a discovery.
-- The readout language, the selection procedure, the post-hoc classifier, the
+- The readout language, the recovery procedure, the post-hoc classifier, the
   charged-cost model and the eleven-coordinate ledger are the parents' forms,
   re-implemented here rather than imported.
 
 ## 4. The residual contribution of this tranche
 
 One thing, methodological and small: **the family-blind recovery of the
-addressable stored-exemplar readout as the winner of a registered selection
+addressable stored-exemplar readout as the winner of a registered recovery
 over a closed, pre-outcome readout language, at real scale, with a
 matched-presentation negative control that makes the registered presentation
 lever load-bearing** — and the R09 correction to a symmetric half-split,

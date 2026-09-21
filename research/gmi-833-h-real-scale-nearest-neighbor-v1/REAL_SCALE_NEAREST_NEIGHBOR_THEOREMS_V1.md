@@ -17,9 +17,9 @@ checker's verdict is `GREEN`, which reports internal soundness.
 
 ---
 
-## `RNN-1` — a family-blind selection over the registered readout language recovers the addressable stored-exemplar readout at `SIGMA_H05R`
+## `RNN-1` — a family-blind recovery over the registered readout language identifies the addressable stored-exemplar readout at `SIGMA_H05R`
 
-**Statement.** The family-blind selection procedure (fewest exact decision
+**Statement.** The family-blind recovery procedure (fewest exact decision
 errors on the rank-score set, ties by charged cost then readout name; the
 readout language `R = {C0, C1, LEN<=7..12, CNT>=1..3, PREF_VOTE, EXT_VOTE}`
 closed before any outcome) selects **`CNT>=1`** — "is the query addressable in
@@ -67,7 +67,7 @@ registered Knuth presentation key `(i * 2654435761) mod 2**32`; the arithmetic
 slice addenda; the readout language `R` and the exclusion of the
 membership-with-majority-fallback readout as semantically `C1`; the fit
 shared fraction exceeds 1/2 (the executor asserts it before enumeration); the
-selection rule of the slice addendum; the corrected symmetric half-split R09;
+winner rule of the slice addendum; the corrected symmetric half-split R09;
 the registered null constructions and seeds; the charged-cost model
 (`2m` vs `V + 27`) of the slice addendum.
 
@@ -110,7 +110,7 @@ held) — what is recovered is the addressable stored exemplar, not the vote.
 
 ## `RNN-2` — the registered presentation lever is load-bearing: the source-order matched control fires
 
-**Statement.** Under the identical ecology, readout language, selection
+**Statement.** Under the identical ecology, readout language, recovery
 procedure and arithmetic slice, but with the descriptor list read in source
 (alphabetical) order instead of under the registered Knuth permutation, the
 held tail is dominated by long unique descriptors, the stored table barely
