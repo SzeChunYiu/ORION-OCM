@@ -47,6 +47,8 @@ product worlds emit **0** identified values outside the union over
 **Quantifiers.** All 51,840 inputs, both contracts, all 32 machines; every
 admissible world of `SB-L*`.
 
+**Dependencies.** The parent predictor `F` in `gmi-833-capability-predictor-v1/capability_predictor_v1.py` (MANIFEST parent pin 0, sha256 `4cf5e0124a1f…`) and its evaluation receipts `gmi-833-capability-predictor-evaluation-v1/heldout_universes_v1.py`/`_v3.py` and `REAL_MEASURED_V1/V2/V3.json` (pins 1–5); the `CB-PROTO` world-installation route of `gmi-833-body-residual-akl-v1` (`BODY_RESIDUAL_AKL_THEOREMS_V1.md`, pin 21); the set-valued predictor contract `KP-1A`/`U-1a FeasibleSet` of the capability-predictor package.
+
 **Assumptions.** The parent's `survivor_mask` is world-independent (it never
 reads `CAP`) — the property the parent lane proved and this package relies on;
 the band is the parent's `99/100`; `MU_REAL = (8/17, 6/17, 3/17)`.
@@ -91,6 +93,8 @@ bridges with the same 84 committed cells, bands drawn uniformly) yields `ND-2`
 between 0 and 1,936.
 
 **Quantifiers.** Every input; every value in every emitted set.
+
+**Dependencies.** SB-1 (the set-valued emission `I(x)` it censuses); the frozen stream `FROZEN_PREDICTIONS_REAL4_V1.json` (commit `2f7a191e`) and the training receipt `REAL_MEASURED_V4.json` (commit `59f69dad`) committed in this package; `gmi-833-body-residual-akl-v1` `BR-1`/`BR-2` and `gmi-833-capability-predictor-evaluation-v1` `KE-1`/`KE-2` (the quantities the census revives).
 
 **Assumptions.** `ND-2`'s degeneracy standard is the parent's (`{0}` and
 `{UNSATISFIED}` are degenerate); `ND-1` is measured against `CB-PROTO` at the
@@ -139,6 +143,8 @@ freeze-order gate with its negative control neutralised exits 1 (`HK6`).
 
 **Quantifiers.** All 32 machines; all 131,136 (input, survivor) pairs; both
 contracts.
+
+**Dependencies.** SB-1/SB-2 (the admissible sets and the stream they are checked against); `gmi-833-capability-predictor-evaluation-v1` `REAL_MEASURED_V1/V2/V3` and `FREEZE_V3_ADDENDUM` §6 terminal (the exact-band solvability premise); the training receipt `REAL_MEASURED_V4.json` committed in this package; the freeze-order gate and its `HK6` negative control.
 
 **Assumptions.** The training receipt is what it says (source sha256 verified
 in-run; untrained heads 24/24 below the band, max `1273/2000`); `extcap` is
@@ -191,6 +197,8 @@ rejects all six real sources at clause 2.
 **Quantifiers.** Every admitted source; every clause; both routes (string-
 compared ISO timestamps and a size-prefiltered `ls-tree`/`show` query on
 route B).
+
+**Dependencies.** The package records `POSTERIOR_SOURCES_V1.json` and `POSTERIOR_SOURCES_V2.json` (the frozen custody fields); `gmi-833-body-residual-akl-v1` `FFA-1`/`FC-2` (every repository blob is endogenous — the theorem this custody answers by provenance); the mechanical admission rule `PS-1` of this package's `FREEZE_V1.md` and the 60 s guard of clause 2.
 
 **Assumptions.** Wikimedia's revision record is an attestation service (its
 timestamp and content hash), not endorsed content
@@ -246,6 +254,8 @@ saturating both families at 0 where the POS potential lies below it —
 **Quantifiers.** All six sources; all 24 proposals per law; both routes
 (integer counting over the raw score lists).
 
+**Dependencies.** FP-1 (the six admitted window-1 sources and their custody); the parent instrument `gmi-833-real-developmental-validation-v1/train_continual_v3.py` (MANIFEST pin 6) and its `REAL_RUNS/cl3_T*.json` receipts (pins 7–21); the in-session 7/7 of `gmi-833-real-developmental-validation-v1`; `Ev_Q`/`C_pot` from #909/#908 (form parents).
+
 **Assumptions.** The parent's instrument, seeds and criterion; `Ev_Q(U) = Q(U)
 = pH`.
 
@@ -291,6 +301,8 @@ every `p0`, `pH`, `C_pot`, verdict and custody clause, and
 **Quantifiers.** All seven admitted sources (custody); all six scored sources
 (every prediction); all 24 proposals per law; both routes.
 
+**Dependencies.** FP-1/FP-2 (window-1 custody and scores quoted verbatim); the continuation record `POSTERIOR_SOURCES_V2_EXTENDED.json` and the `REAL_RUNS_L5/` receipts committed in this package; the registered replacement rule `FREEZE_V1.md` §4.6 clause 2 and `FREEZE_V1_AMENDMENT_1` §3–5 (anchor `65d00257`).
+
 **Assumptions.** As FP-1/FP-2; the continuation record's first six admitted
 entries are byte-identical to the frozen `POSTERIOR_SOURCES_V2.json`.
 
@@ -326,6 +338,8 @@ co-prediction reported beside `EP-1`; **it is not closure-bearing for
 
 **Quantifiers.** Every source named; the post-hoc / prospective split per
 window is stated.
+
+**Dependencies.** The `C_pot_QH_B2` values recorded in FP-2/FP-3 and in the parent's `gmi-833-real-developmental-validation-v1` receipts; the parent's `Ev_Q` definition; #909/#908 (`C_pot`, "Formalize developmental potential separately from current capability") and `FREEZE_V1_AMENDMENT_1` §3 (the registered lever).
 
 **Assumptions.** `C_pot_QH_B2` as recorded in the parent and this lane's
 receipts; `Ev_Q` is the parent's definition and is unchanged.
