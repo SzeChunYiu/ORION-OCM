@@ -70,6 +70,10 @@ jobs:
           # changes no registered form, that it is committed BEFORE the result
           # artifacts are re-published on top of it, and that its own text
           # states its custody position. Each of those is asserted here.
+          # Each step is its own shell, so the freeze add time is read again
+          # here rather than inherited from the preceding step.
+          FZ=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1.md")
+          if [ -z "$FZ" ]; then echo "cannot read the freeze add time"; exit 1; fi
           R3=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1_SLICE_ADDENDUM_R3.md")
           if [ -z "$R3" ]; then echo "cannot read the R3 add time"; exit 1; fi
           if [ "$R3" -lt "$FZ" ]; then echo "CUSTODY FAILURE: R3 predates the freeze"; exit 1; fi
