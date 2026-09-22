@@ -105,6 +105,31 @@ def closure_consistency(result=None, recon=None):
     return 0
 
 
+def closing_nothing_allowed():
+    """The issue body is fixed when CI starts, so no run can see a body write.
+
+    The package is a boundary package: the only thing that may arrive after the
+    run starts is the coordinator's own safe-write of the issue body, which is
+    not a package artifact. If the package directory itself gains a
+    replacement-bearing reconciliation or a checked row, that IS a package
+    change and this gate fails. It watches the package directory's own artifact
+    set, which is what CI can observe.
+    """
+    recon = load("ISSUE_833_RECONCILIATION_H17_V1.json")
+    if recon["replacements"]:
+        print("A REPLACEMENT ARRIVED AFTER THE RUN STARTED: %d"
+              % len(recon["replacements"]))
+        return 1
+    result = load("RESULT_V1.json")
+    if result["rows_closed"]:
+        print("A ROW WAS CLOSED AFTER THE RUN STARTED: %r"
+              % (result["rows_closed"],))
+        return 1
+    print("no replacement and no closed row appeared after the run started; "
+          "the coordinator's issue-body safe-write is not a package artifact")
+    return 0
+
+
 def annotation_budget(recon=None, result=None):
     """This package writes no annotation, so the budget is a bound not a use.
 
@@ -244,6 +269,8 @@ def selftest():
     checks.append(("annotation planted",
                    annotation_budget(dirty_recon, clean) == 1))
 
+    checks.append(("no late closure", closing_nothing_allowed() == 0))
+
     checks.append(("terminology clean", terminology() == 0))
     planted = os.path.join(HERE, "PLANTED_TERM.md")
     with open(planted, "w") as fh:
@@ -276,7 +303,8 @@ GATES = {"foreign-sigma": foreign_sigma,
          "closure-consistency": closure_consistency,
          "annotation-budget": annotation_budget,
          "two-route-namespace": two_route_namespace,
-         "terminology": terminology, "selftest": selftest}
+         "terminology": terminology,
+         "no-late-closure": closing_nothing_allowed, "selftest": selftest}
 
 
 def main():
