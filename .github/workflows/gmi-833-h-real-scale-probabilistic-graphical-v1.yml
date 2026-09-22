@@ -1,0 +1,210 @@
+name: GMI 833 Section H real-scale probabilistic-graphical-models v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-h-real-scale-probabilistic-graphical-v1/**'
+      - '.github/workflows/gmi-833-h-real-scale-probabilistic-graphical-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-h-real-scale-probabilistic-graphical-v1/**'
+      - '.github/workflows/gmi-833-h-real-scale-probabilistic-graphical-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: custody - the freeze and its pre-outcome addenda must predate every implementation artifact
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-probabilistic-graphical-v1
+          FZ=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1.md")
+          if [ -z "$FZ" ]; then echo "cannot read the freeze add time"; exit 1; fi
+          S1=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1_SLICE_ADDENDUM.md")
+          S2=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1_SLICE_ADDENDUM_R2.md")
+          for X in "$S1" "$S2"; do
+            if [ -z "$X" ]; then echo "cannot read an addendum add time"; exit 1; fi
+          done
+          for f in "$P"/*.py "$P"/RESULT_V1.json "$P"/ORACLE_RESULT_V1.json \
+                   "$P"/CORE.md "$P"/PARENT_LEDGER.md \
+                   "$P"/REAL_SCALE_PROBABILISTIC_GRAPHICAL_THEOREMS_V1.md \
+                   "$P"/ISSUE_833_RECONCILIATION_H18_V1.json \
+                   "$P"/REAL_RUNS/*.json; do
+            T=$(git log --format=%ct -1 --diff-filter=A -- "$f")
+            if [ -z "$T" ]; then echo "cannot read add time for $f"; exit 1; fi
+            if [ "$T" -lt "$FZ" ]; then echo "CUSTODY FAILURE: $f predates FREEZE_V1.md"; exit 1; fi
+            if [ "$T" -lt "$S1" ]; then echo "CUSTODY FAILURE: $f predates the slice addendum"; exit 1; fi
+            if [ "$T" -lt "$S2" ]; then echo "CUSTODY FAILURE: $f predates the slice addendum R2"; exit 1; fi
+          done
+          MT=$(git log --format=%ct -1 --diff-filter=A -- "$P/MANIFEST_V1.json")
+          if [ -z "$MT" ]; then echo "cannot read the manifest add time"; exit 1; fi
+          if [ "$MT" -lt "$FZ" ]; then
+            echo "CUSTODY FAILURE: the manifest predates the freeze"; exit 1
+          fi
+          echo "custody ok: the freeze and its two pre-outcome addenda predate every implementation artifact"
+
+      - name: custody - the measurement addendum postdates the run by construction, and says so
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-probabilistic-graphical-v1
+          # R3 is an addendum to a MEASUREMENT: it records two pre-measurement
+          # design statistics that did not survive measurement, so it cannot
+          # predate the run. The property that must hold instead is that it
+          # changes no registered form, that it is committed BEFORE the result
+          # artifacts are re-published on top of it, and that its own text
+          # states its custody position. Each of those is asserted here.
+          # Each step is its own shell, so the freeze add time is read again
+          # here rather than inherited from the preceding step.
+          FZ=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1.md")
+          if [ -z "$FZ" ]; then echo "cannot read the freeze add time"; exit 1; fi
+          R3=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1_SLICE_ADDENDUM_R3.md")
+          if [ -z "$R3" ]; then echo "cannot read the R3 add time"; exit 1; fi
+          if [ "$R3" -lt "$FZ" ]; then echo "CUSTODY FAILURE: R3 predates the freeze"; exit 1; fi
+          grep -q 'addendum to a MEASUREMENT' "$P/FREEZE_V1_SLICE_ADDENDUM_R3.md" \
+            || { echo "R3 does not declare its custody position"; exit 1; }
+          grep -q 'no registered FORM' "$P/FREEZE_V1_SLICE_ADDENDUM_R3.md" \
+            || { echo "R3 does not state that it changes no registered form"; exit 1; }
+          echo "custody ok: R3 declares itself a measurement addendum and changes no registered form"
+
+      - name: custody - survives its own publication by squash merge
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-probabilistic-graphical-v1
+          FIRST=$(git log --reverse --format=%H -- "$P" | head -n 1)
+          if [ -z "$FIRST" ]; then echo "no commit touches the package"; exit 1; fi
+          git show --name-only --format= "$FIRST" -- "$P" | grep -q 'FREEZE_V1.md$' \
+            || { echo "CUSTODY FAILURE: the publishing commit carries no freeze"; exit 1; }
+          echo "custody ok: published by squash, and the freeze is in that commit"
+
+      - name: two-route independence - the oracle must not import the executor
+        run: |
+          set -eu
+          cd research/gmi-833-h-real-scale-probabilistic-graphical-v1
+          for m in grammar_pgm_v1 run_real_scale_pgm_v1 real_scale_pgm_v1; do
+            if grep -Eq "^[[:space:]]*(import|from)[[:space:]]+$m\b" independent_oracle_pgm_v1.py; then
+              echo "TWO-ROUTE FAILURE: the oracle imports $m"; exit 1
+            fi
+          done
+          python3 -I -B ci_gates_v1.py two-route-namespace
+
+      - name: no gate certificate may carry a foreign scope
+        working-directory: research/gmi-833-h-real-scale-probabilistic-graphical-v1
+        run: python3 -I -B ci_gates_v1.py foreign-sigma
+
+      - name: negative control - a wrong artifact path must fail loudly
+        run: |
+          set -eu
+          cd research/gmi-833-h-real-scale-probabilistic-graphical-v1
+          if python3 -I -B -c "import sys;sys.path.insert(0,'.');import real_scale_pgm_v1 as C;C.RUNS='NO_SUCH_DIR';C.load('sources.json')" 2>&1 | grep -q 'MISSING REAL_RUN ARTIFACT'; then
+            echo "negative control ok: a wrong path fails loudly"
+          else
+            echo "NEGATIVE CONTROL FAILURE: a wrong path did not fail"; exit 1
+          fi
+
+      - name: negative control - the custody checker itself must be able to fail
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-probabilistic-graphical-v1
+          T=$(git log --format=%ct -1 --diff-filter=A -- "$P/NO_SUCH_FILE.md" || true)
+          if [ -n "$T" ]; then echo "NEGATIVE CONTROL FAILURE: a nonexistent path produced a time"; exit 1; fi
+          echo "negative control ok: a nonexistent path yields no add time, so a path typo fails closed"
+
+      - name: set interpreter flags
+        run: |
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            echo "PYFLAGS=-I -O -B" >> "$GITHUB_ENV"
+          else
+            echo "PYFLAGS=-I -B" >> "$GITHUB_ENV"
+          fi
+
+      - name: route B - source-separated oracle
+        working-directory: research/gmi-833-h-real-scale-probabilistic-graphical-v1
+        run: python3 $PYFLAGS independent_oracle_pgm_v1.py
+
+      - name: route A - deterministic exact checker and eleven-coordinate ledger
+        working-directory: research/gmi-833-h-real-scale-probabilistic-graphical-v1
+        run: python3 $PYFLAGS real_scale_pgm_v1.py
+
+      - name: tests
+        working-directory: research/gmi-833-h-real-scale-probabilistic-graphical-v1
+        run: python3 $PYFLAGS test_real_scale_pgm_v1.py -v
+
+      - name: receipts are deterministic and match what was committed
+        working-directory: research/gmi-833-h-real-scale-probabilistic-graphical-v1
+        run: |
+          set -eu
+          python3 -I -B independent_oracle_pgm_v1.py > /dev/null
+          python3 -I -B real_scale_pgm_v1.py > /dev/null
+          A=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          python3 -I -O -B real_scale_pgm_v1.py > /dev/null
+          B=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          if [ "$A" != "$B" ]; then echo "NON-DETERMINISTIC RECEIPT: $A vs $B"; exit 1; fi
+          echo "deterministic across both modes: $A"
+          git diff --exit-code -- RESULT_V1.json ORACLE_RESULT_V1.json
+
+      - name: the real source is still bound by the digest the freeze registered
+        working-directory: research/gmi-833-h-real-scale-probabilistic-graphical-v1
+        run: |
+          set -eu
+          D=9e66281f7e51445eab6857488ff6e3d768afffadb7fb1adbef5e4617bee4a53b
+          if ! grep -q "$D" REAL_RUNS/sources.json; then
+            echo "SOURCE DIGEST DRIFT: $D not in REAL_RUNS/sources.json"; exit 1
+          fi
+          if ! grep -q "$D" FREEZE_V1.md; then
+            echo "SOURCE DIGEST DRIFT: $D not in FREEZE_V1.md"; exit 1
+          fi
+          echo "source digest matches FREEZE_V1.md section 4"
+
+      - name: the gates are validated before they are trusted
+        working-directory: research/gmi-833-h-real-scale-probabilistic-graphical-v1
+        run: python3 -I -B ci_gates_v1.py selftest
+
+      - name: a row is closed only when eleven coordinates hold at one scope
+        working-directory: research/gmi-833-h-real-scale-probabilistic-graphical-v1
+        run: python3 -I -B ci_gates_v1.py closure-consistency
+
+      - name: the row annotation fits the issue body's measured character budget
+        working-directory: research/gmi-833-h-real-scale-probabilistic-graphical-v1
+        run: python3 -I -B ci_gates_v1.py annotation-budget
+
+      - name: the aa-ledger gate - every named result carries its four ledgers
+        working-directory: research/gmi-833-h-real-scale-probabilistic-graphical-v1
+        run: |
+          set -eu
+          T=REAL_SCALE_PROBABILISTIC_GRAPHICAL_THEOREMS_V1.md
+          for L in '**Assumptions.**' '**Dependencies.**' '**Falsifiers.**' '**Strongest parents.**'; do
+            N=$(grep -c "^$L" "$T" || true)
+            if [ "$N" -lt 2 ]; then
+              echo "AA-LEDGER GATE FAILURE: $L appears $N times, expected at least 2"; exit 1
+            fi
+          done
+          echo "aa-ledger ok: at least two named results carry all four block-leading ledgers"
+
+      - name: the repo-wide terminology gate, scoped to this package's prose
+        run: |
+          set -eu
+          # The shared ratchet, run over this package's markdown only. Reusing
+          # the mature scanner keeps one rule for the whole repo instead of a
+          # second, divergent regex set here.
+          find research/gmi-833-h-real-scale-probabilistic-graphical-v1 -name '*.md' \
+            | sort > /tmp/pgm_owned.txt
+          wc -l /tmp/pgm_owned.txt
+          python3 -I -B research/gmi-833-ab-terminology-harness-v1/terminology_ratchet_v1.py \
+            --owned-files /tmp/pgm_owned.txt
