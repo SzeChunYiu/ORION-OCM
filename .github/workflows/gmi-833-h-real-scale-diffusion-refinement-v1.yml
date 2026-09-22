@@ -63,14 +63,23 @@ jobs:
         run: |
           set -eu
           P=research/gmi-833-h-real-scale-diffusion-refinement-v1
-          if grep -nE '(winner|verdict|REFINE<=[0-9]+|held errors|prototype agreement)' \
-               "$P/FREEZE_V1.md" | grep -vE 'readout name|register|\|' | grep -qE 'REFINE<=25|1479|5197|6678|verdict'; then
-            echo "FREEZE-CONTENT FAILURE: the freeze states a delivered result"; exit 1
-          fi
-          if grep -qE 'REFINE<=25|1479|6678' "$P/FREEZE_V1.md"; then
-            echo "FREEZE-CONTENT FAILURE: a post-outcome value appears in the freeze"; exit 1
-          fi
-          echo "freeze ok: no delivered result and no post-outcome value in the freeze"
+          # The freeze registers the design; it must not name the arm the run
+          # selected, nor any delivered integer, nor a verdict. The registered
+          # base ladder and the labelling criterion are design and stay.
+          FAIL=0
+          for V in 'REFINE<=25' '1479' '5197' '6678' '30557' '36624' '10043' \
+                   '32173' 'FAMILY_ROW_RECOVERED'; do
+            if grep -qF "$V" "$P/FREEZE_V1.md"; then
+              echo "FREEZE-CONTENT FAILURE: the delivered value $V appears in the freeze"; FAIL=1
+            fi
+          done
+          if [ "$FAIL" != "0" ]; then exit 1; fi
+          for F in FREEZE_V1.md FREEZE_V1_SLICE_ADDENDUM_H33_V1.md; do
+            if grep -qE 'the winner (is|was) [A-Z]|the recovered class (is|was) [A-Z]|held errors (of|were) [0-9]' "$P/$F"; then
+              echo "FREEZE-CONTENT FAILURE: $F asserts a delivered outcome"; exit 1
+            fi
+          done
+          echo "freeze ok: no delivered arm, no delivered integer, no verdict"
 
       - name: custody - survives its own publication by squash merge
         run: |
