@@ -1,0 +1,188 @@
+name: GMI 833 Section H real-scale particle-population v1
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-h-real-scale-particle-population-v1/**'
+      - '.github/workflows/gmi-833-h-real-scale-particle-population-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-h-real-scale-particle-population-v1/**'
+      - '.github/workflows/gmi-833-h-real-scale-particle-population-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: custody - the freeze must predate every implementation artifact
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-particle-population-v1
+          FZ=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1.md")
+          if [ -z "$FZ" ]; then echo "cannot read the freeze add time"; exit 1; fi
+          S1=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1_SLICE_ADDENDUM.md")
+          S2=$(git log --format=%ct -1 --diff-filter=A -- "$P/FREEZE_V1_SLICE_ADDENDUM_R2.md")
+          for X in "$S1" "$S2"; do
+            if [ -z "$X" ]; then echo "cannot read an addendum add time"; exit 1; fi
+          done
+          for f in "$P"/*.py "$P"/RESULT_V1.json "$P"/ORACLE_RESULT_V1.json \
+                   "$P"/CORE.md "$P"/PARENT_LEDGER.md \
+                   "$P"/REAL_SCALE_PARTICLE_POPULATION_THEOREMS_V1.md \
+                   "$P"/ISSUE_833_RECONCILIATION_H19_V1.json \
+                   "$P"/REAL_RUNS/*.json; do
+            T=$(git log --format=%ct -1 --diff-filter=A -- "$f")
+            if [ -z "$T" ]; then echo "cannot read add time for $f"; exit 1; fi
+            if [ "$T" -lt "$FZ" ]; then echo "CUSTODY FAILURE: $f predates FREEZE_V1.md"; exit 1; fi
+            if [ "$T" -lt "$S1" ]; then echo "CUSTODY FAILURE: $f predates the slice addendum"; exit 1; fi
+            if [ "$T" -lt "$S2" ]; then echo "CUSTODY FAILURE: $f predates the slice addendum R2"; exit 1; fi
+          done
+          MT=$(git log --format=%ct -1 --diff-filter=A -- "$P/MANIFEST_V1.json")
+          if [ -z "$MT" ]; then echo "cannot read the manifest add time"; exit 1; fi
+          if [ "$MT" -lt "$FZ" ]; then
+            echo "CUSTODY FAILURE: the manifest predates the freeze"; exit 1
+          fi
+          echo "custody ok: the freeze and its two addenda predate every implementation artifact"
+
+      - name: custody - survives its own publication by squash merge
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-particle-population-v1
+          FIRST=$(git log --reverse --format=%H -- "$P" | head -n 1)
+          if [ -z "$FIRST" ]; then echo "no commit touches the package"; exit 1; fi
+          git show --name-only --format= "$FIRST" -- "$P" | grep -q 'FREEZE_V1.md$' \
+            || { echo "CUSTODY FAILURE: the publishing commit carries no freeze"; exit 1; }
+          echo "custody ok: published by squash, and the freeze is in that commit"
+
+      - name: the freeze pins match the committed freeze bytes
+        run: |
+          set -eu
+          cd research/gmi-833-h-real-scale-particle-population-v1
+          python3 -I -B -c "
+          import hashlib, json
+          man = json.load(open('MANIFEST_V1.json'))
+          for f, pin in sorted(man['freeze_pins'].items()):
+              got = hashlib.sha256(open(f,'rb').read()).hexdigest()
+              assert got == pin, (f, got, pin)
+          print('freeze pins ok: %d files' % len(man['freeze_pins']))
+          "
+
+      - name: two-route independence - the oracle must not import the executor
+        run: |
+          set -eu
+          cd research/gmi-833-h-real-scale-particle-population-v1
+          for m in grammar_pp_v1 run_real_scale_particle_population_v1 real_scale_particle_population_v1; do
+            if grep -Eq "^[[:space:]]*(import|from)[[:space:]]+$m\b" independent_oracle_pp_v1.py; then
+              echo "TWO-ROUTE FAILURE: the oracle imports $m"; exit 1
+            fi
+          done
+          python3 -I -B ci_gates_v1.py two-route-namespace
+
+      - name: no gate certificate may carry a foreign scope
+        working-directory: research/gmi-833-h-real-scale-particle-population-v1
+        run: python3 -I -B ci_gates_v1.py foreign-sigma
+
+      - name: negative control - a wrong artifact path must fail loudly
+        run: |
+          set -eu
+          cd research/gmi-833-h-real-scale-particle-population-v1
+          if python3 -I -B -c "import sys;sys.path.insert(0,'.');import real_scale_particle_population_v1 as C;C.RUNS='NO_SUCH_DIR';C.load('sources.json')" 2>&1 | grep -q 'MISSING REAL_RUN ARTIFACT'; then
+            echo "negative control ok: a wrong path fails loudly"
+          else
+            echo "NEGATIVE CONTROL FAILURE: a wrong path did not fail"; exit 1
+          fi
+
+      - name: negative control - the custody checker itself must be able to fail
+        run: |
+          set -eu
+          P=research/gmi-833-h-real-scale-particle-population-v1
+          T=$(git log --format=%ct -1 --diff-filter=A -- "$P/NO_SUCH_FILE.md" || true)
+          if [ -n "$T" ]; then echo "NEGATIVE CONTROL FAILURE: a nonexistent path produced a time"; exit 1; fi
+          echo "negative control ok: a nonexistent path yields no add time, so a path typo fails closed"
+
+      - name: set interpreter flags
+        run: |
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            echo "PYFLAGS=-I -O -B" >> "$GITHUB_ENV"
+          else
+            echo "PYFLAGS=-I -B" >> "$GITHUB_ENV"
+          fi
+
+      - name: route B - source-separated oracle
+        working-directory: research/gmi-833-h-real-scale-particle-population-v1
+        run: python3 $PYFLAGS independent_oracle_pp_v1.py
+
+      - name: route A - deterministic exact checker and eleven-coordinate ledger
+        working-directory: research/gmi-833-h-real-scale-particle-population-v1
+        run: python3 $PYFLAGS real_scale_particle_population_v1.py
+
+      - name: tests
+        working-directory: research/gmi-833-h-real-scale-particle-population-v1
+        run: python3 $PYFLAGS test_real_scale_particle_population_v1.py -v
+
+      - name: receipts are deterministic and match what was committed
+        working-directory: research/gmi-833-h-real-scale-particle-population-v1
+        run: |
+          set -eu
+          python3 -I -B independent_oracle_pp_v1.py > /dev/null
+          python3 -I -B real_scale_particle_population_v1.py > /dev/null
+          A=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          python3 -I -O -B real_scale_particle_population_v1.py > /dev/null
+          B=$(md5sum RESULT_V1.json | cut -d' ' -f1)
+          if [ "$A" != "$B" ]; then echo "NON-DETERMINISTIC RECEIPT: $A vs $B"; exit 1; fi
+          echo "deterministic across both modes: $A"
+          git diff --exit-code -- RESULT_V1.json ORACLE_RESULT_V1.json
+
+      - name: the real source is still bound by the digest the freeze registered
+        working-directory: research/gmi-833-h-real-scale-particle-population-v1
+        run: |
+          set -eu
+          D=9e66281f7e51445eab6857488ff6e3d768afffadb7fb1adbef5e4617bee4a53b
+          if ! grep -q "$D" REAL_RUNS/sources.json; then
+            echo "SOURCE DIGEST DRIFT: $D not in REAL_RUNS/sources.json"; exit 1
+          fi
+          if ! grep -q "$D" FREEZE_V1.md; then
+            echo "SOURCE DIGEST DRIFT: $D not in FREEZE_V1.md"; exit 1
+          fi
+          echo "source digest matches FREEZE_V1.md section 4"
+
+      - name: the gates are validated before they are trusted
+        working-directory: research/gmi-833-h-real-scale-particle-population-v1
+        run: python3 -I -B ci_gates_v1.py selftest
+
+      - name: a row is closed only when eleven coordinates hold at one scope
+        working-directory: research/gmi-833-h-real-scale-particle-population-v1
+        run: python3 -I -B ci_gates_v1.py closure-consistency
+
+      - name: the row annotation fits the issue body's measured character budget
+        working-directory: research/gmi-833-h-real-scale-particle-population-v1
+        run: python3 -I -B ci_gates_v1.py annotation-budget
+
+      - name: the aa-ledger gate - every named result carries its four ledgers
+        working-directory: research/gmi-833-h-real-scale-particle-population-v1
+        run: |
+          set -eu
+          T=REAL_SCALE_PARTICLE_POPULATION_THEOREMS_V1.md
+          for L in '**Assumptions.**' '**Dependencies.**' '**Falsifiers.**' '**Strongest parents.**'; do
+            N=$(grep -c "^$L" "$T" || true)
+            if [ "$N" -lt 2 ]; then
+              echo "AA-LEDGER GATE FAILURE: $L appears $N times, expected at least 2"; exit 1
+            fi
+          done
+          echo "aa-ledger ok: both named results carry all four block-leading ledgers"
