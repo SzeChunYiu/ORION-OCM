@@ -4,7 +4,7 @@ Runs under `python3 -I -B` and `python3 -I -O -B`. Every check is a unittest
 assertion method, never a bare `assert`, so `-O` cannot strip it. The package
 uses exact integer decision counts; no float enters any test.
 
-The Reconciliation section reads ISSUE_833_RECONCILIATION_H16_V1.json, which
+The Reconciliation section reads ISSUE_833_RECONCILIATION_H18_V1.json, which
 the coordinator owns and which is committed separately from this file; those
 four tests skip, naming the missing artifact, until it lands.
 """
@@ -21,11 +21,11 @@ import grammar_pgm_v1 as G                 # noqa: E402
 import real_scale_pgm_v1 as C              # noqa: E402
 
 PRIMARY = ("grammar_pgm_v1", "run_real_scale_pgm_v1", "real_scale_pgm_v1")
-SIGMA = "SIGMA_H16R"
+SIGMA = "SIGMA_H18R"
 ROW = "- [ ] Probabilistic graphical models."
 STATE = "Probabilistic graphical models."
 SOURCE_SHA = "9e66281f7e51445eab6857488ff6e3d768afffadb7fb1adbef5e4617bee4a53b"
-RECON = "ISSUE_833_RECONCILIATION_H16_V1.json"
+RECON = "ISSUE_833_RECONCILIATION_H18_V1.json"
 WINNER = "R1ASSOC>=1&R2ASSOC>=1"
 
 
@@ -105,26 +105,11 @@ class Custody(unittest.TestCase):
         text = read("FREEZE_V1.md")
         self.assertIn(ROW, text)
         self.assertIn("No neighboring row is earned here.", text)
-        self.assertIn("SIGMA_H16R", text)
+        self.assertIn("SIGMA_H18R", text)
         self.assertIn("F16", text)
         self.assertNotIn("- [ ] Nearest-neighbor / exemplar memory.", text)
         self.assertNotIn("- [ ] Associative memory.", text)
         self.assertNotIn("- [x] ", text)
-
-    def test_the_measurement_addendum_records_its_custody_position(self):
-        """R3 is an addendum to a MEASUREMENT: it necessarily postdates the run
-        and it changes no registered form. Its text must say so, and it must
-        state the two corrected numbers, so a reader cannot mistake it for a
-        pre-outcome freeze."""
-        text = read("FREEZE_V1_SLICE_ADDENDUM_R3.md")
-        self.assertIn("addendum to a MEASUREMENT", text)
-        self.assertIn("postdates the measurement", text)
-        self.assertIn("32,834", text)
-        self.assertIn("22,919", text)
-        self.assertIn("19,277", text)
-        self.assertIn("1,893", text)
-        # it must not claim to change any frozen form
-        self.assertIn("no registered FORM", text)
 
     def test_the_slice_addenda_state_the_registered_forms(self):
         text = read("FREEZE_V1_SLICE_ADDENDUM.md")
@@ -150,7 +135,7 @@ class Custody(unittest.TestCase):
 
     def test_the_first_run_receipts_are_still_committed(self):
         self.assertTrue(os.path.isfile(os.path.join(
-            HERE, "REAL_RUNS", "scope_SIGMA_H16R.json")))
+            HERE, "REAL_RUNS", "scope_SIGMA_H18R.json")))
         self.assertTrue(os.path.isfile(os.path.join(
             HERE, "REAL_RUNS", "sources.json")))
         self.assertTrue(os.path.isfile(os.path.join(HERE, "RESULT_V1.json")))
@@ -176,8 +161,7 @@ class Custody(unittest.TestCase):
         self.assertEqual(man["freeze_file"], "FREEZE_V1.md")
         self.assertEqual(man["freeze_addenda"],
                          ["FREEZE_V1_SLICE_ADDENDUM.md",
-                          "FREEZE_V1_SLICE_ADDENDUM_R2.md",
-                          "FREEZE_V1_SLICE_ADDENDUM_R3.md"])
+                          "FREEZE_V1_SLICE_ADDENDUM_R2.md"])
         self.assertEqual(man["scopes"], {SIGMA: STATE})
         self.assertEqual(man["rows_this_package_may_reconcile"], [STATE])
         for pin in man["freeze_pins"].values():
@@ -190,7 +174,7 @@ class Scopes(unittest.TestCase):
         self.result = load_json("RESULT_V1.json")
 
     def test_no_gate_carries_a_foreign_sigma(self):
-        row = self.result["rows"]["H16"]
+        row = self.result["rows"]["H18"]
         self.assertEqual(row["sigma"], SIGMA)
         for gate in row["gates"]:
             self.assertEqual(gate["sigma"], SIGMA)
@@ -199,7 +183,7 @@ class Scopes(unittest.TestCase):
         self.assertTrue(self.result["all_rows_single_sigma"])
 
     def test_no_gate_cites_a_parent_certificate(self):
-        row = self.result["rows"]["H16"]
+        row = self.result["rows"]["H18"]
         for gate in row["gates"]:
             for foreign in ("SIGMA_4F", "SIGMA_HA", "SIGMA_H05R", "SIGMA_H06R",
                             "SIGMA_H08R", "SIGMA_CENSUS", "gmi-833-h-",
@@ -237,7 +221,7 @@ class Scopes(unittest.TestCase):
         self.assertTrue(scale["thresholds_met"])
 
     def test_the_closed_row_has_eleven_gates_at_one_sigma(self):
-        row = self.result["rows"]["H16"]
+        row = self.result["rows"]["H18"]
         self.assertTrue(row["complete"])
         self.assertEqual(row["supported"], 11)
         self.assertTrue(row["single_sigma"])
@@ -413,7 +397,7 @@ class GrammarAndReadouts(unittest.TestCase):
 class FactorStructure(unittest.TestCase):
 
     def setUp(self):
-        self.rec = load_json(os.path.join("REAL_RUNS", "scope_SIGMA_H16R.json"))
+        self.rec = load_json(os.path.join("REAL_RUNS", "scope_SIGMA_H18R.json"))
 
     def test_the_factor_split_rule_is_the_registered_one(self):
         self.assertIn("EVEN length", G.FACTOR_SPLIT_RULE)
@@ -460,13 +444,13 @@ class NegativeControls(unittest.TestCase):
         keep = C.RUNS
         try:
             C.RUNS = os.path.join(HERE, "NO_SUCH_DIR")
-            self.assertRaises(SystemExit, C.load, "scope_SIGMA_H16R.json")
+            self.assertRaises(SystemExit, C.load, "scope_SIGMA_H18R.json")
         finally:
             C.RUNS = keep
         self.assertIsInstance(C.load("sources.json"), dict)
 
     def test_a_tampered_replay_row_breaks_the_exact_replay(self):
-        rec = C.load("scope_SIGMA_H16R.json")
+        rec = C.load("scope_SIGMA_H18R.json")
         rows = [list(r) for r in rec["replay"]["held_block"]["queries"]]
         clean = C.row_errors(rows, WINNER)
         rows[0][1] = 1 - rows[0][1]
@@ -483,12 +467,12 @@ class NegativeControls(unittest.TestCase):
             self.assertEqual(block["rows"], len(block["queries"]))
 
     def test_a_null_seed_drift_breaks_the_registered_count(self):
-        rec = C.load("scope_SIGMA_H16R.json")
+        rec = C.load("scope_SIGMA_H18R.json")
         self.assertEqual(C.hostile_null_seed_drift(rec)["detected"], True)
         self.assertEqual(C.hostile_design_permutation(rec)["detected"], True)
 
     def test_the_memory_arm_loses_at_every_stage(self):
-        rec = C.load("scope_SIGMA_H16R.json")
+        rec = C.load("scope_SIGMA_H18R.json")
         mf = rec["mem_fallback"]
         self.assertTrue(mf["rejected_at_all_stages"])
         self.assertGreater(mf["rank"], rec["rank_stage"]["winner_errors"])

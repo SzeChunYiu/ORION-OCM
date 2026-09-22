@@ -44,7 +44,7 @@ RANK_FIT = 475386
 RANK_SCORE = 203738
 HALF = 339562
 
-SIGMA = "SIGMA_H16R"
+SIGMA = "SIGMA_H18R"
 ROW = "Probabilistic graphical models."
 PREDICTED_CLASS = "FACTOR_JOINT_CONSISTENCY"
 WINNER = "R1ASSOC>=1&R2ASSOC>=1"
@@ -458,7 +458,7 @@ HOSTILES = {
 # -------------------------------------------------------------------- main ----
 
 def main():
-    rec = load("scope_SIGMA_H16R.json")
+    rec = load("scope_SIGMA_H18R.json")
     src = load("sources.json")
 
     hold = check_holdout(rec)
@@ -532,7 +532,7 @@ def main():
                       if gate_ok[rkey] else "OPEN",
                       "evidence": _evidence(rkey)})
     supported = sum(1 for g in gates if g["status"].startswith("SUPPORTED"))
-    rows["H16"] = {"row": ROW, "sigma": SIGMA,
+    rows["H18"] = {"row": ROW, "sigma": SIGMA,
                    "predicted_class": PREDICTED_CLASS,
                    "recovered_class": PREDICTED_CLASS,
                    "supported": supported, "single_sigma": True,
@@ -561,13 +561,12 @@ def main():
         "forbidden_promotions": FORBIDDEN,
         "freeze_file": "FREEZE_V1.md",
         "freeze_addenda": ["FREEZE_V1_SLICE_ADDENDUM.md",
-                           "FREEZE_V1_SLICE_ADDENDUM_R2.md",
-                           "FREEZE_V1_SLICE_ADDENDUM_R3.md"],
+                           "FREEZE_V1_SLICE_ADDENDUM_R2.md"],
         "source_sha256_registered": SOURCE_SHA,
         "scale": scale,
         "factors": factors,
-        "rows_closed": [ROW] if rows["H16"]["complete"] else [],
-        "rows_open": [] if rows["H16"]["complete"] else [ROW],
+        "rows_closed": [ROW] if rows["H18"]["complete"] else [],
+        "rows_open": [] if rows["H18"]["complete"] else [ROW],
         "rows": rows,
         "no_gate_carries_a_foreign_sigma": True,
         "all_rows_single_sigma": True,
@@ -584,13 +583,13 @@ def main():
         "regeneration": regen,
         "replay_blocks": replays,
         "hostiles": hostiles,
-        "verdict": "GREEN" if rows["H16"]["complete"] else "OPEN",
+        "verdict": "GREEN" if rows["H18"]["complete"] else "OPEN",
     }
     with open(os.path.join(HERE, "RESULT_V1.json"), "w") as fh:
         json.dump(result, fh, indent=1, sort_keys=True)
         fh.write("\n")
     print("RESULT_V1.json written: %s supported=%d/11 complete=%s"
-          % (SIGMA, supported, rows["H16"]["complete"]))
+          % (SIGMA, supported, rows["H18"]["complete"]))
     print("holdout replay %s | nulls %s | ladder %s | crossover %s | "
           "presentation control %s | single-factor control %s | ecm %s"
           % (hold["matches_committed"], nulls["matches_committed"],

@@ -669,7 +669,7 @@ def main():
     # ---- receipt ----
     rec = {
         "schema": "GMI833HRealScaleProbabilisticGraphicalScopeV1",
-        "scope": "SIGMA_H16R",
+        "scope": "SIGMA_H18R",
         "row": "Probabilistic graphical models.",
         "source": {"path": SOURCE, "sha256": eco.sha, "tokens": eco.N,
                    "descriptors": eco.T},
@@ -779,7 +779,7 @@ def main():
                                    row_errors(regen_hi_block, prim["winner"])},
         },
     }
-    out = os.path.join(RUNS, "scope_SIGMA_H16R.json")
+    out = os.path.join(RUNS, "scope_SIGMA_H18R.json")
     with open(out, "w") as fh:
         json.dump(rec, fh, indent=1, sort_keys=True)
     with open(os.path.join(RUNS, "sources.json"), "w") as fh:

@@ -29,7 +29,7 @@ import sys
 WHERE = os.path.dirname(os.path.abspath(__file__))
 ARTIFACTS = os.path.join(WHERE, "REAL_RUNS")
 
-SIGMA = "SIGMA_H16R"
+SIGMA = "SIGMA_H18R"
 SOURCE_SHA_REGISTERED = \
     "9e66281f7e51445eab6857488ff6e3d768afffadb7fb1adbef5e4617bee4a53b"
 ORDER_MULT = 2654435761
@@ -145,7 +145,7 @@ def row_errors(rows, name):
 
 
 def main():
-    rec = fetch("scope_SIGMA_H16R.json")
+    rec = fetch("scope_SIGMA_H18R.json")
     src = fetch("sources.json")
     checks = {}
 

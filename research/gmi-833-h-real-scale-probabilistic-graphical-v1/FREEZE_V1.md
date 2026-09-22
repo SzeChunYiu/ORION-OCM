@@ -8,11 +8,9 @@ extraction, fit, or result artifact of this package exists**. `git log
 
 ## 1. The exact issue row this package may reconcile
 
-Section of the issue: the Section-H families header line of issue #833,
-recorded verbatim (with its own wording and its row prefix) as the `anchor`
-field of this package's `ISSUE_833_RECONCILIATION` document: the anchor string
-is the header line exactly as the live body carries it, and the only row this
-package may reconcile is the one quoted immediately below.
+Section of the issue: the `# H. Prior-free derivation of known
+machine-intelligence families` header line of issue #833, recorded verbatim as
+the `anchor` field of this package's `ISSUE_833_RECONCILIATION` document.
 
 Row, verbatim and complete:
 
@@ -68,7 +66,7 @@ not this package's own, and that no parent result file is read by the checker.
 
 | id | family row | ecology `F` | protected interface |
 |---|---|---|---|
-| `SIGMA_H16R` | Probabilistic graphical models. | `F16` stored factor graph on `D` | held-out exact prototype-agreement; held-out exact sign-decision error count |
+| `SIGMA_H18R` | Probabilistic graphical models. | `F16` stored factor graph on `D` | held-out exact prototype-agreement; held-out exact sign-decision error count |
 
 Every gate certificate emitted by this package carries its `sigma` id. The
 checker fails the run if the row's eleven certificates do not all carry one and
@@ -91,7 +89,7 @@ perturbed digest fails rather than passing vacuously.
 
 ### The ecology, registered before it is built
 
-`F16` (`SIGMA_H16R`). Tokenise `D` into its 104,334 whitespace-separated
+`F16` (`SIGMA_H18R`). Tokenise `D` into its 104,334 whitespace-separated
 tokens. The descriptor closure is: for every token `w` and every length `L`
 with `2 <= L <= len(w)`, the prefix `w[:L]`. The exact total is
 
@@ -219,7 +217,7 @@ when the no-alarm case also fires.
 
 `REAL_SCALE_ELEVEN_GATE_DERIVATION_OF_NAMED_CLASSICAL_FAMILY_AT_REGISTERED_SCOPE`
 — all eleven coordinates R01–R11 at the single registered scope
-`SIGMA_H16R`, self-contained, real-scale. Forbidden promotions (mirrored from
+`SIGMA_H18R`, self-contained, real-scale. Forbidden promotions (mirrored from
 the parent real-scale packages): `CROSS_SCOPE_GATE_COMPOSITION`,
 `REGISTERED_CONTROL_SUBSTITUTION`, `POST_HOC_FALSIFIER_REPLACEMENT`,
 `ECOLOGY_ITERATION_UNTIL_POSITIVE`, `INDEPENDENT_TEAM_REPLICATION`, `M5`,
