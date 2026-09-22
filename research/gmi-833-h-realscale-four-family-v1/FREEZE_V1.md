@@ -309,3 +309,56 @@ implementation, no outcomes) precedes the BATTERY_COMMIT (generator +
 registry + frozen predictions; still no outcomes), which precedes every
 outcome/adjudication/receipt file. The test suite asserts both custody
 boundaries by `git cat-file` and the manifest's blob pins.
+
+## AMENDMENT B — H02 corrected-null-arm slice addendum (committed 2026-09-22, before the corrected-null rerun)
+
+Scope: H02 "Linear regression / linear classifiers." (L:852d4bd7dafb). The
+four-family real-scale battery's perm-null arm is amended from a within-train
+response permutation to a JOINT FULL-ROW response permutation. The amendment
+applies to every perm_null cell of every member class (the whole battery's
+null arm); the registered claim — AFFINE_SCORE member recovery at real scale —
+is unchanged. Only the null construction changes.
+
+### Amended D-9 (null arms)
+
+Frozen D-9: within-train response permutation — permute the training-half
+response only; the held-out half keeps the true response. At the registered
+identity conditioning (kappa_exp = 0) the design X = R·H_4·S·P has only 4
+distinct Hadamard row classes (each repeated 1024 times), so the design Gram
+has rank <= 4. A within-train null row therefore still carries the true
+response in the held-out half, and a stratum fit aligned with the few row
+classes reaches the family signature strata on held-out risk. Measured on the
+bounded r02r04 rerun (2026-09-21/22, OUTCOME_FULL_V1.json
+sha256 76d68678f2ce2d448001a1dd56ebe035badcf288f614f7c241811de7de740bb5):
+148/400 linear and 62/200 kernel perm_null rows recovered on the family
+signature strata, and the fingerprint-anchor pass (FINGERPRINT_ANCHOR_V1.json)
+dropped 0 of them — no fit-based criterion rejects these nulls as constructed.
+One-stage attribution: the null construction fails, not the claim.
+
+Amended D-9 (this addendum): permute the response jointly across the whole
+row set — one permutation of all n rows applied to the train and held-out
+halves together — so the null design is decorrelated from BOTH halves and a
+null champion is a genuine noise fit (the family signature strata have no
+signal to fit on the held-out risk). Implemented in battery_realscale_v1.py
+under the module flag AMENDED_NULL (0 = frozen within-train permutation,
+1 = joint full-row permutation; the amended slice runs with AMENDED_NULL = 1).
+
+### Battery cell registry note
+
+The amended slice re-uses the committed BATTERY_REGISTRY_V1.json unchanged
+(same task ids, seeds, member and boundary cells); only the null-arm
+materialization differs. The rerun is bounded (bounded_r02r04_v1.py: the
+1360 static affine/decision/pair_lift tasks, imap_unordered progress log,
+2-hour hard cap). FROZEN_PREDICTIONS_V1.json is regenerated under the amended
+materialization for the four used gens (affine, decision, pair_lift,
+constant), so null rows are re-predicted under the joint full-row null; the
+mono_step and stream rows carry the committed table (out of scope here). This
+is the fresh-custody prediction table of the amended package.
+
+### Predicted outcome (derived before the rerun, F7 style)
+
+With the joint full-row null every perm_null champion is a noise fit; the
+cost-minimal champion on a decorrelated response is S_CONST, so C1
+(0/200 null recoveries) is predicted to hold for both families. The member
+census, boundary twins, frozen-prediction match, and PROC2 agreement cells are
+untouched by the null change and keep their measured values.
