@@ -1,0 +1,18 @@
+{
+  "schema": "GMI_L5_LESION_CLOSURE_LEDGER_V1",
+  "issue": 602,
+  "section": "L5",
+  "capsule": "research/gmi-l5-lesion-closure-v1",
+  "box_count": 7,
+  "wires_to": ["research/gmi-derived-lesion-v1"],
+  "boxes": [
+    {"id": "L5.1", "text": "Remove derived memory component -> predict deficit profile.", "status": "GREEN", "evidence": "gmi-derived-lesion-v1 L_mem row + primary T_mem=0"},
+    {"id": "L5.2", "text": "Remove attention/routing -> predict deficit profile.", "status": "GREEN", "evidence": "gmi-derived-lesion-v1 L_att row + primary T_att=0"},
+    {"id": "L5.3", "text": "Remove planning/model -> predict deficit profile.", "status": "GREEN", "evidence": "gmi-derived-lesion-v1 L_plan row + primary T_plan=0"},
+    {"id": "L5.4", "text": "Remove causal-intervention machinery -> predict deficit profile.", "status": "GREEN", "evidence": "gmi-derived-lesion-v1 L_causal row + primary T_causal=0"},
+    {"id": "L5.5", "text": "Remove social-model machinery -> predict deficit profile.", "status": "GREEN", "evidence": "gmi-derived-lesion-v1 L_social row + primary T_social=0"},
+    {"id": "L5.6", "text": "Remove consolidation/replay -> predict retention/generalization effects.", "status": "GREEN", "evidence": "gmi-derived-lesion-v1 L_consol row + primary T_consol=0"},
+    {"id": "L5.7", "text": "Compare predicted syndromes with neuropsychological/animal-lesion evidence without claiming anatomical identity.", "status": "GREEN", "evidence": "SYNDROME_CORRESPONDENCE_V1.json anatomical_identity=FORBIDDEN on all six rows"}
+  ],
+  "claim_ceiling": "L5_DERIVED_LESION_AND_SYNDROME_CORRESPONDENCE_AT_REGISTERED_SCOPE"
+}
