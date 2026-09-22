@@ -111,6 +111,21 @@ class Custody(unittest.TestCase):
         self.assertNotIn("- [ ] Associative memory.", text)
         self.assertNotIn("- [x] ", text)
 
+    def test_the_measurement_addendum_records_its_custody_position(self):
+        """R3 is an addendum to a MEASUREMENT: it necessarily postdates the run
+        and it changes no registered form. Its text must say so, and it must
+        state the two corrected numbers, so a reader cannot mistake it for a
+        pre-outcome freeze."""
+        text = read("FREEZE_V1_SLICE_ADDENDUM_R3.md")
+        self.assertIn("addendum to a MEASUREMENT", text)
+        self.assertIn("postdates the measurement", text)
+        self.assertIn("32,834", text)
+        self.assertIn("22,919", text)
+        self.assertIn("19,277", text)
+        self.assertIn("1,893", text)
+        # it must not claim to change any frozen form
+        self.assertIn("no registered FORM", text)
+
     def test_the_slice_addenda_state_the_registered_forms(self):
         text = read("FREEZE_V1_SLICE_ADDENDUM.md")
         self.assertIn("key(i)  = (i * 2654435761) mod 2**32", text)
@@ -161,7 +176,8 @@ class Custody(unittest.TestCase):
         self.assertEqual(man["freeze_file"], "FREEZE_V1.md")
         self.assertEqual(man["freeze_addenda"],
                          ["FREEZE_V1_SLICE_ADDENDUM.md",
-                          "FREEZE_V1_SLICE_ADDENDUM_R2.md"])
+                          "FREEZE_V1_SLICE_ADDENDUM_R2.md",
+                          "FREEZE_V1_SLICE_ADDENDUM_R3.md"])
         self.assertEqual(man["scopes"], {SIGMA: STATE})
         self.assertEqual(man["rows_this_package_may_reconcile"], [STATE])
         for pin in man["freeze_pins"].values():
