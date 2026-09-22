@@ -8,9 +8,11 @@ extraction, fit, or result artifact of this package exists**. `git log
 
 ## 1. The exact issue row this package may reconcile
 
-Section of the issue: the `# H. Prior-free derivation of known
-machine-intelligence families` header line of issue #833, recorded verbatim as
-the `anchor` field of this package's `ISSUE_833_RECONCILIATION` document.
+Section of the issue: the Section-H families header line of issue #833,
+recorded verbatim (with its own wording and its row prefix) as the `anchor`
+field of this package's `ISSUE_833_RECONCILIATION` document: the anchor string
+is the header line exactly as the live body carries it, and the only row this
+package may reconcile is the one quoted immediately below.
 
 Row, verbatim and complete:
 
