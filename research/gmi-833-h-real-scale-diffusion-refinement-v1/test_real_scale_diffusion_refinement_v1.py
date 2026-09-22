@@ -221,6 +221,63 @@ class Scopes(unittest.TestCase):
         self.assertLess(fs["refinement_best"]["errors"],
                         fs["single_draw_best"]["errors"])
 
+    def test_the_tied_arms_are_distinct_readouts(self):
+        """The held winner and MEM_FALLBACK tie on error count and are separated
+        by the registered charged cost. They must be DISTINCT READOUTS with
+        distinct code branches, not one predicate under two names (the defect
+        the sibling row H32 hit)."""
+        rec = C.load("scope_SIGMA_H33R.json")
+        t = rec["label_config"]["T_star"]
+        rows = rec["holdout_all"]["queries"]
+        tie = rec["stage_min_errors"]["held"]["arms"]
+        self.assertEqual([a["arm"] for a in tie], ["REFINE<=25", "MEM_FALLBACK"])
+        self.assertEqual([a["cost"] for a in tie], [1, 2])
+        self.assertTrue(rec["stage_min_errors"]["held"]["tie"])
+        mf = rec["stage_min_errors"]["held"]["mem_fallback"]
+        self.assertTrue(mf["is_min"])
+        self.assertFalse(mf["is_winner"])
+        self.assertTrue(mf["loses_on_cost"])
+
+        def pred(name, r):
+            return C.decision(name, r[0], 0, None, r[3], r[4], r[5], r[6], r[7], t)
+
+        # the two branches, exercised on synthetic rows
+        # (descriptor, label, candidate, CARD, walk, draw, count, length)
+        no_cand = ["zz", 1, "a", 0, 256, 256, 1, 2]      # stored, table empty
+        cand = ["zz", 1, "a", 2, 3, 3, 4, 2]             # stored, table filled
+        not_stored = ["zz", 0, "a", 0, 256, 256, 0, 2]   # not stored at all
+        self.assertEqual(pred("REFINE<=%d" % t, no_cand), 0)
+        self.assertEqual(pred("MEM_FALLBACK", no_cand), 0)
+        self.assertEqual(pred("REFINE<=%d" % t, cand), 1)
+        self.assertEqual(pred("MEM_FALLBACK", cand), 1)
+        # the fallback branch reads the registered constant; REFINE reads 0
+        self.assertEqual(pred("MEM_FALLBACK", not_stored),
+                         rec["query_fallback_label"])
+        self.assertEqual(pred("REFINE<=%d" % t, not_stored), 0)
+        self.assertNotEqual(pred("REFINE<=%d" % t, not_stored),
+                            pred("MEM_FALLBACK", not_stored))
+
+        # measured on the committed tallies: every held query is stored, so the
+        # fallback branch is never taken and the two predictions coincide on
+        # ALL held queries. The tie is therefore decided purely by charged cost.
+        self.assertEqual(sum(1 for r in rows if r[6] >= 1), len(rows))
+        differ = [r for r in rows
+                  if pred("REFINE<=%d" % t, r) != pred("MEM_FALLBACK", r)]
+        self.assertEqual(differ, [])
+        # the store covers no candidates for exactly 597 held queries; on those
+        # BOTH read 0 (the walk is capped), so they are majority errors
+        empty = [r for r in rows if r[3] == 0]
+        self.assertEqual(len(empty), 597)
+        self.assertTrue(all(pred("REFINE<=%d" % t, r) == 0 for r in empty))
+        self.assertTrue(all(pred("MEM_FALLBACK", r) == 0 for r in empty))
+        self.assertEqual(sum(1 for r in empty if r[1] == 1), 363)
+        self.assertEqual(sum(1 for r in empty if r[1] != 1), 234)
+        # and the adjacent rung of the ladder is NOT the fallback, so the winner
+        # is the registered label threshold and not an artefact of aliasing
+        near = [r for r in rows
+                if pred("REFINE<=24", r) != pred("MEM_FALLBACK", r)]
+        self.assertEqual(len(near), 242)
+
     def test_the_f1_margin_is_an_exact_integer_bound(self):
         rec = C.load("scope_SIGMA_H33R.json")
         ho = rec["holdout"]

@@ -66,6 +66,29 @@ count, committed in `REAL_RUNS/scope_SIGMA_H33R.json`, replayed exactly by route
 A and re-derived by route B (`independent_oracle_dr_v1.py`, which imports none
 of the primary executor).
 
+**On the tie, disclosed and checked.** At every stage the minimum-error set
+contains exactly two arms, `REFINE<=25` and `MEM_FALLBACK`, separated by the
+registered charged-cost tie-break (`1` against `2`). They are **distinct
+readouts with distinct code branches**, not one predicate under two names — the
+defect the sibling row H32 hit. The slice addendum registers `MEM_FALLBACK` as
+*"if the descriptor `q` is stored, read out the stored predicate of `q` … else
+the fit majority"*: its stored branch reads the registered label form, and its
+**fallback branch reads the fit-majority constant** on a query whose descriptor
+is not stored. `REFINE<=k` has no fallback: it reads `0` there. Measured on the
+committed tallies and asserted in
+`test_real_scale_diffusion_refinement_v1.py::Scopes::test_the_tied_arms_are_distinct_readouts`:
+**every one of the 38,103 held queries has a stored descriptor**, so the
+fallback branch is never taken on the held set and the two predictions coincide
+on all of them — the tie is decided purely by charged cost. The branches do
+differ, and the test exercises the difference on synthetic rows where the
+descriptor is unstored: the fallback reads the registered constant while
+`REFINE` reads `0`. The difference between the two arms is therefore real but
+**never exercised by this held set**, which is the honest form of the claim; the
+597 held queries whose store covers no candidate are a different case, on which
+both arms read `0` (the walk is capped), 363 of the 597 being majority errors. The
+adjacent ladder rung `REFINE<=24` is not the fallback either — it differs from
+it on 242 held queries — so the winner is the registered label threshold itself.
+
 **Quantifiers.** This scope only, this ecology only, this source only, this
 label only. Nothing is claimed about diffusion, denoising or iterative
 refinement on any other ecology, source, presentation, grammar or label, and
