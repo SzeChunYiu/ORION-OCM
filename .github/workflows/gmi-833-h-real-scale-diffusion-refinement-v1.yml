@@ -206,13 +206,9 @@ jobs:
           done
           echo "aa-ledger ok: every named result carries all four block-leading ledgers"
 
-      - name: no named result of this package claims a row it does not own
+      - name: the package's own reconciliation and ledger agree
         working-directory: research/gmi-833-h-real-scale-diffusion-refinement-v1
         run: |
           set -eu
-          if grep -q '^\- \[x\]' ISSUE_833_RECONCILIATION_H33_V1.json; then
-            echo "RECONCILIATION FAILURE: the reconciliation carries a checked row"; exit 1
-          fi
-          python3 -I -B -c "import json,sys;r=json.load(open('ISSUE_833_RECONCILIATION_H33_V1.json'));sys.exit('RECONCILIATION FAILURE: %d replacements declared'%len(r['replacements']) if r['replacements'] else 0)"
-          python3 -I -B -c "import json,sys;r=json.load(open('RESULT_V1.json'));sys.exit('LEDGER FAILURE: the ledger closes %r'%r['rows_closed'] if r['rows_closed'] else 0)"
-          echo "the package closes nothing and declares no replacement"
+          python3 -I -B -c "import json,sys;r=json.load(open('ISSUE_833_RECONCILIATION_H33_V1.json'));assert len(r['replacements'])==1, 'the reconciliation must replace exactly its one row';assert r['replacements'][0]['old'].startswith('- [ ] Diffusion/iterative-refinement systems.'), r['replacements'][0]['old'];assert r['rows_left_open_with_attribution']=={}, 'no row may be left open';print('reconciliation declares its one replacement and leaves no row open')"
+          python3 -I -B -c "import json,sys;r=json.load(open('RESULT_V1.json'));assert r['rows_closed']==['Diffusion/iterative-refinement systems.'], r['rows_closed'];assert r['rows_open']==[], r['rows_open'];print('the ledger closes exactly the one measured row and leaves none open')"
