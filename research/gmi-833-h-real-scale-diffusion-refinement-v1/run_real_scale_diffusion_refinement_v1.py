@@ -256,7 +256,8 @@ def unit_list(eco, fit_positions):
 
 # -------------------------------------------------------------------- arms --
 
-T_STAR = 4   # replaced at run time by the registered rule's own choice
+T_STAR = 4          # replaced at run time by the registered rule's own choice
+FIT_MAJORITY = 1    # replaced at run time by the fit slice's majority label
 
 
 def decide(eco, name, q, card, walk_store, draw_dist, cnt, L):
@@ -285,9 +286,16 @@ def decide(eco, name, q, card, walk_store, draw_dist, cnt, L):
         k = int(name.split(">=")[1])
         return 1 if (card >= 2 and draw_dist >= k) else 0
     if name == "MEM_FALLBACK":
-        # the admitted storable-label arm: the registered label FORM evaluated
-        # on the store's own table, with the registered T*
-        return 1 if (card >= 1 and walk_store <= T_STAR) else 0
+        # the admitted storable-label arm, exactly as the slice addendum
+        # registers it: "if the descriptor q is stored, read out the stored
+        # predicate of q (the registered label form evaluated on the stored
+        # table); else the fit majority". q is stored iff it occurs among the
+        # slice's positions, which is the tally field `cnt`. The fallback
+        # branch is load-bearing: without it this arm would be the same branch
+        # as REFINE<=T* under another name.
+        if cnt >= 1:
+            return 1 if (card >= 1 and walk_store <= T_STAR) else 0
+        return FIT_MAJORITY
     raise ValueError("readout outside the registered language: " + name)
 
 
@@ -367,7 +375,7 @@ def main():
           % (cfg["key_mode"], cfg["corruption"], cfg["T_star"],
              cfg["y1"], cfg["n"]))
     T_star = cfg["T_star"]
-    global T_STAR, READOUTS
+    global T_STAR, FIT_MAJORITY, READOUTS
     T_STAR = T_star
     READOUTS = (("C0", "C1")
                 + tuple("LEN<=%d" % L for L in LEN_LE)
@@ -398,6 +406,28 @@ def main():
     print("T=%d n_fit=%d n_held=%d rank_fit=%d rank_score=%d half=%d/%d"
           % (T, n_fit, len(held), len(rank_fit), len(rank_score),
              half, n_fit - half))
+
+    # the registered fallback constant: the fit slice's majority label
+    fit_support = collections.defaultdict(set)
+    for i in fit:
+        q = eco.positions[i]
+        if len(q) >= 3:
+            fit_support[q[:-1]].add(q[-1])
+    fpos = fneg = 0
+    for i in fit:
+        q = eco.positions[i]
+        if len(q) < 3 or len(eco.support[q]) < 2:
+            continue
+        c = eco.sigma(min(eco.support[q]),
+                      (eco.occ[q] * MULT) % eco.C + cfg["corruption"])
+        y = 1 if eco.walk(eco.support[q], c) <= T_star else 0
+        if y:
+            fpos += 1
+        else:
+            fneg += 1
+    FIT_MAJORITY = 0 if fneg >= fpos else 1
+    print("fit slice majority label: %d (%d positive / %d negative)"
+          % (FIT_MAJORITY, fpos, fneg))
 
     queries = build_queries(eco, held)
     if len(queries) != N_QUERIES:
@@ -563,6 +593,7 @@ def main():
                          "n_fit": n_fit, "n_held": len(held),
                          "rank_fit": len(rank_fit), "rank_score": len(rank_score),
                          "half": half},
+        "query_fallback_label": FIT_MAJORITY,
         "queries": {"n": len(queries), "positives": y1,
                     "negatives": len(queries) - y1,
                     "held_errors_majority": maj_err, "majority_label": maj_lab},
