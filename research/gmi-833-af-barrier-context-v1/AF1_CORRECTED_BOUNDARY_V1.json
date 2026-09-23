@@ -1,0 +1,25 @@
+{
+  "boundary_id": "AF1_GAMMA_CONVERSE_CORRECTION_V1",
+  "issue": 833,
+  "authority_comment_id": 5693269426,
+  "original_row": "- [ ] Construct exact finite `G0` microscopes where two machines have the same current capability but different `Gamma`, and conversely.",
+  "first_direction": {
+    "status": "GREEN_AT_REGISTERED_G0_SCOPE",
+    "evidence": "G0_RESULT_V1.json",
+    "parent_g0_blob": "6c80e7b1ee0cceedb5dc48eaf28bd3011750d80a",
+    "same_current_pair": ["C0", "C1"],
+    "same_current_score": "1/2",
+    "developmental_difference": "registered development can admit C0 -> ID while C1 remains frozen"
+  },
+  "literal_converse": {
+    "status": "LOGICALLY_INCOMPATIBLE_WITH_REGISTERED_FULL_GAMMA_DEFINITION",
+    "reason": "full Gamma contains the zero-development current slice; equality of full Gamma therefore entails equality of current capability",
+    "replacement_diagnostic": "Gamma+ capability projection after at least one development step",
+    "replacement_witness": {
+      "current_scores": {"ID": "1", "NOT": "0"},
+      "common_Gamma_plus": ["0", "1/2", "1"]
+    }
+  },
+  "reconciliation": "LEAVE_ORIGINAL_ROW_UNCHECKED_UNTIL_WORDING_IS_REPAIRED",
+  "forbidden_promotion": "FULL_GAMMA_CONVERSE_PROVED"
+}
