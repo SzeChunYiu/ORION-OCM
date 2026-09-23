@@ -177,6 +177,10 @@ jobs:
           fi
           echo "source digest matches FREEZE_V1.md section 4"
 
+      - name: no two registered arms are the same predicate under two names
+        working-directory: research/gmi-833-h-real-scale-diffusion-refinement-v1
+        run: python3 -I -B ci_gates_v1.py alias-guard
+
       - name: the gates are validated before they are trusted
         working-directory: research/gmi-833-h-real-scale-diffusion-refinement-v1
         run: python3 -I -B ci_gates_v1.py selftest
