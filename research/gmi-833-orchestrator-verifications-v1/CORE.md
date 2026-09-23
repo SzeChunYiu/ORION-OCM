@@ -16,3 +16,13 @@ Both are **re-executions** - same code, different host. That licenses
 reproducibility and nothing more: not independent replication, not M5.
 
 Closes no checkbox. See `VERIFICATIONS_V1.json` for every observed field.
+
+## V3, V4 — proxy verdicts recorded as negatives (2026-09-19)
+
+Two fresh-session model proxies (`HUMAN_GATE_BYPASSED__MODEL_PROXY`) returned
+`NOT_SATISFIED`: AC05 (8/48 crosswalk rows without an in-place verified
+citation) and AG8-R48 (the AJ13 checker writes GREEN as a literal; conjunct 6
+untested; `MUTUAL_INTERPRETATION` unearned; process frame untagged). Both are
+recorded verbatim in `VERIFICATIONS_V1.json`; neither row is closed. Their
+objections are the frozen targets of lanes `research/833-revive-ac05` and
+`research/833-revive-ag8`.
