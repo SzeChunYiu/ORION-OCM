@@ -1,0 +1,60 @@
+name: GMI 833 AE section reconciliation sec-ae2
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-ae-sec-ae2-reconciliation-v1/**'
+      - 'research/gmi-833-ae-morphology-sweep-v1/ISSUE_833_RECONCILIATION_AE_MORPHOLOGY_SWEEP_V1.json'
+      - 'research/gmi-833-ae-ae3-compression-learning-v1/ISSUE_833_RECONCILIATION_AE3_COMPRESSION_LEARNING_V1.json'
+      - 'research/gmi-833-ae-ae5-causal-state-audit-v1/ISSUE_833_RECONCILIATION_AE5_CAUSAL_STATE_AUDIT_V1.json'
+      - '.github/workflows/gmi-833-ae-sec-ae2-reconciliation-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-ae-sec-ae2-reconciliation-v1/**'
+      - '.github/workflows/gmi-833-ae-sec-ae2-reconciliation-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify the section reconciliation against the snapshotted comment
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg=research/gmi-833-ae-sec-ae2-reconciliation-v1
+          if [ "${{ matrix.mode }}" = optimized ]; then
+            python -I -O -B "$pkg/verify_section_reconciliation_v1.py"
+          else
+            python -I -B "$pkg/verify_section_reconciliation_v1.py"
+          fi
+      - name: Confirm the three freezes precede their implementations
+        shell: bash
+        run: |
+          set -euo pipefail
+          check() {
+            freeze="$1"
+            pkg="$2"
+            git cat-file -e "$freeze:$pkg/FREEZE_V1.md"
+            if git cat-file -e "$freeze:$pkg/RESULT_V1.json" 2>/dev/null; then
+              echo "result existed at the freeze for $pkg" >&2
+              exit 1
+            fi
+          }
+          check a9b5de6154fb4758523133b6e07255adc4dababc research/gmi-833-ae-morphology-sweep-v1
+          check eddae65b3f1b3116a3502b65e916a48b165eae7b research/gmi-833-ae-ae3-compression-learning-v1
+          check c69062ee7c7c9bee9aa1534fe5c88de58b7f50d5 research/gmi-833-ae-ae5-causal-state-audit-v1

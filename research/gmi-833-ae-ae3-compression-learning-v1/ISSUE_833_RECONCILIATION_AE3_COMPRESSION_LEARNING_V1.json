@@ -1,0 +1,62 @@
+{
+ "claim_ceiling": "GMI_833_AE3_COMPRESSION_NOTIONS_SEPARATED_FROM_LEARNING_ON_A_REGISTERED_FINITE_CODING_LANGUAGE_FAMILY",
+ "forbidden_promotions": [
+  "KOLMOGOROV_COMPLEXITY_COMPUTED",
+  "GMI_COMPUTES_TRUE_SHORTEST_PROGRAM",
+  "UNIVERSAL_MACHINE_INVARIANCE_PROVED",
+  "COMPRESSION_IMPLIES_LEARNING",
+  "LEARNING_IMPLIES_COMPRESSION",
+  "UNBOUNDED_CODING_LANGUAGE_THEOREM",
+  "REAL_CORPUS_COMPRESSION_MEASUREMENT",
+  "COMPLETE_GMI"
+ ],
+ "freeze_commit": "eddae65b3f1b3116a3502b65e916a48b165eae7b",
+ "issue": 833,
+ "issue_comment_id": 5692689542,
+ "not_closed": [],
+ "package": "research/gmi-833-ae-ae3-compression-learning-v1",
+ "replacements": [
+  {
+   "anchor": "### AE3 \u2014 Compression is not automatically learning",
+   "new": "- [x] Formalize at least three notions separately: lossless description compression, task-relevant lossy compression, and model/generalization compression. \u2014 \u2705 `gmi-833-ae-ae3-compression-learning-v1` AE3-1: three notions are defined separately and never identified \u2014 `A` lossless description compression `K_L(tab f)`, `B` task-relevant lossy compression (minimal junta arity attaining accuracy `>= 3/4`), `C` model/generalization compression (minimal code length of a program with out-of-sample accuracy `1`) \u2014 and all **six** ordered pairs are non-determining over the 256-target census: `A\u2192B` **17,406** conflicting pairs of 25,636, `A\u2192C` **14,258**, `B\u2192A` **2,050** of 10,280, `B\u2192C` **5,568**, `C\u2192A` **3,854** of 15,232, `C\u2192B` **10,520**.",
+   "old": "- [ ] Formalize at least three notions separately: lossless description compression, task-relevant lossy compression, and model/generalization compression."
+  },
+  {
+   "anchor": "### AE3 \u2014 Compression is not automatically learning",
+   "new": "- [x] Prove/construct cases where data compresses but the compressed representation is useless for the target task. \u2014 \u2705 `gmi-833-ae-ae3-compression-learning-v1` AE3-2: with task `Y = x1 XOR x2`, the corpora `O = x0` and `O = x1 XOR x2` both code to **6** bits in `L1` against a **9**-bit literal \u2014 identical compression, both strict \u2014 yet the representation each induces gives task accuracy `1/2` (exactly the blind baseline) versus `1`, a separation of `1/2`. Compression therefore carries no task usefulness by itself.",
+   "old": "- [ ] Prove/construct cases where data compresses but the compressed representation is useless for the target task."
+  },
+  {
+   "anchor": "### AE3 \u2014 Compression is not automatically learning",
+   "new": "- [x] Prove/construct cases where a useful predictor is not the shortest description under the chosen coding language. \u2014 \u2705 `gmi-833-ae-ae3-compression-learning-v1` AE3-3: for the target `01111000` the shortest program consistent with the registered training set `{x : x2 = 0}` is **6** bits with a **unique** argmin \u2014 no tie is hidden \u2014 and its out-of-sample accuracy is exactly **0**, while the shortest program that generalizes perfectly costs **7** bits. The useful predictor is strictly longer than the shortest description, by 1 bit, at a generalization gap of `1`.",
+   "old": "- [ ] Prove/construct cases where a useful predictor is not the shortest description under the chosen coding language."
+  },
+  {
+   "anchor": "### AE3 \u2014 Compression is not automatically learning",
+   "new": "- [x] Distinguish memorization/compression from out-of-sample generalization. \u2014 \u2705 `gmi-833-ae-ae3-compression-learning-v1` AE3-4: for `Y = x0 AND x1` all **16** hypotheses with perfect training accuracy realise out-of-sample accuracies `{0, 1/4, 1/2, 3/4, 1}` \u2014 the 9-bit memoriser scores `1/2` where a 6-bit rule scores `1` \u2014 and over the whole census **6,094,848** of **8,386,560** equal-training-accuracy hypothesis pairs differ out of sample, so training fit does not determine generalization.",
+   "old": "- [ ] Distinguish memorization/compression from out-of-sample generalization."
+  },
+  {
+   "anchor": "### AE3 \u2014 Compression is not automatically learning",
+   "new": "- [x] Relate GMI precisely to MDL/Bayesian coding/PAC-Bayes/compression bounds where applicable; subtract parent-owned theorems. \u2014 \u2705 `gmi-833-ae-ae3-compression-learning-v1` AE3-5: an exact two-part MDL and Bayes-MAP crosswalk over the 256-hypothesis class with integer code lengths and exact rational posteriors. On `Y = x0 AND x1` the MDL argmin has **2** members at **6** bits whose out-of-sample accuracies are `1/2` and `1`, so MDL selects a strictly worse hypothesis than the risk optimum `1` and is **not** a subset of the risk argmax; the MAP argmax behaves the same. Four parents are mapped with citations \u2014 Rissanen 1978 (doi:10.1016/0005-1098(78)90005-5), MacKay 2003, Blumer et al. 1987 (doi:10.1016/0020-0190(87)90114-1), McAllester 1999 (doi:10.1145/307400.307435) \u2014 and the compression-implies-learning direction is left entirely to the Occam's-razor parent.",
+   "old": "- [ ] Relate GMI precisely to MDL/Bayesian coding/PAC-Bayes/compression bounds where applicable; subtract parent-owned theorems."
+  },
+  {
+   "anchor": "### AE3 \u2014 Compression is not automatically learning",
+   "new": "- [x] State Kolmogorov-complexity uncomputability boundaries explicitly; forbid claims that GMI computes the true shortest program in general. \u2014 \u2705 `gmi-833-ae-ae3-compression-learning-v1` AE3-6: the uncomputability of `K` and the machine-dependence of the invariance theorem are stated with citations (Kolmogorov 1965; Li & Vitanyi 4th ed., doi:10.1007/978-3-030-11298-1), `KOLMOGOROV_COMPLEXITY_COMPUTED`, `GMI_COMPUTES_TRUE_SHORTEST_PROGRAM` and `UNIVERSAL_MACHINE_INVARIANCE_PROVED` are registered forbidden promotions, and the prohibition is **enforced** rather than asserted: a guard scans the emitted receipt for any field claiming an uncomputable quantity and reports **0** alarms on this receipt while detecting **2 of 2** planted claims. Every length reported is a code length in a registered finite prefix-free language computed by exhaustive enumeration, never an estimate of `K`.",
+   "old": "- [ ] State Kolmogorov-complexity uncomputability boundaries explicitly; forbid claims that GMI computes the true shortest program in general."
+  },
+  {
+   "anchor": "### AE3 \u2014 Compression is not automatically learning",
+   "new": "- [x] Define computable surrogates and quantify their representation-language dependence. \u2014 \u2705 `gmi-833-ae-ae3-compression-learning-v1` AE3-7: three computable surrogates are registered \u2014 `K_L1 = (6,7,11,9)` and `K_L2 = (5,7,11,10)`, both Kraft-tight prefix codes with Kraft sum exactly `1`, and a structurally different run-length code `L3` \u2014 and their representation-language dependence is measured exactly: `K_L1` and `K_L2` differ by **1** bit on **242** of the **256** targets and agree on 14, with **0** strict order flips among all **32,640** target pairs, while `K_L1` and `K_L3` differ by up to **3** bits.",
+   "old": "- [ ] Define computable surrogates and quantify their representation-language dependence."
+  },
+  {
+   "anchor": "### AE3 \u2014 Compression is not automatically learning",
+   "new": "- [x] Test whether GMI predictions survive multiple coding languages/universal-machine remints up to the actually justified invariance boundary. \u2014 \u2705 `gmi-833-ae-ae3-compression-learning-v1` AE3-8: the unqualified claim is **refused** and the actual boundary is measured. Over **200** Kraft-feasible remints of the code-length tuple, the AE3-2 verdict holds on exactly **162** and is characterised by the exact predicate `min(rule_len, xor_len) < literal_len`, which matches observation on **200 of 200**; the AE3-3 verdict holds on only **170 of 200** and all **30** exceptions are enumerated in the receipt; AE3-4 is language-independent by construction. An extreme non-prefix code `(1,1,1,1)` with Kraft sum **272** destroys AE3-3 outright and is caught by the Kraft guard. `UNIVERSAL_MACHINE_INVARIANCE_PROVED` stays a registered forbidden promotion.",
+   "old": "- [ ] Test whether GMI predictions survive multiple coding languages/universal-machine remints up to the actually justified invariance boundary."
+  }
+ ],
+ "schema": "GMI_ISSUE_RECONCILIATION_V2",
+ "source_main": "349c2e62c4ae01f52cf66f61e4dacdbdfcf10071"
+}
