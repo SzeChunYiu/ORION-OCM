@@ -90,10 +90,29 @@ this row, verbatim:
 and the file's own `scope` field states what that field is: `finite operational
 hallmark contracts; not full historical-family definitions`. **That contract is
 a steer, exactly as the sibling `gmi-833-h-real-scale-decision-trees-v1`
-recorded its own `THRESHOLD_CONJUNCTION` steer as a steer only** and as the
-sibling `gmi-833-h-real-scale-probabilistic-graphical-v1` records
-`TRIPLE_PARITY`. A steer constrains the STRUCTURE of the recovered readout and
-supplies no evidence; it imposes no arity and no implementation.
+recorded its own `THRESHOLD_CONJUNCTION` steer as a steer only** — this package
+verified that claim by reading the merged bytes rather than recalling it: H08's
+`FREEZE_V1.md` section 2 records its registry class with the words "that is a
+steer only — no tranche-a number, no tranche-a gate certificate, and no
+tranche-a scope is imported as evidence", while its own winner is a two-test
+conjunction under a class name that names three conditions — and as the sibling
+`gmi-833-h-real-scale-probabilistic-graphical-v1` records `TRIPLE_PARITY`. A
+steer constrains the STRUCTURE of the recovered readout and supplies no
+evidence; it imposes no arity and no implementation.
+
+**Provenance of this package's own rules.** Two rules registered in section 5
+are NEW in this package and are stated as such rather than attributed to a
+sibling: the alias rule (Rule 1) and the governing check. The neighbouring
+precedent for the CATEGORY — arms pruned from the language enumeration before
+the winner rule runs — is real and merged, and it is a DIFFERENT rule with a
+DIFFERENT trigger: `gmi-833-h-real-scale-decision-trees-v1`'s
+`FREEZE_V1_SLICE_ADDENDUM.md` registers a constant-branch exclusion rule
+(a membership readout whose stored branch reads out a constant is excluded,
+because on a held query its stored branch cannot separate), where the trigger
+is a degenerate stored branch, not identical decision functions across two
+named arms. That package's rule eliminated nothing (its stored branch reads a
+two-valued label, so the arm is admitted and the winner rule rejects it by the
+data). No sibling package's freeze carries an alias rule of the shape of Rule 1.
 
 **How the steer is honoured here, in one line.** The recovered readout is a
 response that DEPENDS ON A REGISTERED ROUTING CONTEXT: a query-content-derived
