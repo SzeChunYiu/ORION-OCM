@@ -28,6 +28,7 @@ N_FIT_FLOOR = 100000
 N_HELD_FLOOR = 20000
 ALPHABET_WIDTH = 27
 STEP_CAP = 256
+FIT_MAJORITY = 1      # registered constant; the fit slice's majority label
 
 SIGMA = "SIGMA_H33R"
 ROW = "Diffusion/iterative-refinement systems."
@@ -100,7 +101,14 @@ def decision(name, q, y, c, card, walk_store, draw_dist, cnt, L, T_star):
         k = int(name.split(">=")[1])
         return 1 if (card >= 2 and draw_dist >= k) else 0
     if name == "MEM_FALLBACK":
-        return 1 if (card >= 1 and walk_store <= T_star) else 0
+        # the registered storable-label arm: the stored predicate of q if
+        # the descriptor q is stored (it occurs among the slice's
+        # positions, the tally field `cnt`), ELSE THE FIT MAJORITY. The
+        # fallback branch is load-bearing: without it this arm would be
+        # the same branch as REFINE<=T* under another name.
+        if cnt >= 1:
+            return 1 if (card >= 1 and walk_store <= T_star) else 0
+        return FIT_MAJORITY
     raise ValueError("readout outside the registered language: " + name)
 
 
@@ -119,6 +127,8 @@ def block_majority_errors(rows, maj_label):
 # ------------------------------------------------------------------ checks ----
 
 def check_holdout(rec):
+    global FIT_MAJORITY
+    FIT_MAJORITY = rec["query_fallback_label"]
     rows = rec["holdout_all"]["queries"]
     T_star = rec["label_config"]["T_star"]
     name = rec["holdout"]["winner"]
