@@ -1,0 +1,521 @@
+{
+ "IM_1": {
+  "capability": "zero-error delayed recall",
+  "constraint": "bits = 0",
+  "delay_accuracy_ceiling_at_bits_0": "1/2",
+  "failure_is_uniform": true,
+  "resource_dependent_not_task_dependent": true,
+  "stateless_delay_values": [
+   8
+  ],
+  "zero_error_delay_possible_at_bits_0": false,
+  "zero_error_delay_possible_at_bits_1": true
+ },
+ "IM_2": {
+  "R1_attainable": {
+   "S0": [
+    [
+     0,
+     8
+    ],
+    [
+     8,
+     8
+    ],
+    [
+     16,
+     8
+    ]
+   ],
+   "S0_impossibility_cells": 286,
+   "S0_pareto_frontier": [
+    [
+     0,
+     8
+    ]
+   ],
+   "S0_size": 3,
+   "S1_impossibility_cells": 146,
+   "S1_pareto_frontier": [
+    [
+     0,
+     0
+    ]
+   ],
+   "S1_size": 143,
+   "lattice_cells": 289
+  },
+  "R2_cost_grid": {
+   "cells": 7680,
+   "feasible": 4024,
+   "grid": {
+    "C": [
+     "1/10",
+     "1/5",
+     "1/2",
+     "1"
+    ],
+    "a_delay": [
+     0,
+     4,
+     8,
+     16
+    ],
+    "a_now": [
+     0,
+     4,
+     8,
+     16
+    ],
+    "b": [
+     0,
+     1
+    ],
+    "eta": [
+     "1",
+     "2",
+     "3"
+    ],
+    "lambda": [
+     "1/20",
+     "1/10",
+     "1/5",
+     "1/2"
+    ],
+    "p": [
+     "1/5",
+     "2/5",
+     "1/2",
+     "3/5",
+     "4/5"
+    ]
+   },
+   "infeasible": 3656,
+   "infeasible_by_budget": {
+    "0": 2976,
+    "1": 680
+   },
+   "targets_infeasible_at_every_world_by_budget": [
+    {
+     "a_delay": 0,
+     "a_now": 0,
+     "b": 0
+    },
+    {
+     "a_delay": 4,
+     "a_now": 0,
+     "b": 0
+    },
+    {
+     "a_delay": 0,
+     "a_now": 4,
+     "b": 0
+    },
+    {
+     "a_delay": 4,
+     "a_now": 4,
+     "b": 0
+    },
+    {
+     "a_delay": 0,
+     "a_now": 8,
+     "b": 0
+    },
+    {
+     "a_delay": 4,
+     "a_now": 8,
+     "b": 0
+    },
+    {
+     "a_delay": 0,
+     "a_now": 16,
+     "b": 0
+    },
+    {
+     "a_delay": 4,
+     "a_now": 16,
+     "b": 0
+    }
+   ],
+   "targets_infeasible_at_every_world_count": 8
+  }
+ },
+ "IM_3": {
+  "Q1": {
+   "evidence": "stateless e_delay value set = [8]",
+   "label": "[DERIVED-AT-FREEZE]",
+   "text": "at bits=0 the delay channel fails on exactly N/2 moments, identically for every member of the family",
+   "verdict": "CONFIRMED"
+  },
+  "Q2": {
+   "evidence": "stateless e_now value set = [0, 8, 16]",
+   "label": "[DERIVED-AT-FREEZE]",
+   "text": "at bits=0 the copy channel failure is not uniform: e_now takes exactly {0, 8, 16}",
+   "verdict": "CONFIRMED"
+  },
+  "Q3": {
+   "evidence": "modal pair [8, 8] with multiplicity 14664 of 65536",
+   "label": "[UNCOMPUTED]",
+   "text": "the modal failure profile of a one-state-bit mechanism is (8, 8)",
+   "verdict": "CONFIRMED"
+  },
+  "Q4": {
+   "evidence": "witness {'bits': 1, 'nxt': 68, 'table': 13, 'e_now': 16, 'e_delay': 0}",
+   "label": "[NAIVE]",
+   "text": "scarcity hypothesis: no one-state-bit mechanism attains e_delay = 0 while e_now = 16",
+   "verdict": "REFUTED",
+   "witness": {
+    "bits": 1,
+    "e_delay": 0,
+    "e_now": 16,
+    "nxt": 68,
+    "table": 13
+   }
+  },
+  "Q5": {
+   "evidence": "witness {'bits': 1, 'nxt': 4, 'table': 64, 'e_now': 8, 'e_delay': 11}",
+   "label": "[UNCOMPUTED]",
+   "text": "some one-state-bit mechanism is strictly worse on the delay channel than every stateless mechanism",
+   "verdict": "CONFIRMED",
+   "witness": {
+    "bits": 1,
+    "e_delay": 11,
+    "e_now": 8,
+    "nxt": 4,
+    "table": 64
+   }
+  }
+ },
+ "IM_4": {
+  "ceilings": {
+   "C1": {
+    "attained_min": 8,
+    "bound": 8,
+    "claim": "e_delay >= 8",
+    "direction": "lower",
+    "family": "bits=0",
+    "kind": "FORBIDDING_BOUND",
+    "label": "[DERIVED-AT-FREEZE]",
+    "range": [
+     0,
+     16
+    ],
+    "tight": true,
+    "valid": true,
+    "violations": 0
+   },
+   "C2": {
+    "claim": "weighted risk >= p/2 for every p",
+    "direction": "lower",
+    "family": "bits=0",
+    "kind": "FORBIDDING_BOUND",
+    "label": "[DERIVED-AT-FREEZE]",
+    "probe_p": [
+     "1/5",
+     "2/5",
+     "1/2",
+     "3/5",
+     "4/5"
+    ],
+    "range": [
+     "0",
+     "1"
+    ],
+    "tight": true,
+    "valid": true,
+    "violations": 0
+   },
+   "C3": {
+    "attained_min": "0",
+    "claim": "weighted risk >= 0, attained",
+    "direction": "lower",
+    "family": "bits<=1",
+    "kind": "NON_BINDING",
+    "label": "[DERIVED-AT-FREEZE]",
+    "range": [
+     "0",
+     "1"
+    ],
+    "retained_as": "attained minimum, not a forbidding bound",
+    "tight": true,
+    "valid": true
+   },
+   "C4": {
+    "K4": 16,
+    "claim": "min(e_now, e_delay) <= K4",
+    "direction": "upper",
+    "family": "bits=1",
+    "kind": "NON_BINDING",
+    "label": "[UNCOMPUTED]",
+    "range": [
+     0,
+     16
+    ],
+    "retained_as": "non-binding: both error counts lie in [0,16] by construction, so this bound cannot be violated",
+    "tight": true,
+    "valid": true,
+    "violations": 0
+   },
+   "C5": {
+    "K5": 143,
+    "claim": "|S_1| = K5",
+    "family": "bits=1",
+    "kind": "MEASURED_IDENTITY",
+    "label": "[UNCOMPUTED]",
+    "retained_as": "measured identity: the right-hand side is defined as the measured quantity, so it cannot fail"
+   },
+   "C6": {
+    "claim": "min J = min(eta*p/2, lambda) at every registered world",
+    "direction": "lower",
+    "family": "whole universe",
+    "kind": "FORBIDDING_BOUND",
+    "label": "[DERIVED-AT-FREEZE]",
+    "tight": true,
+    "valid": true,
+    "violations": 0,
+    "worlds": 60
+   }
+  },
+  "forbidding_bounds": [
+   "C1",
+   "C2",
+   "C6"
+  ],
+  "not_counted_as_ceilings": [
+   "C3",
+   "C4",
+   "C5"
+  ],
+  "note": "only FORBIDDING_BOUND entries are counted as prospectively frozen capability ceilings and gated valid-and-tight; a bound at the boundary of its quantity's a priori range forbids nothing",
+  "vacuity_check_no_alarm": true,
+  "vacuity_check_recall": true
+ },
+ "IM_5": {
+  "exhaustive_over_universe": true,
+  "families": {
+   "F_DEAD_TABLE": {
+    "attained_pair_count": 3,
+    "contains_zero_zero": false,
+    "min_e_delay": 8,
+    "min_e_now": 0,
+    "pareto_frontier": [
+     [
+      0,
+      8
+     ]
+    ],
+    "size": 4096,
+    "violates_C1_if_stateless": false
+   },
+   "F_FROZEN_STATE": {
+    "attained_pair_count": 3,
+    "contains_zero_zero": false,
+    "min_e_delay": 8,
+    "min_e_now": 0,
+    "pareto_frontier": [
+     [
+      0,
+      8
+     ]
+    ],
+    "size": 512,
+    "violates_C1_if_stateless": false
+   },
+   "F_IDENTITY_STATE": {
+    "attained_pair_count": 25,
+    "contains_zero_zero": true,
+    "min_e_delay": 0,
+    "min_e_now": 0,
+    "pareto_frontier": [
+     [
+      0,
+      0
+     ]
+    ],
+    "size": 256,
+    "violates_C1_if_stateless": false
+   },
+   "F_MEALY_PURE": {
+    "attained_pair_count": 143,
+    "contains_zero_zero": true,
+    "min_e_delay": 0,
+    "min_e_now": 0,
+    "pareto_frontier": [
+     [
+      0,
+      0
+     ]
+    ],
+    "size": 61440,
+    "violates_C1_if_stateless": false
+   },
+   "F_MOORE": {
+    "attained_pair_count": 7,
+    "contains_zero_zero": false,
+    "min_e_delay": 0,
+    "min_e_now": 8,
+    "pareto_frontier": [
+     [
+      8,
+      0
+     ]
+    ],
+    "size": 4096,
+    "violates_C1_if_stateless": false
+   },
+   "F_STATELESS": {
+    "attained_pair_count": 3,
+    "contains_zero_zero": false,
+    "min_e_delay": 8,
+    "min_e_now": 0,
+    "pareto_frontier": [
+     [
+      0,
+      8
+     ]
+    ],
+    "size": 16,
+    "violates_C1_if_stateless": false
+   }
+  },
+  "universe_checked": 65552
+ },
+ "IM_5_structural": {
+  "F_MEALY_PURE_min_e_now": 0,
+  "F_MEALY_PURE_pareto": [
+   [
+    0,
+    0
+   ]
+  ],
+  "F_MOORE_min_e_now": 8,
+  "F_MOORE_pareto": [
+   [
+    8,
+    0
+   ]
+  ],
+  "finding": "a named structural family can carry its own impossibility: the Moore family, whose output does not read the current symbol, cannot reach fewer than 8 copy-channel errors, while the complementary family reaches 0",
+  "separated": true
+ },
+ "IM_6": {
+  "all_witnesses_violate": true,
+  "refuted": 1,
+  "register_written": "COUNTEREXAMPLE_REGISTER_V1.json"
+ },
+ "claim_ceiling": "GMI_833_Z7_EXACT_RESOURCE_DEPENDENT_IMPOSSIBILITY_REGIONS_AND_PROSPECTIVELY_FROZEN_CAPABILITY_CEILINGS_AT_REGISTERED_BINARY_TRANSDUCER_SCOPE",
+ "forbidden_promotions": [
+  "UNIVERSAL_IMPOSSIBILITY",
+  "IMPOSSIBILITY_FOR_REAL_SYSTEMS",
+  "CAPABILITY_CEILINGS_TRANSFER_TO_TRAINED_MODELS",
+  "COMPLETE_ENUMERATION_OF_FAILURE_MODES",
+  "RESOURCE_ACCOUNTING_IS_SUBSTRATE_INDEPENDENT",
+  "IMPOSSIBILITY_REGION_IS_ARCHITECTURE_INDEPENDENT",
+  "ZERO_STATE_MEANS_ZERO_MEMORY_IN_GENERAL"
+ ],
+ "gates": {
+  "C4_is_flagged_non_binding": true,
+  "C5_is_flagged_identity": true,
+  "Q1_confirmed": true,
+  "Q2_confirmed": true,
+  "S0_is_three_points": true,
+  "at_least_three_forbidding_ceilings": true,
+  "every_refutation_has_a_valid_witness": true,
+  "failure_is_uniform_at_bits_0": true,
+  "families_cover_universe": true,
+  "forbidding_ceilings_valid_and_tight": true,
+  "grid_fully_classified": true,
+  "hostiles_all_moved": true,
+  "naive_hypothesis_adjudicated": true,
+  "resource_dependent": true,
+  "structural_family_impossibility_separated": true,
+  "tightness_discriminates": true,
+  "vacuity_check_no_alarm": true,
+  "vacuity_check_recall": true,
+  "witness_soundness_complete": true,
+  "zero_error_delay_impossible_at_bits_0": true
+ },
+ "hostiles": {
+  "H1_WRONG_CEILING": {
+   "clean": 0,
+   "hostile": 16,
+   "moved": true,
+   "quantity": "violation count for the C1 bound"
+  },
+  "H2_VACUOUS_CEILING": {
+   "clean": [
+    true,
+    "FORBIDDING_BOUND"
+   ],
+   "hostile": [
+    false,
+    "NON_BINDING"
+   ],
+   "moved": true,
+   "quantity": "tightness flag and vacuity class for the C1 bound"
+  },
+  "H3_TRUNCATED_UNIVERSE": {
+   "clean": [
+    143,
+    680
+   ],
+   "hostile": [
+    3,
+    2976
+   ],
+   "moved": true,
+   "quantity": "|S_1| and the infeasible-cell count at budget b=1"
+  },
+  "H4_SCORER_OFFSET": {
+   "clean": [
+    8
+   ],
+   "hostile": [
+    8,
+    12,
+    16
+   ],
+   "moved": true,
+   "quantity": "stateless e_delay value set"
+  },
+  "H5_FAKE_WITNESS": {
+   "clean": true,
+   "hostile": false,
+   "moved": true,
+   "quantity": "witness_violates_hypothesis flag on the Q4 register entry"
+  },
+  "H6_VACUOUS_UPPER_CEILING": {
+   "clean": "FORBIDDING_BOUND",
+   "hostile": "NON_BINDING",
+   "moved": true,
+   "quantity": "vacuity class of an upper bound at the range maximum"
+  }
+ },
+ "issue": 833,
+ "null": {
+  "claim_form": "no candidate with bits <= b attains e_now <= x and e_delay <= y",
+  "frozen_ceilings_checked": 3,
+  "frozen_ceilings_tight": 3,
+  "frozen_probe_claims": 2,
+  "frozen_probe_tight": 2,
+  "random_true": 47,
+  "random_true_and_tight": 6,
+  "seeds": 200,
+  "tightness_discrimination": "frozen forbidding ceilings tight 3/3; random claims true-and-tight 6/200",
+  "witness_required": 153,
+  "witness_soundness_complete": true,
+  "witness_supplied": 153
+ },
+ "route": "A_simulation",
+ "schema": "GMI_833_Z7_IMPOSSIBILITY_RESULT_V1",
+ "section": "Z",
+ "source_main": "349c2e62c4ae01f52cf66f61e4dacdbdfcf10071",
+ "subsection": "Z7",
+ "universe": {
+  "N_scored_moments": 16,
+  "candidates": 65552,
+  "stateful": 65536,
+  "stateless": 16
+ },
+ "verdict": "GREEN"
+}
