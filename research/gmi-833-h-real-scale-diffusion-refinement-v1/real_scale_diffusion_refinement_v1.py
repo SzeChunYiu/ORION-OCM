@@ -29,6 +29,7 @@ N_HELD_FLOOR = 20000
 ALPHABET_WIDTH = 27
 STEP_CAP = 256
 FIT_MAJORITY = 1      # registered constant; the fit slice's majority label
+T_STAR_REF = 25       # replaced at run time by the receipt's registered T*
 
 SIGMA = "SIGMA_H33R"
 ROW = "Diffusion/iterative-refinement systems."
@@ -127,8 +128,9 @@ def block_majority_errors(rows, maj_label):
 # ------------------------------------------------------------------ checks ----
 
 def check_holdout(rec):
-    global FIT_MAJORITY
+    global FIT_MAJORITY, T_STAR_REF
     FIT_MAJORITY = rec["query_fallback_label"]
+    T_STAR_REF = rec["label_config"]["T_star"]
     rows = rec["holdout_all"]["queries"]
     T_star = rec["label_config"]["T_star"]
     name = rec["holdout"]["winner"]

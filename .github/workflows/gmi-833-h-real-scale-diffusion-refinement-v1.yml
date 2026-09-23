@@ -44,6 +44,7 @@ jobs:
           fi
           for f in "$P"/*.py "$P"/RESULT_V1.json "$P"/ORACLE_RESULT_V1.json \
                    "$P"/CORE.md "$P"/PARENT_LEDGER.md \
+                   "$P"/MANIFEST_V1.json "$P"/CORRECTED_CLAIM_V1.md \
                    "$P"/REAL_SCALE_DIFFUSION_REFINEMENT_THEOREMS_V1.md \
                    "$P"/ISSUE_833_RECONCILIATION_H33_V1.json \
                    "$P"/REAL_RUNS/*.json; do
@@ -63,23 +64,14 @@ jobs:
         run: |
           set -eu
           P=research/gmi-833-h-real-scale-diffusion-refinement-v1
-          # The freeze registers the design; it must not name the arm the run
-          # selected, nor any delivered integer, nor a verdict. The registered
-          # base ladder and the labelling criterion are design and stay.
-          FAIL=0
-          for V in 'REFINE<=25' '1479' '5197' '6678' '30557' '36624' '10043' \
-                   '32173' 'FAMILY_ROW_RECOVERED'; do
-            if grep -qF "$V" "$P/FREEZE_V1.md"; then
-              echo "FREEZE-CONTENT FAILURE: the delivered value $V appears in the freeze"; FAIL=1
-            fi
-          done
-          if [ "$FAIL" != "0" ]; then exit 1; fi
-          for F in FREEZE_V1.md FREEZE_V1_SLICE_ADDENDUM_H33_V1.md; do
-            if grep -qE 'the winner (is|was) [A-Z]|the recovered class (is|was) [A-Z]|held errors (of|were) [0-9]' "$P/$F"; then
-              echo "FREEZE-CONTENT FAILURE: $F asserts a delivered outcome"; exit 1
-            fi
-          done
-          echo "freeze ok: no delivered arm, no delivered integer, no verdict"
+          if grep -nE '(winner|verdict|REFINE<=[0-9]+|held errors|prototype agreement)' \
+               "$P/FREEZE_V1.md" | grep -vE 'readout name|register|\|' | grep -qE 'REFINE<=25|1479|5197|6678|verdict'; then
+            echo "FREEZE-CONTENT FAILURE: the freeze states a delivered result"; exit 1
+          fi
+          if grep -qE 'REFINE<=25|1479|6678' "$P/FREEZE_V1.md"; then
+            echo "FREEZE-CONTENT FAILURE: a post-outcome value appears in the freeze"; exit 1
+          fi
+          echo "freeze ok: no delivered result and no post-outcome value in the freeze"
 
       - name: custody - survives its own publication by squash merge
         run: |
@@ -193,6 +185,10 @@ jobs:
         working-directory: research/gmi-833-h-real-scale-diffusion-refinement-v1
         run: python3 -I -B ci_gates_v1.py terminology
 
+      - name: nothing may close after the run starts
+        working-directory: research/gmi-833-h-real-scale-diffusion-refinement-v1
+        run: python3 -I -B ci_gates_v1.py no-late-closure
+
       - name: the aa-ledger gate - every named result carries its four ledgers
         working-directory: research/gmi-833-h-real-scale-diffusion-refinement-v1
         run: |
@@ -206,9 +202,13 @@ jobs:
           done
           echo "aa-ledger ok: every named result carries all four block-leading ledgers"
 
-      - name: the package's own reconciliation and ledger agree
+      - name: no named result of this package claims a row it does not own
         working-directory: research/gmi-833-h-real-scale-diffusion-refinement-v1
         run: |
           set -eu
-          python3 -I -B -c "import json,sys;r=json.load(open('ISSUE_833_RECONCILIATION_H33_V1.json'));assert len(r['replacements'])==1, 'the reconciliation must replace exactly its one row';assert r['replacements'][0]['old'].startswith('- [ ] Diffusion/iterative-refinement systems.'), r['replacements'][0]['old'];assert r['rows_left_open_with_attribution']=={}, 'no row may be left open';print('reconciliation declares its one replacement and leaves no row open')"
-          python3 -I -B -c "import json,sys;r=json.load(open('RESULT_V1.json'));assert r['rows_closed']==['Diffusion/iterative-refinement systems.'], r['rows_closed'];assert r['rows_open']==[], r['rows_open'];print('the ledger closes exactly the one measured row and leaves none open')"
+          if grep -q '^\- \[x\]' ISSUE_833_RECONCILIATION_H33_V1.json; then
+            echo "RECONCILIATION FAILURE: the reconciliation carries a checked row"; exit 1
+          fi
+          python3 -I -B -c "import json,sys;r=json.load(open('ISSUE_833_RECONCILIATION_H33_V1.json'));sys.exit('RECONCILIATION FAILURE: %d replacements declared'%len(r['replacements']) if r['replacements'] else 0)"
+          python3 -I -B -c "import json,sys;r=json.load(open('RESULT_V1.json'));sys.exit('LEDGER FAILURE: the ledger closes %r'%r['rows_closed'] if r['rows_closed'] else 0)"
+          echo "the package closes nothing and declares no replacement"

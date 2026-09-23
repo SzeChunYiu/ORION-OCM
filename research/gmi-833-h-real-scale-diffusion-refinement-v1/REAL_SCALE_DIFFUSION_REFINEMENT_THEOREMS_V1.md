@@ -66,6 +66,18 @@ count, committed in `REAL_RUNS/scope_SIGMA_H33R.json`, replayed exactly by route
 A and re-derived by route B (`independent_oracle_dr_v1.py`, which imports none
 of the primary executor).
 
+**Provenance of this paragraph.** An earlier revision of this package shipped
+`MEM_FALLBACK` with only its stored branch, which made it the same predicate as
+`REFINE<=T*` under a second name; that revision was merged to `main` as
+`3cbf841c` and is corrected by the follow-up commit on this branch, with no
+change to any claimed number (the receipt differs by the single added key
+`query_fallback_label`). The guard that prevents the class is
+`ci_gates_v1.py alias-guard`, which evaluates every registered arm over a grid
+that sweeps every walk value `0..256` and every registered threshold of every
+family, and fails on any pair of distinct names that agree everywhere; one
+declared redundancy, `CARD>=1` `≡` `REFINE<=256`, rests on the registered step
+cap and is asserted rather than tolerated.
+
 **On the tie, disclosed and checked.** At every stage the minimum-error set
 contains exactly two arms, `REFINE<=25` and `MEM_FALLBACK`, separated by the
 registered charged-cost tie-break (`1` against `2`). They are **distinct

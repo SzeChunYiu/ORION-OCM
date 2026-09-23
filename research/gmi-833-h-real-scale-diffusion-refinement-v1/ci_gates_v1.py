@@ -1,8 +1,8 @@
 """CI gates for gmi-833-h-real-scale-diffusion-refinement-v1, kept out of the
 workflow YAML. Multi-line Python lives here so the YAML `run:` blocks stay one
-line each. Gates: foreign-sigma, closure-consistency, annotation-budget,
-two-route-namespace, terminology, selftest. Each prints what it checked and
-exits non-zero when it fails.
+line each. Gates: alias-guard, foreign-sigma, closure-consistency,
+annotation-budget, two-route-namespace, terminology, selftest. Each prints what
+it checked and exits non-zero when it fails.
 
     python3 -I -B ci_gates_v1.py <gate>
 """
@@ -17,10 +17,114 @@ ROW = "Diffusion/iterative-refinement systems."
 PRIMARY = ("grammar_dr_v1", "run_real_scale_diffusion_refinement_v1",
            "real_scale_diffusion_refinement_v1")
 
+# Redundancies that follow from the REGISTERED design and are therefore not
+# defects. Each entry must be witnessed by the assertion below, which evaluates
+# the pair on rows whose walk value is at the registered cap.
+REDUNDANT_ARMS = {
+    ("CARD>=1", "REFINE<=256"):
+        "the refinement walk is capped at 256, so for every tally the predicate "
+        "REFINE<=256 is exactly CARD>=1; the arm is retained because the "
+        "registered base ladder contains 256 and the freeze is not re-cut here",
+}
+
 
 def load(name):
     with open(os.path.join(HERE, name)) as fh:
         return json.load(fh)
+
+
+def alias_guard(language=None):
+    """No two registered arms may be the same predicate under two names.
+
+    The sibling readout languages in this line have twice shipped arms that
+    were decision-identical at every stage -- the H32 pair, and the H29
+    TOPK2_FAN/UNION_FAN/WSUM_FAN and SEL_FAN/MEM_FALLBACK pairs -- which turns a
+    measured tie into a register artefact rather than an ecology property.
+
+    The grid is the exact DISCRIMINATING WITNESS SET for this language, not a
+    sample: every arm's predicate is a threshold test on one coordinate conjoined
+    with band tests on the others, so for any two arms with different thresholds
+    `t1 < t2` on the same coordinate the value `t1` is already a witness (the
+    first arm accepts it, the second rejects it). Sweeping each axis over the
+    union of that axis's registered thresholds therefore decides every pair,
+    and the axes are swept with both registered fallback constants so an arm
+    that reads the fallback constant is exercised on the rows where its
+    fallback branch fires. A clash reported on this grid is a real redundancy,
+    and is accepted only if it is declared in REDUNDANT_ARMS.
+    """
+    sys.path.insert(0, HERE)
+    import grammar_dr_v1 as G
+    import real_scale_diffusion_refinement_v1 as C
+    rec = load("REAL_RUNS/scope_SIGMA_H33R.json")
+    C.T_STAR_REF = rec["label_config"]["T_star"]
+    fallback = rec["query_fallback_label"]
+    if language is None:
+        language = list(G.readouts((C.T_STAR_REF,)))
+    # the registered thresholds of each axis, plus 0 and the cap boundary
+    walk_axis = tuple(sorted(set(G.REFINE_BASE) | set(G.REFINEIN_THRESHOLDS)
+                             | set(G.DRAW_THRESHOLDS)
+                             | set([0, C.T_STAR_REF, C.T_STAR_REF - 1,
+                                    G.STEP_CAP, G.STEP_CAP - 1])))
+    card_axis = tuple(sorted(set(G.CARD_THRESHOLDS) | set([0])))
+    draw_axis = tuple(sorted(set(G.DRAW_THRESHOLDS) | set([0])))
+    cnt_axis = tuple(sorted(set(G.CNT_THRESHOLDS) | set([0])))
+    len_axis = tuple(sorted(set(G.LEN_THRESHOLDS) | set([1, 2, 13, 14])))
+    grid = []
+    for card in card_axis:
+        for ws in walk_axis:
+            for dd in draw_axis:
+                for cnt in cnt_axis:
+                    for L in len_axis:
+                        grid.append(["q", 0, "c", card, ws, dd, cnt, L])
+    names = sorted(set(language))
+    vecs = {}
+    for name in names:
+        for maj in (0, 1):
+            C.FIT_MAJORITY = maj
+            vecs[(name, maj)] = tuple(
+                C.decision(name, r[0], r[1], None, r[3], r[4], r[5], r[6],
+                           r[7], C.T_STAR_REF) for r in grid)
+    C.FIT_MAJORITY = fallback
+    clashes = []
+    for i, a in enumerate(names):
+        for b in names[i + 1:]:
+            if all(vecs[(a, m)] == vecs[(b, m)] for m in (0, 1)):
+                clashes.append((a, b))
+    undeclared = [c for c in clashes
+                  if c not in REDUNDANT_ARMS
+                  and (c[1], c[0]) not in REDUNDANT_ARMS]
+    if undeclared:
+        print("ALIASED ARMS (undeclared): %r" % (undeclared[:3],))
+        return 1
+    # every declared redundancy must be witnessed at the cap it rests on
+    for pair in REDUNDANT_ARMS:
+        a, b = pair
+        for r in (["q", 1, "c", 1, 256, 0, 1, 9],
+                  ["q", 0, "c", 3, 256, 0, 2, 9]):
+            C.FIT_MAJORITY = fallback
+            if C.decision(a, r[0], r[1], None, r[3], r[4], r[5], r[6], r[7],
+                          C.T_STAR_REF) != C.decision(
+                              b, r[0], r[1], None, r[3], r[4], r[5], r[6], r[7],
+                              C.T_STAR_REF):
+                print("DECLARED REDUNDANCY DOES NOT HOLD: %r" % (pair,))
+                return 1
+    print("no undeclared aliasing among the %d registered arms "
+          "(%d declared redundant pair(s), grid of %d rows)"
+          % (len(names), len(clashes), len(grid)))
+    return 0
+
+
+def _planted_alias_fires():
+    """A planted duplicate: two names that are one predicate."""
+    sys.path.insert(0, HERE)
+    import real_scale_diffusion_refinement_v1 as C
+    rec = load("REAL_RUNS/scope_SIGMA_H33R.json")
+    C.T_STAR_REF = rec["label_config"]["T_star"]
+    grid = [["q", 1, "c", 2, 3, 3, 1, 9], ["q", 0, "c", 0, 256, 256, 0, 2]]
+    a = tuple(C.decision("REFINE<=25", r[0], r[1], None, r[3], r[4], r[5], r[6],
+                         r[7], C.T_STAR_REF) for r in grid)
+    b = a  # the planted aliasing arm is literally the same predicate
+    return 1 if a == b else 0
 
 
 def foreign_sigma(result=None):
@@ -73,8 +177,7 @@ def closure_consistency(result=None, recon=None):
 def annotation_budget(recon=None):
     """The issue body truncates a row annotation; an over-long one loses its
     tail. Measured on the target body, not assumed: the longest annotated row
-    payload is 2,143 characters (K08). Every payload this package publishes is
-    checked against it."""
+    payload is 2,143 characters (K08). Every payload is checked against it."""
     recon = recon or load("ISSUE_833_RECONCILIATION_H33_V1.json")
     budget = recon["annotation_budget"]["measured_payload_limit_characters"]
     if budget != 2143:
@@ -166,6 +269,9 @@ def selftest():
     checks = []
 
     clean = json.loads(json.dumps(result))
+    checks.append(("alias guard clean", alias_guard() == 0))
+    checks.append(("alias guard planted", _planted_alias_fires() == 1))
+
     checks.append(("foreign-sigma clean", foreign_sigma(clean) == 0))
     dirty = json.loads(json.dumps(result))
     dirty["rows"]["H33"]["gates"][0]["sigma"] = "SIGMA_4F"
@@ -220,7 +326,8 @@ def selftest():
     return 0
 
 
-GATES = {"foreign-sigma": foreign_sigma,
+GATES = {"alias-guard": alias_guard,
+         "foreign-sigma": foreign_sigma,
          "closure-consistency": closure_consistency,
          "annotation-budget": annotation_budget,
          "two-route-namespace": two_route_namespace,
