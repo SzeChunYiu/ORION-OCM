@@ -1,0 +1,37 @@
+name: gmi-1068-governance-v2
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-*/**'
+      - '.github/workflows/gmi-1068-*.yml'
+jobs:
+  recursive-governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Exact-head and changed-round gate
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          test -n "$PR_HEAD_SHA"
+          git merge-base --is-ancestor "$PR_HEAD_SHA" HEAD
+          git diff --name-only "$BASE_SHA"...HEAD > /tmp/gmi1068_changed.txt
+          python3 -I -B research/gmi-1068-governance-v2/check_governance_v2.py             --base-sha "$BASE_SHA" --changed-files /tmp/gmi1068_changed.txt > /tmp/a.json
+          python3 -I -O -B research/gmi-1068-governance-v2/check_governance_v2.py             --base-sha "$BASE_SHA" --changed-files /tmp/gmi1068_changed.txt > /tmp/ao.json
+          cmp /tmp/a.json /tmp/ao.json
+      - name: Hostile controls
+        run: |
+          set -euo pipefail
+          python3 -I -B research/gmi-1068-governance-v2/test_governance_v2.py > /tmp/t.json
+          python3 -I -O -B research/gmi-1068-governance-v2/test_governance_v2.py > /tmp/to.json
+          cmp /tmp/t.json /tmp/to.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/t.json'))
+          if x.get('status')!='GREEN' or x.get('hostiles_caught')!=5:
+              raise SystemExit('governance hostile drift')
+          PY
