@@ -285,6 +285,98 @@ def test_gate_can_fail():
     return demo
 
 
+def test_immutable_amendment_fails_closed():
+    """Issue #1049 item 2: a hash-pinned result may be carried as identified
+    debt only while its pin verifiably holds; every way of breaking the pin
+    must re-enforce the result. Kept out of gate_demo() so the pinned receipt
+    section `gate_failure_demonstration` is unchanged."""
+    import hashlib
+    tmp = tempfile.mkdtemp(prefix="gmi833-amend-")
+    try:
+        root = _fixture(tmp, CLEAN)
+        base_path = Path(tmp) / "baseline.json"
+        c = A.census(root)
+        entries = {}
+        for f in c["per_file"]:
+            for r in f["named_results"]:
+                entries[A.baseline_key(f["path"], r["result"])] = bool(r["complete"])
+        base_path.write_text(json.dumps({
+            "schema": "GMI_833_LEDGER_BASELINE_V1",
+            "named_results": c["named_results"],
+            "non_compliant_named_results": c["non_compliant_named_results"],
+            "identified_non_compliant": c["identified_non_compliant"],
+            "entries": entries,
+        }), encoding="utf-8")
+        note = root / "research" / "fixture-pkg" / "FIXTURE_THEOREMS_V1.md"
+        note.write_text(CLEAN + NEW_BAD, encoding="utf-8")
+        rel = "research/fixture-pkg/FIXTURE_THEOREMS_V1.md"
+        sha = hashlib.sha256(note.read_bytes()).hexdigest()
+        other = root / "research" / "other-pkg"
+        other.mkdir(parents=True, exist_ok=True)
+        (other / "MANIFEST_V1.json").write_text(
+            json.dumps({"parent_pins": [{"path": rel, "sha256": sha}]}), encoding="utf-8")
+        own_rec = root / "research" / "fixture-pkg" / "RESULT_V1.json"
+        own_rec.write_text(json.dumps({"sha256": sha}), encoding="utf-8")
+        result = "CLN-2 - a new result that omits two ledgers"
+        amend = Path(tmp) / "amend.json"
+
+        def run(entries_):
+            amend.write_text(json.dumps({
+                "schema": "GMI_833_LEDGER_BASELINE_AMENDMENT_V1",
+                "entries": entries_}), encoding="utf-8")
+            return A.gate(None, root, base_path, amend)
+
+        good = {"path": rel, "result": result,
+                "pinned_by": "research/other-pkg/MANIFEST_V1.json", "pin_sha256": sha}
+        code, rep = run([good])
+        check("amendment_valid_pin_passes", code == 0 and rep["violations"] == []
+              and rep["immutable_custody_amended_results"] == 1,
+              json.dumps(rep["violations"]))
+
+        code, rep = run([])
+        check("amendment_absent_fails", code != 0 and "NEW_RESULT_MISSING_LEDGER"
+              in {v["kind"] for v in rep["violations"]}, json.dumps(rep["violations"]))
+
+        same_pkg = dict(good, pinned_by="research/fixture-pkg/RESULT_V1.json")
+        code, rep = run([same_pkg])
+        check("amendment_same_package_record_rejected", code != 0
+              and rep["immutable_custody_dropped_entries"], json.dumps(rep["violations"]))
+
+        forged = dict(good, pin_sha256="0" * 64)
+        code, rep = run([forged])
+        check("amendment_forged_sha_rejected", code != 0
+              and rep["immutable_custody_dropped_entries"], json.dumps(rep["violations"]))
+
+        wrong_result = dict(good, result="CLN-1 - a compliant named result")
+        code, rep = run([good, wrong_result])
+        check("amendment_complete_result_not_counted",
+              code == 0 and rep["immutable_custody_amended_results"] == 1
+              and len(rep["immutable_custody_dropped_entries"]) == 1,
+              json.dumps(rep["immutable_custody_dropped_entries"]))
+
+        # Editing the pinned note (e.g. adding one ledger) breaks the pin, so
+        # the entry drops and the still-incomplete result is enforced again.
+        note.write_text(CLEAN + NEW_BAD + "\n**Assumptions.** One.\n", encoding="utf-8")
+        code, rep = run([good])
+        check("amendment_edit_breaks_pin_and_reenforces", code != 0
+              and rep["immutable_custody_dropped_entries"]
+              and "NEW_RESULT_MISSING_LEDGER" in {v["kind"] for v in rep["violations"]},
+              json.dumps(rep["violations"]))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_real_amendment_entries_all_verify():
+    """Every entry of the committed amendment must verify on the live repo;
+    a dropped entry means a pin moved and the amendment must be revisited."""
+    c = A.census()
+    valid, dropped = A.load_amendment(c)
+    check("real_amendment_no_dropped_entries", dropped == [], json.dumps(dropped))
+    doc = json.loads(A.AMENDMENT.read_text(encoding="utf-8"))
+    check("real_amendment_every_entry_valid", len(valid) == len(doc["entries"]),
+          "%d of %d" % (len(valid), len(doc["entries"])))
+
+
 def _owned_paths():
     """Theorem notes this change actually added or changed, or None off-PR.
 
@@ -601,6 +693,8 @@ def main():
     a, b = test_routes_agree_per_result()
     test_decoy_is_rejected()
     test_gate_can_fail()
+    test_immutable_amendment_fails_closed()
+    test_real_amendment_entries_all_verify()
     test_owned_paths_rule()
     test_scoped_gate_no_alarm_and_alarm()
     test_gate_is_green_on_the_real_repo()

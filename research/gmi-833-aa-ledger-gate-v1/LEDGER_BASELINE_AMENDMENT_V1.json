@@ -1,0 +1,68 @@
+{
+ "entries": [
+  {
+   "missing": "dependency",
+   "path": "research/gmi-833-body-residual-akl-v1/BODY_RESIDUAL_AKL_THEOREMS_V1.md",
+   "pin_sha256": "40e5b194f3915de2786c7e5065f3b4f5ddfb5fb2d72cd6d4d71af72772568d16",
+   "pinned_by": "research/gmi-833-kl-revival-v1/MANIFEST_V1.json",
+   "result": "RA-1 \u2014 the residual of `ROW_A_TERM`, exactly, under three declared scopes"
+  },
+  {
+   "missing": "assumptions,dependency,strongest_parent",
+   "path": "research/gmi-833-body-residual-akl-v1/BODY_RESIDUAL_AKL_THEOREMS_V1.md",
+   "pin_sha256": "40e5b194f3915de2786c7e5065f3b4f5ddfb5fb2d72cd6d4d71af72772568d16",
+   "pinned_by": "research/gmi-833-kl-revival-v1/MANIFEST_V1.json",
+   "result": "RA-2 \u2014 what the row's preservation clause requires to remain"
+  },
+  {
+   "missing": "assumptions,dependency,falsifier,strongest_parent",
+   "path": "research/gmi-833-body-residual-akl-v1/BODY_RESIDUAL_AKL_THEOREMS_V1.md",
+   "pin_sha256": "40e5b194f3915de2786c7e5065f3b4f5ddfb5fb2d72cd6d4d71af72772568d16",
+   "pinned_by": "research/gmi-833-kl-revival-v1/MANIFEST_V1.json",
+   "result": "RA-3 \u2014 who is able to repair the residual (NOT a closure argument)"
+  },
+  {
+   "missing": "dependency",
+   "path": "research/gmi-833-body-residual-akl-v1/BODY_RESIDUAL_AKL_THEOREMS_V1.md",
+   "pin_sha256": "40e5b194f3915de2786c7e5065f3b4f5ddfb5fb2d72cd6d4d71af72772568d16",
+   "pinned_by": "research/gmi-833-kl-revival-v1/MANIFEST_V1.json",
+   "result": "BR-1 \u2014 the bridge dichotomy on the registered real populations"
+  },
+  {
+   "missing": "assumptions,dependency,falsifier,strongest_parent",
+   "path": "research/gmi-833-body-residual-akl-v1/BODY_RESIDUAL_AKL_THEOREMS_V1.md",
+   "pin_sha256": "40e5b194f3915de2786c7e5065f3b4f5ddfb5fb2d72cd6d4d71af72772568d16",
+   "pinned_by": "research/gmi-833-kl-revival-v1/MANIFEST_V1.json",
+   "result": "BR-2 \u2014 the conservative-bridge census, and the cost curve of the obstruction"
+  },
+  {
+   "missing": "assumptions,dependency,strongest_parent",
+   "path": "research/gmi-833-body-residual-akl-v1/BODY_RESIDUAL_AKL_THEOREMS_V1.md",
+   "pin_sha256": "40e5b194f3915de2786c7e5065f3b4f5ddfb5fb2d72cd6d4d71af72772568d16",
+   "pinned_by": "research/gmi-833-kl-revival-v1/MANIFEST_V1.json",
+   "result": "BR-3 \u2014 `KE-3` is conditioned on an outcome-selected event"
+  },
+  {
+   "missing": "assumptions,dependency,strongest_parent",
+   "path": "research/gmi-833-body-residual-akl-v1/BODY_RESIDUAL_AKL_THEOREMS_V1.md",
+   "pin_sha256": "40e5b194f3915de2786c7e5065f3b4f5ddfb5fb2d72cd6d4d71af72772568d16",
+   "pinned_by": "research/gmi-833-kl-revival-v1/MANIFEST_V1.json",
+   "result": "FC-1 \u2014 `FFA-1`, a checkable criterion for a genuinely future task family"
+  },
+  {
+   "missing": "assumptions,dependency,falsifier",
+   "path": "research/gmi-833-body-residual-akl-v1/BODY_RESIDUAL_AKL_THEOREMS_V1.md",
+   "pin_sha256": "40e5b194f3915de2786c7e5065f3b4f5ddfb5fb2d72cd6d4d71af72772568d16",
+   "pinned_by": "research/gmi-833-kl-revival-v1/MANIFEST_V1.json",
+   "result": "FC-2 \u2014 no admissible candidate is reachable in-session"
+  }
+ ],
+ "issue": 1049,
+ "parent_issue": 833,
+ "repair_path": "to retire an entry: publish a successor theorem note that restates the result with all four ledgers and re-pin the dependent package to it, or have the dependent package re-pin the edited bytes; the entry then drops automatically",
+ "rule": "Each entry is a named result that lacks one or more AA theorem ledgers in a theorem note whose CURRENT bytes are sha256-pinned by a record of a DIFFERENT package, so the ledgers cannot be added in place without breaking that package's custody check. The gate re-verifies every entry on every run (live sha256 == pin_sha256; the record exists outside the pinned package and carries the sha256; the result is live, identified and non-compliant) and drops any entry that fails, which re-enforces it. The frozen LEDGER_BASELINE_V1.json is unchanged; the repo-wide debt allowance grows by exactly the number of verified entries.",
+ "schema": "GMI_833_LEDGER_BASELINE_AMENDMENT_V1",
+ "why_immutable": {
+  "research/gmi-833-body-residual-akl-v1/BODY_RESIDUAL_AKL_THEOREMS_V1.md": "pinned by research/gmi-833-kl-revival-v1/MANIFEST_V1.json parent_pins (sha256 and git blob); both .github/workflows/gmi-833-kl-revival-v1.yml ('parent drift') and test_kl_revival_v1.py::test_parent_pins verify the LIVE bytes, so adding ledgers here would turn gmi-833-kl-revival-v1 red"
+ }
+}

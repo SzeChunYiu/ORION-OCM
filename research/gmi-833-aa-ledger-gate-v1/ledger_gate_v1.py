@@ -25,6 +25,7 @@ code with this module; they are compared by set equality per named result.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -383,17 +384,93 @@ def write_baseline(exclude_prefixes: Sequence[str] = ()) -> Dict[str, object]:
     return payload
 
 
+# ---------------------------------------------------------------------------
+# Immutable-custody amendment (issue #1049 item 2).
+#
+# A theorem note whose CURRENT bytes are sha256-pinned by ANOTHER package's
+# record cannot be repaired in place: adding the missing ledgers changes its
+# bytes and breaks that package's custody check (e.g. gmi-833-kl-revival-v1
+# verifies the live sha256 of every parent pin). Such results are debt that is
+# identified but not editable. They are listed one by one, by (path, result),
+# in LEDGER_BASELINE_AMENDMENT_V1.json -- never by blanket re-baselining -- and
+# every entry is re-verified on each run:
+#   * the file's live sha256 equals the entry's pin_sha256, AND
+#   * the named record exists, lies in a DIFFERENT package, and contains that
+#     sha256 verbatim, AND
+#   * the (path, result) is a live named result that is identified and
+#     non-compliant.
+# An entry that fails any check is DROPPED and reported, so the result is
+# enforced again (fail closed). Editing the pinned file breaks its pin, which
+# drops its entries: the exemption cannot outlive the custody it rests on.
+# The frozen LEDGER_BASELINE_V1.json is not touched.
+# ---------------------------------------------------------------------------
+AMENDMENT = HERE / "LEDGER_BASELINE_AMENDMENT_V1.json"
+
+
+def _package_of(rel: str) -> str:
+    parts = rel.split("/")
+    return "/".join(parts[:2]) if len(parts) >= 3 and parts[0] == "research" else os.path.dirname(rel)
+
+
+def load_amendment(c: Dict[str, object], root: Optional[Path] = None,
+                   path: Optional[Path] = None) -> Tuple[Dict[str, bool], List[Dict[str, str]]]:
+    """Return ({baseline_key: False} for every verified entry, [dropped entries])."""
+    apath = path if path is not None else AMENDMENT
+    if not apath.exists():
+        return {}, []
+    doc = json.loads(apath.read_text(encoding="utf-8"))
+    if doc.get("schema") != "GMI_833_LEDGER_BASELINE_AMENDMENT_V1":
+        raise GateError("amendment schema mismatch at %s" % apath)
+    base = root if root is not None else REPO
+    live = {}
+    for f in c["per_file"]:
+        for r in f["named_results"]:
+            live[baseline_key(f["path"], r["result"])] = r
+    valid = {}  # type: Dict[str, bool]
+    dropped = []  # type: List[Dict[str, str]]
+    for e in doc.get("entries", []):
+        key = baseline_key(e["path"], e["result"])
+        target = base / e["path"]
+        record = base / e["pinned_by"]
+        why = None
+        if _package_of(e["pinned_by"]) == _package_of(e["path"]):
+            why = "pin record is inside the pinned file's own package"
+        elif not target.exists() or not record.exists():
+            why = "pinned file or pin record missing"
+        elif hashlib.sha256(target.read_bytes()).hexdigest() != e["pin_sha256"]:
+            why = "pinned file bytes changed since the pin"
+        elif e["pin_sha256"] not in record.read_text(encoding="utf-8", errors="replace"):
+            why = "pin record no longer carries the sha256"
+        elif key not in live:
+            why = "no such live named result"
+        elif not live[key]["identified"] or live[key]["complete"]:
+            why = "result is not identified debt (unidentified or already complete)"
+        if why is None:
+            valid[key] = False
+        else:
+            dropped.append({"path": e["path"], "result": e["result"], "reason": why})
+    return valid, dropped
+
+
 def gate(owned: Optional[Sequence[str]] = None,
          root: Optional[Path] = None,
-         baseline_path: Optional[Path] = None) -> Tuple[int, Dict[str, object]]:
+         baseline_path: Optional[Path] = None,
+         amendment_path: Optional[Path] = None) -> Tuple[int, Dict[str, object]]:
     """Return (exit_code, report). Non-zero exit means the gate FAILED."""
     bpath = baseline_path or BASELINE
     if not bpath.exists():
         raise GateError("no frozen baseline at %s" % bpath)
     base = json.loads(bpath.read_text(encoding="utf-8"))
-    known = base["entries"]
 
     c = census(root)
+    # A custom baseline (fixtures) never inherits the real repo's amendment.
+    if amendment_path is None and (baseline_path is not None or root is not None):
+        amended, dropped = {}, []
+    else:
+        amended, dropped = load_amendment(c, root, amendment_path)
+    known = dict(base["entries"])
+    for key, was in amended.items():
+        known.setdefault(key, was)
     violations = []  # type: List[Dict[str, str]]
     new_results = 0
     regressions = 0
@@ -442,14 +519,17 @@ def gate(owned: Optional[Sequence[str]] = None,
         # over-approximating measurement would fail any lane that adds a
         # theorem note using `##` for section headings, which is the same
         # false-positive class the enforcement scope above avoids.
-        debt_grew = c["identified_non_compliant"] > base["identified_non_compliant"]
+        # The allowance grows only by verified immutable-custody entries that
+        # are not already in the frozen baseline, one per named result.
+        allowed = base["identified_non_compliant"] + sum(
+            1 for key in amended if key not in base["entries"])
+        debt_grew = c["identified_non_compliant"] > allowed
         if debt_grew:
             violations.append({
                 "kind": "CORPUS_DEBT_GREW",
                 "path": "(corpus)",
                 "result": "identified_non_compliant",
-                "missing": "%d > %d" % (c["identified_non_compliant"],
-                                        base["identified_non_compliant"]),
+                "missing": "%d > %d" % (c["identified_non_compliant"], allowed),
             })
 
     report = {
@@ -468,6 +548,8 @@ def gate(owned: Optional[Sequence[str]] = None,
                               "not enforced"),
         "regressions": regressions,
         "corpus_debt_grew": debt_grew,
+        "immutable_custody_amended_results": len(amended),
+        "immutable_custody_dropped_entries": dropped,
         "violations": violations,
         "passed": not violations,
     }
