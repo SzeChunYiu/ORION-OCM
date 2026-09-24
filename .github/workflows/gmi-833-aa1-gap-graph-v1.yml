@@ -88,7 +88,10 @@ jobs:
       - name: Parent-closure gate refuses while CRITICAL descendants are unresolved
         run: |
           set -uo pipefail
-          python3 -I -B "$PKG/gap_graph_v1.py" --parent-closure-gate T833-B1-AA; rc=$?
+          set +e
+          python3 -I -B "$PKG/gap_graph_v1.py" --parent-closure-gate T833-B1-AA
+          rc=$?
+          set -e
           test "$rc" = 1 || { echo "expected refusal (exit 1), got $rc"; exit 1; }
           echo 'closure of T833-B1-AA refused, as it must be'
       - name: Route B independent oracle
