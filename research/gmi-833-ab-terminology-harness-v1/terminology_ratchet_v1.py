@@ -349,7 +349,102 @@ def _looks_like_commit(token):
     commit, and treating it as one made a real package UNREACHABLE."""
     return len(token) == 40 or any(c in "abcdefABCDEF" for c in token)
 _CUSTODY_KEY = re.compile(r"freeze|amend|custody", re.IGNORECASE)
-_CUSTODY_STATES = ("PINNED_HASH", "PINNED_COMMIT", "UNREACHABLE", "UNPINNED")
+_CUSTODY_STATES = ("PINNED_HASH", "PINNED_COMMIT", "PINNED_PUBLICATION", "UNREACHABLE", "UNPINNED")
+
+# Issue #1049 (publication awareness). Two custody facts the package-local
+# rule above cannot see, both checked on bytes and history, never on names:
+#
+#   PINNED_HASH (external)  a record of ANOTHER package hashes the file's
+#                           current bytes (e.g. a later audit's scope snapshot
+#                           or a revival manifest's parent_pins). Editing the
+#                           file would break that package, so it is immutable
+#                           for the same reason a package-local pin is.
+#   PINNED_PUBLICATION      the package names a custody commit that became
+#                           unreachable because the package was published by
+#                           squash merge, AND git history proves the bytes
+#                           were frozen at publication: the file was added in
+#                           the FIRST commit that ever touched the package,
+#                           that commit also added the package's FREEZE*.md,
+#                           the package directory did not exist in that
+#                           commit's first parent, and the current blob equals
+#                           the blob added there. Any edit after publication,
+#                           any later-added file, or a package that pre-existed
+#                           its "publishing" commit stays UNREACHABLE and
+#                           enforced.
+
+
+def _git_out(args, root):
+    try:
+        r = subprocess.run([_git(), "-C", root] + list(args), capture_output=True, text=True)
+    except (OSError, ValueError):
+        return None
+    return r.stdout if r.returncode == 0 else None
+
+
+def _external_hash_pin(path, root, hashes):
+    """The first JSON record OUTSIDE the file's package that carries one of
+    the file's current hashes, or None."""
+    own = _package_dir(path, root)
+    listing = None
+    try:
+        r = subprocess.run([_git(), "-C", root, "grep", "-l", "-F"]
+                           + sum([["-e", h] for h in hashes], [])
+                           + ["--", "research/*.json"], capture_output=True, text=True)
+        if r.returncode in (0, 1):  # 1 = searched, no match
+            listing = r.stdout
+    except (OSError, ValueError):
+        listing = None
+    if listing is None:
+        # not a git work tree (e.g. a fixture without git): walk the files
+        candidates = []
+        for dirpath, _dirs, files in os.walk(os.path.join(root, "research")):
+            for fn in files:
+                if fn.endswith(".json"):
+                    full = os.path.join(dirpath, fn)
+                    try:
+                        text = open(full, encoding="utf-8").read()
+                    except (OSError, UnicodeDecodeError):
+                        continue
+                    if any(h in text for h in hashes):
+                        candidates.append(os.path.relpath(full, root))
+    else:
+        candidates = [ln.strip() for ln in listing.splitlines() if ln.strip()]
+    for rel in sorted(candidates):
+        full = os.path.join(root, rel)
+        if os.path.abspath(os.path.dirname(full)).startswith(os.path.abspath(own) + os.sep) \
+                or os.path.abspath(os.path.dirname(full)) == os.path.abspath(own):
+            continue
+        return rel
+    return None
+
+
+def _publication_pin(rel, root, blob):
+    """The publishing commit when the squash-publication proof holds, else None."""
+    parts = rel.split("/")
+    if len(parts) < 3 or parts[0] != "research":
+        return None
+    pkg = "/".join(parts[:2])
+    commits = _git_out(["log", "--reverse", "--format=%H", "--", pkg + "/"], root)
+    if not commits or not commits.split():
+        return None
+    first = commits.split()[0]
+    parent = _git_out(["rev-parse", "--verify", "-q", first + "^1"], root)
+    if parent and parent.strip():
+        if _git_out(["cat-file", "-e", parent.strip() + ":" + pkg], root) is not None:
+            return None  # the package pre-existed its "publishing" commit
+    added = _git_out(["diff-tree", "--root", "--no-commit-id", "-r", "--name-only",
+                      "--diff-filter=A", first, "--", pkg + "/"], root)
+    if added is None:
+        return None
+    added = set(ln.strip() for ln in added.splitlines() if ln.strip())
+    if rel not in added:
+        return None
+    if not any(os.path.basename(a).startswith("FREEZE") and a.endswith(".md") for a in added):
+        return None
+    at = _git_out(["rev-parse", "--verify", "-q", "%s:%s" % (first, rel)], root)
+    if not at or at.strip() != blob:
+        return None
+    return first
 
 
 def _git():
@@ -461,7 +556,18 @@ def custody_state(path, root=None):
                     "reason": "same blob at the named custody commit"}
         if kind == "UNREACHABLE":
             unreachable.append(t)
+    external = _external_hash_pin(path, root, hashes)
+    if external is not None:
+        return {"state": "PINNED_HASH", "pinned_by": external,
+                "reason": "current bytes hashed in another package's record"}
     if unreachable:
+        published = _publication_pin(rel, root, hashes[0])
+        if published is not None:
+            return {"state": "PINNED_PUBLICATION", "pinned_by": published,
+                    "reason": ("custody commit(s) %s unreachable after squash publication; "
+                               "bytes unchanged since the publishing commit, which added the "
+                               "freeze to a package absent from its parent")
+                              % ",".join(unreachable[:5])}
         return {"state": "UNREACHABLE", "pinned_by": None,
                 "reason": "custody commit(s) not in object store: %s" % ",".join(unreachable[:5])}
     return {"state": "UNPINNED", "pinned_by": None,
@@ -469,7 +575,7 @@ def custody_state(path, root=None):
 
 
 def is_immutable(state):
-    return state.get("state") in ("PINNED_HASH", "PINNED_COMMIT")
+    return state.get("state") in ("PINNED_HASH", "PINNED_COMMIT", "PINNED_PUBLICATION")
 
 
 def check(baseline, live, owned_new_files=None, custody=None, root=None):

@@ -522,16 +522,33 @@ class TestRatchetGate(Moved):
         self.assertEqual(R.custody_state(sn, d)["state"], "PINNED_HASH")
         open(sn, "a").write("\n")
         self.assertEqual(R.custody_state(sn, d)["state"], "UNPINNED")
-        # an unreachable custody commit is UNREACHABLE, not PINNED and not UNPINNED
+        # An unreachable custody commit (issue #1049: the pre-squash freeze
+        # commit is gone after squash publication) is PINNED_PUBLICATION only
+        # when history proves the bytes were frozen at publication: the file
+        # was added by the package's first commit, together with its freeze,
+        # to a package absent from the parent, and is unchanged since.
         open(fz, "w").write("# FREEZE\n\nThis tranche discharges the obligation it names.\n")
         self.assertEqual(R.custody_state(fz, d)["state"], "PINNED_COMMIT")
         man = os.path.join(pkg, "MANIFEST_V1.json")
         json.dump({"freeze_commit": "0" * 40}, open(man, "w"))
-        unreach = R.custody_state(fz, d)
-        self.assertEqual(unreach["state"], "UNREACHABLE")
+        published = R.custody_state(fz, d)
+        self.assertEqual(published["state"], "PINNED_PUBLICATION", published)
         rep = R.check({"counts": {}}, R.measure(files=[fz], root=d), [rels["freeze"]], root=d)
-        self.assertEqual(rep["new_files_with_hits"], [rels["freeze"]])
-        self.assertEqual(rep["custody_states"][rels["freeze"]], "UNREACHABLE")
+        self.assertEqual(rep["new_files_with_hits"], [])
+        self.assertEqual(rep["custody_states"][rels["freeze"]], "PINNED_PUBLICATION")
+        # ...but a file added AFTER the publishing commit is not covered: its
+        # unverifiable pin stays UNREACHABLE and is enforced
+        am = os.path.join(d, rels["amend"])
+        unreach = R.custody_state(am, d)
+        self.assertEqual(unreach["state"], "UNREACHABLE", unreach)
+        rep = R.check({"counts": {}}, R.measure(files=[am], root=d), [rels["amend"]], root=d)
+        self.assertEqual(rep["new_files_with_hits"], [rels["amend"]])
+        self.assertEqual(rep["custody_states"][rels["amend"]], "UNREACHABLE")
+        # ...and an edit after publication breaks the publication pin as well
+        open(fz, "a").write("An obligation added after publication.\n")
+        self.assert_moved("post-publication-edit-breaks-pin", 1, 0,
+                          R.custody_state(fz, d)["state"] == "UNREACHABLE")
+        open(fz, "w").write("# FREEZE\n\nThis tranche discharges the obligation it names.\n")
         # a commit that exists but carries different bytes does not pin
         json.dump({"freeze_commit": freeze_commit}, open(man, "w"))
         open(fz, "w").write("# FREEZE\n\nReworded: this tranche discharges the requirement.\n")
@@ -547,13 +564,59 @@ class TestRatchetGate(Moved):
         self.assertEqual(rep["new_files_with_hits"], [])
         self.assertEqual(rep["immutable_files_with_hits"], [])
 
+    def test_external_pin_and_preexisting_package_hostiles(self):
+        """Issue #1049. (1) A record of ANOTHER package that hashes a file's
+        current bytes makes it immutable (editing it would break that package);
+        the pin dies with the bytes. (2) The publication proof refuses a
+        package that already existed before its claimed publishing commit."""
+        d, pkg, rels, freeze_commit = self._custody_repo()
+        git = shutil.which("git") or "/usr/bin/git"
+        core = os.path.join(d, rels["core"])
+        self.assertEqual(R.custody_state(core, d)["state"], "UNPINNED")
+        other = os.path.join(d, "research", "gmi-833-other-fixture-v1")
+        os.makedirs(other)
+        json.dump({"parent_pins": [{"path": rels["core"],
+                                    "blob_sha": R.blob_sha1(open(core, "rb").read())}]},
+                  open(os.path.join(other, "MANIFEST_V1.json"), "w"))
+        subprocess.run([git, "-C", d, "add", "-A"], check=True, capture_output=True)
+        subprocess.run([git, "-C", d, "commit", "-q", "-m", "other"], check=True,
+                       capture_output=True)
+        ext = R.custody_state(core, d)
+        self.assertEqual(ext["state"], "PINNED_HASH", ext)
+        self.assertTrue(ext["pinned_by"].startswith("research/gmi-833-other-fixture-v1/"), ext)
+        open(core, "a").write("edited\n")
+        self.assert_moved("external-pin-dies-with-bytes", 1, 0,
+                          R.custody_state(core, d)["state"] == "UNPINNED")
+        # (2) a package that pre-existed: recreate the repo so the package's
+        # first commit carries no freeze, then add the freeze later and point
+        # the manifest at an unreachable commit.
+        d2 = tempfile.mkdtemp()
+        for args in (("init", "-q"), ("config", "user.email", "t@example.invalid"),
+                     ("config", "user.name", "t")):
+            subprocess.run([git, "-C", d2] + list(args), check=True, capture_output=True)
+        p2 = os.path.join(d2, "research", "gmi-833-late-freeze-v1")
+        os.makedirs(p2)
+        open(os.path.join(p2, "CORE.md"), "w").write("# CORE\n")
+        subprocess.run([git, "-C", d2, "add", "-A"], check=True, capture_output=True)
+        subprocess.run([git, "-C", d2, "commit", "-q", "-m", "impl first"], check=True,
+                       capture_output=True)
+        late = os.path.join(p2, "FREEZE_V1.md")
+        open(late, "w").write("# FREEZE\n\nThis tranche discharges the obligation it names.\n")
+        json.dump({"freeze_commit": "0" * 40}, open(os.path.join(p2, "MANIFEST_V1.json"), "w"))
+        subprocess.run([git, "-C", d2, "add", "-A"], check=True, capture_output=True)
+        subprocess.run([git, "-C", d2, "commit", "-q", "-m", "freeze later"], check=True,
+                       capture_output=True)
+        st = R.custody_state(late, d2)
+        self.assertEqual(st["state"], "UNREACHABLE", st)
+
     def test_custody_states_on_the_live_corpus(self):
         """The rule fires on real receipts: this package's own freeze is
         pinned by its manifest's `freeze_commit` (or, on a checkout without
         that commit, reported UNREACHABLE -- never silently UNPINNED), and its
         CORE.md is pinned by nothing."""
         fz = R.custody_state(os.path.join(HERE, "FREEZE_V1.md"))
-        self.assertIn(fz["state"], ("PINNED_COMMIT", "PINNED_HASH", "UNREACHABLE"), fz)
+        self.assertIn(fz["state"], ("PINNED_COMMIT", "PINNED_HASH", "PINNED_PUBLICATION",
+                                    "UNREACHABLE"), fz)
         core = R.custody_state(os.path.join(HERE, "CORE.md"))
         self.assertEqual(core["state"], "UNPINNED", core)
         self.assertEqual(R._custody_commit_tokens(
