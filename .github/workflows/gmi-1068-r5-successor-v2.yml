@@ -1,0 +1,65 @@
+name: gmi-1068-r5-successor-v2
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-1068-r5-resource-transform-geometry-v1/**'
+      - '.github/workflows/gmi-1068-r5-successor-v2.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Freeze custody and R4-S1 dependency
+        run: |
+          set -euo pipefail
+          F=1ec87479e302d1481ae7a3a8d2840629c117709d
+          P=research/gmi-1068-r5-resource-transform-geometry-v1
+          git cat-file -e "${F}:${P}/SUCCESSOR_FREEZE_V2.md"
+          if git cat-file -e "${F}:${P}/RESULT_V2.json" 2>/dev/null; then exit 1; fi
+          if git cat-file -e "${F}:${P}/check_r5_successor_v2.py" 2>/dev/null; then exit 1; fi
+          git merge-base --is-ancestor "$F" HEAD
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('research/gmi-1068-r4-equivalence-state-quotient-v1/RESULT_V2.json').read_text())
+          if r['status']!='GREEN_AT_REGISTERED_THREE_WAY_RESPONSE_QUOTIENT_SCOPE':
+              raise SystemExit('R4-S1 parent not green')
+          if 'EQUIVALENCE_IMPLIES_CONGRUENCE_WITHOUT_TEST_CLOSURE' not in r['forbidden_promotions']:
+              raise SystemExit('R4-S1 congruence boundary missing')
+          PY
+      - name: Exact dual-route checks
+        run: |
+          set -euo pipefail
+          P=research/gmi-1068-r5-resource-transform-geometry-v1
+          python3 -I -B "$P/check_r5_successor_v2.py" >/tmp/a
+          python3 -I -O -B "$P/check_r5_successor_v2.py" >/tmp/ao
+          python3 -I -B "$P/independent_oracle_v2.py" >/tmp/b
+          cmp /tmp/a /tmp/ao
+          python3 - <<'PY'
+          import json
+          a=json.load(open('/tmp/a')); b=json.load(open('/tmp/b'))
+          for k in ('cost_set_A_C','pareto_A_C','unreachable_C_A','distances'):
+              if a[k]!=b[k]: raise SystemExit(f'route disagreement {k}')
+          if a['hostiles_caught']!=10: raise SystemExit('hostile count')
+          if a['bad_relabel_pareto']==a['relabel_pareto']: raise SystemExit('negative control inert')
+          PY
+      - name: Registry checks
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('research/gmi-1068-r5-resource-transform-geometry-v1')
+          r=json.loads((p/'RESULT_V2.json').read_text())
+          q=json.loads((p/'RECONCILIATION_V2.json').read_text())
+          ids=[x['id'] for x in q['rows']]
+          if ids != [f'GMI2-R5-{i:03d}' for i in range(1,11)]: raise SystemExit('row ids')
+          if q['claim_ceiling']!=r['claim_ceiling']: raise SystemExit('ceiling')
+          if 'PARETO_FRONTIER_ALWAYS_EXISTS' not in r['forbidden_promotions']: raise SystemExit('frontier boundary')
+          PY
+      - name: Install Lean
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:v4.19.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Lean
+        run: lean research/gmi-1068-r5-resource-transform-geometry-v1/ResourceGeometryV2.lean
