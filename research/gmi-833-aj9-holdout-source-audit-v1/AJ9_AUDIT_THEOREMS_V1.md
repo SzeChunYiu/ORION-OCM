@@ -40,6 +40,20 @@ file and the line.
 **Forbidden extrapolation.** `ALL_HOLDOUTS_PROVEN_BLIND`, `BLIND_SEARCH_IS_UNBIASED`,
 `NO_LEAKAGE_OF_ANY_KIND`, `RECOVERY_IS_CONFIRMED_BY_THIS_AUDIT`.
 
+**Dependencies.** The eight forbidden classes quoted from `forbidden_generator_inputs` in
+`gmi-833-aj9a-known-family-benchmark-v1/HOLDOUT_CONTRACT_V1.json` and the vocabulary derived
+from `KNOWN_FAMILY_BENCHMARK_V1.json`, both pinned by blob in `MANIFEST_V1.json`; the
+blind-artifact rule, declaration exemption and severity levels of `FREEZE_V1.md` sections 3–5;
+AJ9A-2, without which the zero would be an unvalidated empty output; `violations`,
+`per_holdout` and `vocabulary` in `RESULT_V1.json`, with the review and exemption triples
+matched by route B in `ORACLE_RESULT_V1.json`.
+
+**Strongest parents.** `gmi-833-aj9a-known-family-benchmark-v1`, which owns the family
+registry and the forbidden-input list the audit quotes; `gmi-833-aj10-prospective-unknown-v1`,
+whose `blind_source_forbidden_hits` field established the shape of a source audit that this
+package generalizes; the seven holdout packages `aj9b` … `aj9h`, which own the blind searches
+(`PARENT_LEDGER.md`). Static source auditing is ordinary practice and is not claimed novel.
+
 ---
 
 ## AJ9A-2 — The auditor was validated before any absence was reported
@@ -66,6 +80,27 @@ by the auditor.
 **Forbidden extrapolation.** That recall on eight planted classes is recall on every possible
 leak. It is not.
 
+**Assumptions.** Recall is measured with one planted positive per forbidden class, eight in
+all, and sensitivity with the 20 post-hoc artifacts of `FREEZE_V1.md` section 3, where family
+vocabulary is permitted. The validation covers those planted shapes and those control files
+only, as the forbidden extrapolation states.
+
+**Dependencies.** The derived vocabulary and forbidden-class list of AJ9A-1; the recall and
+control gates of `FREEZE_V1.md` section 6; `planted_positive_recall` and
+`planted_positives_detected` (8 of 8 in both routes) and `control_family_hits_in_posthoc` in
+`RESULT_V1.json`; the `plant_*` hostiles, `boundary_regex_word_only` and
+`posthoc_treated_as_blind` in `TEST_RESULT_V1.json`.
+
+**Falsifiers.** Registered in `FREEZE_V1.md` section 7: a missed planted positive voids the
+audit, and a control scan that finds no family vocabulary in the post-hoc artifacts means no
+absence claim may be made. The word-boundary defect above is the observed instance (7 of 8,
+published `RED`), and `boundary_regex_word_only` fails if it returns.
+
+**Strongest parents.** The standard verification practice of proving a checker's recall on
+planted positives and its sensitivity on known-positive data before reporting an absence,
+which `PARENT_LEDGER.md` states is not claimed novel; `gmi-833-aj9a-known-family-benchmark-v1`
+for the classes that are planted. No external parent is registered in `MANIFEST_V1.json`.
+
 ---
 
 ## AJ9A-3 — One custody gap, published rather than absorbed
@@ -84,3 +119,18 @@ in a footnote.
 
 **Falsifier.** A `FREEZE_V1.md` appearing in that package removes the gap and the audit will
 say so on its next run.
+
+**Assumptions.** Custody is read from the file names present in each holdout's package
+directory at the audited checkout, against the audit's four checks: a matched blind artifact,
+a `blind_*` source, a `FREEZE_V1.md` and a post-hoc artifact. The gap is the absence of that
+one file; this tranche neither re-runs nor re-judges the holdout (`PARENT_LEDGER.md`).
+
+**Dependencies.** The coverage-gap falsifier of `FREEZE_V1.md` section 7 and the file rules of
+section 3; AJ9A-1, whose clean scan of `aj9g`'s three blind artifacts is unaffected;
+`coverage_gaps` and `per_holdout` in `RESULT_V1.json`, agreed by route B in
+`ORACLE_RESULT_V1.json`.
+
+**Strongest parents.** `gmi-833-aj9g-k06-blind-recovery-v1` itself, which owns its search,
+outcome and recovery verdict, and `gmi-833-aj9a-known-family-benchmark-v1`, whose contract the
+holdouts follow; none registered beyond `PARENT_LEDGER.md`. The finding is about custody, not
+a new result about the holdout.
