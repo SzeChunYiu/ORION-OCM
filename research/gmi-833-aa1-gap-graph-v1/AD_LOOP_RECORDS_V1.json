@@ -1,0 +1,178 @@
+{
+  "schema": "GMI_AD_LOOP_RECORDS_V1",
+  "package": "gmi-833-aa1-gap-graph-v1",
+  "template": "research/gmi-833-aa1-gap-graph-v1/AD_LOOP_TEMPLATE_V1.json",
+  "note": "The worked instance of the AD loop for this lane's own claim. Every extracted gap is ingested into GMI_GAP_GRAPH_V3.json as a GAP node under its parent_result; R3 links it to the closed gaps its source_rule selects. Materiality inputs follow FREEZE_V1.md section 4.9.",
+  "loops": [
+    {
+      "loop_id": "AA1-LOOP-1",
+      "claim_id": "AA1G",
+      "claim": "The #833 gap universe carries a typed gap graph whose descendant edges are derived mechanically from committed corpus records, and whose closure, promotion and parent-closure predicates fail closed.",
+      "parent_result": "T833-AA1",
+      "iterations": [
+        {
+          "iteration": 1,
+          "steps": [
+            {"step": "S01_CLAIM", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md section 1-2"},
+            {"step": "S02_FORMALIZE", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md section 4"},
+            {"step": "S03_PARENT_SEARCH", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md section 7"},
+            {"step": "S04_DERIVE", "status": "NOT_RUN", "reason": "iteration 1 is the pre-implementation scoping pass; no builder existed"},
+            {"step": "S05_COUNTEREXAMPLE_SEARCH", "status": "NOT_RUN", "reason": "no implementation existed to search against in iteration 1"},
+            {"step": "S06_REPAIR_OR_DOWNGRADE", "status": "NOT_RUN", "reason": "nothing was repaired before implementation"},
+            {"step": "S07_ARCHITECTURE_PRIOR_AUDIT", "status": "NOT_APPLICABLE", "reason": "a governance instrument over committed records; it has no architecture or search component whose built-in preferences could be audited"},
+            {"step": "S08_INDEPENDENT_IMPLEMENTATION", "status": "NOT_RUN", "reason": "route B was written in iteration 2"},
+            {"step": "S09_FROZEN_PREDICTION", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md section 5, committed alone before implementation"},
+            {"step": "S10_REPLICATION", "status": "NOT_RUN", "reason": "replication is above this package's claim ceiling"},
+            {"step": "S11_REAL_SCALE_TEST", "status": "NOT_RUN", "reason": "a real-scale run is above this package's claim ceiling"},
+            {"step": "S12_NEW_GAP_EXTRACTION", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/AD_LOOP_RECORDS_V1.json#loops[0].iterations[0].extracted_gaps"}
+          ],
+          "assumptions_before": [
+            "A0-UNIVERSE: the 1140 records of GAP_GRAPH_V2.json are the gap universe",
+            "A0-EDGES: stated dependencies reach this package only through REGISTER_DELTA_V1 claim_dependencies"
+          ],
+          "assumptions_after": [
+            "A0-UNIVERSE: the 1140 records of GAP_GRAPH_V2.json are the gap universe",
+            "A0-EDGES: stated dependencies reach this package only through REGISTER_DELTA_V1 claim_dependencies",
+            "A-ID: gap node identity is (gap id, occurrence index in GAP_GRAPH_V2 file order)",
+            "A-B1: byte-identical statement text at distinct declaration sites denotes one semantic object",
+            "A-B3: a declaration whose statement names another declaration's file basename points to that declaration's content"
+          ],
+          "assumption_changes": [
+            {"assumption": "A-ID: gap node identity is (gap id, occurrence index in GAP_GRAPH_V2 file order)", "change": "ADDED", "gap_ref": "GAP-AD-AA1-DUP-IDS"},
+            {"assumption": "A-B1: byte-identical statement text at distinct declaration sites denotes one semantic object", "change": "ADDED", "gap_ref": "GAP-AD-AA1-B1-CONTEXT"},
+            {"assumption": "A-B3: a declaration whose statement names another declaration's file basename points to that declaration's content", "change": "ADDED", "gap_ref": "GAP-AD-AA1-B3-POINTER"}
+          ],
+          "extracted_gaps": [
+            {
+              "id": "GAP-AD-AA1-SPARSITY",
+              "claim_id": "AA1G-1",
+              "premise": "descendant edges are derived only from stated dependencies (R2) and shared claim ids (R1)",
+              "inference": "a gap with no derived edge is treated as having no descendant",
+              "unresolved_assumption": "A0-EDGES: absence of a stated dependency edge means absence of a descendant relation",
+              "possible_counterexample": "an unstated dependency between two gaps that R1/R2 cannot see, letting a promotion pass the materiality check",
+              "severity": "MAJOR",
+              "owner_role": "HOSTILE_VERIFICATION",
+              "parent_result": "T833-AA1",
+              "evidence_needed": "a second, independent edge source (claim-level dependency extraction beyond the 30 registered child objects) or a narrowed promotion rule",
+              "materiality_inputs": {"severity": "MAJOR", "evidence_mode": "FINITE_EXACT", "scope": "SECTION", "blast": 3},
+              "source_rule": "NONE"
+            },
+            {
+              "id": "GAP-AD-AA1-DUP-IDS",
+              "claim_id": "AA1G-1",
+              "premise": "gap ids identify gap records",
+              "inference": "a node per gap id",
+              "unresolved_assumption": "A-ID: gap node identity is (gap id, occurrence index in GAP_GRAPH_V2 file order)",
+              "possible_counterexample": "10 gap ids are shared by 24 records; a reordering of GAP_GRAPH_V2 renames the occurrence-indexed nodes and breaks external references to them",
+              "severity": "MINOR",
+              "owner_role": "HOSTILE_VERIFICATION",
+              "parent_result": "T833-AA1",
+              "evidence_needed": "a census gap-id rule that is a function of the object row, not of object_id alone",
+              "materiality_inputs": {"severity": "MINOR", "evidence_mode": "FINITE_EXACT", "scope": "SECTION", "blast": 3},
+              "source_rule": "NONE"
+            },
+            {
+              "id": "GAP-AD-AA1-B1-CONTEXT",
+              "claim_id": "AA1G-2",
+              "premise": "a B1 adjudication (all declarations byte-identical) licenses LOCALLY_CLOSED on a GAP-DUPID record",
+              "inference": "FREEZE rule 4.3 closure",
+              "unresolved_assumption": "A-B1: byte-identical statement text at distinct declaration sites denotes one semantic object",
+              "possible_counterexample": "identical boilerplate declared in two packages about different referents; the same adjudication lane's rule A5 calls such candidate groups DISTINCT (90 of the 108 B1 closures span two or more packages)",
+              "severity": "MAJOR",
+              "owner_role": "HOSTILE_VERIFICATION",
+              "parent_result": "T833-AA1",
+              "evidence_needed": "a per-declaration referent check of the cross-package B1 closures, or a B1 rule narrowed to one package",
+              "materiality_inputs": {"severity": "MAJOR", "evidence_mode": "FINITE_EXACT", "scope": "SECTION", "blast": 3},
+              "source_rule": "B1_CROSS_PACKAGE"
+            },
+            {
+              "id": "GAP-AD-AA1-B3-POINTER",
+              "claim_id": "AA1G-2",
+              "premise": "a B3 adjudication (one declaration names another's file basename) licenses LOCALLY_CLOSED on a GAP-DUPID record",
+              "inference": "FREEZE rule 4.3 closure",
+              "unresolved_assumption": "A-B3: a declaration whose statement names another declaration's file basename points to that declaration's content",
+              "possible_counterexample": "a declaration that cites another file by name while stating different content under the same id",
+              "severity": "MAJOR",
+              "owner_role": "HOSTILE_VERIFICATION",
+              "parent_result": "T833-AA1",
+              "evidence_needed": "a content comparison between each B3 pointer and the declaration it names",
+              "materiality_inputs": {"severity": "MAJOR", "evidence_mode": "FINITE_EXACT", "scope": "SECTION", "blast": 3},
+              "source_rule": "B3_ALL"
+            }
+          ],
+          "decision": "REPEAT",
+          "stop_reason": null
+        },
+        {
+          "iteration": 2,
+          "steps": [
+            {"step": "S01_CLAIM", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/AA1_GAP_GRAPH_THEOREMS_V1.md"},
+            {"step": "S02_FORMALIZE", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/GAP_GRAPH_SCHEMA_V1.json; research/gmi-833-aa1-gap-graph-v1/AD_LOOP_TEMPLATE_V1.json"},
+            {"step": "S03_PARENT_SEARCH", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/AA1_GAP_GRAPH_THEOREMS_V1.md (Strongest parents ledgers)"},
+            {"step": "S04_DERIVE", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/gap_graph_v1.py (build)"},
+            {"step": "S05_COUNTEREXAMPLE_SEARCH", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py (bounded exhaustive and seeded randomized differentials, planted positives)"},
+            {"step": "S06_REPAIR_OR_DOWNGRADE", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/GMI_GAP_GRAPH_V3.json (REPAIR_DELTA on every closed gap); research/gmi-833-aa1-gap-graph-v1/ISSUE_833_COMMENT_RECONCILIATION_AA1_GAP_GRAPH_V1.json (AA40 left open)"},
+            {"step": "S07_ARCHITECTURE_PRIOR_AUDIT", "status": "NOT_APPLICABLE", "reason": "a governance instrument over committed records; it has no architecture or search component whose built-in preferences could be audited"},
+            {"step": "S08_INDEPENDENT_IMPLEMENTATION", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/independent_gap_graph_oracle_v1.py"},
+            {"step": "S09_FROZEN_PREDICTION", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md section 5"},
+            {"step": "S10_REPLICATION", "status": "NOT_RUN", "reason": "replication is above this package's claim ceiling (REPLICATED_CLOSED is forbidden here)"},
+            {"step": "S11_REAL_SCALE_TEST", "status": "NOT_RUN", "reason": "a real-scale run is above this package's claim ceiling (REAL_SCALE_CLOSED is forbidden here)"},
+            {"step": "S12_NEW_GAP_EXTRACTION", "status": "DONE", "evidence": "research/gmi-833-aa1-gap-graph-v1/AD_LOOP_RECORDS_V1.json#loops[0].iterations[1].extracted_gaps"}
+          ],
+          "assumptions_before": [
+            "A0-UNIVERSE: the 1140 records of GAP_GRAPH_V2.json are the gap universe",
+            "A0-EDGES: stated dependencies reach this package only through REGISTER_DELTA_V1 claim_dependencies",
+            "A-ID: gap node identity is (gap id, occurrence index in GAP_GRAPH_V2 file order)",
+            "A-B1: byte-identical statement text at distinct declaration sites denotes one semantic object",
+            "A-B3: a declaration whose statement names another declaration's file basename points to that declaration's content"
+          ],
+          "assumptions_after": [
+            "A0-UNIVERSE: the 1140 records of GAP_GRAPH_V2.json are the gap universe",
+            "A0-EDGES: stated dependencies reach this package only through REGISTER_DELTA_V1 claim_dependencies",
+            "A-ID: gap node identity is (gap id, occurrence index in GAP_GRAPH_V2 file order)",
+            "A-B1: byte-identical statement text at distinct declaration sites denotes one semantic object",
+            "A-B3: a declaration whose statement names another declaration's file basename points to that declaration's content",
+            "A-FLAG: the AJ0 FOUNDATION_LAYER_REGISTRY flagship_results list is the flagship universe",
+            "A-GATE: the parent-closure predicate is consulted before a parent issue is closed"
+          ],
+          "assumption_changes": [
+            {"assumption": "A-FLAG: the AJ0 FOUNDATION_LAYER_REGISTRY flagship_results list is the flagship universe", "change": "ADDED", "gap_ref": "GAP-AD-AA1-FLAGSHIP-SLOTS"},
+            {"assumption": "A-GATE: the parent-closure predicate is consulted before a parent issue is closed", "change": "ADDED", "gap_ref": "GAP-AD-AA1-AA40-BINDING"}
+          ],
+          "extracted_gaps": [
+            {
+              "id": "GAP-AD-AA1-FLAGSHIP-SLOTS",
+              "claim_id": "AA1G-5",
+              "premise": "HOSTILE_CLOSED for a flagship result requires two filled counterexample-method slots of distinct classes",
+              "inference": "the fail-closed promotion evaluator refuses all 9 flagship results",
+              "unresolved_assumption": "A-FLAG: the AJ0 FOUNDATION_LAYER_REGISTRY flagship_results list is the flagship universe, and none of its 9 results registers a counterexample method in slot form",
+              "possible_counterexample": "a flagship package that already ran two distinct methods but never registered them, refused for bookkeeping reasons; or a flagship result absent from the AJ0 list",
+              "severity": "MAJOR",
+              "owner_role": "HOSTILE_VERIFICATION",
+              "parent_result": "T833-AA1",
+              "evidence_needed": "per flagship package, two slots filled from its own receipts with evidence pointers",
+              "materiality_inputs": {"severity": "MAJOR", "evidence_mode": "FINITE_EXACT", "scope": "FLAGSHIP", "blast": 3},
+              "source_rule": "NONE"
+            },
+            {
+              "id": "GAP-AD-AA1-AA40-BINDING",
+              "claim_id": "AA1G-3",
+              "premise": "the parent-closure predicate refuses closure while a CRITICAL descendant gap is unresolved",
+              "inference": "a refused parent is not closed",
+              "unresolved_assumption": "A-GATE: the predicate is consulted before a parent issue is closed",
+              "possible_counterexample": "the parent issue is closed on GitHub without running the predicate; nothing in this repository binds the two",
+              "severity": "MAJOR",
+              "owner_role": "HOSTILE_VERIFICATION",
+              "parent_result": "T833-AA1",
+              "evidence_needed": "the predicate wired into the issue-closure path (the checklist safe-write path or an issue event), owned outside this package",
+              "materiality_inputs": {"severity": "MAJOR", "evidence_mode": "ASSERTED", "scope": "SECTION", "blast": 2},
+              "source_rule": "NONE"
+            }
+          ],
+          "decision": "STOP",
+          "stop_reason": "DECLARED_EVIDENCE_CEILING_REACHED"
+        }
+      ]
+    }
+  ]
+}

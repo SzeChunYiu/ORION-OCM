@@ -1,0 +1,137 @@
+name: GMI 833 AA1 recursive gap graph (issue 839)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-aa1-gap-graph-v1/**'
+      - 'research/gmi-833-census-registration-pass-v1/GAP_GRAPH_V2.json'
+      - 'research/gmi-833-census-registration-pass-v1/REGISTER_DELTA_V1.json'
+      - 'research/gmi-833-corpus-census-v1/CORPUS_INDEX_V1.json'
+      - 'research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json'
+      - 'research/gmi-833-depgraph-adjudication-v1/DUPLICATE_ADJUDICATION_V1.json'
+      - 'research/gmi-833-depgraph-adjudication-v1/OVERSTRONG_ADJUDICATION_V1.json'
+      - 'research/gmi-833-aa-gap-object-v1/OPEN_GAP_SCHEMA_V1.json'
+      - 'research/gmi-833-aa-gap-object-v1/gap_object_v1.py'
+      - 'research/gmi-833-aj0-foundation-scope-v1/FOUNDATION_LAYER_REGISTRY.json'
+      - 'research/gmi-833-claim-discipline-v1/REGISTRATIONS_V2.json'
+      - '.github/workflows/gmi-833-aa1-gap-graph-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-aa1-gap-graph-v1/**'
+      - 'research/gmi-833-census-registration-pass-v1/GAP_GRAPH_V2.json'
+      - 'research/gmi-833-census-registration-pass-v1/REGISTER_DELTA_V1.json'
+      - 'research/gmi-833-corpus-census-v1/CORPUS_INDEX_V1.json'
+      - 'research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json'
+      - 'research/gmi-833-depgraph-adjudication-v1/DUPLICATE_ADJUDICATION_V1.json'
+      - 'research/gmi-833-depgraph-adjudication-v1/OVERSTRONG_ADJUDICATION_V1.json'
+      - 'research/gmi-833-aa-gap-object-v1/OPEN_GAP_SCHEMA_V1.json'
+      - 'research/gmi-833-aa-gap-object-v1/gap_object_v1.py'
+      - 'research/gmi-833-aj0-foundation-scope-v1/FOUNDATION_LAYER_REGISTRY.json'
+      - 'research/gmi-833-claim-discipline-v1/REGISTRATIONS_V2.json'
+      - '.github/workflows/gmi-833-aa1-gap-graph-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  aa1-gap-graph:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PKG: research/gmi-833-aa1-gap-graph-v1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Custody - freeze precedes implementation (squash-publication fallback)
+        run: |
+          set -euo pipefail
+          first="$(git log --reverse --format=%H -- "$PKG/" | head -1)"
+          git show --name-only --format= "$first" -- "$PKG/" > /tmp/aa1_firstfiles.txt
+          cat /tmp/aa1_firstfiles.txt
+          grep -qx "$PKG/FREEZE_V1.md" /tmp/aa1_firstfiles.txt
+          if [ "$(grep -c . /tmp/aa1_firstfiles.txt)" = "1" ]; then
+            echo 'freeze-first commit ordering intact'
+          else
+            echo 'package published by squash; freeze present in the publishing commit'
+          fi
+          git show "$first:$PKG/FREEZE_V1.md" > /tmp/aa1_freeze_at_first.md
+          cmp /tmp/aa1_freeze_at_first.md "$PKG/FREEZE_V1.md"
+          echo 'FREEZE_V1.md unchanged since its first commit'
+      - name: Pinned inputs match the freeze
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:research/gmi-833-census-registration-pass-v1/GAP_GRAPH_V2.json)" = 20cd106f10f65e25a527a1695f1113c96cf8ac41
+          test "$(git rev-parse HEAD:research/gmi-833-census-registration-pass-v1/REGISTER_DELTA_V1.json)" = be84eb34ff9fa03dbeb21f33a4df4e41c2d44f70
+          test "$(git rev-parse HEAD:research/gmi-833-corpus-census-v1/CORPUS_INDEX_V1.json)" = 709159c53c6284366aaf1f05380f5fada8d81a98
+          test "$(git rev-parse HEAD:research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json)" = 61006b756721c748f8dcc797c755abd25cc42956
+          test "$(git rev-parse HEAD:research/gmi-833-depgraph-adjudication-v1/DUPLICATE_ADJUDICATION_V1.json)" = ac6b41b4cce62f71081ede53c9c5d2ca399d5687
+          test "$(git rev-parse HEAD:research/gmi-833-depgraph-adjudication-v1/OVERSTRONG_ADJUDICATION_V1.json)" = f56e1245d216c6ad93090ea2f73156c9ec0623b4
+          test "$(git rev-parse HEAD:research/gmi-833-aa-gap-object-v1/OPEN_GAP_SCHEMA_V1.json)" = 9050c2e01e44347aa2b19710286890be1a5eb21d
+          test "$(git rev-parse HEAD:research/gmi-833-aa-gap-object-v1/gap_object_v1.py)" = 4d39fbacd2acb79d8f170d844abcb8103b4bd195
+          test "$(git rev-parse HEAD:research/gmi-833-aj0-foundation-scope-v1/FOUNDATION_LAYER_REGISTRY.json)" = 5caefcd3a0b812a1f2557dcc228f88de04db5cee
+          test "$(git rev-parse HEAD:research/gmi-833-claim-discipline-v1/REGISTRATIONS_V2.json)" = 66c3b7e4ef91e096f0ece2720af4645bebe75238
+          echo 'all eleven pinned inputs match'
+      - name: Route A - committed graph equals a fresh build
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/gap_graph_v1.py" --check
+          python3 -I -B "$PKG/gap_graph_v1.py" --validate
+          python3 -I -B "$PKG/gap_graph_v1.py" --validate-loop "$PKG/AD_LOOP_RECORDS_V1.json"
+          python3 -I -B "$PKG/gap_graph_v1.py" --validate-records "$PKG/RESULT_RECORDS_V1.json"
+      - name: Parent-closure gate refuses while CRITICAL descendants are unresolved
+        run: |
+          set -uo pipefail
+          python3 -I -B "$PKG/gap_graph_v1.py" --parent-closure-gate T833-B1-AA; rc=$?
+          test "$rc" = 1 || { echo "expected refusal (exit 1), got $rc"; exit 1; }
+          echo 'closure of T833-B1-AA refused, as it must be'
+      - name: Route B independent oracle
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/independent_gap_graph_oracle_v1.py" | tee /tmp/aa1_routeB.json
+      - name: Tests (normal)
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/test_gap_graph_v1.py" 2>&1 | tee /tmp/aa1_tests.txt
+      - name: Tests (optimized, python -O)
+        run: |
+          set -euo pipefail
+          python3 -I -O -B "$PKG/test_gap_graph_v1.py" 2>&1 | tee /tmp/aa1_tests_O.txt
+      - name: Receipt matches the live two-route run
+        run: |
+          set -euo pipefail
+          python3 -I -B "$PKG/check_receipt_v1.py"
+      - name: Receipt determinism (two independent writes are byte-identical)
+        run: |
+          set -euo pipefail
+          cp "$PKG/RESULT_V1.json" /tmp/aa1_result_committed.json
+          python3 -I -B "$PKG/check_receipt_v1.py" --write
+          sha256sum "$PKG/RESULT_V1.json" "$PKG/ISSUE_833_COMMENT_RECONCILIATION_AA1_GAP_GRAPH_V1.json" | tee /tmp/aa1_sha_1.txt
+          python3 -I -B "$PKG/check_receipt_v1.py" --write
+          sha256sum "$PKG/RESULT_V1.json" "$PKG/ISSUE_833_COMMENT_RECONCILIATION_AA1_GAP_GRAPH_V1.json" | tee /tmp/aa1_sha_2.txt
+          cmp /tmp/aa1_sha_1.txt /tmp/aa1_sha_2.txt
+          git diff --exit-code -- "$PKG/"
+      - name: Ledger gate and terminology ratchet on this package's files
+        run: |
+          set -euo pipefail
+          git ls-files "$PKG/" > /tmp/aa1_owned.txt
+          echo ".github/workflows/gmi-833-aa1-gap-graph-v1.yml" >> /tmp/aa1_owned.txt
+          python3 -I -B research/gmi-833-aa-ledger-gate-v1/ledger_gate_v1.py --gate --owned-files /tmp/aa1_owned.txt
+          python3 -I -B research/gmi-833-ab-terminology-harness-v1/terminology_ratchet_v1.py --owned-files /tmp/aa1_owned.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmi-833-aa1-gap-graph-v1
+          path: |
+            /tmp/aa1_routeB.json
+            /tmp/aa1_tests.txt
+            /tmp/aa1_tests_O.txt
+            /tmp/aa1_sha_1.txt
+            /tmp/aa1_sha_2.txt
+          if-no-files-found: warn

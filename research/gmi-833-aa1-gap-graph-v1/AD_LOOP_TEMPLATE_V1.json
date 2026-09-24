@@ -1,0 +1,65 @@
+{
+  "schema": "GMI_AD_LOOP_TEMPLATE_V1",
+  "package": "gmi-833-aa1-gap-graph-v1",
+  "issue": 839,
+  "freeze": "FREEZE_V1.md section 4.9",
+  "source_text": "claim -> formalize -> parent-search -> derive -> counterexample-search -> repair/downgrade -> architecture-prior audit -> independent implementation -> frozen prediction -> replication -> real-scale test -> new-gap extraction -> repeat",
+  "source_pointer": "research/gmi-833-checklist-mirror-v1/comments/comment_5684607872.md (### AD. Recursive research loop, text block)",
+  "steps": [
+    {"id": "S01_CLAIM", "name": "claim", "artifact": "the claim text and its declared scope"},
+    {"id": "S02_FORMALIZE", "name": "formalize", "artifact": "a machine-readable statement or schema"},
+    {"id": "S03_PARENT_SEARCH", "name": "parent-search", "artifact": "a strongest-parent ledger"},
+    {"id": "S04_DERIVE", "name": "derive", "artifact": "the derivation or construction"},
+    {"id": "S05_COUNTEREXAMPLE_SEARCH", "name": "counterexample-search", "artifact": "counterexample-method slots with outcomes"},
+    {"id": "S06_REPAIR_OR_DOWNGRADE", "name": "repair/downgrade", "artifact": "REPAIR_DELTA records or a downgraded claim ceiling"},
+    {"id": "S07_ARCHITECTURE_PRIOR_AUDIT", "name": "architecture-prior audit", "artifact": "the audit record, or a reason it does not apply"},
+    {"id": "S08_INDEPENDENT_IMPLEMENTATION", "name": "independent implementation", "artifact": "a second route sharing no code with the first"},
+    {"id": "S09_FROZEN_PREDICTION", "name": "frozen prediction", "artifact": "a freeze committed before the outcome"},
+    {"id": "S10_REPLICATION", "name": "replication", "artifact": "an independent replication record"},
+    {"id": "S11_REAL_SCALE_TEST", "name": "real-scale test", "artifact": "a real-scale run record"},
+    {"id": "S12_NEW_GAP_EXTRACTION", "name": "new-gap extraction", "artifact": "one or more OPEN_GAP records extracted in this iteration"}
+  ],
+  "after_last_step": "repeat (decision REPEAT) or stop (decision STOP with a declared stop reason)",
+  "step_statuses": ["DONE", "NOT_RUN", "NOT_APPLICABLE"],
+  "status_rules": {
+    "DONE": "requires a non-empty evidence pointer",
+    "NOT_RUN": "requires a non-empty reason",
+    "NOT_APPLICABLE": "requires a non-empty reason",
+    "S12_NEW_GAP_EXTRACTION": "must be DONE and the iteration must extract at least one gap"
+  },
+  "loop_fields": ["loop_id", "claim_id", "claim", "parent_result", "iterations"],
+  "iteration_fields": [
+    "iteration", "steps", "assumptions_before", "assumptions_after",
+    "assumption_changes", "extracted_gaps", "decision", "stop_reason"
+  ],
+  "extracted_gap_fields": [
+    "id", "claim_id", "premise", "inference", "unresolved_assumption",
+    "possible_counterexample", "severity", "owner_role", "parent_result",
+    "evidence_needed", "materiality_inputs", "source_rule"
+  ],
+  "materiality_input_fields": ["severity", "evidence_mode", "scope", "blast"],
+  "assumption_change_kinds": ["ADDED", "REMOVED"],
+  "decisions": ["REPEAT", "STOP"],
+  "stop_reasons": ["DECLARED_EVIDENCE_CEILING_REACHED", "NO_MATERIAL_GAP_AT_THRESHOLD"],
+  "material_threshold_index": 6,
+  "source_rules": ["B1_CROSS_PACKAGE", "B3_ALL", "NONE"],
+  "finding_codes": [
+    "L_SCHEMA",
+    "L_STEP_MISSING_OR_ORDER",
+    "L_STEP_STATUS",
+    "L_NO_GAP_EXTRACTION",
+    "L_GAP_RECORD_INVALID",
+    "L_MATERIALITY_INPUTS",
+    "L_DUPLICATE_GAP_ID",
+    "L_SILENT_ASSUMPTION_EDIT",
+    "L_ITERATION_CONTINUITY",
+    "L_STOP_REASON",
+    "L_STOP_UNJUSTIFIED"
+  ],
+  "materiality_input_rule": {
+    "severity": "CRITICAL if, realised, it reverses a recorded verdict of a flagship result; MAJOR if it can reverse a recorded closure grade or gate verdict of the graph; MINOR if it affects identity or bookkeeping only; INFO otherwise",
+    "evidence_mode": "FINITE_EXACT if its extent is an exact count in the receipt, else ASSERTED",
+    "scope": "FLAGSHIP if it touches a flagship result; SECTION if it spans more than one package; PACKAGE if within one; else LOCAL",
+    "blast": "number of graph nodes whose grade or gate verdict it can change, capped at 3"
+  }
+}

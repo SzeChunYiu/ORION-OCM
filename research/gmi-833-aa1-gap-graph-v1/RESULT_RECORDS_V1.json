@@ -1,0 +1,249 @@
+{
+  "schema": "GMI_RESULT_RECORDS_V1",
+  "package": "gmi-833-aa1-gap-graph-v1",
+  "note": "One machine-readable record per named result of AA1_GAP_GRAPH_THEOREMS_V1.md (FREEZE_V1.md section 4.10). The nine flagship records are built by gap_graph_v1.py from the AJ0 registry and REGISTRATIONS_V2.json and live in GMI_GAP_GRAPH_V3.json. Exact numbers are in RESULT_V1.json.",
+  "records": [
+    {
+      "result_id": "AA1G-1",
+      "statement": "GMI_GAP_GRAPH_V3 is a typed graph over the 1140 corpus gap records and 6 AD-loop gaps whose 198 descendant edges are derived by rules R1/R2/R3 only; 41 corpus records gain a gap descendant from corpus rules alone (0 in the census graph), and every gap claim id has a claim node linked to its unresolved descendants.",
+      "scope": "SECTION",
+      "is_flagship": false,
+      "assumptions": [
+        "the 1140 records of GAP_GRAPH_V2.json are the gap universe",
+        "stated dependencies reach this package only through REGISTER_DELTA_V1 claim_dependencies",
+        "gap node identity is (gap id, occurrence index in GAP_GRAPH_V2 file order)"
+      ],
+      "dependencies": [
+        "research/gmi-833-census-registration-pass-v1/GAP_GRAPH_V2.json",
+        "research/gmi-833-census-registration-pass-v1/REGISTER_DELTA_V1.json",
+        "research/gmi-833-corpus-census-v1/CORPUS_INDEX_V1.json",
+        "research/gmi-833-depgraph-adjudication-v1/DEPENDENCY_GRAPH_V2.json"
+      ],
+      "falsifiers": [
+        "a descendant edge that no rule R1/R2/R3 derives",
+        "route B's fixed-point R2 edge set differing from route A's",
+        "a gap claim id without a claim node"
+      ],
+      "counterexample_methods": [
+        {"slot": 1, "method_class": "INDEPENDENT_IMPLEMENTATION_DIFFERENTIAL", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/independent_gap_graph_oracle_v1.py", "search_scope": "every DESCENDANT and DEPENDS_ON edge of the real graph, compared by set equality", "outcome": "NO_COUNTEREXAMPLE_FOUND"},
+        {"slot": 2, "method_class": "BOUNDED_EXHAUSTIVE_ENUMERATION", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestExhaustiveDifferential", "search_scope": "all 4608 digraphs on 3 (with self-loops) and 4 (without) gap nodes", "outcome": "NO_COUNTEREXAMPLE_FOUND"}
+      ],
+      "strongest_parents": [
+        "gmi-833-census-registration-pass-v1 GAP_GRAPH_V2 (gap-to-object descendants on 50 of 1140 records)",
+        "gmi-833-depgraph-adjudication-v1 DEPENDENCY_GRAPH_V2 (357 stated edges)",
+        "Doyle 1979 truth maintenance (dependency-directed retraction)"
+      ],
+      "prior_disclosure": {"freeze_pointer": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md", "outcome_timing": "SCOPING_OBSERVED"},
+      "evidence": {"evidence_level": "FINITE_EXACT", "maturity_level": "UNREGISTERED"},
+      "forbidden_extrapolations": ["GMI_GAP_GRAPH_COMPLETE", "ISOLATED_GAP_IS_LEAF", "ALL_GAPS_EXHAUSTED"],
+      "closure_state": "LOCALLY_CLOSED",
+      "closure_evidence": {"local_checks_pass": true, "independent_route": true, "hostiles_detected": true, "independent_replication": false, "real_scale_run": false},
+      "provenance": {"statement": "research/gmi-833-aa1-gap-graph-v1/AA1_GAP_GRAPH_THEOREMS_V1.md#AA1G-1", "numbers": "research/gmi-833-aa1-gap-graph-v1/RESULT_V1.json#summary.descendants"}
+    },
+    {
+      "result_id": "AA1G-2",
+      "statement": "Every closed gap records the assumptions its repair newly introduced and its descendant gaps: 154 GAP-DUPID records are LOCALLY_CLOSED (108 B1, 46 B3) with the adjudication predicate re-derived by both routes, and each carries a REPAIR_DELTA with a non-empty new_assumptions list and new_gaps equal to its direct descendant successors.",
+      "scope": "SECTION",
+      "is_flagship": false,
+      "assumptions": [
+        "the DUPID verdicts of DUPLICATE_ADJUDICATION_V1.json are the adjudications on record",
+        "re-deriving the B1/B2/B3 predicate from CORPUS_INDEX_V1 declarations is an independent local check"
+      ],
+      "dependencies": [
+        "research/gmi-833-depgraph-adjudication-v1/DUPLICATE_ADJUDICATION_V1.json",
+        "research/gmi-833-aa-gap-object-v1/gap_object_v1.py (emit_repair_delta)",
+        "AA1G-1"
+      ],
+      "falsifiers": [
+        "a LOCALLY_CLOSED gap without a REPAIR_DELTA",
+        "a REPAIR_DELTA with an empty new_assumptions list",
+        "new_gaps differing from the direct DESCENDANT successors"
+      ],
+      "counterexample_methods": [
+        {"slot": 1, "method_class": "HAND_CONSTRUCTED_ADVERSARIAL", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestPlantedPositives", "search_scope": "planted closed-without-repair, empty-assumption, grade-mismatch and new_gaps-mismatch fixtures", "outcome": "NO_COUNTEREXAMPLE_FOUND"},
+        {"slot": 2, "method_class": "BOUNDED_EXHAUSTIVE_ENUMERATION", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestExhaustiveDifferential", "search_scope": "13824 gap-promotion cases over state x materiality x evidence x repair variant x requested grade", "outcome": "NO_COUNTEREXAMPLE_FOUND"},
+        {"slot": 3, "method_class": "INDEPENDENT_IMPLEMENTATION_DIFFERENTIAL", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/independent_gap_graph_oracle_v1.py", "search_scope": "closure set and every repair new_gaps list of the real graph", "outcome": "NO_COUNTEREXAMPLE_FOUND"}
+      ],
+      "strongest_parents": [
+        "gmi-833-aa-gap-object-v1 AAG-5 (REPAIR_DELTA emitter)",
+        "gmi-833-depgraph-adjudication-v1 duplicate adjudication rules B1-B4"
+      ],
+      "prior_disclosure": {"freeze_pointer": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md", "outcome_timing": "SCOPING_OBSERVED"},
+      "evidence": {"evidence_level": "FINITE_EXACT", "maturity_level": "UNREGISTERED"},
+      "forbidden_extrapolations": ["CLOSED_GAP_IS_RESOLVED_SEMANTICALLY", "ALL_GAPS_EXHAUSTED", "HOSTILE_CLOSED"],
+      "closure_state": "LOCALLY_CLOSED",
+      "closure_evidence": {"local_checks_pass": true, "independent_route": true, "hostiles_detected": true, "independent_replication": false, "real_scale_run": false},
+      "provenance": {"statement": "research/gmi-833-aa1-gap-graph-v1/AA1_GAP_GRAPH_THEOREMS_V1.md#AA1G-2", "numbers": "research/gmi-833-aa1-gap-graph-v1/RESULT_V1.json#summary.closure"}
+    },
+    {
+      "result_id": "AA1G-3",
+      "statement": "An unresolved CRITICAL descendant blocks promotion beyond LOCALLY_CLOSED and blocks parent closure: 136 of the 154 closed gaps are held at LOCALLY_CLOSED (6 by corpus-rule descendants alone), and closing parent T833-B1-AA is refused while 292 CRITICAL gaps in its cone are unresolved.",
+      "scope": "SECTION",
+      "is_flagship": false,
+      "assumptions": [
+        "materiality is the AAG-3 function of gmi-833-aa-gap-object-v1 with its declared inputs",
+        "a gap is unresolved iff its closure state is not one of the four grades"
+      ],
+      "dependencies": ["AA1G-1", "AA1G-2", "research/gmi-833-aa-gap-object-v1/OPEN_GAP_SCHEMA_V1.json"],
+      "falsifiers": [
+        "a node held above LOCALLY_CLOSED with an unresolved CRITICAL gap in its descendant closure",
+        "a parent granted closure while a CRITICAL gap in its cone is unresolved"
+      ],
+      "counterexample_methods": [
+        {"slot": 1, "method_class": "BOUNDED_EXHAUSTIVE_ENUMERATION", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestExhaustiveDifferential", "search_scope": "3072 parent-promotion and 13824 gap-promotion cases", "outcome": "NO_COUNTEREXAMPLE_FOUND"},
+        {"slot": 2, "method_class": "PROPERTY_BASED_RANDOMIZED", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestRandomizedDifferential", "search_scope": "300 seeded random graphs", "outcome": "NO_COUNTEREXAMPLE_FOUND"}
+      ],
+      "strongest_parents": [
+        "gmi-833-aa-gap-object-v1 AAG-3 (materiality threshold) and AAG-4 (closure lattice)",
+        "GSN assurance-case argument graphs (Kelly and Weaver 2004): an undeveloped child goal blocks the parent claim"
+      ],
+      "prior_disclosure": {"freeze_pointer": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md", "outcome_timing": "POST_OUTCOME"},
+      "evidence": {"evidence_level": "FINITE_EXACT", "maturity_level": "UNREGISTERED"},
+      "forbidden_extrapolations": ["PARENT_ISSUE_CLOSURE_PREVENTED_ON_GITHUB", "NO_MATERIAL_GAP_REMAINS", "RECURSION_EXHAUSTED"],
+      "closure_state": "LOCALLY_CLOSED",
+      "closure_evidence": {"local_checks_pass": true, "independent_route": true, "hostiles_detected": true, "independent_replication": false, "real_scale_run": false},
+      "provenance": {"statement": "research/gmi-833-aa1-gap-graph-v1/AA1_GAP_GRAPH_THEOREMS_V1.md#AA1G-3", "numbers": "research/gmi-833-aa1-gap-graph-v1/RESULT_V1.json#summary.materiality"}
+    },
+    {
+      "result_id": "AA1G-4",
+      "statement": "Closure states are exactly OPEN plus the four declared grades; a bare closed value (any case) is refused as BARE_CLOSED by the graph validator and by the promotion evaluator, any other undeclared value as UNKNOWN_CLOSURE_STATE, and a grade is held only with the evidence flags the gap-object lattice requires.",
+      "scope": "PACKAGE",
+      "is_flagship": false,
+      "assumptions": [
+        "the gap-object bare-closed detector defines the bare token",
+        "the gap-object closure lattice defines the evidence each grade requires"
+      ],
+      "dependencies": ["research/gmi-833-aa-gap-object-v1/gap_object_v1.py (bare_closed_hits, closure_grades)"],
+      "falsifiers": [
+        "a bare closed value accepted as a closure state",
+        "a grade held without its required evidence flags",
+        "the two routes disagreeing on any promotion case"
+      ],
+      "counterexample_methods": [
+        {"slot": 1, "method_class": "BOUNDED_EXHAUSTIVE_ENUMERATION", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestExhaustiveDifferential", "search_scope": "13824 gap, 1000 flagship and 3072 parent promotion cases including bare and undeclared requests", "outcome": "NO_COUNTEREXAMPLE_FOUND"},
+        {"slot": 2, "method_class": "HAND_CONSTRUCTED_ADVERSARIAL", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestPlantedPositives", "search_scope": "closed / Closed / CLOSED / DONE planted states", "outcome": "NO_COUNTEREXAMPLE_FOUND"}
+      ],
+      "strongest_parents": ["gmi-833-aa-gap-object-v1 AAG-4 (four-grade chain and bare-closed detector)"],
+      "prior_disclosure": {"freeze_pointer": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md", "outcome_timing": "PRE_OUTCOME"},
+      "evidence": {"evidence_level": "FINITE_EXACT", "maturity_level": "UNREGISTERED"},
+      "forbidden_extrapolations": ["REPLICATED_CLOSED", "REAL_SCALE_CLOSED", "CORPUS_FREE_OF_BARE_CLOSED"],
+      "closure_state": "LOCALLY_CLOSED",
+      "closure_evidence": {"local_checks_pass": true, "independent_route": true, "hostiles_detected": true, "independent_replication": false, "real_scale_run": false},
+      "provenance": {"statement": "research/gmi-833-aa1-gap-graph-v1/AA1_GAP_GRAPH_THEOREMS_V1.md#AA1G-4", "numbers": "research/gmi-833-aa1-gap-graph-v1/RESULT_V1.json#differentials"}
+    },
+    {
+      "result_id": "AA1G-5",
+      "statement": "Every flagship result record carries at least two counterexample-method slots, and HOSTILE_CLOSED or higher is refused unless two filled slots name distinct declared classes with no counterexample on record; on the 9 flagship results of the AJ0 registry no slot is filled and HOSTILE_CLOSED is refused 9/9.",
+      "scope": "PACKAGE",
+      "is_flagship": false,
+      "assumptions": [
+        "the AJ0 FOUNDATION_LAYER_REGISTRY flagship_results list is the flagship universe",
+        "a missing or non-boolean flagship flag is read as flagship (fail-closed)"
+      ],
+      "dependencies": ["research/gmi-833-aj0-foundation-scope-v1/FOUNDATION_LAYER_REGISTRY.json", "AA1G-8"],
+      "falsifiers": [
+        "a flagship result granted HOSTILE_CLOSED with fewer than two distinct filled methods",
+        "a malformed slot list accepted"
+      ],
+      "counterexample_methods": [
+        {"slot": 1, "method_class": "BOUNDED_EXHAUSTIVE_ENUMERATION", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestExhaustiveDifferential", "search_scope": "1000 flagship cases: 25 slot pairs x 4 flag variants x 5 requests x 2 evidence states", "outcome": "NO_COUNTEREXAMPLE_FOUND"},
+        {"slot": 2, "method_class": "HAND_CONSTRUCTED_ADVERSARIAL", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestPlantedPositives", "search_scope": "one-method, same-class, counterexample-on-record, malformed-list and empty-pointer fixtures", "outcome": "NO_COUNTEREXAMPLE_FOUND"}
+      ],
+      "strongest_parents": [
+        "#833 AA12-AA15 method rows (bounded exhaustive, SAT/SMT/model checking, property-based, proof assistant)",
+        "Claessen and Hughes 2000, QuickCheck (property-based testing)"
+      ],
+      "prior_disclosure": {"freeze_pointer": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md", "outcome_timing": "PRE_OUTCOME"},
+      "evidence": {"evidence_level": "FINITE_EXACT", "maturity_level": "UNREGISTERED"},
+      "forbidden_extrapolations": ["FLAGSHIP_RESULTS_COUNTEREXAMPLE_SEARCHED", "HOSTILE_CLOSED", "INDEPENDENT_HOSTILE_REVIEW_COMPLETE"],
+      "closure_state": "LOCALLY_CLOSED",
+      "closure_evidence": {"local_checks_pass": true, "independent_route": true, "hostiles_detected": true, "independent_replication": false, "real_scale_run": false},
+      "provenance": {"statement": "research/gmi-833-aa1-gap-graph-v1/AA1_GAP_GRAPH_THEOREMS_V1.md#AA1G-5", "numbers": "research/gmi-833-aa1-gap-graph-v1/RESULT_V1.json#summary.flagship"}
+    },
+    {
+      "result_id": "AA1G-6",
+      "statement": "Graph validation is deterministic and reports, never collapses: the real graph has 0 findings and 0 cycles in both routes; each of the 21 finding codes has a planted positive that fires in both routes; the clean cases stay silent; the cycle report agrees with a brute-force oracle on all 4608 small digraphs; two builds are byte-identical.",
+      "scope": "PACKAGE",
+      "is_flagship": false,
+      "assumptions": ["the 21 finding codes of GAP_GRAPH_SCHEMA_V1.json are the validation contract"],
+      "dependencies": ["AA1G-1", "research/gmi-833-aa1-gap-graph-v1/GAP_GRAPH_SCHEMA_V1.json"],
+      "falsifiers": [
+        "a planted positive that does not fire",
+        "a clean fixture that alarms",
+        "a cycle condensed into one node or not reported",
+        "two builds differing in any byte"
+      ],
+      "counterexample_methods": [
+        {"slot": 1, "method_class": "HAND_CONSTRUCTED_ADVERSARIAL", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestPlantedPositives", "search_scope": "39 planted positives covering 21/21 codes and 6 clean cases", "outcome": "NO_COUNTEREXAMPLE_FOUND"},
+        {"slot": 2, "method_class": "BOUNDED_EXHAUSTIVE_ENUMERATION", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestExhaustiveDifferential", "search_scope": "4608 digraphs against a mutual-reachability oracle", "outcome": "NO_COUNTEREXAMPLE_FOUND"},
+        {"slot": 3, "method_class": "PROPERTY_BASED_RANDOMIZED", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestRandomizedDifferential", "search_scope": "300 seeded random graphs (seed 8390839)", "outcome": "NO_COUNTEREXAMPLE_FOUND"}
+      ],
+      "strongest_parents": [
+        "Tarjan 1972 (strongly connected components)",
+        "Kahn 1962 and Kosaraju (two-pass SCC) as the independent route",
+        "gmi-833-depgraph-adjudication-v1 CYCLE_REPORT_V1 (cycle report over the stated-dependency union)"
+      ],
+      "prior_disclosure": {"freeze_pointer": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md", "outcome_timing": "PRE_OUTCOME"},
+      "evidence": {"evidence_level": "FINITE_EXACT", "maturity_level": "UNREGISTERED"},
+      "forbidden_extrapolations": ["CORPUS_ACYCLIC_IN_SUBSTANCE", "DETECTOR_IS_COMPLETE", "ANALYTIC_PROOF"],
+      "closure_state": "LOCALLY_CLOSED",
+      "closure_evidence": {"local_checks_pass": true, "independent_route": true, "hostiles_detected": true, "independent_replication": false, "real_scale_run": false},
+      "provenance": {"statement": "research/gmi-833-aa1-gap-graph-v1/AA1_GAP_GRAPH_THEOREMS_V1.md#AA1G-6", "numbers": "research/gmi-833-aa1-gap-graph-v1/RESULT_V1.json#planted"}
+    },
+    {
+      "result_id": "AA1G-7",
+      "statement": "The AD research loop is a machine-readable twelve-step template whose validator rejects any iteration without extracted gaps and any assumption edit not paired with a gap extracted in that iteration; the worked instance for this lane (2 iterations, 6 extracted gaps, 5 paired assumption changes) validates clean and its gaps are ingested into the graph.",
+      "scope": "PACKAGE",
+      "is_flagship": false,
+      "assumptions": ["the twelve steps are those of the #833 AD text block, in order"],
+      "dependencies": ["research/gmi-833-aa1-gap-graph-v1/AD_LOOP_TEMPLATE_V1.json", "AA1G-1"],
+      "falsifiers": [
+        "an iteration with no extracted gap accepted",
+        "a silent assumption edit accepted",
+        "a stop for an undeclared reason accepted"
+      ],
+      "counterexample_methods": [
+        {"slot": 1, "method_class": "PROPERTY_BASED_RANDOMIZED", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestRandomizedDifferential", "search_scope": "200 seeded mutations of the real loop document over 22 mutation classes (seed 8390840)", "outcome": "NO_COUNTEREXAMPLE_FOUND"},
+        {"slot": 2, "method_class": "HAND_CONSTRUCTED_ADVERSARIAL", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestADLoop", "search_scope": "one planted positive per loop finding code and a clean terminal iteration", "outcome": "NO_COUNTEREXAMPLE_FOUND"}
+      ],
+      "strongest_parents": [
+        "Nosek et al. 2018 preregistration (frozen prediction step)",
+        "Lakatos 1970 research programmes (repair versus degeneration)"
+      ],
+      "prior_disclosure": {"freeze_pointer": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md", "outcome_timing": "PRE_OUTCOME"},
+      "evidence": {"evidence_level": "FINITE_EXACT", "maturity_level": "UNREGISTERED"},
+      "forbidden_extrapolations": ["RECURSION_EXHAUSTED", "ALL_GAPS_EXHAUSTED", "LOOP_EXECUTED_FOR_EVERY_MAJOR_CLAIM"],
+      "closure_state": "LOCALLY_CLOSED",
+      "closure_evidence": {"local_checks_pass": true, "independent_route": true, "hostiles_detected": true, "independent_replication": false, "real_scale_run": false},
+      "provenance": {"statement": "research/gmi-833-aa1-gap-graph-v1/AA1_GAP_GRAPH_THEOREMS_V1.md#AA1G-7", "numbers": "research/gmi-833-aa1-gap-graph-v1/RESULT_V1.json#loop"}
+    },
+    {
+      "result_id": "AA1G-8",
+      "statement": "One machine-readable result record carries assumptions, dependencies, falsifiers, counterexample-method slots, strongest parents, prior disclosure, evidence and maturity, forbidden extrapolations and closure state; the 9 flagship records built from committed registers and the 8 records of this package all validate, and planted invalid records are rejected by both routes.",
+      "scope": "PACKAGE",
+      "is_flagship": false,
+      "assumptions": ["a list field is a non-empty list of strings or the sentinel UNREGISTERED"],
+      "dependencies": [
+        "research/gmi-833-claim-discipline-v1/REGISTRATIONS_V2.json",
+        "research/gmi-833-aj0-foundation-scope-v1/FOUNDATION_LAYER_REGISTRY.json",
+        "research/gmi-833-aa-ledger-gate-v1 (theorem and experiment ledger predicates)"
+      ],
+      "falsifiers": ["a record missing a field accepted", "an empty list accepted in place of the sentinel"],
+      "counterexample_methods": [
+        {"slot": 1, "method_class": "HAND_CONSTRUCTED_ADVERSARIAL", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/test_gap_graph_v1.py::TestResultRecords", "search_scope": "one planted invalid record per field", "outcome": "NO_COUNTEREXAMPLE_FOUND"},
+        {"slot": 2, "method_class": "INDEPENDENT_IMPLEMENTATION_DIFFERENTIAL", "evidence_pointer": "research/gmi-833-aa1-gap-graph-v1/independent_gap_graph_oracle_v1.py", "search_scope": "validity of every flagship and package record", "outcome": "NO_COUNTEREXAMPLE_FOUND"}
+      ],
+      "strongest_parents": [
+        "gmi-833-claim-discipline-v1 registrations (assumptions, falsifiers, strongest parents, forbidden extrapolations)",
+        "gmi-833-aa-ledger-gate-v1 LG-1..LG-4 (ledger emission predicates)",
+        "Mitchell et al. 2019 model cards (structured result reporting)"
+      ],
+      "prior_disclosure": {"freeze_pointer": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md", "outcome_timing": "POST_OUTCOME"},
+      "evidence": {"evidence_level": "FINITE_EXACT", "maturity_level": "UNREGISTERED"},
+      "forbidden_extrapolations": ["LEDGER_CONTENTS_VERIFIED", "CORPUS_LEDGERS_COMPLETE"],
+      "closure_state": "LOCALLY_CLOSED",
+      "closure_evidence": {"local_checks_pass": true, "independent_route": true, "hostiles_detected": true, "independent_replication": false, "real_scale_run": false},
+      "provenance": {"statement": "research/gmi-833-aa1-gap-graph-v1/AA1_GAP_GRAPH_THEOREMS_V1.md#AA1G-8", "numbers": "research/gmi-833-aa1-gap-graph-v1/RESULT_V1.json#summary.own_results"}
+    }
+  ]
+}

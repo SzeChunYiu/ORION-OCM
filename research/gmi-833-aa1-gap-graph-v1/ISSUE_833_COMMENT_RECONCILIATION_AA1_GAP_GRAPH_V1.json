@@ -1,0 +1,113 @@
+{
+ "apply_state_counts": {
+  "PENDING": 4
+ },
+ "child_issue": 839,
+ "claim_ceiling": "GMI_833_RECURSIVE_GAP_GOVERNANCE_V1_AT_DECLARED_SCOPE",
+ "comment_id": 5684607872,
+ "comment_live_updated_at_freeze": "2026-09-18T17:31:30Z",
+ "do_not_edit": true,
+ "do_not_edit_note": "This package did not edit the issue body or any comment. The `old` strings are byte-exact against the live comment 5684607872 read at freeze and its mirror research/gmi-833-checklist-mirror-v1/comments/comment_5684607872.md, and each occurs exactly once under its ### anchor. `new` is in pointer form; the full evidence is in `evidence` here and in RESULT_V1.json#reconciliation_evidence. Apply only after merge, through comment_safe_write_v1.py.",
+ "earned_criterion": "research/gmi-833-aa1-gap-graph-v1/FREEZE_V1.md section 6",
+ "forbidden_promotions": [
+  "ALL_GAPS_EXHAUSTED",
+  "INDEPENDENT_HOSTILE_REVIEW_COMPLETE",
+  "CORPUS_AUDIT_COMPLETE",
+  "REPLICATED_CLOSED",
+  "REAL_SCALE_CLOSED",
+  "COMPLETE_GMI",
+  "GMI_GAP_GRAPH_COMPLETE",
+  "RECURSION_EXHAUSTED",
+  "NO_MATERIAL_GAP_REMAINS",
+  "ISOLATED_GAP_IS_LEAF",
+  "ANALYTIC_PROOF",
+  "HOSTILE_CLOSED_AWARDED_TO_ANY_REAL_NODE",
+  "PARENT_ISSUE_CLOSURE_PREVENTED_ON_GITHUB",
+  "FLAGSHIP_RESULTS_COUNTEREXAMPLE_SEARCHED",
+  "LEDGER_CONTENTS_VERIFIED"
+ ],
+ "issue": 833,
+ "not_closed": [
+  {
+   "anchor": "### AA. Recursive loophole / logic-gap closure",
+   "bucket": "EXTERNAL-ACTION",
+   "comment_id": 5684607872,
+   "old": "- [ ] Prevent parent issue closure while any critical descendant gap remains unresolved.",
+   "reason": "[EXTERNAL-ACTION] Instrument delivered, row not earned: `gap_graph_v1.py --parent-closure-gate` refuses closing a parent while a CRITICAL gap in its cone is unresolved (exit 1; T833-B1-AA refused with 292, T833-AA1 with 5; 3072-case exhaustive cube with 0 grants over an open critical), but nothing binds it to the GitHub issue-close action or to the checklist safe-write path, which this lane may not edit. Recorded as GAP-AD-AA1-AA40-BINDING.",
+   "row_id": "AA40"
+  },
+  {
+   "anchor": "### AA. Recursive loophole / logic-gap closure",
+   "bucket": "NEW-SCIENCE",
+   "comment_id": 5684607872,
+   "old": "- [ ] Recurse until no new **material** gap is found under the declared scope.",
+   "reason": "[NEW-SCIENCE] The worked AD loop stopped at DECLARED_EVIDENCE_CEILING_REACHED with 5 CRITICAL extracted gaps unresolved; no claim was recursed to a no-new-material-gap fixpoint.",
+   "row_id": "AA08"
+  },
+  {
+   "anchor": "### AA. Recursive loophole / logic-gap closure",
+   "bucket": "EXTERNAL-GATE",
+   "comment_id": 5684607872,
+   "old": "- [ ] Require independent hostile review before a gap can be marked exhausted.",
+   "reason": "[EXTERNAL-GATE] Independent hostile review needs a lane that did not author the result; this package's route B is an independent implementation by the same lane, not an independent review.",
+   "row_id": "AA10"
+  },
+  {
+   "anchor": "### AD. Recursive research loop",
+   "bucket": "EXACT-FORMAL",
+   "comment_id": 5684607872,
+   "old": "- [ ] Stop only at the declared evidence ceiling, never because the checklist is long.",
+   "reason": "[EXACT-FORMAL] The template admits only DECLARED_EVIDENCE_CEILING_REACHED or NO_MATERIAL_GAP_AT_THRESHOLD as stop reasons for loop records, but it does not verify that a declared ceiling was reached, and no census binds packages' loops to their claim ceilings; not earned.",
+   "row_id": "AD03"
+  }
+ ],
+ "package": "gmi-833-aa1-gap-graph-v1",
+ "replacements": [
+  {
+   "anchor": "### AA. Recursive loophole / logic-gap closure",
+   "apply_state": "PENDING",
+   "comment_id": 5684607872,
+   "evidence": "`gmi-833-aa1-gap-graph-v1` AA1G-1+AA1G-2+AA1G-3: `GMI_GAP_GRAPH_V3.json` types 2341 nodes (1146 GAP, 1174 CLAIM, 17 RESULT, 2 PARENT, 2 ASSUMPTION) and 2757 edges. Its 198 DESCENDANT edges are derived by three declared rules only: R1 id precedence 46, R2 stated-dependency propagation 16 (route B recomputes it by fixed point without reading the V2 field), R3 repair successor 136. 41 of the 1140 census gap records gain a gap descendant from corpus records alone (census graph: 0/1140), 169 under any rule, 207 carry a gap or object descendant. Every one of the 1094 gap claim ids has a claim node; 1082 of 1174 claim nodes link to at least one unresolved descendant gap. Live: the builder re-derives the graph from blob-pinned inputs and ingests AD-loop gap records, and CI requires the committed file to equal a fresh build byte for byte; 0 cycles and 0 findings in two routes. Absence of a stated edge is not independence (extracted as the CRITICAL gap GAP-AD-AA1-SPARSITY).",
+   "evidence_key": "L:87bb22948d9b",
+   "new": "- [x] Maintain a live `GMI_GAP_GRAPH` linking every claim to unresolved descendants. — ✅ #839 `gmi-833-aa1-gap-graph-v1` AA1G-1/AA1G-2/AA1G-3 L:87bb22948d9b",
+   "old": "- [ ] Maintain a live `GMI_GAP_GRAPH` linking every claim to unresolved descendants.",
+   "row_id": "AA38",
+   "status": "EARNED"
+  },
+  {
+   "anchor": "### AA. Recursive loophole / logic-gap closure",
+   "apply_state": "PENDING",
+   "comment_id": 5684607872,
+   "evidence": "`gmi-833-aa1-gap-graph-v1` AA1G-5+AA1G-8: every flagship result record carries at least two counterexample-method slots over six declared classes (bounded exhaustive, SAT/SMT/model checking, property-based randomized, proof assistant, hand-constructed adversarial, independent-implementation differential); HOSTILE_CLOSED or higher is refused unless two filled slots name distinct classes with no counterexample on record, fail-closed on a missing or non-boolean flagship flag, a non-list slot field or a non-object slot. Exhaustive 1000-case cube: 0 flagship grants without two distinct methods, routes agree. Requirement state disclosed, not discharged: the 9 flagship results of the frozen AJ0 registry have 0 filled slots and HOSTILE_CLOSED is refused 9/9 (extracted as the CRITICAL gap GAP-AD-AA1-FLAGSHIP-SLOTS).",
+   "evidence_key": "L:240db9561ec9",
+   "new": "- [x] Require at least two distinct counterexample-generation methods for flagship theorems. — ✅ #839 `gmi-833-aa1-gap-graph-v1` AA1G-5/AA1G-8 L:240db9561ec9",
+   "old": "- [ ] Require at least two distinct counterexample-generation methods for flagship theorems.",
+   "row_id": "AA11",
+   "status": "EARNED"
+  },
+  {
+   "anchor": "### AD. Recursive research loop",
+   "apply_state": "PENDING",
+   "comment_id": 5684607872,
+   "evidence": "`gmi-833-aa1-gap-graph-v1` AA1G-7: `AD_LOOP_TEMPLATE_V1.json` implements the twelve steps of the AD text block in order (matched to the comment's text block), each with a DONE / NOT_RUN / NOT_APPLICABLE status contract, plus the iteration record, declared stop reasons and a materiality input rule. The validator (two routes) accepts the worked instance for this lane (2 iterations, 6 extracted gaps ingested into the graph) and rejects 200/200 seeded mutations over 22 mutation classes with 0 route disagreements.",
+   "evidence_key": "L:b43e0339a9f7",
+   "new": "- [x] Implement the loop as a standard research template. — ✅ #839 `gmi-833-aa1-gap-graph-v1` AA1G-7 L:b43e0339a9f7",
+   "old": "- [ ] Implement the loop as a standard research template.",
+   "row_id": "AD01",
+   "status": "EARNED"
+  },
+  {
+   "anchor": "### AD. Recursive research loop",
+   "apply_state": "PENDING",
+   "comment_id": 5684607872,
+   "evidence": "`gmi-833-aa1-gap-graph-v1` AA1G-7: the loop validator rejects an iteration whose new-gap extraction step is not DONE or extracts no gap (`L_NO_GAP_EXTRACTION`), and any assumption edit, within an iteration or between iterations, that is not declared as a change paired with a gap extracted in that same iteration (`L_SILENT_ASSUMPTION_EDIT`, `L_ITERATION_CONTINUITY`); every planted positive fires in both routes, and the worked instance records 5 assumption changes, each paired with its gap record.",
+   "evidence_key": "L:98777b56fa6f",
+   "new": "- [x] Require each iteration to create explicit new-gap records rather than silently editing assumptions. — ✅ #839 `gmi-833-aa1-gap-graph-v1` AA1G-7 L:98777b56fa6f",
+   "old": "- [ ] Require each iteration to create explicit new-gap records rather than silently editing assumptions.",
+   "row_id": "AD02",
+   "status": "EARNED"
+  }
+ ],
+ "schema": "GMI_ISSUE_COMMENT_RECONCILIATION_V1",
+ "source_main": "cc36a3096031f871c430c79d6fbd64890388c772"
+}

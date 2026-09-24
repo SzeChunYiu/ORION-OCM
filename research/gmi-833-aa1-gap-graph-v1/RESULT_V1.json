@@ -1,0 +1,733 @@
+{
+ "claim_ceiling": "GMI_833_RECURSIVE_GAP_GOVERNANCE_V1_AT_DECLARED_SCOPE",
+ "clean": {
+  "rows": [
+   {
+    "name": "clean_fixture",
+    "route_a_findings": 0,
+    "route_b_findings": 0
+   },
+   {
+    "name": "resolved_critical_descendant_does_not_block",
+    "route_a_findings": 0,
+    "route_b_findings": 0
+   },
+   {
+    "name": "material_not_critical_does_not_block",
+    "route_a_findings": 0,
+    "route_b_findings": 0
+   },
+   {
+    "name": "non_flagship_needs_no_methods",
+    "route_a_findings": 0,
+    "route_b_findings": 0
+   },
+   {
+    "name": "diamond_is_not_a_cycle",
+    "route_a_findings": 0,
+    "route_b_findings": 0
+   },
+   {
+    "name": "parent_open_with_critical_is_fine",
+    "route_a_findings": 0,
+    "route_b_findings": 0
+   }
+  ],
+  "silent_both_routes": 6
+ },
+ "differentials": {
+  "digraphs": {
+   "graphs": 4608,
+   "oracle_disagreements": 0,
+   "route_disagreements": 0,
+   "with_cycle": 3865,
+   "with_self_loop": 448
+  },
+  "flagship_promotions": {
+   "cases": 1000,
+   "flagship_granted_without_two_methods": 0,
+   "granted_hostile_or_higher": 93,
+   "route_disagreements": 0
+  },
+  "gap_promotions": {
+   "blocked_by_critical": 576,
+   "cases": 13824,
+   "granted": 280,
+   "route_disagreements": 0
+  },
+  "parent_promotions": {
+   "cases": 3072,
+   "granted": 330,
+   "granted_with_open_critical": 0,
+   "route_disagreements": 0
+  },
+  "randomized_graphs": {
+   "codes_exercised": [
+    "BARE_CLOSED",
+    "CLOSED_WITHOUT_NEW_ASSUMPTIONS",
+    "CLOSED_WITHOUT_REPAIR_DELTA",
+    "CRITICAL_DESCENDANT_BLOCKS_PROMOTION",
+    "CYCLE",
+    "DESCENDANT_RECORD_MISMATCH",
+    "DUPLICATE_NODE_ID",
+    "EDGE_ENDPOINT_KIND",
+    "FLAGSHIP_METHODS_MISSING",
+    "FORBIDDEN_GRADE_AWARDED",
+    "LATTICE_EVIDENCE_MISSING",
+    "MATERIALITY_MISMATCH",
+    "MISSING_PARENT",
+    "ORPHAN_ASSUMPTION",
+    "ORPHAN_CLAIM",
+    "ORPHAN_GAP",
+    "PARENT_CLOSED_WITH_CRITICAL_DESCENDANT",
+    "RESULT_RECORD_INVALID",
+    "SELF_LOOP",
+    "UNKNOWN_CLOSURE_STATE",
+    "UNKNOWN_KIND"
+   ],
+   "route_disagreements": 0,
+   "seed": 8390839,
+   "trials": 300,
+   "trials_with_findings": 197,
+   "trials_without_findings": 103
+  },
+  "randomized_loops": {
+   "mutations_never_rejected": [],
+   "route_disagreements": 0,
+   "seed": 8390840,
+   "trials": 200,
+   "trials_rejected": 200
+  }
+ },
+ "forbidden_promotions": [
+  "ALL_GAPS_EXHAUSTED",
+  "INDEPENDENT_HOSTILE_REVIEW_COMPLETE",
+  "CORPUS_AUDIT_COMPLETE",
+  "REPLICATED_CLOSED",
+  "REAL_SCALE_CLOSED",
+  "COMPLETE_GMI",
+  "GMI_GAP_GRAPH_COMPLETE",
+  "RECURSION_EXHAUSTED",
+  "NO_MATERIAL_GAP_REMAINS",
+  "ISOLATED_GAP_IS_LEAF",
+  "ANALYTIC_PROOF",
+  "HOSTILE_CLOSED_AWARDED_TO_ANY_REAL_NODE",
+  "PARENT_ISSUE_CLOSURE_PREVENTED_ON_GITHUB",
+  "FLAGSHIP_RESULTS_COUNTEREXAMPLE_SEARCHED",
+  "LEDGER_CONTENTS_VERIFIED"
+ ],
+ "graph": {
+  "path": "research/gmi-833-aa1-gap-graph-v1/GMI_GAP_GRAPH_V3.json",
+  "sha256": "94668d4bb554d0093ec5c108813db92dcb99d6dd5b9dcb6b6395efa6fcab5498"
+ },
+ "issue": 839,
+ "issue_839_acceptance": [
+  {
+   "builds_on": "gmi-833-aa-ledger-gate-v1 LG-1..LG-3 (theorem ledger emission), gmi-833-claim-discipline-v1 REGISTRATIONS_V2.json (registered ledgers)",
+   "evidence": "research/gmi-833-aa1-gap-graph-v1 AA1G-8: GAP_GRAPH_SCHEMA_V1.json#result_record_fields, RESULT_RECORDS_V1.json (8 records), 9 flagship records in GMI_GAP_GRAPH_V3.json",
+   "item": 1,
+   "status": "EARNED_HERE",
+   "text": "machine-readable result record with assumptions, dependencies, falsifiers/counterexamples, strongest parents/subsumption, prior disclosure, evidence/maturity and forbidden extrapolations"
+  },
+  {
+   "evidence": "research/gmi-833-aa-ledger-gate-v1 LG-4 (GMI_EXPERIMENT_LEDGER_V1, EXPERIMENT_LEDGER_CORPUS_CENSUS_V1.md, EXPERIMENT_LEDGER_GATE_VALIDATION_V1.md); one further instance here: EXPERIMENT_LEDGER_GAP_GRAPH_V1.md",
+   "item": 2,
+   "status": "PRE_EXISTING",
+   "text": "experiment ledger with leakage, search-space, cost-model, evaluation and sampling-bias entries"
+  },
+  {
+   "builds_on": "gmi-833-census-registration-pass-v1 GAP_GRAPH_V2.json (gap-to-object descendants on 50/1140), gmi-833-aa-gap-object-v1 AAG-5 (REPAIR_DELTA)",
+   "evidence": "research/gmi-833-aa1-gap-graph-v1 AA1G-1+AA1G-2: GMI_GAP_GRAPH_V3.json",
+   "item": 3,
+   "status": "EARNED_HERE",
+   "text": "GMI_GAP_GRAPH nodes/edges; every closed gap records newly introduced assumptions and descendant gaps"
+  },
+  {
+   "builds_on": "gmi-833-aa-gap-object-v1 AAG-3 (materiality threshold)",
+   "evidence": "research/gmi-833-aa1-gap-graph-v1 AA1G-3",
+   "item": 4,
+   "status": "EARNED_HERE",
+   "text": "materiality enforcement: an unresolved CRITICAL descendant blocks promotion beyond local closure"
+  },
+  {
+   "evidence": "research/gmi-833-aa-gap-object-v1 AAG-4 (lattice and detector); enforced in the graph validator and promotion evaluator here, AA1G-4",
+   "item": 5,
+   "status": "PRE_EXISTING_AND_ENFORCED_HERE",
+   "text": "closure states LOCALLY_CLOSED / HOSTILE_CLOSED / REPLICATED_CLOSED / REAL_SCALE_CLOSED; bare scientific closed rejected"
+  },
+  {
+   "evidence": "research/gmi-833-aa-logical-form-register-v1 LF (AA16 quantifier order, AA17 converse/inverse, AA18 necessity/sufficiency, AA20 optimality, AA22 correlation/causal; reconciliation pending on #833); research/gmi-833-aa-fallacy-detectors-v1 FD-1 (AA19 representability/reachability); research/gmi-833-aa-finite-universal-harness-v1 FU-1..FU-4 (AA21 finite-to-universal)",
+   "item": 6,
+   "status": "PRE_EXISTING",
+   "text": "static hostiles: forall/exists order, converse, necessity/sufficiency, representability/reachability, optimality/selection, finite-to-universal, correlation-to-causation"
+  },
+  {
+   "evidence": "research/gmi-833-aa1-gap-graph-v1 AA1G-5",
+   "item": 7,
+   "status": "EARNED_HERE",
+   "text": "at least two counterexample-method slots for flagship results; fail closed when HOSTILE_CLOSED is requested without both"
+  },
+  {
+   "builds_on": "gmi-833-depgraph-adjudication-v1 CYCLE_REPORT_V1.json (cycle report for the stated-dependency graph)",
+   "evidence": "research/gmi-833-aa1-gap-graph-v1 AA1G-6; test_gap_graph_v1.py in both modes",
+   "item": 8,
+   "status": "EARNED_HERE",
+   "text": "deterministic graph validation, cycle reporting, orphan/missing-parent checks, exact normal and python -O tests"
+  },
+  {
+   "evidence": "research/gmi-833-aa1-gap-graph-v1 AA1G-7: AD_LOOP_TEMPLATE_V1.json, AD_LOOP_RECORDS_V1.json",
+   "item": 9,
+   "status": "EARNED_HERE",
+   "text": "standard AD research-loop template requiring new-gap extraction on each iteration"
+  },
+  {
+   "evidence": "research/gmi-833-aa1-gap-graph-v1/ISSUE_833_COMMENT_RECONCILIATION_AA1_GAP_GRAPH_V1.json (AA11, AA38, AD01, AD02 PENDING; AA40, AA08, AA10, AD03 not closed); applied only after merge by the orchestrator",
+   "item": 10,
+   "status": "PREPARED_NOT_APPLIED",
+   "text": "reconcile only directly earned #833 addendum boxes after merge"
+  }
+ ],
+ "loop": {
+  "assumption_changes": 5,
+  "extracted_gaps": 6,
+  "findings_route_a": [],
+  "findings_route_b": [],
+  "iterations": 2,
+  "loops": 1,
+  "stop_reason": "DECLARED_EVIDENCE_CEILING_REACHED"
+ },
+ "named_results": {
+  "AA1G-1": "GMI_GAP_GRAPH_V3 is a typed graph over the 1140 corpus gap records and 6 AD-loop gaps whose 198 descendant edges are derived by rules R1/R2/R3 only; 41 corpus records gain a gap descendant from corpus rules alone (0 in the census graph), and every gap claim id has a claim node linked to its unresolved descendants.",
+  "AA1G-2": "Every closed gap records the assumptions its repair newly introduced and its descendant gaps: 154 GAP-DUPID records are LOCALLY_CLOSED (108 B1, 46 B3) with the adjudication predicate re-derived by both routes, and each carries a REPAIR_DELTA with a non-empty new_assumptions list and new_gaps equal to its direct descendant successors.",
+  "AA1G-3": "An unresolved CRITICAL descendant blocks promotion beyond LOCALLY_CLOSED and blocks parent closure: 136 of the 154 closed gaps are held at LOCALLY_CLOSED (6 by corpus-rule descendants alone), and closing parent T833-B1-AA is refused while 292 CRITICAL gaps in its cone are unresolved.",
+  "AA1G-4": "Closure states are exactly OPEN plus the four declared grades; a bare closed value (any case) is refused as BARE_CLOSED by the graph validator and by the promotion evaluator, any other undeclared value as UNKNOWN_CLOSURE_STATE, and a grade is held only with the evidence flags the gap-object lattice requires.",
+  "AA1G-5": "Every flagship result record carries at least two counterexample-method slots, and HOSTILE_CLOSED or higher is refused unless two filled slots name distinct declared classes with no counterexample on record; on the 9 flagship results of the AJ0 registry no slot is filled and HOSTILE_CLOSED is refused 9/9.",
+  "AA1G-6": "Graph validation is deterministic and reports, never collapses: the real graph has 0 findings and 0 cycles in both routes; each of the 21 finding codes has a planted positive that fires in both routes; the clean cases stay silent; the cycle report agrees with a brute-force oracle on all 4608 small digraphs; two builds are byte-identical.",
+  "AA1G-7": "The AD research loop is a machine-readable twelve-step template whose validator rejects any iteration without extracted gaps and any assumption edit not paired with a gap extracted in that iteration; the worked instance for this lane (2 iterations, 6 extracted gaps, 5 paired assumption changes) validates clean and its gaps are ingested into the graph.",
+  "AA1G-8": "One machine-readable result record carries assumptions, dependencies, falsifiers, counterexample-method slots, strongest parents, prior disclosure, evidence and maturity, forbidden extrapolations and closure state; the 9 flagship records built from committed registers and the 8 records of this package all validate, and planted invalid records are rejected by both routes."
+ },
+ "package": "gmi-833-aa1-gap-graph-v1",
+ "parent_issue": 833,
+ "pins": {
+  "corpus_index": {
+   "live": "709159c53c6284366aaf1f05380f5fada8d81a98",
+   "match": true,
+   "path": "research/gmi-833-corpus-census-v1/CORPUS_INDEX_V1.json",
+   "pinned": "709159c53c6284366aaf1f05380f5fada8d81a98"
+  },
+  "duplicate_adjudication": {
+   "live": "ac6b41b4cce62f71081ede53c9c5d2ca399d5687",
+   "match": true,
+   "path": "research/gmi-833-depgraph-adjudication-v1/DUPLICATE_ADJUDICATION_V1.json",
+   "pinned": "ac6b41b4cce62f71081ede53c9c5d2ca399d5687"
+  },
+  "flagship_registry": {
+   "live": "5caefcd3a0b812a1f2557dcc228f88de04db5cee",
+   "match": true,
+   "path": "research/gmi-833-aj0-foundation-scope-v1/FOUNDATION_LAYER_REGISTRY.json",
+   "pinned": "5caefcd3a0b812a1f2557dcc228f88de04db5cee"
+  },
+  "gap_graph_v1": {
+   "live": "61006b756721c748f8dcc797c755abd25cc42956",
+   "match": true,
+   "path": "research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json",
+   "pinned": "61006b756721c748f8dcc797c755abd25cc42956"
+  },
+  "gap_graph_v2": {
+   "live": "20cd106f10f65e25a527a1695f1113c96cf8ac41",
+   "match": true,
+   "path": "research/gmi-833-census-registration-pass-v1/GAP_GRAPH_V2.json",
+   "pinned": "20cd106f10f65e25a527a1695f1113c96cf8ac41"
+  },
+  "gap_object_module": {
+   "live": "4d39fbacd2acb79d8f170d844abcb8103b4bd195",
+   "match": true,
+   "path": "research/gmi-833-aa-gap-object-v1/gap_object_v1.py",
+   "pinned": "4d39fbacd2acb79d8f170d844abcb8103b4bd195"
+  },
+  "open_gap_schema": {
+   "live": "9050c2e01e44347aa2b19710286890be1a5eb21d",
+   "match": true,
+   "path": "research/gmi-833-aa-gap-object-v1/OPEN_GAP_SCHEMA_V1.json",
+   "pinned": "9050c2e01e44347aa2b19710286890be1a5eb21d"
+  },
+  "overstrong_adjudication": {
+   "live": "f56e1245d216c6ad93090ea2f73156c9ec0623b4",
+   "match": true,
+   "path": "research/gmi-833-depgraph-adjudication-v1/OVERSTRONG_ADJUDICATION_V1.json",
+   "pinned": "f56e1245d216c6ad93090ea2f73156c9ec0623b4"
+  },
+  "register_delta": {
+   "live": "be84eb34ff9fa03dbeb21f33a4df4e41c2d44f70",
+   "match": true,
+   "path": "research/gmi-833-census-registration-pass-v1/REGISTER_DELTA_V1.json",
+   "pinned": "be84eb34ff9fa03dbeb21f33a4df4e41c2d44f70"
+  },
+  "registrations": {
+   "live": "66c3b7e4ef91e096f0ece2720af4645bebe75238",
+   "match": true,
+   "path": "research/gmi-833-claim-discipline-v1/REGISTRATIONS_V2.json",
+   "pinned": "66c3b7e4ef91e096f0ece2720af4645bebe75238"
+  }
+ },
+ "planted": {
+  "codes_covered": 21,
+  "count": 39,
+  "fired_both_routes": 39,
+  "identical_findings": 39,
+  "rows": [
+   {
+    "expected": "DUPLICATE_NODE_ID",
+    "name": "duplicate_node",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "UNKNOWN_KIND",
+    "name": "unknown_node_kind",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "UNKNOWN_KIND",
+    "name": "unknown_edge_kind",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "UNKNOWN_KIND",
+    "name": "malformed_edge",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "EDGE_ENDPOINT_KIND",
+    "name": "edge_endpoint_kind",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "MISSING_PARENT",
+    "name": "dangling_edge",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "MISSING_PARENT",
+    "name": "missing_parent_field",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "MISSING_PARENT",
+    "name": "missing_claim_field",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "MISSING_PARENT",
+    "name": "missing_assumption_node",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "ORPHAN_GAP",
+    "name": "orphan_gap",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "ORPHAN_ASSUMPTION",
+    "name": "orphan_assumption",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "ORPHAN_CLAIM",
+    "name": "orphan_claim",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "CYCLE",
+    "name": "descendant_cycle",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "CYCLE",
+    "name": "dependency_cycle",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "SELF_LOOP",
+    "name": "self_loop",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "BARE_CLOSED",
+    "name": "bare_closed_lower",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "BARE_CLOSED",
+    "name": "bare_closed_title",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "BARE_CLOSED",
+    "name": "bare_closed_parent",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "UNKNOWN_CLOSURE_STATE",
+    "name": "unknown_state",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "CLOSED_WITHOUT_REPAIR_DELTA",
+    "name": "closed_without_repair",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "CLOSED_WITHOUT_REPAIR_DELTA",
+    "name": "repair_grade_mismatch",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "CLOSED_WITHOUT_NEW_ASSUMPTIONS",
+    "name": "closed_without_new_assumptions",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "DESCENDANT_RECORD_MISMATCH",
+    "name": "new_gaps_mismatch",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "DESCENDANT_RECORD_MISMATCH",
+    "name": "descendant_field_mismatch",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "DESCENDANT_RECORD_MISMATCH",
+    "name": "claim_cone_mismatch",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "LATTICE_EVIDENCE_MISSING",
+    "name": "lattice_evidence",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "CRITICAL_DESCENDANT_BLOCKS_PROMOTION",
+    "name": "critical_descendant_blocks",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "FLAGSHIP_METHODS_MISSING",
+    "name": "flagship_one_method",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "FLAGSHIP_METHODS_MISSING",
+    "name": "flagship_same_class",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "FLAGSHIP_METHODS_MISSING",
+    "name": "flagship_counterexample_on_record",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "FLAGSHIP_METHODS_MISSING",
+    "name": "flagship_slots_malformed",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "FLAGSHIP_METHODS_MISSING",
+    "name": "flagship_empty_pointer",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "FORBIDDEN_GRADE_AWARDED",
+    "name": "forbidden_grade",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "PARENT_CLOSED_WITH_CRITICAL_DESCENDANT",
+    "name": "parent_closed_with_critical",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "MATERIALITY_MISMATCH",
+    "name": "materiality_mismatch",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "MATERIALITY_MISMATCH",
+    "name": "materiality_input_undeclared",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "RESULT_RECORD_INVALID",
+    "name": "record_missing_prior_disclosure",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "RESULT_RECORD_INVALID",
+    "name": "record_empty_list",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   },
+   {
+    "expected": "RESULT_RECORD_INVALID",
+    "name": "record_partial_slot",
+    "route_a_fired": true,
+    "route_b_fired": true,
+    "routes_identical": true
+   }
+  ]
+ },
+ "reconciliation_evidence": {
+  "L:240db9561ec9": {
+   "evidence": "`gmi-833-aa1-gap-graph-v1` AA1G-5+AA1G-8: every flagship result record carries at least two counterexample-method slots over six declared classes (bounded exhaustive, SAT/SMT/model checking, property-based randomized, proof assistant, hand-constructed adversarial, independent-implementation differential); HOSTILE_CLOSED or higher is refused unless two filled slots name distinct classes with no counterexample on record, fail-closed on a missing or non-boolean flagship flag, a non-list slot field or a non-object slot. Exhaustive 1000-case cube: 0 flagship grants without two distinct methods, routes agree. Requirement state disclosed, not discharged: the 9 flagship results of the frozen AJ0 registry have 0 filled slots and HOSTILE_CLOSED is refused 9/9 (extracted as the CRITICAL gap GAP-AD-AA1-FLAGSHIP-SLOTS).",
+   "row_id": "AA11"
+  },
+  "L:87bb22948d9b": {
+   "evidence": "`gmi-833-aa1-gap-graph-v1` AA1G-1+AA1G-2+AA1G-3: `GMI_GAP_GRAPH_V3.json` types 2341 nodes (1146 GAP, 1174 CLAIM, 17 RESULT, 2 PARENT, 2 ASSUMPTION) and 2757 edges. Its 198 DESCENDANT edges are derived by three declared rules only: R1 id precedence 46, R2 stated-dependency propagation 16 (route B recomputes it by fixed point without reading the V2 field), R3 repair successor 136. 41 of the 1140 census gap records gain a gap descendant from corpus records alone (census graph: 0/1140), 169 under any rule, 207 carry a gap or object descendant. Every one of the 1094 gap claim ids has a claim node; 1082 of 1174 claim nodes link to at least one unresolved descendant gap. Live: the builder re-derives the graph from blob-pinned inputs and ingests AD-loop gap records, and CI requires the committed file to equal a fresh build byte for byte; 0 cycles and 0 findings in two routes. Absence of a stated edge is not independence (extracted as the CRITICAL gap GAP-AD-AA1-SPARSITY).",
+   "row_id": "AA38"
+  },
+  "L:98777b56fa6f": {
+   "evidence": "`gmi-833-aa1-gap-graph-v1` AA1G-7: the loop validator rejects an iteration whose new-gap extraction step is not DONE or extracts no gap (`L_NO_GAP_EXTRACTION`), and any assumption edit, within an iteration or between iterations, that is not declared as a change paired with a gap extracted in that same iteration (`L_SILENT_ASSUMPTION_EDIT`, `L_ITERATION_CONTINUITY`); every planted positive fires in both routes, and the worked instance records 5 assumption changes, each paired with its gap record.",
+   "row_id": "AD02"
+  },
+  "L:b43e0339a9f7": {
+   "evidence": "`gmi-833-aa1-gap-graph-v1` AA1G-7: `AD_LOOP_TEMPLATE_V1.json` implements the twelve steps of the AD text block in order (matched to the comment's text block), each with a DONE / NOT_RUN / NOT_APPLICABLE status contract, plus the iteration record, declared stop reasons and a materiality input rule. The validator (two routes) accepts the worked instance for this lane (2 iterations, 6 extracted gaps ingested into the graph) and rejects 200/200 seeded mutations over 22 mutation classes with 0 route disagreements.",
+   "row_id": "AD01"
+  }
+ },
+ "route_agreement": {
+  "closed_blocked_beyond_local": true,
+  "descendant_edges_by_rule": true,
+  "locally_closed_by_rule": true,
+  "parent_closure": true,
+  "route_b_disagreements": [],
+  "validation_findings": true
+ },
+ "route_b": {
+  "claims_with_unresolved_descendants": 1082,
+  "closed_blocked_beyond_local": 136,
+  "corpus_records_gaining_gap_descendants_by_R1_R2": 41,
+  "depends_on_edges": 113,
+  "descendant_edges_by_rule": {
+   "R1_ID_PRECEDENCE": 46,
+   "R2_DEPENDENCY_PROPAGATION": 16,
+   "R3_REPAIR_SUCCESSOR": 136
+  },
+  "disagreements": [],
+  "flagship_hostile_closed_refused": 9,
+  "flagship_refused_for_missing_methods": 9,
+  "locally_closed": 154,
+  "locally_closed_by_rule": {
+   "B1_VERBATIM_REDECLARATION": 108,
+   "B3_POINTER_TO_SAME_CONTENT": 46
+  },
+  "loop_findings": [],
+  "own_records": 8,
+  "own_records_valid": 8,
+  "parent_closure": {
+   "T833-AA1": {
+    "closure_permitted": false,
+    "unresolved_critical": 5
+   },
+   "T833-B1-AA": {
+    "closure_permitted": false,
+    "unresolved_critical": 292
+   }
+  },
+  "route": "B",
+  "schema": "GMI_833_AA1_GAP_GRAPH_ROUTE_B_V1",
+  "unresolved_critical_corpus": 290,
+  "validation_findings": []
+ },
+ "schema": "GMI_833_AA1_GAP_GRAPH_RESULT_V1",
+ "source_main": "cc36a3096031f871c430c79d6fbd64890388c772",
+ "summary": {
+  "claims": {
+   "claim_nodes": 1174,
+   "claims_with_unresolved_descendants": 1082,
+   "claims_without_unresolved_descendants": 92,
+   "gap_claim_ids": 1094
+  },
+  "closure": {
+   "adjudicated_duplicate_not_closed": 0,
+   "closed_with_nonempty_new_assumptions": 154,
+   "closed_with_nonempty_new_gaps": 136,
+   "higher_grades_awarded": 0,
+   "locally_closed": 154,
+   "locally_closed_by_rule": {
+    "B1_VERBATIM_REDECLARATION": 108,
+    "B3_POINTER_TO_SAME_CONTENT": 46
+   }
+  },
+  "cycles": {
+   "DEPENDS_ON": {
+    "cycles": [],
+    "self_loops": []
+   },
+   "DESCENDANT": {
+    "cycles": [],
+    "self_loops": []
+   }
+  },
+  "descendant_edges_by_rule": {
+   "R1_ID_PRECEDENCE": 46,
+   "R2_DEPENDENCY_PROPAGATION": 16,
+   "R3_REPAIR_SUCCESSOR": 136
+  },
+  "descendants": {
+   "corpus_records_gaining_gap_descendants_any_rule": 169,
+   "corpus_records_gaining_gap_descendants_by_R1_R2": 41,
+   "corpus_records_with_gap_or_object_descendants": 207,
+   "corpus_records_with_nonempty_transitive_descendants": 169,
+   "unmapped_descendant_register_keys": 0,
+   "v1_records_with_nonempty_descendants": 0,
+   "v2_records_with_nonempty_object_descendants": 50
+  },
+  "edges_by_kind": {
+   "DEPENDS_ON": 113,
+   "DESCENDANT": 198,
+   "GAP_ON": 1146,
+   "INTRODUCES": 154,
+   "PARENT_OF": 1146
+  },
+  "flagship": {
+   "evidence_level_unregistered": 9,
+   "freeze_pointer_registered": 8,
+   "hostile_closed_refused": 9,
+   "refusal_reasons": [
+    "FLAGSHIP_METHODS_MISSING",
+    "LATTICE_EVIDENCE_MISSING"
+   ],
+   "refused_for_missing_methods": 9,
+   "results": 9,
+   "slots_filled_total": 0,
+   "unregistered_fields": {
+    "assumptions": 0,
+    "dependencies": 0,
+    "falsifiers": 0,
+    "forbidden_extrapolations": 0,
+    "strongest_parents": 0
+   }
+  },
+  "gap_records": {
+   "corpus": 1140,
+   "corpus_distinct_ids": 1126,
+   "extracted_ad_loop": 6,
+   "ids_shared_by_several_records": 10,
+   "records_under_shared_ids": 24
+  },
+  "loop_findings": [],
+  "materiality": {
+   "closed_blocked_beyond_local": 136,
+   "closed_blocked_by_corpus_rules_only": 6,
+   "closed_not_blocked": 18,
+   "unresolved_critical_corpus": 290,
+   "unresolved_critical_extracted": 5
+  },
+  "nodes_by_kind": {
+   "ASSUMPTION": 2,
+   "CLAIM": 1174,
+   "GAP": 1146,
+   "PARENT": 2,
+   "RESULT": 17
+  },
+  "own_results": {
+   "records": 8,
+   "with_two_distinct_filled_methods": 8
+  },
+  "parent_closure": {
+   "T833-AA1": {
+    "closure_permitted": false,
+    "unresolved_critical": 5
+   },
+   "T833-B1-AA": {
+    "closure_permitted": false,
+    "unresolved_critical": 292
+   }
+  },
+  "record_findings": {},
+  "validation_findings": []
+ },
+ "tests": {
+  "count": 57,
+  "file": "test_gap_graph_v1.py",
+  "modes": [
+   "python3 -I -B",
+   "python3 -I -O -B"
+  ]
+ }
+}

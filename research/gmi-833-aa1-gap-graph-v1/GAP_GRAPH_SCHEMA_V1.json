@@ -1,0 +1,87 @@
+{
+  "schema": "GMI_GAP_GRAPH_SCHEMA_V1",
+  "package": "gmi-833-aa1-gap-graph-v1",
+  "issue": 839,
+  "graph_schema": "GMI_GAP_GRAPH_V3",
+  "freeze": "FREEZE_V1.md sections 4.1-4.8 and 4.10",
+  "node_kinds": ["PARENT", "RESULT", "CLAIM", "GAP", "ASSUMPTION"],
+  "edge_kinds": {
+    "PARENT_OF": {"source": ["PARENT"], "target": ["GAP"], "meaning": "the gap's parent_result field names the parent"},
+    "GAP_ON": {"source": ["GAP"], "target": ["CLAIM"], "meaning": "the gap's claim_id field names the claim"},
+    "DEPENDS_ON": {"source": ["CLAIM"], "target": ["CLAIM"], "meaning": "child object id -> parent id, from REGISTER_DELTA_V1 claim_dependencies"},
+    "DESCENDANT": {"source": ["GAP"], "target": ["GAP"], "meaning": "resolving the source can change whether the target holds; derived by R1/R2/R3 only"},
+    "INTRODUCES": {"source": ["GAP"], "target": ["ASSUMPTION"], "meaning": "the source gap's repair introduced the assumption"}
+  },
+  "descendant_rules": {
+    "R1_ID_PRECEDENCE": "GAP-DUPID record -> GAP-FIN2UNIV record with the same claim_id",
+    "R2_DEPENDENCY_PROPAGATION": "g -> h when h.claim_id is the object id of a register key in g's GAP_GRAPH_V2 descendants (strict transitive dependents of g.claim_id), h != g",
+    "R3_REPAIR_SUCCESSOR": "closed gap g -> extracted AD-loop gap h when h.source_rule selects g"
+  },
+  "structural_rules": {
+    "PARENT_OF": "PARENT_RESULT_FIELD",
+    "GAP_ON": "CLAIM_ID_FIELD",
+    "DEPENDS_ON": "REGISTER_DELTA_CLAIM_DEPENDENCIES",
+    "INTRODUCES": "REPAIR_DELTA_NEW_ASSUMPTIONS"
+  },
+  "source_rules": {
+    "B1_CROSS_PACKAGE": "closed under B1 and its declarations lie in >= 2 distinct research/<package>/ directories",
+    "B3_ALL": "closed under B3",
+    "NONE": "no source gap"
+  },
+  "closure_states": ["OPEN", "LOCALLY_CLOSED", "HOSTILE_CLOSED", "REPLICATED_CLOSED", "REAL_SCALE_CLOSED"],
+  "unresolved_rule": "a gap is unresolved iff its closure_state is not one of the four grades",
+  "closure_evidence_flags": ["local_checks_pass", "independent_route", "hostiles_detected", "independent_replication", "real_scale_run"],
+  "blocking_materiality": "CRITICAL",
+  "forbidden_grades_on_real_graph": ["REPLICATED_CLOSED", "REAL_SCALE_CLOSED"],
+  "not_awarded_on_real_graph": ["HOSTILE_CLOSED", "REPLICATED_CLOSED", "REAL_SCALE_CLOSED"],
+  "repair_rule_assumptions": {
+    "B1_VERBATIM_REDECLARATION": {"id": "A-B1", "text": "byte-identical statement text at distinct declaration sites denotes one semantic object"},
+    "B2_CANONICAL_REDECLARATION": {"id": "A-B2", "text": "statements equal after whitespace collapse and lower-casing denote one semantic object"},
+    "B3_POINTER_TO_SAME_CONTENT": {"id": "A-B3", "text": "a declaration whose statement names another declaration's file basename points to that declaration's content"}
+  },
+  "finding_codes": [
+    "DUPLICATE_NODE_ID",
+    "UNKNOWN_KIND",
+    "EDGE_ENDPOINT_KIND",
+    "MISSING_PARENT",
+    "ORPHAN_GAP",
+    "ORPHAN_ASSUMPTION",
+    "ORPHAN_CLAIM",
+    "CYCLE",
+    "SELF_LOOP",
+    "BARE_CLOSED",
+    "UNKNOWN_CLOSURE_STATE",
+    "CLOSED_WITHOUT_REPAIR_DELTA",
+    "CLOSED_WITHOUT_NEW_ASSUMPTIONS",
+    "DESCENDANT_RECORD_MISMATCH",
+    "LATTICE_EVIDENCE_MISSING",
+    "CRITICAL_DESCENDANT_BLOCKS_PROMOTION",
+    "FLAGSHIP_METHODS_MISSING",
+    "FORBIDDEN_GRADE_AWARDED",
+    "PARENT_CLOSED_WITH_CRITICAL_DESCENDANT",
+    "MATERIALITY_MISMATCH",
+    "RESULT_RECORD_INVALID"
+  ],
+  "counterexample_method_classes": [
+    "BOUNDED_EXHAUSTIVE_ENUMERATION",
+    "SAT_SMT_MODEL_CHECKING",
+    "PROPERTY_BASED_RANDOMIZED",
+    "PROOF_ASSISTANT",
+    "HAND_CONSTRUCTED_ADVERSARIAL",
+    "INDEPENDENT_IMPLEMENTATION_DIFFERENTIAL"
+  ],
+  "slot_outcomes": ["NO_COUNTEREXAMPLE_FOUND", "COUNTEREXAMPLE_FOUND"],
+  "slot_fields": ["slot", "method_class", "evidence_pointer", "search_scope", "outcome"],
+  "min_flagship_slots": 2,
+  "min_distinct_methods_for_hostile_closed": 2,
+  "result_record_fields": [
+    "result_id", "statement", "scope", "is_flagship",
+    "assumptions", "dependencies", "falsifiers", "counterexample_methods",
+    "strongest_parents", "prior_disclosure", "evidence",
+    "forbidden_extrapolations", "closure_state", "closure_evidence", "provenance"
+  ],
+  "result_record_list_fields": ["assumptions", "dependencies", "falsifiers", "strongest_parents", "forbidden_extrapolations"],
+  "unregistered_sentinel": "UNREGISTERED",
+  "scopes": ["LOCAL", "PACKAGE", "SECTION", "FLAGSHIP"],
+  "outcome_timing": ["PRE_OUTCOME", "SCOPING_OBSERVED", "POST_OUTCOME", "UNVERIFIED"]
+}
