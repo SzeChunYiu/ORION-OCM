@@ -47,6 +47,13 @@ EMPHASIS = re.compile(r"[*_`]+")
 MENTION = re.compile(r"[`\u2018\u201c\"']\s*prior-free\s*[`\u2019\u201d\"']",
                      re.IGNORECASE)
 ARROW = re.compile(r"prior-free`?\s*(->|\u2192)", re.IGNORECASE)
+# Issue #1049 repair (see INSTRUMENT_REPAIR_1049_V1.md): an issue section header
+# or checklist row quoted INSIDE a backtick span is issue text, exactly like a
+# row that opens the line. Only a span that itself begins with the row marker
+# AND carries the token qualifies; the span may run past the end of the line
+# (a header quoted across a line break).
+CODE_SPAN = re.compile(r"`([^`]*)(?:`|$)")
+QUOTED_ROW = re.compile(r"^\s*(?:#{1,2} [A-Z]{1,2}\.\s|- \[[ xX]\] )")
 
 
 def normalise(text):
@@ -66,6 +73,9 @@ def classify(path, line, prev=""):
         return "MIRROR"
     stripped = line.lstrip()
     if any(stripped.startswith(mk) for mk in ROW_MARKERS):
+        return "MIRROR"
+    if any(QUOTED_ROW.match(span) and TOKEN.search(span)
+           for span in CODE_SPAN.findall(line)):
         return "MIRROR"
     if QUALIFIED_PREFIX.search(line) or QUALIFIED_PHRASE.search(line):
         return "QUALIFIED_TERM"
@@ -120,6 +130,9 @@ PLANTED_POSITIVE = [
      "The enumeration is **prior-free** and needs no assumptions."),
     ("research/gmi-833-fake-pkg-v1/WRAP.md",
      "The result was obtained by a search that is\nprior-free at every stage."),
+    # issue #1049 repair: a quoted header nearby must not shelter a live claim
+    ("research/gmi-833-fake-pkg-v1/NEARQUOTE.md",
+     "Under the `# H.` header our recovery is prior-free throughout."),
 ]
 PLANTED_NEGATIVE = [
     ("research/gmi-833-fake-pkg-v1/CORE.md",
@@ -135,6 +148,12 @@ PLANTED_NEGATIVE = [
      "recorded as a screened status, never as\na proof of prior-freeness."),
     ("research/gmi-833-fake-pkg-v1/BOLDNEG.md",
      "opaque summaries \u2014 it does **not** mean prior-free."),
+    # issue #1049 repair: the #833 section header quoted inline, closed and
+    # continued across a line break (the seven real-scale freezes' shape)
+    ("research/gmi-833-fake-pkg-v1/QUOTEDHEADER.md",
+     "Section of the issue: the `# H. Prior-free derivation of known"),
+    ("research/gmi-833-fake-pkg-v1/QUOTEDHEADER2.md",
+     "the `# H. Prior-free derivation of known machine-intelligence families` header line"),
 ]
 
 
