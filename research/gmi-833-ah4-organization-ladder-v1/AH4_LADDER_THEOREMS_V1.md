@@ -29,6 +29,14 @@ exactly: 260 systems, 148 behavioural classes, class-size histogram `{1: 144, 29
 and partition refinement, macro libraries and their expressive neutrality. None is claimed
 novel.
 
+**Dependencies.** The ladder quoted from the issue and the eight invariants `I1_MOTIF_REUSE` …
+`I8_NEW_EFFECTIVE_UNIT` fixed in `FREEZE_V1.md` sections 1–2; the registered universe of
+section 3, rebuilt here and checked against `gmi-833-aj4-process-organizations-v1` (blob
+pinned in `MANIFEST_V1.json`); for `I6` the propose/verify/adopt transitions owned by
+`gmi-833-g0-governed-self-change-v1`, and for `I8` the macro-library result of
+`gmi-833-developmental-reuse-v1`. Every count is published in `RESULT_V1.json` and recomputed
+by route B in `ORACLE_RESULT_V1.json`.
+
 ---
 
 ## AH4L-2 — Only two of the eight transitions separate on visible behaviour
@@ -76,6 +84,35 @@ statement about the registered scope, not a claim that the higher levels are emp
 **Forbidden extrapolation.** `PERIODIC_TABLE_OF_MI_COMPLETE`,
 `ALL_ORGANIZATION_LEVELS_ENUMERATED`.
 
+**Assumptions.** The universe and invariant definitions of AH4L-1; behavioural equivalence
+decided by reachable product exploration over binary words (`FREEZE_V1.md` section 3); the
+verdict rule stated under "How the verdict is derived", fixed in the code before any number
+was read, including the declared internal/external boundary for `I6` and `I7`. The verdicts
+describe this scope only, as the Reading paragraph says.
+
+**Dependencies.** AH4L-1, whose eight separating invariants rule out
+`NOT_SEPARATING_AT_SCOPE`; the 148 behavioural classes of
+`gmi-833-aj4-process-organizations-v1`, reproduced here; the `I4` re-description exhibit
+(`i4_collapses_under_absorption`), the `I6` adoption exhibit, whose propose/verify/adopt
+transitions `gmi-833-g0-governed-self-change-v1` owns, the `I7` 23-against-22-step exhibit,
+and the `gmi-833-developmental-reuse-v1` result that a macro library adds zero expressive
+power; `verdicts` and `verdict_counts` in `RESULT_V1.json`.
+
+**Falsifiers.** A behavioural class split by `I2` or `I3` would move that transition off
+`SEPARATING_ON_VISIBLE_BEHAVIOUR` (the no-alarm case asserts that `I2` splits none); a
+registered word on which the `(state, experience)` re-description disagrees with the `I4`
+adaptive witness would void the `L3 -> L4` collapse; and an `I6` or `I7` exhibit that is
+missing (`EXTERNAL_BOUNDARY_NOT_EXHIBITED`) or that persists with the guard made internal or
+the channel removed would void the external-boundary reading. The hostiles
+`governed_internal_guard` and `population_without_channel` plant the last two cases and are
+detected (`TEST_RESULT_V1.json`).
+
+**Strongest parents.** Mealy (1955) for the transducers and Moore (1956) for the length bound
+and partition refinement that decide behavioural equivalence; Hartmanis and Stearns (1966) on
+state structure versus external behaviour; `gmi-833-developmental-reuse-v1`, which forces the
+description-only reading of `L7 -> L8`; Lamport (1998) for the attested-update shape behind
+`I6` (`PARENT_LEDGER.md`).
+
 ---
 
 ## AH4L-3 — `L1 -> L2` needs an intermediate layer, and it has 112 members
@@ -96,6 +133,22 @@ behavioural classes.
 **Falsifier.** If the cell-only population were 0, the two clauses would coincide at this scope
 and no intermediate layer would be indicated.
 
+**Assumptions.** The 260-system universe of AH4L-1 (4 cell-free and 256 one-cell systems,
+binary input and output); the two clauses of `I2` as frozen in `FREEZE_V1.md` section 2,
+clause (b) comparing word behaviour against every cell-free system at the same interface by
+reachable product exploration. The intermediate layer is indicated by the frozen rule of
+section 5 that a proper non-empty subset of an invariant's clauses names a layer.
+
+**Dependencies.** AH4L-1's rebuilt universe and its class-size histogram `{1: 144, 29: 4}`;
+the `I2` clause decomposition; `i2_clause_counts` and `i2_intermediate_layer_population` in
+`RESULT_V1.json`, matched by route B; the hostile `intermediate_layer_erased` in
+`TEST_RESULT_V1.json`, whose control requires exactly 144 and 112.
+
+**Strongest parents.** Hartmanis and Stearns, *Algebraic Structure Theory of Sequential
+Machines* (1966), which owns why a state cell need not reach the external behaviour; Mealy
+(1955) and Moore (1956) for the transducers and their equivalence;
+`gmi-833-aj4-process-organizations-v1` for the organization set (`PARENT_LEDGER.md`).
+
 ---
 
 ## AH4L-4 — The ladder is not cumulative at its own base
@@ -111,6 +164,21 @@ for exactly this reason.
 
 **Falsifier.** A registered universe in which every `I2` system also passes `I1` would make the
 base cumulative.
+
+**Assumptions.** The 260-system universe of AH4L-1 with `I1` and `I2` exactly as frozen in
+`FREEZE_V1.md` section 2; "cumulative" means that every system passing `I2` also passes `I1`,
+and the frozen falsifier of section 5 requires a partial order to be published when that
+fails. The count is a statement about this universe, not about larger budgets.
+
+**Dependencies.** The `I1` and `I2` predicates of AH4L-1 and the `I2` clause counts of AH4L-3;
+`non_cumulative_base_systems` in `RESULT_V1.json`, matched by route B in
+`ORACLE_RESULT_V1.json`; the forbidden promotion `LADDER_IS_TOTAL_ORDER` in `FREEZE_V1.md` and
+`MANIFEST_V1.json`.
+
+**Strongest parents.** None registered beyond the transducer theory of Mealy (1955) and Moore
+(1956) and the organization set of `gmi-833-aj4-process-organizations-v1`
+(`PARENT_LEDGER.md`); the ladder itself is quoted from the issue and is not this tranche's
+proposal.
 
 ---
 
@@ -131,6 +199,23 @@ so rather than hiding it.
 
 **Falsifier.** A transition with no failing neighbour at any radius would mean the invariant is
 not separating in the description encoding; the executor publishes `RED` in that case.
+
+**Assumptions.** Each transition's declared description encoding: the eight transition-table
+bits of a one-cell system for `I1` and `I2`, sixteen bits for a series pair (`I3`) and for the
+adaptive witness's two update tables (`I4`), and one- or two-bit feature switches for `I5` …
+`I8`. Edit distance is Hamming distance in that encoding, searched exhaustively by increasing
+radius from a registered passing seed (`nearest_negative` in `ah4_organization_ladder_v1.py`);
+the distances are properties of these encodings, not of the transitions in any encoding-free
+sense.
+
+**Dependencies.** The eight invariants of AH4L-1 as the pass/fail predicates; the gate of
+`FREEZE_V1.md` section 4 requiring a minimum edit distance wherever one exists;
+`nearest_negatives` in `RESULT_V1.json`, with the flipped positions and resulting
+descriptions; the hostile `nearest_negative_zero_radius` in `TEST_RESULT_V1.json`.
+
+**Strongest parents.** None registered for the nearest-negative construction itself, which
+`PARENT_LEDGER.md` lists as residual contribution; it rests on the transducer theory of Mealy
+(1955) and Moore (1956) and on the organization set of `gmi-833-aj4-process-organizations-v1`.
 
 ---
 
@@ -157,3 +242,19 @@ would stay unchecked. 1,914 inversions and a tripping configuration make it live
 
 **Forbidden extrapolation.** `LEVEL_MEMBERSHIP_IS_INTELLIGENCE`,
 `HIGHER_LEVEL_IMPLIES_HIGHER_CAPABILITY`.
+
+**Assumptions.** Level is assigned from the base invariants only (level 2 when both `I2`
+clauses hold, level 1 when only `I1` holds, otherwise 0); capability is the exact rational
+score vector on the five registered tasks `IDENTITY`, `NEGATION`, `CONST0`, `DELAY1`, `PARITY`
+over the 14 protected words of length at most three, compared by componentwise domination with
+no scalarization.
+
+**Dependencies.** The `I1` and `I2` predicates of AH4L-1; the prohibition falsifier of
+`FREEZE_V1.md` section 5; `level_capability_inversions`, `level_capability_inversion_example`
+and `prohibition` in `RESULT_V1.json`, with the inversion count matched by route B; the
+hostiles `prohibition_always_refuses`, `prohibition_never_refuses` and
+`level_capability_monotone` in `TEST_RESULT_V1.json`.
+
+**Strongest parents.** None registered for the prohibition checker, which `PARENT_LEDGER.md`
+lists as residual contribution; the capability comparison rests on the transducer theory of
+Mealy (1955) and on the organization set of `gmi-833-aj4-process-organizations-v1`.
