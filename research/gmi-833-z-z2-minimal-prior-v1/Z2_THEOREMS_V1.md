@@ -60,6 +60,22 @@ own the general propositions.
 **Forbidden extrapolations.** `UNIVERSAL_NO_FREE_LUNCH_PROVED`,
 `SEMANTIC_CLASS_COUNT_IS_A_UNIVERSAL_CONSTANT`.
 
+**Assumptions.** The registered universe `U` of `FREEZE_V1.md` section 1, taken
+from `research/gmi-833-heldout-20-transitions-v1`: `65552` candidates, sequence
+length `3`, both modes and canonical initial state `0`. Semantic equality is
+equality of the 48-bit full-behaviour vector `beh`, and the two measures
+compared are uniform-over-syntax (`n_c / |U|`) and uniform-over-classes (`1/K`);
+exact integers and `Fraction` only (`FREEZE_V1.md` section 10).
+
+**Dependencies.** Hypotheses `H1` and `H2` with their falsifiers (`FREEZE_V1.md`
+section 5), the control encoding `N1` (section 7) and the hostile `HS7` (section
+8); the universe pinned in `MANIFEST_V1.json` from
+`research/gmi-833-heldout-20-transitions-v1`; the `MP1_encoding_prior` block of
+`RESULT_V1.json`, recomputed by route B, which keys semantics by an
+independently computed 48-bit integer. The behavioural quotient itself is the
+Nerode (1958) / Myhill (1957) construction credited in `PARENT_DISCLOSURE_V1.md`
+section 1.
+
 ---
 
 ## `MP-2` — a family-blind enumeration order is a very large commitment
@@ -74,6 +90,24 @@ the entire universe.
 profile — which is the point, and is `MP-5`'s `H7d` witness.
 
 **Falsifier.** A ratio below `100` would have refuted the hypothesis as frozen.
+
+**Assumptions.** The universe and the `K = 21904` semantic classes of `MP-1`;
+candidates are probed one at a time in the registered canonical index order, and
+a class's first hit is the probe number of its first member in that order. The
+ratio is a property of this order and this universe only, as the Quantifiers
+paragraph says.
+
+**Dependencies.** The semantic classes of `MP-1`; hypothesis `H4` and its frozen
+threshold `100` (`FREEZE_V1.md` section 5); the `MP1c_enumeration_order` block
+of `RESULT_V1.json`, matched by route B; `MP-5`'s `H7d` witness, which shows the
+first-hit profile moving under `g_rename`.
+
+**Strongest parents.** No parent is registered for `MP-2` specifically in
+`PARENT_DISCLOSURE_V1.md`. The nearest are Wolpert & Macready (1997), whose
+averaged-performance identity is stated over non-repeating searches, and the
+family-blind recovery protocol of `research/gmi-833-blind-recovery-v2-v1`, whose
+enumerative searches carry an order of this kind; `MP-2` is an exact finite
+profile, not a general theorem.
 
 ---
 
@@ -125,6 +159,29 @@ independently.
 **Forbidden extrapolations.** `MINIMUM_BIAS_IS_UNIVERSALLY_ONE_BIT`,
 `REAL_SYSTEM_LEARNABILITY`, `BIAS_CANNOT_HURT_IN_GENERAL`.
 
+**Assumptions.** The `36`-problem held-out family and the version-space learner
+of `FREEZE_V1.md` section 3, with the target ranging over all of `U`; accuracy
+is scored on the undetermined subpopulation, and one bit of preference is the
+preference-only learner `L_f_pure`, which abstains for `1/2` unless the
+preferred part of the version space is unanimous (`FREEZE_V1_AMENDMENT_2.md`
+section 2). The one-bit alphabet is the `12` registered features `B1`..`B12`
+plus the exhaustive `288`-feature one- and two-literal sweep over `V12`
+(`FREEZE_V1_AMENDMENT_3.md`).
+
+**Dependencies.** Hypotheses `H6'`, `H10` (`FREEZE_V1_AMENDMENT_2.md`), `H6''`
+and `H11` (`FREEZE_V1_AMENDMENT_3.md`); the null `N2` and the leakage guard `N4`
+with hostile `HS4` (`FREEZE_V1.md` sections 7-8); the vocabulary `V12` of
+`FREEZE_V1_AMENDMENT_1.md`; `MP-1`'s semantic classes, used by `L_sem` and by
+`B9`..`B12`; the `MP2_minimum_bias` block of `RESULT_V1.json`, whose
+determined/undetermined split both routes recompute.
+
+**Strongest parents.** Mitchell, *The Need for Biases in Learning
+Generalizations* (1980), which owns the proposition that a learner with no bias
+cannot generalize; `MP-3` is its exact finite instance on one universe and one
+frozen prediction family (`PARENT_DISCLOSURE_V1.md`). Blumer, Ehrenfeucht,
+Haussler & Warmuth (1987) own compression-bias learnability guarantees; no Occam
+bound or sample-complexity claim is made here.
+
 ---
 
 ## `MP-4` — the two natural reference measures are decision-identical here
@@ -143,6 +200,30 @@ decision-level leg is gone and is published as gone.
 
 **Forbidden extrapolation.** `REFERENCE_MEASURE_CHOICE_IS_ALWAYS_DECISION_IRRELEVANT`
 — this is a fact about this universe and this prediction family.
+
+**Assumptions.** The `36`-problem family and version-space buckets of `MP-3`,
+with the two majority learners of `FREEZE_V1.md` section 3: `L_syn` weights each
+syntactic candidate equally and `L_sem` each semantic class present, ties broken
+to `0`. The comparison is made on both the full and the undetermined population.
+
+**Dependencies.** Hypothesis `H5` (`FREEZE_V1.md` section 5) and `H5'`
+(`FREEZE_V1_AMENDMENT_2.md`); the semantic classes of `MP-1`; `A_syn_*`,
+`A_sem_*` and `disagreeing_buckets_*` in the `MP2_minimum_bias` block of
+`RESULT_V1.json`, matched by route B. The surviving ill-posedness argument rests
+on `MP-1` and `MP-3`, as stated above.
+
+**Falsifiers.** The frozen falsifier of `H5'` is a count of `0` disagreeing
+buckets, which is what was measured, so `H5` and `H5'` stand refuted. The
+recorded result itself would be overturned by one version-space bucket on which
+the two majorities predict differently, or by unequal exact accuracies on either
+population, in either route.
+
+**Strongest parents.** No parent is registered for the decision-level comparison
+itself; the nearest are the parents of `MP-1` and `MP-3`, Wolpert & Macready
+(1997) and Mitchell (1980) (`PARENT_DISCLOSURE_V1.md`). The forbidden promotion
+`REFERENCE_MEASURE_CHOICE_IS_ALWAYS_DECISION_IRRELEVANT`
+(`FREEZE_V1_AMENDMENT_3.md` section 4) keeps this a fact about this universe and
+this prediction family.
 
 ---
 
@@ -189,6 +270,33 @@ guard; the guard was shown to fire before the table was trusted.
 
 **Forbidden extrapolation.** `P3_CERTIFICATE_IMPLIES_NECESSITY`.
 
+**Assumptions.** The three generators `g_rename`, `g_state` and `g_out` of
+`FREEZE_V1_AMENDMENT_1.md`, each verified a bijection of `U` before use; the
+objective `J` and the registered `5x4` `(p, eta)` grid of
+`research/gmi-833-heldout-20-transitions-v1`; the `P0..P4` ladder of issue #837,
+taken as given. The P4 clause is an argument about encoding maps, not an
+exercise of a recursive primitive-compression grammar, and no P4 certificate is
+claimed.
+
+**Dependencies.** Hypotheses `H7a`..`H7e` (`FREEZE_V1_AMENDMENT_1.md`) and the
+`H7c` refutation recorded in `FREEZE_V1_AMENDMENT_2.md` section 3; `MP-1` (`K`,
+histogram, `D_TV`) and `MP-2` (first-hit profile) for the tabulated quantities;
+the hostile `HS2` and its group-action guard; the `MP4_p3_standard` block of
+`RESULT_V1.json`, matched by route B.
+
+**Falsifiers.** Registered with `H7a`..`H7e`: any invariant-block quantity
+moving under a generator, or per-candidate membership or the first-hit profile
+staying fixed where the table says it moves, would change the table and so the
+standard read from it; a generator failing the bijection check voids its column.
+A registered generator that moved `min J` or the winner would reverse the `H7c`
+refutation.
+
+**Strongest parents.** Rissanen, *Modeling by shortest data description* (1978),
+whose tradition owns the observation that description-length quantities depend
+on the code; issue #837 owns the `P0..P4` ladder definitions
+(`PARENT_DISCLOSURE_V1.md`). `MP-5` only computes which registered quantities
+move under which registered re-encoding.
+
 ---
 
 ## `MP-6` — known forms recovered from one generic vocabulary
@@ -230,6 +338,25 @@ transducer universe with the `3^12` null attached.
 `ARCHITECTURE_FAMILY_RECOVERY_BEYOND_REGISTERED_UNIVERSE`,
 `MLP_CNN_TRANSFORMER_CLASSIFIED`.
 
+**Assumptions.** The registered universe `U` and the six named families with the
+member sets registered by `research/gmi-833-z-z7-impossibility-v1`; the fixed,
+non-recursive vocabulary `V12` and the grammar of conjunctions of literals
+(`3^12` specifications) pinned in `FREEZE_V1_AMENDMENT_1.md` before it was run.
+Exact means that a specification's member set over `U` equals the family's
+member set.
+
+**Dependencies.** Hypothesis `H8` (`FREEZE_V1.md` section 5, made exact by
+`FREEZE_V1_AMENDMENT_1.md`), the null `N3` (seeds `4300..4499`) and the lexical
+no-smuggling audit with hostile `HS3`; the family member sets of
+`research/gmi-833-z-z7-impossibility-v1` (pinned in `MANIFEST_V1.json`) as
+ground truth; the `MP5_known_form_recovery` block of `RESULT_V1.json`, matched
+by route B.
+
+**Falsifiers.** Registered with `H8`: any family whose specified set differs
+from its member set, or a grammar digest that moves between the six runs. A
+family-name token in any specification (the `HS3` audit), or a large `N3` hit
+count, would remove the meaning of the recovery.
+
 ---
 
 ## `MP-7` — the flagship corpus carries no informal `prior-free` claim
@@ -260,6 +387,35 @@ negation broken by markdown bold — and the validation gate had passed because
 none of those shapes was planted. See `FREEZE_V1_AMENDMENT_4.md`.
 
 **Forbidden extrapolation.** `TERMINOLOGY_MIGRATION_RE_EARNED_HERE`.
+
+**Assumptions.** The corpus is every markdown file under `research/gmi-833-*`,
+and the counts above are timestamped at `source_main`
+`5e57d4292266bccf435136e1f7d72caa32e920a0`: any lane that adds or removes the
+audited token moves them (`CORE.md`). Each occurrence is classified into exactly
+one of the categories of `FREEZE_V1.md` section 6 as extended by
+`FREEZE_V1_AMENDMENT_4.md`, after markdown emphasis is normalised and at
+sentence scope; what CI asserts is the verdict, not the counts.
+
+**Dependencies.** Hypothesis `H9` and the site categories of `FREEZE_V1.md`
+sections 5-6, repaired by `FREEZE_V1_AMENDMENT_4.md`; the hostile `HS5`; the
+instrument `prior_free_site_audit_v1.py`, its receipt
+`PRIOR_FREE_SITE_AUDIT_V1.json` and the CI verdict check
+`check_row3_verdict_v1.py`; the corpus state produced by
+`research/gmi-833-terminology-migration-v1` and rows 9 and 26 of
+`research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CROSSWALK_V2.md`, both
+pinned in `MANIFEST_V1.json`.
+
+**Falsifiers.** Registered as `H9`'s falsifier: one or more occurrences
+classified `LIVE_FLAGSHIP` in the live corpus, which `check_row3_verdict_v1.py`
+tests on every run. Independently, a planted live-flagship shape that fails to
+fire, or a planted non-live shape or known-clean line that raises an alarm,
+voids the instrument, as its first run showed (`FREEZE_V1_AMENDMENT_4.md`).
+
+**Strongest parents.** `research/gmi-833-terminology-migration-v1`, which owns
+the corpus edit, and `GMI_TERMINOLOGY_CROSSWALK_V2.md` rows 9 and 26, which own
+the literature audit (citing Wolpert & Macready 1997 and Mitchell 1980) and the
+migration rule, as the Parent ownership paragraph states. Neither is re-earned;
+`MP-7` is only the verification instrument.
 
 ---
 
