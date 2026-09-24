@@ -1,0 +1,2362 @@
+{
+  "checks": {
+    "census_65552": true,
+    "e2_bijective_and_per_candidate_equal": true,
+    "e2_histogram_equals_e1": true,
+    "matched_twin_all_stateless": true,
+    "no_smuggling_registered_arms_clean_or_routed": true,
+    "pareto_two_points": true,
+    "perturbation_stable_and_flips": true,
+    "phase_law_20_transitions": true,
+    "positive_winners_on_frontier": true,
+    "positive_witness_robust": true,
+    "risk_points_146": true,
+    "searchers_agree_with_claim": true,
+    "stateless_delay_floor_8": true
+  },
+  "frozen_cases_parsed_from": "research/gmi-833-heldout-20-transitions-v1/FREEZE_V1.md",
+  "imports": "stdlib only; no route-A module, no #901 code, no #855 code",
+  "issue": 859,
+  "route": "B",
+  "schema": "GMI833ExecutionControlsOracleV1",
+  "shared_facts": {
+    "acceptance_digests": {
+      "H3A_FIRST_ACCEPT_PRICE_SORTED": {
+        "c01_boundary": "8ce86a6ae65d3692",
+        "c01_high": "8ce86a6ae65d3692",
+        "c01_low": "8ce86a6ae65d3692",
+        "c02_boundary": "8ce86a6ae65d3692",
+        "c02_high": "8ce86a6ae65d3692",
+        "c02_low": "8ce86a6ae65d3692",
+        "c03_boundary": "8ce86a6ae65d3692",
+        "c03_high": "8ce86a6ae65d3692",
+        "c03_low": "8ce86a6ae65d3692",
+        "c04_boundary": "8ce86a6ae65d3692",
+        "c04_high": "8ce86a6ae65d3692",
+        "c04_low": "8ce86a6ae65d3692",
+        "c05_boundary": "8ce86a6ae65d3692",
+        "c05_high": "8ce86a6ae65d3692",
+        "c05_low": "8ce86a6ae65d3692",
+        "c06_boundary": "8ce86a6ae65d3692",
+        "c06_high": "8ce86a6ae65d3692",
+        "c06_low": "8ce86a6ae65d3692",
+        "c07_boundary": "8ce86a6ae65d3692",
+        "c07_high": "8ce86a6ae65d3692",
+        "c07_low": "8ce86a6ae65d3692",
+        "c08_boundary": "8ce86a6ae65d3692",
+        "c08_high": "8ce86a6ae65d3692",
+        "c08_low": "8ce86a6ae65d3692",
+        "c09_boundary": "8ce86a6ae65d3692",
+        "c09_high": "8ce86a6ae65d3692",
+        "c09_low": "8ce86a6ae65d3692",
+        "c10_boundary": "8ce86a6ae65d3692",
+        "c10_high": "8ce86a6ae65d3692",
+        "c10_low": "8ce86a6ae65d3692",
+        "c11_boundary": "8ce86a6ae65d3692",
+        "c11_high": "8ce86a6ae65d3692",
+        "c11_low": "8ce86a6ae65d3692",
+        "c12_boundary": "8ce86a6ae65d3692",
+        "c12_high": "8ce86a6ae65d3692",
+        "c12_low": "8ce86a6ae65d3692",
+        "c13_boundary": "8ce86a6ae65d3692",
+        "c13_high": "8ce86a6ae65d3692",
+        "c13_low": "8ce86a6ae65d3692",
+        "c14_boundary": "8ce86a6ae65d3692",
+        "c14_high": "8ce86a6ae65d3692",
+        "c14_low": "8ce86a6ae65d3692",
+        "c15_boundary": "8ce86a6ae65d3692",
+        "c15_high": "8ce86a6ae65d3692",
+        "c15_low": "8ce86a6ae65d3692",
+        "c16_boundary": "8ce86a6ae65d3692",
+        "c16_high": "8ce86a6ae65d3692",
+        "c16_low": "8ce86a6ae65d3692",
+        "c17_boundary": "8ce86a6ae65d3692",
+        "c17_high": "8ce86a6ae65d3692",
+        "c17_low": "8ce86a6ae65d3692",
+        "c18_boundary": "8ce86a6ae65d3692",
+        "c18_high": "8ce86a6ae65d3692",
+        "c18_low": "8ce86a6ae65d3692",
+        "c19_boundary": "8ce86a6ae65d3692",
+        "c19_high": "8ce86a6ae65d3692",
+        "c19_low": "8ce86a6ae65d3692",
+        "c20_boundary": "8ce86a6ae65d3692",
+        "c20_high": "8ce86a6ae65d3692",
+        "c20_low": "8ce86a6ae65d3692"
+      },
+      "H3B_REENCODED_BRANCH_BOUND": {
+        "c01_boundary": "1a8633088439cfa7",
+        "c01_high": "be64e51b8fc449b2",
+        "c01_low": "69c366c66cbba713",
+        "c02_boundary": "1a8633088439cfa7",
+        "c02_high": "be64e51b8fc449b2",
+        "c02_low": "69c366c66cbba713",
+        "c03_boundary": "1a8633088439cfa7",
+        "c03_high": "be64e51b8fc449b2",
+        "c03_low": "69c366c66cbba713",
+        "c04_boundary": "1a8633088439cfa7",
+        "c04_high": "be64e51b8fc449b2",
+        "c04_low": "69c366c66cbba713",
+        "c05_boundary": "1a8633088439cfa7",
+        "c05_high": "be64e51b8fc449b2",
+        "c05_low": "69c366c66cbba713",
+        "c06_boundary": "1a8633088439cfa7",
+        "c06_high": "be64e51b8fc449b2",
+        "c06_low": "69c366c66cbba713",
+        "c07_boundary": "1a8633088439cfa7",
+        "c07_high": "be64e51b8fc449b2",
+        "c07_low": "69c366c66cbba713",
+        "c08_boundary": "1a8633088439cfa7",
+        "c08_high": "be64e51b8fc449b2",
+        "c08_low": "69c366c66cbba713",
+        "c09_boundary": "1a8633088439cfa7",
+        "c09_high": "be64e51b8fc449b2",
+        "c09_low": "69c366c66cbba713",
+        "c10_boundary": "1a8633088439cfa7",
+        "c10_high": "be64e51b8fc449b2",
+        "c10_low": "69c366c66cbba713",
+        "c11_boundary": "1a8633088439cfa7",
+        "c11_high": "be64e51b8fc449b2",
+        "c11_low": "69c366c66cbba713",
+        "c12_boundary": "1a8633088439cfa7",
+        "c12_high": "be64e51b8fc449b2",
+        "c12_low": "69c366c66cbba713",
+        "c13_boundary": "1a8633088439cfa7",
+        "c13_high": "be64e51b8fc449b2",
+        "c13_low": "69c366c66cbba713",
+        "c14_boundary": "1a8633088439cfa7",
+        "c14_high": "be64e51b8fc449b2",
+        "c14_low": "69c366c66cbba713",
+        "c15_boundary": "1a8633088439cfa7",
+        "c15_high": "be64e51b8fc449b2",
+        "c15_low": "69c366c66cbba713",
+        "c16_boundary": "1a8633088439cfa7",
+        "c16_high": "be64e51b8fc449b2",
+        "c16_low": "69c366c66cbba713",
+        "c17_boundary": "a98382af23cc14c7",
+        "c17_high": "0ee6cb3e05a09088",
+        "c17_low": "c7c056e551eccf05",
+        "c18_boundary": "a98382af23cc14c7",
+        "c18_high": "0ee6cb3e05a09088",
+        "c18_low": "c7c056e551eccf05",
+        "c19_boundary": "a98382af23cc14c7",
+        "c19_high": "0ee6cb3e05a09088",
+        "c19_low": "c7c056e551eccf05",
+        "c20_boundary": "a98382af23cc14c7",
+        "c20_high": "0ee6cb3e05a09088",
+        "c20_low": "c7c056e551eccf05"
+      },
+      "S1_FULL_ENUMERATION": {
+        "c01_boundary": "9a810e41b1eb6142",
+        "c01_high": "1b9ad3ff6dfcc592",
+        "c01_low": "4a41e30c0a2ca9d4",
+        "c02_boundary": "9a810e41b1eb6142",
+        "c02_high": "1b9ad3ff6dfcc592",
+        "c02_low": "4a41e30c0a2ca9d4",
+        "c03_boundary": "9a810e41b1eb6142",
+        "c03_high": "1b9ad3ff6dfcc592",
+        "c03_low": "4a41e30c0a2ca9d4",
+        "c04_boundary": "9a810e41b1eb6142",
+        "c04_high": "1b9ad3ff6dfcc592",
+        "c04_low": "4a41e30c0a2ca9d4",
+        "c05_boundary": "9a810e41b1eb6142",
+        "c05_high": "1b9ad3ff6dfcc592",
+        "c05_low": "4a41e30c0a2ca9d4",
+        "c06_boundary": "9a810e41b1eb6142",
+        "c06_high": "1b9ad3ff6dfcc592",
+        "c06_low": "4a41e30c0a2ca9d4",
+        "c07_boundary": "9a810e41b1eb6142",
+        "c07_high": "1b9ad3ff6dfcc592",
+        "c07_low": "4a41e30c0a2ca9d4",
+        "c08_boundary": "9a810e41b1eb6142",
+        "c08_high": "1b9ad3ff6dfcc592",
+        "c08_low": "4a41e30c0a2ca9d4",
+        "c09_boundary": "9a810e41b1eb6142",
+        "c09_high": "1b9ad3ff6dfcc592",
+        "c09_low": "4a41e30c0a2ca9d4",
+        "c10_boundary": "9a810e41b1eb6142",
+        "c10_high": "1b9ad3ff6dfcc592",
+        "c10_low": "4a41e30c0a2ca9d4",
+        "c11_boundary": "9a810e41b1eb6142",
+        "c11_high": "1b9ad3ff6dfcc592",
+        "c11_low": "4a41e30c0a2ca9d4",
+        "c12_boundary": "9a810e41b1eb6142",
+        "c12_high": "1b9ad3ff6dfcc592",
+        "c12_low": "4a41e30c0a2ca9d4",
+        "c13_boundary": "9a810e41b1eb6142",
+        "c13_high": "1b9ad3ff6dfcc592",
+        "c13_low": "9179471e2ce5038d",
+        "c14_boundary": "9a810e41b1eb6142",
+        "c14_high": "1b9ad3ff6dfcc592",
+        "c14_low": "9179471e2ce5038d",
+        "c15_boundary": "9a810e41b1eb6142",
+        "c15_high": "1b9ad3ff6dfcc592",
+        "c15_low": "9179471e2ce5038d",
+        "c16_boundary": "9a810e41b1eb6142",
+        "c16_high": "1b9ad3ff6dfcc592",
+        "c16_low": "9179471e2ce5038d",
+        "c17_boundary": "d8f8b88d6ecc60b7",
+        "c17_high": "b439ced3a2d0a015",
+        "c17_low": "f06dea962882dab3",
+        "c18_boundary": "d8f8b88d6ecc60b7",
+        "c18_high": "b439ced3a2d0a015",
+        "c18_low": "f06dea962882dab3",
+        "c19_boundary": "d8f8b88d6ecc60b7",
+        "c19_high": "b439ced3a2d0a015",
+        "c19_low": "f06dea962882dab3",
+        "c20_boundary": "d8f8b88d6ecc60b7",
+        "c20_high": "b439ced3a2d0a015",
+        "c20_low": "f06dea962882dab3"
+      },
+      "S2_RISK_FRONTIER_BRANCH_BOUND": {
+        "c01_boundary": "1a8633088439cfa7",
+        "c01_high": "be64e51b8fc449b2",
+        "c01_low": "69c366c66cbba713",
+        "c02_boundary": "1a8633088439cfa7",
+        "c02_high": "be64e51b8fc449b2",
+        "c02_low": "69c366c66cbba713",
+        "c03_boundary": "1a8633088439cfa7",
+        "c03_high": "be64e51b8fc449b2",
+        "c03_low": "69c366c66cbba713",
+        "c04_boundary": "1a8633088439cfa7",
+        "c04_high": "be64e51b8fc449b2",
+        "c04_low": "69c366c66cbba713",
+        "c05_boundary": "1a8633088439cfa7",
+        "c05_high": "be64e51b8fc449b2",
+        "c05_low": "69c366c66cbba713",
+        "c06_boundary": "1a8633088439cfa7",
+        "c06_high": "be64e51b8fc449b2",
+        "c06_low": "69c366c66cbba713",
+        "c07_boundary": "1a8633088439cfa7",
+        "c07_high": "be64e51b8fc449b2",
+        "c07_low": "69c366c66cbba713",
+        "c08_boundary": "1a8633088439cfa7",
+        "c08_high": "be64e51b8fc449b2",
+        "c08_low": "69c366c66cbba713",
+        "c09_boundary": "1a8633088439cfa7",
+        "c09_high": "be64e51b8fc449b2",
+        "c09_low": "69c366c66cbba713",
+        "c10_boundary": "1a8633088439cfa7",
+        "c10_high": "be64e51b8fc449b2",
+        "c10_low": "69c366c66cbba713",
+        "c11_boundary": "1a8633088439cfa7",
+        "c11_high": "be64e51b8fc449b2",
+        "c11_low": "69c366c66cbba713",
+        "c12_boundary": "1a8633088439cfa7",
+        "c12_high": "be64e51b8fc449b2",
+        "c12_low": "69c366c66cbba713",
+        "c13_boundary": "1a8633088439cfa7",
+        "c13_high": "be64e51b8fc449b2",
+        "c13_low": "69c366c66cbba713",
+        "c14_boundary": "1a8633088439cfa7",
+        "c14_high": "be64e51b8fc449b2",
+        "c14_low": "69c366c66cbba713",
+        "c15_boundary": "1a8633088439cfa7",
+        "c15_high": "be64e51b8fc449b2",
+        "c15_low": "69c366c66cbba713",
+        "c16_boundary": "1a8633088439cfa7",
+        "c16_high": "be64e51b8fc449b2",
+        "c16_low": "69c366c66cbba713",
+        "c17_boundary": "a98382af23cc14c7",
+        "c17_high": "0ee6cb3e05a09088",
+        "c17_low": "c7c056e551eccf05",
+        "c18_boundary": "a98382af23cc14c7",
+        "c18_high": "0ee6cb3e05a09088",
+        "c18_low": "c7c056e551eccf05",
+        "c19_boundary": "a98382af23cc14c7",
+        "c19_high": "0ee6cb3e05a09088",
+        "c19_low": "c7c056e551eccf05",
+        "c20_boundary": "a98382af23cc14c7",
+        "c20_high": "0ee6cb3e05a09088",
+        "c20_low": "c7c056e551eccf05"
+      },
+      "S3_BEST_FIRST_CERTIFICATE": {
+        "c01_boundary": "9d1212565f0fc9d5",
+        "c01_high": "be64e51b8fc449b2",
+        "c01_low": "a547f9fbcf6198ae",
+        "c02_boundary": "9d1212565f0fc9d5",
+        "c02_high": "be64e51b8fc449b2",
+        "c02_low": "a547f9fbcf6198ae",
+        "c03_boundary": "9d1212565f0fc9d5",
+        "c03_high": "be64e51b8fc449b2",
+        "c03_low": "a547f9fbcf6198ae",
+        "c04_boundary": "9d1212565f0fc9d5",
+        "c04_high": "be64e51b8fc449b2",
+        "c04_low": "a547f9fbcf6198ae",
+        "c05_boundary": "9d1212565f0fc9d5",
+        "c05_high": "be64e51b8fc449b2",
+        "c05_low": "a547f9fbcf6198ae",
+        "c06_boundary": "9d1212565f0fc9d5",
+        "c06_high": "be64e51b8fc449b2",
+        "c06_low": "a547f9fbcf6198ae",
+        "c07_boundary": "9d1212565f0fc9d5",
+        "c07_high": "be64e51b8fc449b2",
+        "c07_low": "a547f9fbcf6198ae",
+        "c08_boundary": "9d1212565f0fc9d5",
+        "c08_high": "be64e51b8fc449b2",
+        "c08_low": "a547f9fbcf6198ae",
+        "c09_boundary": "9d1212565f0fc9d5",
+        "c09_high": "be64e51b8fc449b2",
+        "c09_low": "a547f9fbcf6198ae",
+        "c10_boundary": "9d1212565f0fc9d5",
+        "c10_high": "be64e51b8fc449b2",
+        "c10_low": "a547f9fbcf6198ae",
+        "c11_boundary": "9d1212565f0fc9d5",
+        "c11_high": "be64e51b8fc449b2",
+        "c11_low": "a547f9fbcf6198ae",
+        "c12_boundary": "9d1212565f0fc9d5",
+        "c12_high": "be64e51b8fc449b2",
+        "c12_low": "a547f9fbcf6198ae",
+        "c13_boundary": "9d1212565f0fc9d5",
+        "c13_high": "be64e51b8fc449b2",
+        "c13_low": "a547f9fbcf6198ae",
+        "c14_boundary": "9d1212565f0fc9d5",
+        "c14_high": "be64e51b8fc449b2",
+        "c14_low": "a547f9fbcf6198ae",
+        "c15_boundary": "9d1212565f0fc9d5",
+        "c15_high": "be64e51b8fc449b2",
+        "c15_low": "a547f9fbcf6198ae",
+        "c16_boundary": "9d1212565f0fc9d5",
+        "c16_high": "be64e51b8fc449b2",
+        "c16_low": "a547f9fbcf6198ae",
+        "c17_boundary": "a28fbffd59b9a509",
+        "c17_high": "0ee6cb3e05a09088",
+        "c17_low": "7474201e6059e567",
+        "c18_boundary": "a28fbffd59b9a509",
+        "c18_high": "0ee6cb3e05a09088",
+        "c18_low": "7474201e6059e567",
+        "c19_boundary": "a28fbffd59b9a509",
+        "c19_high": "0ee6cb3e05a09088",
+        "c19_low": "7474201e6059e567",
+        "c20_boundary": "a28fbffd59b9a509",
+        "c20_high": "0ee6cb3e05a09088",
+        "c20_low": "7474201e6059e567"
+      }
+    },
+    "admission_census": {
+      "C1_TWIN_VALID_ENCODING_CENSUS_BROKEN_H2A": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_ENCODING",
+        [
+          [
+            "ENCODING",
+            "ENCODING_NOT_SEMANTICALLY_EQUIVALENT"
+          ]
+        ]
+      ],
+      "C2_SEARCH_REENCODINGS_ONLY_H3B": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_SEARCH",
+        [
+          [
+            "SEARCH",
+            "SEARCHERS_NOT_MATERIALLY_DISTINCT"
+          ]
+        ]
+      ],
+      "C3B_ZERO_WEIGHT_PROBES_ONLY": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_SCALARIZATION",
+        [
+          [
+            "SCALARIZATION",
+            "SCALARIZATIONS_INSUFFICIENT"
+          ]
+        ]
+      ],
+      "C3_EMPTY_SCALARIZATION_SET": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_SCALARIZATION",
+        [
+          [
+            "SCALARIZATION",
+            "SCALARIZATIONS_INSUFFICIENT"
+          ]
+        ]
+      ],
+      "C4_UNCLEAN_NEGATIVE_ARM": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_NO_SMUGGLING",
+        [
+          [
+            "NO_SMUGGLING",
+            "NO_SMUGGLING_NOT_CLEAN"
+          ]
+        ]
+      ],
+      "C5_UNEVALUABLE_NEGATIVE_ARM": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_MATCHED_TWIN",
+        [
+          [
+            "MATCHED_TWIN",
+            "TWIN_AUDIT_NOT_EVALUABLE"
+          ],
+          [
+            "NO_SMUGGLING",
+            "NO_SMUGGLING_NOT_CLEAN"
+          ]
+        ]
+      ],
+      "C6_TWIN_AND_SEARCH_HOSTILE": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_MATCHED_TWIN",
+        [
+          [
+            "MATCHED_TWIN",
+            "UNMATCHED_MECHANISM_TWIN"
+          ],
+          [
+            "SEARCH",
+            "SEARCH_SENSITIVE"
+          ]
+        ]
+      ],
+      "C7_ALL_FOUR_CONTROLS_HOSTILE": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_MATCHED_TWIN",
+        [
+          [
+            "MATCHED_TWIN",
+            "UNMATCHED_MECHANISM_TWIN"
+          ],
+          [
+            "ENCODING",
+            "ENCODING_SENSITIVE"
+          ],
+          [
+            "SEARCH",
+            "SEARCH_SENSITIVE"
+          ],
+          [
+            "SCALARIZATION",
+            "SCALARIZATION_SENSITIVE"
+          ]
+        ]
+      ],
+      "DELETE_ENCODING": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_ENCODING",
+        [
+          [
+            "ENCODING",
+            "CONTROL_MISSING"
+          ]
+        ]
+      ],
+      "DELETE_MATCHED_TWIN": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_MATCHED_TWIN",
+        [
+          [
+            "MATCHED_TWIN",
+            "CONTROL_MISSING"
+          ]
+        ]
+      ],
+      "DELETE_NO_SMUGGLING": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_NO_SMUGGLING",
+        [
+          [
+            "MATCHED_TWIN",
+            "TWIN_AUDIT_NOT_EVALUABLE"
+          ],
+          [
+            "NO_SMUGGLING",
+            "CONTROL_MISSING"
+          ]
+        ]
+      ],
+      "DELETE_SCALARIZATION": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_SCALARIZATION",
+        [
+          [
+            "SCALARIZATION",
+            "CONTROL_MISSING"
+          ]
+        ]
+      ],
+      "DELETE_SEARCH": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_SEARCH",
+        [
+          [
+            "SEARCH",
+            "CONTROL_MISSING"
+          ]
+        ]
+      ],
+      "GMI859_POSITIVE_WITNESS_901_FAMILY": [
+        "ROBUST_AT_REGISTERED_D_CONTROLS_SCOPE",
+        []
+      ],
+      "H1A_CAPACITY": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_MATCHED_TWIN",
+        [
+          [
+            "MATCHED_TWIN",
+            "UNMATCHED_MECHANISM_TWIN"
+          ]
+        ]
+      ],
+      "H1B_MACRO": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_MATCHED_TWIN",
+        [
+          [
+            "MATCHED_TWIN",
+            "UNMATCHED_MECHANISM_TWIN"
+          ],
+          [
+            "NO_SMUGGLING",
+            "NO_SMUGGLING_NOT_CLEAN"
+          ]
+        ]
+      ],
+      "H1C_SEQUENCES": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_MATCHED_TWIN",
+        [
+          [
+            "MATCHED_TWIN",
+            "UNMATCHED_MECHANISM_TWIN"
+          ]
+        ]
+      ],
+      "H1D_BUDGET": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_MATCHED_TWIN",
+        [
+          [
+            "MATCHED_TWIN",
+            "UNMATCHED_MECHANISM_TWIN"
+          ]
+        ]
+      ],
+      "H2B_COST_MUTATION": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_ENCODING",
+        [
+          [
+            "ENCODING",
+            "ENCODING_NOT_SEMANTICALLY_EQUIVALENT"
+          ]
+        ]
+      ],
+      "H2C_SURFACE_TIE": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_ENCODING",
+        [
+          [
+            "ENCODING",
+            "ENCODING_SENSITIVE"
+          ]
+        ]
+      ],
+      "H3A_EARLY_STOP": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_SEARCH",
+        [
+          [
+            "SEARCH",
+            "SEARCH_SENSITIVE"
+          ]
+        ]
+      ],
+      "H4A_UNIVERSAL_WINNER_WORDING": [
+        "CANNOT_ESTABLISH_D_ROBUSTNESS_SCALARIZATION",
+        [
+          [
+            "SCALARIZATION",
+            "SCALARIZATION_SENSITIVE"
+          ]
+        ]
+      ]
+    },
+    "census": 65552,
+    "descriptor_mismatches": {
+      "G_MINUS": [],
+      "H1A_CAPACITY_DELETE_STATEFUL": [
+        "candidate_count",
+        "primitive_envelope",
+        "non_k_operator_inventory",
+        "budget"
+      ],
+      "H1B_MACRO_PREV": [
+        "non_k_operator_inventory",
+        "representable_k_free_behaviour_set"
+      ],
+      "H1C_HALVED_SEQUENCE_SET": [
+        "evaluator_id",
+        "sequence_set",
+        "representable_k_free_behaviour_set"
+      ],
+      "H1D_HALVED_BUDGET": [
+        "budget"
+      ]
+    },
+    "g_minus_risk_points": [
+      [
+        "s0n0d8",
+        4
+      ],
+      [
+        "s0n8d8",
+        8
+      ],
+      [
+        "s0n16d8",
+        4
+      ],
+      [
+        "s1n0d8",
+        16384
+      ],
+      [
+        "s1n8d8",
+        32768
+      ],
+      [
+        "s1n16d8",
+        16384
+      ]
+    ],
+    "h3a_properties": {
+      "c01_boundary": [
+        "STATELESS"
+      ],
+      "c01_high": [
+        "STATELESS"
+      ],
+      "c01_low": [
+        "STATELESS"
+      ],
+      "c02_boundary": [
+        "STATELESS"
+      ],
+      "c02_high": [
+        "STATELESS"
+      ],
+      "c02_low": [
+        "STATELESS"
+      ],
+      "c03_boundary": [
+        "STATELESS"
+      ],
+      "c03_high": [
+        "STATELESS"
+      ],
+      "c03_low": [
+        "STATELESS"
+      ],
+      "c04_boundary": [
+        "STATELESS"
+      ],
+      "c04_high": [
+        "STATELESS"
+      ],
+      "c04_low": [
+        "STATELESS"
+      ],
+      "c05_boundary": [
+        "STATELESS"
+      ],
+      "c05_high": [
+        "STATELESS"
+      ],
+      "c05_low": [
+        "STATELESS"
+      ],
+      "c06_boundary": [
+        "STATELESS"
+      ],
+      "c06_high": [
+        "STATELESS"
+      ],
+      "c06_low": [
+        "STATELESS"
+      ],
+      "c07_boundary": [
+        "STATELESS"
+      ],
+      "c07_high": [
+        "STATELESS"
+      ],
+      "c07_low": [
+        "STATELESS"
+      ],
+      "c08_boundary": [
+        "STATELESS"
+      ],
+      "c08_high": [
+        "STATELESS"
+      ],
+      "c08_low": [
+        "STATELESS"
+      ],
+      "c09_boundary": [
+        "STATELESS"
+      ],
+      "c09_high": [
+        "STATELESS"
+      ],
+      "c09_low": [
+        "STATELESS"
+      ],
+      "c10_boundary": [
+        "STATELESS"
+      ],
+      "c10_high": [
+        "STATELESS"
+      ],
+      "c10_low": [
+        "STATELESS"
+      ],
+      "c11_boundary": [
+        "STATELESS"
+      ],
+      "c11_high": [
+        "STATELESS"
+      ],
+      "c11_low": [
+        "STATELESS"
+      ],
+      "c12_boundary": [
+        "STATELESS"
+      ],
+      "c12_high": [
+        "STATELESS"
+      ],
+      "c12_low": [
+        "STATELESS"
+      ],
+      "c13_boundary": [
+        "STATELESS"
+      ],
+      "c13_high": [
+        "STATELESS"
+      ],
+      "c13_low": [
+        "STATELESS"
+      ],
+      "c14_boundary": [
+        "STATELESS"
+      ],
+      "c14_high": [
+        "STATELESS"
+      ],
+      "c14_low": [
+        "STATELESS"
+      ],
+      "c15_boundary": [
+        "STATELESS"
+      ],
+      "c15_high": [
+        "STATELESS"
+      ],
+      "c15_low": [
+        "STATELESS"
+      ],
+      "c16_boundary": [
+        "STATELESS"
+      ],
+      "c16_high": [
+        "STATELESS"
+      ],
+      "c16_low": [
+        "STATELESS"
+      ],
+      "c17_boundary": [
+        "STATELESS"
+      ],
+      "c17_high": [
+        "STATELESS"
+      ],
+      "c17_low": [
+        "STATELESS"
+      ],
+      "c18_boundary": [
+        "STATELESS"
+      ],
+      "c18_high": [
+        "STATELESS"
+      ],
+      "c18_low": [
+        "STATELESS"
+      ],
+      "c19_boundary": [
+        "STATELESS"
+      ],
+      "c19_high": [
+        "STATELESS"
+      ],
+      "c19_low": [
+        "STATELESS"
+      ],
+      "c20_boundary": [
+        "STATELESS"
+      ],
+      "c20_high": [
+        "STATELESS"
+      ],
+      "c20_low": [
+        "STATELESS"
+      ]
+    },
+    "k_carriers_in_g_plus": 65024,
+    "k_free_multiplicity": {
+      "G_MINUS": {
+        "classes": 16,
+        "max_per_class": 4097,
+        "min_per_class": 4097,
+        "total_k_free": 65552
+      },
+      "G_PLUS": {
+        "classes": 16,
+        "max_per_class": 33,
+        "min_per_class": 33,
+        "total_k_free": 528
+      }
+    },
+    "k_target_realizable": {
+      "G_MINUS": false,
+      "H1A_CAPACITY_DELETE_STATEFUL": false,
+      "H1B_MACRO_PREV": true,
+      "H1C_HALVED_SEQUENCE_SET": true,
+      "H1D_HALVED_BUDGET": false
+    },
+    "outcome_best": {
+      "E_MINUS": {
+        "c01_boundary": "0",
+        "c01_high": "0",
+        "c01_low": "0",
+        "c02_boundary": "0",
+        "c02_high": "0",
+        "c02_low": "0",
+        "c03_boundary": "0",
+        "c03_high": "0",
+        "c03_low": "0",
+        "c04_boundary": "0",
+        "c04_high": "0",
+        "c04_low": "0",
+        "c05_boundary": "0",
+        "c05_high": "0",
+        "c05_low": "0",
+        "c06_boundary": "0",
+        "c06_high": "0",
+        "c06_low": "0",
+        "c07_boundary": "0",
+        "c07_high": "0",
+        "c07_low": "0",
+        "c08_boundary": "0",
+        "c08_high": "0",
+        "c08_low": "0",
+        "c09_boundary": "0",
+        "c09_high": "0",
+        "c09_low": "0",
+        "c10_boundary": "0",
+        "c10_high": "0",
+        "c10_low": "0",
+        "c11_boundary": "0",
+        "c11_high": "0",
+        "c11_low": "0",
+        "c12_boundary": "0",
+        "c12_high": "0",
+        "c12_low": "0",
+        "c13_boundary": "0",
+        "c13_high": "0",
+        "c13_low": "0",
+        "c14_boundary": "0",
+        "c14_high": "0",
+        "c14_low": "0",
+        "c15_boundary": "0",
+        "c15_high": "0",
+        "c15_low": "0",
+        "c16_boundary": "0",
+        "c16_high": "0",
+        "c16_low": "0",
+        "c17_boundary": "0",
+        "c17_high": "0",
+        "c17_low": "0",
+        "c18_boundary": "0",
+        "c18_high": "0",
+        "c18_low": "0",
+        "c19_boundary": "0",
+        "c19_high": "0",
+        "c19_low": "0",
+        "c20_boundary": "0",
+        "c20_high": "0",
+        "c20_low": "0"
+      },
+      "G_MINUS": {
+        "c01_boundary": "1/10",
+        "c01_high": "1/10",
+        "c01_low": "1/10",
+        "c02_boundary": "1/5",
+        "c02_high": "1/5",
+        "c02_low": "1/5",
+        "c03_boundary": "3/10",
+        "c03_high": "3/10",
+        "c03_low": "3/10",
+        "c04_boundary": "2/5",
+        "c04_high": "2/5",
+        "c04_low": "2/5",
+        "c05_boundary": "1/5",
+        "c05_high": "1/5",
+        "c05_low": "1/5",
+        "c06_boundary": "2/5",
+        "c06_high": "2/5",
+        "c06_low": "2/5",
+        "c07_boundary": "3/5",
+        "c07_high": "3/5",
+        "c07_low": "3/5",
+        "c08_boundary": "4/5",
+        "c08_high": "4/5",
+        "c08_low": "4/5",
+        "c09_boundary": "3/10",
+        "c09_high": "3/10",
+        "c09_low": "3/10",
+        "c10_boundary": "3/5",
+        "c10_high": "3/5",
+        "c10_low": "3/5",
+        "c11_boundary": "9/10",
+        "c11_high": "9/10",
+        "c11_low": "9/10",
+        "c12_boundary": "6/5",
+        "c12_high": "6/5",
+        "c12_low": "6/5",
+        "c13_boundary": "2/5",
+        "c13_high": "2/5",
+        "c13_low": "2/5",
+        "c14_boundary": "4/5",
+        "c14_high": "4/5",
+        "c14_low": "4/5",
+        "c15_boundary": "6/5",
+        "c15_high": "6/5",
+        "c15_low": "6/5",
+        "c16_boundary": "8/5",
+        "c16_high": "8/5",
+        "c16_low": "8/5",
+        "c17_boundary": "1/2",
+        "c17_high": "1/2",
+        "c17_low": "1/2",
+        "c18_boundary": "1",
+        "c18_high": "1",
+        "c18_low": "1",
+        "c19_boundary": "3/2",
+        "c19_high": "3/2",
+        "c19_low": "3/2",
+        "c20_boundary": "2",
+        "c20_high": "2",
+        "c20_low": "2"
+      },
+      "G_PLUS": {
+        "c01_boundary": "1/10",
+        "c01_high": "1/10",
+        "c01_low": "1/20",
+        "c02_boundary": "1/5",
+        "c02_high": "1/5",
+        "c02_low": "1/10",
+        "c03_boundary": "3/10",
+        "c03_high": "3/10",
+        "c03_low": "3/20",
+        "c04_boundary": "2/5",
+        "c04_high": "2/5",
+        "c04_low": "1/5",
+        "c05_boundary": "1/5",
+        "c05_high": "1/5",
+        "c05_low": "1/10",
+        "c06_boundary": "2/5",
+        "c06_high": "2/5",
+        "c06_low": "1/5",
+        "c07_boundary": "3/5",
+        "c07_high": "3/5",
+        "c07_low": "3/10",
+        "c08_boundary": "4/5",
+        "c08_high": "4/5",
+        "c08_low": "2/5",
+        "c09_boundary": "3/10",
+        "c09_high": "3/10",
+        "c09_low": "3/20",
+        "c10_boundary": "3/5",
+        "c10_high": "3/5",
+        "c10_low": "3/10",
+        "c11_boundary": "9/10",
+        "c11_high": "9/10",
+        "c11_low": "9/20",
+        "c12_boundary": "6/5",
+        "c12_high": "6/5",
+        "c12_low": "3/5",
+        "c13_boundary": "2/5",
+        "c13_high": "2/5",
+        "c13_low": "1/5",
+        "c14_boundary": "4/5",
+        "c14_high": "4/5",
+        "c14_low": "2/5",
+        "c15_boundary": "6/5",
+        "c15_high": "6/5",
+        "c15_low": "3/5",
+        "c16_boundary": "8/5",
+        "c16_high": "8/5",
+        "c16_low": "4/5",
+        "c17_boundary": "1/2",
+        "c17_high": "1/2",
+        "c17_low": "1/4",
+        "c18_boundary": "1",
+        "c18_high": "1",
+        "c18_low": "1/2",
+        "c19_boundary": "3/2",
+        "c19_high": "3/2",
+        "c19_low": "3/4",
+        "c20_boundary": "2",
+        "c20_high": "2",
+        "c20_low": "1"
+      }
+    },
+    "outcome_properties": {
+      "E_MINUS": {
+        "c01_boundary": [
+          "STATELESS"
+        ],
+        "c01_high": [
+          "STATELESS"
+        ],
+        "c01_low": [
+          "STATELESS"
+        ],
+        "c02_boundary": [
+          "STATELESS"
+        ],
+        "c02_high": [
+          "STATELESS"
+        ],
+        "c02_low": [
+          "STATELESS"
+        ],
+        "c03_boundary": [
+          "STATELESS"
+        ],
+        "c03_high": [
+          "STATELESS"
+        ],
+        "c03_low": [
+          "STATELESS"
+        ],
+        "c04_boundary": [
+          "STATELESS"
+        ],
+        "c04_high": [
+          "STATELESS"
+        ],
+        "c04_low": [
+          "STATELESS"
+        ],
+        "c05_boundary": [
+          "STATELESS"
+        ],
+        "c05_high": [
+          "STATELESS"
+        ],
+        "c05_low": [
+          "STATELESS"
+        ],
+        "c06_boundary": [
+          "STATELESS"
+        ],
+        "c06_high": [
+          "STATELESS"
+        ],
+        "c06_low": [
+          "STATELESS"
+        ],
+        "c07_boundary": [
+          "STATELESS"
+        ],
+        "c07_high": [
+          "STATELESS"
+        ],
+        "c07_low": [
+          "STATELESS"
+        ],
+        "c08_boundary": [
+          "STATELESS"
+        ],
+        "c08_high": [
+          "STATELESS"
+        ],
+        "c08_low": [
+          "STATELESS"
+        ],
+        "c09_boundary": [
+          "STATELESS"
+        ],
+        "c09_high": [
+          "STATELESS"
+        ],
+        "c09_low": [
+          "STATELESS"
+        ],
+        "c10_boundary": [
+          "STATELESS"
+        ],
+        "c10_high": [
+          "STATELESS"
+        ],
+        "c10_low": [
+          "STATELESS"
+        ],
+        "c11_boundary": [
+          "STATELESS"
+        ],
+        "c11_high": [
+          "STATELESS"
+        ],
+        "c11_low": [
+          "STATELESS"
+        ],
+        "c12_boundary": [
+          "STATELESS"
+        ],
+        "c12_high": [
+          "STATELESS"
+        ],
+        "c12_low": [
+          "STATELESS"
+        ],
+        "c13_boundary": [
+          "STATELESS"
+        ],
+        "c13_high": [
+          "STATELESS"
+        ],
+        "c13_low": [
+          "STATELESS"
+        ],
+        "c14_boundary": [
+          "STATELESS"
+        ],
+        "c14_high": [
+          "STATELESS"
+        ],
+        "c14_low": [
+          "STATELESS"
+        ],
+        "c15_boundary": [
+          "STATELESS"
+        ],
+        "c15_high": [
+          "STATELESS"
+        ],
+        "c15_low": [
+          "STATELESS"
+        ],
+        "c16_boundary": [
+          "STATELESS"
+        ],
+        "c16_high": [
+          "STATELESS"
+        ],
+        "c16_low": [
+          "STATELESS"
+        ],
+        "c17_boundary": [
+          "STATELESS"
+        ],
+        "c17_high": [
+          "STATELESS"
+        ],
+        "c17_low": [
+          "STATELESS"
+        ],
+        "c18_boundary": [
+          "STATELESS"
+        ],
+        "c18_high": [
+          "STATELESS"
+        ],
+        "c18_low": [
+          "STATELESS"
+        ],
+        "c19_boundary": [
+          "STATELESS"
+        ],
+        "c19_high": [
+          "STATELESS"
+        ],
+        "c19_low": [
+          "STATELESS"
+        ],
+        "c20_boundary": [
+          "STATELESS"
+        ],
+        "c20_high": [
+          "STATELESS"
+        ],
+        "c20_low": [
+          "STATELESS"
+        ]
+      },
+      "G_MINUS": {
+        "c01_boundary": [
+          "STATELESS"
+        ],
+        "c01_high": [
+          "STATELESS"
+        ],
+        "c01_low": [
+          "STATELESS"
+        ],
+        "c02_boundary": [
+          "STATELESS"
+        ],
+        "c02_high": [
+          "STATELESS"
+        ],
+        "c02_low": [
+          "STATELESS"
+        ],
+        "c03_boundary": [
+          "STATELESS"
+        ],
+        "c03_high": [
+          "STATELESS"
+        ],
+        "c03_low": [
+          "STATELESS"
+        ],
+        "c04_boundary": [
+          "STATELESS"
+        ],
+        "c04_high": [
+          "STATELESS"
+        ],
+        "c04_low": [
+          "STATELESS"
+        ],
+        "c05_boundary": [
+          "STATELESS"
+        ],
+        "c05_high": [
+          "STATELESS"
+        ],
+        "c05_low": [
+          "STATELESS"
+        ],
+        "c06_boundary": [
+          "STATELESS"
+        ],
+        "c06_high": [
+          "STATELESS"
+        ],
+        "c06_low": [
+          "STATELESS"
+        ],
+        "c07_boundary": [
+          "STATELESS"
+        ],
+        "c07_high": [
+          "STATELESS"
+        ],
+        "c07_low": [
+          "STATELESS"
+        ],
+        "c08_boundary": [
+          "STATELESS"
+        ],
+        "c08_high": [
+          "STATELESS"
+        ],
+        "c08_low": [
+          "STATELESS"
+        ],
+        "c09_boundary": [
+          "STATELESS"
+        ],
+        "c09_high": [
+          "STATELESS"
+        ],
+        "c09_low": [
+          "STATELESS"
+        ],
+        "c10_boundary": [
+          "STATELESS"
+        ],
+        "c10_high": [
+          "STATELESS"
+        ],
+        "c10_low": [
+          "STATELESS"
+        ],
+        "c11_boundary": [
+          "STATELESS"
+        ],
+        "c11_high": [
+          "STATELESS"
+        ],
+        "c11_low": [
+          "STATELESS"
+        ],
+        "c12_boundary": [
+          "STATELESS"
+        ],
+        "c12_high": [
+          "STATELESS"
+        ],
+        "c12_low": [
+          "STATELESS"
+        ],
+        "c13_boundary": [
+          "STATELESS"
+        ],
+        "c13_high": [
+          "STATELESS"
+        ],
+        "c13_low": [
+          "STATELESS"
+        ],
+        "c14_boundary": [
+          "STATELESS"
+        ],
+        "c14_high": [
+          "STATELESS"
+        ],
+        "c14_low": [
+          "STATELESS"
+        ],
+        "c15_boundary": [
+          "STATELESS"
+        ],
+        "c15_high": [
+          "STATELESS"
+        ],
+        "c15_low": [
+          "STATELESS"
+        ],
+        "c16_boundary": [
+          "STATELESS"
+        ],
+        "c16_high": [
+          "STATELESS"
+        ],
+        "c16_low": [
+          "STATELESS"
+        ],
+        "c17_boundary": [
+          "STATELESS"
+        ],
+        "c17_high": [
+          "STATELESS"
+        ],
+        "c17_low": [
+          "STATELESS"
+        ],
+        "c18_boundary": [
+          "STATELESS"
+        ],
+        "c18_high": [
+          "STATELESS"
+        ],
+        "c18_low": [
+          "STATELESS"
+        ],
+        "c19_boundary": [
+          "STATELESS"
+        ],
+        "c19_high": [
+          "STATELESS"
+        ],
+        "c19_low": [
+          "STATELESS"
+        ],
+        "c20_boundary": [
+          "STATELESS"
+        ],
+        "c20_high": [
+          "STATELESS"
+        ],
+        "c20_low": [
+          "STATELESS"
+        ]
+      },
+      "G_PLUS": {
+        "c01_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c01_high": [
+          "STATELESS"
+        ],
+        "c01_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c02_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c02_high": [
+          "STATELESS"
+        ],
+        "c02_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c03_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c03_high": [
+          "STATELESS"
+        ],
+        "c03_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c04_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c04_high": [
+          "STATELESS"
+        ],
+        "c04_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c05_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c05_high": [
+          "STATELESS"
+        ],
+        "c05_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c06_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c06_high": [
+          "STATELESS"
+        ],
+        "c06_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c07_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c07_high": [
+          "STATELESS"
+        ],
+        "c07_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c08_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c08_high": [
+          "STATELESS"
+        ],
+        "c08_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c09_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c09_high": [
+          "STATELESS"
+        ],
+        "c09_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c10_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c10_high": [
+          "STATELESS"
+        ],
+        "c10_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c11_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c11_high": [
+          "STATELESS"
+        ],
+        "c11_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c12_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c12_high": [
+          "STATELESS"
+        ],
+        "c12_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c13_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c13_high": [
+          "STATELESS"
+        ],
+        "c13_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c14_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c14_high": [
+          "STATELESS"
+        ],
+        "c14_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c15_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c15_high": [
+          "STATELESS"
+        ],
+        "c15_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c16_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c16_high": [
+          "STATELESS"
+        ],
+        "c16_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c17_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c17_high": [
+          "STATELESS"
+        ],
+        "c17_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c18_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c18_high": [
+          "STATELESS"
+        ],
+        "c18_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c19_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c19_high": [
+          "STATELESS"
+        ],
+        "c19_low": [
+          "PERSISTENT_STATE"
+        ],
+        "c20_boundary": [
+          "PERSISTENT_STATE",
+          "STATELESS"
+        ],
+        "c20_high": [
+          "STATELESS"
+        ],
+        "c20_low": [
+          "PERSISTENT_STATE"
+        ]
+      },
+      "H1A_CAPACITY_DELETE_STATEFUL": {
+        "c01_boundary": [
+          "STATELESS"
+        ],
+        "c01_high": [
+          "STATELESS"
+        ],
+        "c01_low": [
+          "STATELESS"
+        ],
+        "c02_boundary": [
+          "STATELESS"
+        ],
+        "c02_high": [
+          "STATELESS"
+        ],
+        "c02_low": [
+          "STATELESS"
+        ],
+        "c03_boundary": [
+          "STATELESS"
+        ],
+        "c03_high": [
+          "STATELESS"
+        ],
+        "c03_low": [
+          "STATELESS"
+        ],
+        "c04_boundary": [
+          "STATELESS"
+        ],
+        "c04_high": [
+          "STATELESS"
+        ],
+        "c04_low": [
+          "STATELESS"
+        ],
+        "c05_boundary": [
+          "STATELESS"
+        ],
+        "c05_high": [
+          "STATELESS"
+        ],
+        "c05_low": [
+          "STATELESS"
+        ],
+        "c06_boundary": [
+          "STATELESS"
+        ],
+        "c06_high": [
+          "STATELESS"
+        ],
+        "c06_low": [
+          "STATELESS"
+        ],
+        "c07_boundary": [
+          "STATELESS"
+        ],
+        "c07_high": [
+          "STATELESS"
+        ],
+        "c07_low": [
+          "STATELESS"
+        ],
+        "c08_boundary": [
+          "STATELESS"
+        ],
+        "c08_high": [
+          "STATELESS"
+        ],
+        "c08_low": [
+          "STATELESS"
+        ],
+        "c09_boundary": [
+          "STATELESS"
+        ],
+        "c09_high": [
+          "STATELESS"
+        ],
+        "c09_low": [
+          "STATELESS"
+        ],
+        "c10_boundary": [
+          "STATELESS"
+        ],
+        "c10_high": [
+          "STATELESS"
+        ],
+        "c10_low": [
+          "STATELESS"
+        ],
+        "c11_boundary": [
+          "STATELESS"
+        ],
+        "c11_high": [
+          "STATELESS"
+        ],
+        "c11_low": [
+          "STATELESS"
+        ],
+        "c12_boundary": [
+          "STATELESS"
+        ],
+        "c12_high": [
+          "STATELESS"
+        ],
+        "c12_low": [
+          "STATELESS"
+        ],
+        "c13_boundary": [
+          "STATELESS"
+        ],
+        "c13_high": [
+          "STATELESS"
+        ],
+        "c13_low": [
+          "STATELESS"
+        ],
+        "c14_boundary": [
+          "STATELESS"
+        ],
+        "c14_high": [
+          "STATELESS"
+        ],
+        "c14_low": [
+          "STATELESS"
+        ],
+        "c15_boundary": [
+          "STATELESS"
+        ],
+        "c15_high": [
+          "STATELESS"
+        ],
+        "c15_low": [
+          "STATELESS"
+        ],
+        "c16_boundary": [
+          "STATELESS"
+        ],
+        "c16_high": [
+          "STATELESS"
+        ],
+        "c16_low": [
+          "STATELESS"
+        ],
+        "c17_boundary": [
+          "STATELESS"
+        ],
+        "c17_high": [
+          "STATELESS"
+        ],
+        "c17_low": [
+          "STATELESS"
+        ],
+        "c18_boundary": [
+          "STATELESS"
+        ],
+        "c18_high": [
+          "STATELESS"
+        ],
+        "c18_low": [
+          "STATELESS"
+        ],
+        "c19_boundary": [
+          "STATELESS"
+        ],
+        "c19_high": [
+          "STATELESS"
+        ],
+        "c19_low": [
+          "STATELESS"
+        ],
+        "c20_boundary": [
+          "STATELESS"
+        ],
+        "c20_high": [
+          "STATELESS"
+        ],
+        "c20_low": [
+          "STATELESS"
+        ]
+      },
+      "H1B_MACRO_PREV": {
+        "c01_boundary": [
+          "STATELESS"
+        ],
+        "c01_high": [
+          "STATELESS"
+        ],
+        "c01_low": [
+          "STATELESS"
+        ],
+        "c02_boundary": [
+          "STATELESS"
+        ],
+        "c02_high": [
+          "STATELESS"
+        ],
+        "c02_low": [
+          "STATELESS"
+        ],
+        "c03_boundary": [
+          "STATELESS"
+        ],
+        "c03_high": [
+          "STATELESS"
+        ],
+        "c03_low": [
+          "STATELESS"
+        ],
+        "c04_boundary": [
+          "STATELESS"
+        ],
+        "c04_high": [
+          "STATELESS"
+        ],
+        "c04_low": [
+          "STATELESS"
+        ],
+        "c05_boundary": [
+          "STATELESS"
+        ],
+        "c05_high": [
+          "STATELESS"
+        ],
+        "c05_low": [
+          "STATELESS"
+        ],
+        "c06_boundary": [
+          "STATELESS"
+        ],
+        "c06_high": [
+          "STATELESS"
+        ],
+        "c06_low": [
+          "STATELESS"
+        ],
+        "c07_boundary": [
+          "STATELESS"
+        ],
+        "c07_high": [
+          "STATELESS"
+        ],
+        "c07_low": [
+          "STATELESS"
+        ],
+        "c08_boundary": [
+          "STATELESS"
+        ],
+        "c08_high": [
+          "STATELESS"
+        ],
+        "c08_low": [
+          "STATELESS"
+        ],
+        "c09_boundary": [
+          "STATELESS"
+        ],
+        "c09_high": [
+          "STATELESS"
+        ],
+        "c09_low": [
+          "STATELESS"
+        ],
+        "c10_boundary": [
+          "STATELESS"
+        ],
+        "c10_high": [
+          "STATELESS"
+        ],
+        "c10_low": [
+          "STATELESS"
+        ],
+        "c11_boundary": [
+          "STATELESS"
+        ],
+        "c11_high": [
+          "STATELESS"
+        ],
+        "c11_low": [
+          "STATELESS"
+        ],
+        "c12_boundary": [
+          "STATELESS"
+        ],
+        "c12_high": [
+          "STATELESS"
+        ],
+        "c12_low": [
+          "STATELESS"
+        ],
+        "c13_boundary": [
+          "STATELESS"
+        ],
+        "c13_high": [
+          "STATELESS"
+        ],
+        "c13_low": [
+          "STATELESS"
+        ],
+        "c14_boundary": [
+          "STATELESS"
+        ],
+        "c14_high": [
+          "STATELESS"
+        ],
+        "c14_low": [
+          "STATELESS"
+        ],
+        "c15_boundary": [
+          "STATELESS"
+        ],
+        "c15_high": [
+          "STATELESS"
+        ],
+        "c15_low": [
+          "STATELESS"
+        ],
+        "c16_boundary": [
+          "STATELESS"
+        ],
+        "c16_high": [
+          "STATELESS"
+        ],
+        "c16_low": [
+          "STATELESS"
+        ],
+        "c17_boundary": [
+          "STATELESS"
+        ],
+        "c17_high": [
+          "STATELESS"
+        ],
+        "c17_low": [
+          "STATELESS"
+        ],
+        "c18_boundary": [
+          "STATELESS"
+        ],
+        "c18_high": [
+          "STATELESS"
+        ],
+        "c18_low": [
+          "STATELESS"
+        ],
+        "c19_boundary": [
+          "STATELESS"
+        ],
+        "c19_high": [
+          "STATELESS"
+        ],
+        "c19_low": [
+          "STATELESS"
+        ],
+        "c20_boundary": [
+          "STATELESS"
+        ],
+        "c20_high": [
+          "STATELESS"
+        ],
+        "c20_low": [
+          "STATELESS"
+        ]
+      }
+    },
+    "pareto_set": [
+      "s0n0d8",
+      "s1n0d0"
+    ],
+    "perturbation": {
+      "exact_boundary_ties_all_three_encodings": 40,
+      "excluded_invalid": 72,
+      "mirrored_price_flips_all_three_encodings": 40,
+      "perturbed_worlds": 1008,
+      "winner_state_partition_stable_all_three_encodings": 1008
+    },
+    "risk_histogram_digest": "05906194480f8c87f5c66d65d6faddb5dc84ca18fbccae1a58c8aa886aea1eec",
+    "risk_points": 146,
+    "s1_trace_digest": "342f5f4a3fd0512d",
+    "scalarization_winners": {
+      "c01_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c01_high": [
+        "s0n0d8"
+      ],
+      "c01_low": [
+        "s1n0d0"
+      ],
+      "c02_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c02_high": [
+        "s0n0d8"
+      ],
+      "c02_low": [
+        "s1n0d0"
+      ],
+      "c03_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c03_high": [
+        "s0n0d8"
+      ],
+      "c03_low": [
+        "s1n0d0"
+      ],
+      "c04_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c04_high": [
+        "s0n0d8"
+      ],
+      "c04_low": [
+        "s1n0d0"
+      ],
+      "c05_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c05_high": [
+        "s0n0d8"
+      ],
+      "c05_low": [
+        "s1n0d0"
+      ],
+      "c06_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c06_high": [
+        "s0n0d8"
+      ],
+      "c06_low": [
+        "s1n0d0"
+      ],
+      "c07_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c07_high": [
+        "s0n0d8"
+      ],
+      "c07_low": [
+        "s1n0d0"
+      ],
+      "c08_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c08_high": [
+        "s0n0d8"
+      ],
+      "c08_low": [
+        "s1n0d0"
+      ],
+      "c09_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c09_high": [
+        "s0n0d8"
+      ],
+      "c09_low": [
+        "s1n0d0"
+      ],
+      "c10_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c10_high": [
+        "s0n0d8"
+      ],
+      "c10_low": [
+        "s1n0d0"
+      ],
+      "c11_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c11_high": [
+        "s0n0d8"
+      ],
+      "c11_low": [
+        "s1n0d0"
+      ],
+      "c12_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c12_high": [
+        "s0n0d8"
+      ],
+      "c12_low": [
+        "s1n0d0"
+      ],
+      "c13_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c13_high": [
+        "s0n0d8"
+      ],
+      "c13_low": [
+        "s1n0d0"
+      ],
+      "c14_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c14_high": [
+        "s0n0d8"
+      ],
+      "c14_low": [
+        "s1n0d0"
+      ],
+      "c15_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c15_high": [
+        "s0n0d8"
+      ],
+      "c15_low": [
+        "s1n0d0"
+      ],
+      "c16_boundary": [
+        "s0n0d8",
+        "s1n0d0"
+      ],
+      "c17_boundary": [
+        "s0n0d8",
+        "s0n16d8",
+        "s0n8d8",
+        "s1n0d0",
+        "s1n10d0",
+        "s1n11d0",
+        "s1n12d0",
+        "s1n13d0",
+        "s1n14d0",
+        "s1n16d0",
+        "s1n2d0",
+        "s1n3d0",
+        "s1n4d0",
+        "s1n5d0",
+        "s1n6d0",
+        "s1n8d0"
+      ],
+      "c18_boundary": [
+        "s0n0d8",
+        "s0n16d8",
+        "s0n8d8",
+        "s1n0d0",
+        "s1n10d0",
+        "s1n11d0",
+        "s1n12d0",
+        "s1n13d0",
+        "s1n14d0",
+        "s1n16d0",
+        "s1n2d0",
+        "s1n3d0",
+        "s1n4d0",
+        "s1n5d0",
+        "s1n6d0",
+        "s1n8d0"
+      ],
+      "c19_boundary": [
+        "s0n0d8",
+        "s0n16d8",
+        "s0n8d8",
+        "s1n0d0",
+        "s1n10d0",
+        "s1n11d0",
+        "s1n12d0",
+        "s1n13d0",
+        "s1n14d0",
+        "s1n16d0",
+        "s1n2d0",
+        "s1n3d0",
+        "s1n4d0",
+        "s1n5d0",
+        "s1n6d0",
+        "s1n8d0"
+      ],
+      "c20_boundary": [
+        "s0n0d8",
+        "s0n16d8",
+        "s0n8d8",
+        "s1n0d0",
+        "s1n10d0",
+        "s1n11d0",
+        "s1n12d0",
+        "s1n13d0",
+        "s1n14d0",
+        "s1n16d0",
+        "s1n2d0",
+        "s1n3d0",
+        "s1n4d0",
+        "s1n5d0",
+        "s1n6d0",
+        "s1n8d0"
+      ]
+    },
+    "trace_digests": {
+      "H3B_REENCODED_BRANCH_BOUND": {
+        "c01_boundary": "4c177a46d6755fd5",
+        "c01_high": "f70086e55b222500",
+        "c01_low": "4c177a46d6755fd5",
+        "c02_boundary": "4c177a46d6755fd5",
+        "c02_high": "f70086e55b222500",
+        "c02_low": "4c177a46d6755fd5",
+        "c03_boundary": "4c177a46d6755fd5",
+        "c03_high": "f70086e55b222500",
+        "c03_low": "4c177a46d6755fd5",
+        "c04_boundary": "4c177a46d6755fd5",
+        "c04_high": "f70086e55b222500",
+        "c04_low": "4c177a46d6755fd5",
+        "c05_boundary": "4c177a46d6755fd5",
+        "c05_high": "f70086e55b222500",
+        "c05_low": "4c177a46d6755fd5",
+        "c06_boundary": "4c177a46d6755fd5",
+        "c06_high": "f70086e55b222500",
+        "c06_low": "4c177a46d6755fd5",
+        "c07_boundary": "4c177a46d6755fd5",
+        "c07_high": "f70086e55b222500",
+        "c07_low": "4c177a46d6755fd5",
+        "c08_boundary": "4c177a46d6755fd5",
+        "c08_high": "f70086e55b222500",
+        "c08_low": "4c177a46d6755fd5",
+        "c09_boundary": "4c177a46d6755fd5",
+        "c09_high": "f70086e55b222500",
+        "c09_low": "4c177a46d6755fd5",
+        "c10_boundary": "4c177a46d6755fd5",
+        "c10_high": "f70086e55b222500",
+        "c10_low": "4c177a46d6755fd5",
+        "c11_boundary": "4c177a46d6755fd5",
+        "c11_high": "f70086e55b222500",
+        "c11_low": "4c177a46d6755fd5",
+        "c12_boundary": "4c177a46d6755fd5",
+        "c12_high": "f70086e55b222500",
+        "c12_low": "4c177a46d6755fd5",
+        "c13_boundary": "4c177a46d6755fd5",
+        "c13_high": "f70086e55b222500",
+        "c13_low": "4c177a46d6755fd5",
+        "c14_boundary": "4c177a46d6755fd5",
+        "c14_high": "f70086e55b222500",
+        "c14_low": "4c177a46d6755fd5",
+        "c15_boundary": "4c177a46d6755fd5",
+        "c15_high": "f70086e55b222500",
+        "c15_low": "4c177a46d6755fd5",
+        "c16_boundary": "4c177a46d6755fd5",
+        "c16_high": "f70086e55b222500",
+        "c16_low": "4c177a46d6755fd5",
+        "c17_boundary": "4c177a46d6755fd5",
+        "c17_high": "f70086e55b222500",
+        "c17_low": "4c177a46d6755fd5",
+        "c18_boundary": "4c177a46d6755fd5",
+        "c18_high": "f70086e55b222500",
+        "c18_low": "4c177a46d6755fd5",
+        "c19_boundary": "4c177a46d6755fd5",
+        "c19_high": "f70086e55b222500",
+        "c19_low": "4c177a46d6755fd5",
+        "c20_boundary": "4c177a46d6755fd5",
+        "c20_high": "f70086e55b222500",
+        "c20_low": "4c177a46d6755fd5"
+      },
+      "S2_RISK_FRONTIER_BRANCH_BOUND": {
+        "c01_boundary": "4c177a46d6755fd5",
+        "c01_high": "f70086e55b222500",
+        "c01_low": "4c177a46d6755fd5",
+        "c02_boundary": "4c177a46d6755fd5",
+        "c02_high": "f70086e55b222500",
+        "c02_low": "4c177a46d6755fd5",
+        "c03_boundary": "4c177a46d6755fd5",
+        "c03_high": "f70086e55b222500",
+        "c03_low": "4c177a46d6755fd5",
+        "c04_boundary": "4c177a46d6755fd5",
+        "c04_high": "f70086e55b222500",
+        "c04_low": "4c177a46d6755fd5",
+        "c05_boundary": "4c177a46d6755fd5",
+        "c05_high": "f70086e55b222500",
+        "c05_low": "4c177a46d6755fd5",
+        "c06_boundary": "4c177a46d6755fd5",
+        "c06_high": "f70086e55b222500",
+        "c06_low": "4c177a46d6755fd5",
+        "c07_boundary": "4c177a46d6755fd5",
+        "c07_high": "f70086e55b222500",
+        "c07_low": "4c177a46d6755fd5",
+        "c08_boundary": "4c177a46d6755fd5",
+        "c08_high": "f70086e55b222500",
+        "c08_low": "4c177a46d6755fd5",
+        "c09_boundary": "4c177a46d6755fd5",
+        "c09_high": "f70086e55b222500",
+        "c09_low": "4c177a46d6755fd5",
+        "c10_boundary": "4c177a46d6755fd5",
+        "c10_high": "f70086e55b222500",
+        "c10_low": "4c177a46d6755fd5",
+        "c11_boundary": "4c177a46d6755fd5",
+        "c11_high": "f70086e55b222500",
+        "c11_low": "4c177a46d6755fd5",
+        "c12_boundary": "4c177a46d6755fd5",
+        "c12_high": "f70086e55b222500",
+        "c12_low": "4c177a46d6755fd5",
+        "c13_boundary": "4c177a46d6755fd5",
+        "c13_high": "f70086e55b222500",
+        "c13_low": "4c177a46d6755fd5",
+        "c14_boundary": "4c177a46d6755fd5",
+        "c14_high": "f70086e55b222500",
+        "c14_low": "4c177a46d6755fd5",
+        "c15_boundary": "4c177a46d6755fd5",
+        "c15_high": "f70086e55b222500",
+        "c15_low": "4c177a46d6755fd5",
+        "c16_boundary": "4c177a46d6755fd5",
+        "c16_high": "f70086e55b222500",
+        "c16_low": "4c177a46d6755fd5",
+        "c17_boundary": "4c177a46d6755fd5",
+        "c17_high": "f70086e55b222500",
+        "c17_low": "4c177a46d6755fd5",
+        "c18_boundary": "4c177a46d6755fd5",
+        "c18_high": "f70086e55b222500",
+        "c18_low": "4c177a46d6755fd5",
+        "c19_boundary": "4c177a46d6755fd5",
+        "c19_high": "f70086e55b222500",
+        "c19_low": "4c177a46d6755fd5",
+        "c20_boundary": "4c177a46d6755fd5",
+        "c20_high": "f70086e55b222500",
+        "c20_low": "4c177a46d6755fd5"
+      },
+      "S3_BEST_FIRST_CERTIFICATE": {
+        "c01_boundary": "af405d83002f0a04",
+        "c01_high": "f70086e55b222500",
+        "c01_low": "5e8a83c1971c52c2",
+        "c02_boundary": "af405d83002f0a04",
+        "c02_high": "f70086e55b222500",
+        "c02_low": "5e8a83c1971c52c2",
+        "c03_boundary": "af405d83002f0a04",
+        "c03_high": "f70086e55b222500",
+        "c03_low": "5e8a83c1971c52c2",
+        "c04_boundary": "af405d83002f0a04",
+        "c04_high": "f70086e55b222500",
+        "c04_low": "5e8a83c1971c52c2",
+        "c05_boundary": "af405d83002f0a04",
+        "c05_high": "f70086e55b222500",
+        "c05_low": "5e8a83c1971c52c2",
+        "c06_boundary": "af405d83002f0a04",
+        "c06_high": "f70086e55b222500",
+        "c06_low": "5e8a83c1971c52c2",
+        "c07_boundary": "af405d83002f0a04",
+        "c07_high": "f70086e55b222500",
+        "c07_low": "5e8a83c1971c52c2",
+        "c08_boundary": "af405d83002f0a04",
+        "c08_high": "f70086e55b222500",
+        "c08_low": "5e8a83c1971c52c2",
+        "c09_boundary": "af405d83002f0a04",
+        "c09_high": "f70086e55b222500",
+        "c09_low": "5e8a83c1971c52c2",
+        "c10_boundary": "af405d83002f0a04",
+        "c10_high": "f70086e55b222500",
+        "c10_low": "5e8a83c1971c52c2",
+        "c11_boundary": "af405d83002f0a04",
+        "c11_high": "f70086e55b222500",
+        "c11_low": "5e8a83c1971c52c2",
+        "c12_boundary": "af405d83002f0a04",
+        "c12_high": "f70086e55b222500",
+        "c12_low": "5e8a83c1971c52c2",
+        "c13_boundary": "af405d83002f0a04",
+        "c13_high": "f70086e55b222500",
+        "c13_low": "5e8a83c1971c52c2",
+        "c14_boundary": "af405d83002f0a04",
+        "c14_high": "f70086e55b222500",
+        "c14_low": "5e8a83c1971c52c2",
+        "c15_boundary": "af405d83002f0a04",
+        "c15_high": "f70086e55b222500",
+        "c15_low": "5e8a83c1971c52c2",
+        "c16_boundary": "af405d83002f0a04",
+        "c16_high": "f70086e55b222500",
+        "c16_low": "5e8a83c1971c52c2",
+        "c17_boundary": "af405d83002f0a04",
+        "c17_high": "f70086e55b222500",
+        "c17_low": "5e8a83c1971c52c2",
+        "c18_boundary": "af405d83002f0a04",
+        "c18_high": "f70086e55b222500",
+        "c18_low": "5e8a83c1971c52c2",
+        "c19_boundary": "af405d83002f0a04",
+        "c19_high": "f70086e55b222500",
+        "c19_low": "5e8a83c1971c52c2",
+        "c20_boundary": "af405d83002f0a04",
+        "c20_high": "f70086e55b222500",
+        "c20_low": "5e8a83c1971c52c2"
+      }
+    }
+  },
+  "verdict": "GREEN"
+}

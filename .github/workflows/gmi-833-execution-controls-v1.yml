@@ -1,0 +1,245 @@
+name: GMI 833 D execution controls v1 (#859)
+
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-execution-controls-v1/**'
+      - '.github/workflows/gmi-833-execution-controls-v1.yml'
+      - 'research/gmi-833-heldout-20-transitions-v1/FREEZE_V1.md'
+      - 'research/gmi-833-heldout-20-transitions-v1/heldout_transition_v1.py'
+      - 'research/gmi-833-heldout-20-transitions-v1/full_enumeration_v1.py'
+      - 'research/gmi-833-heldout-20-transitions-v1/frontier_branch_bound_v1.py'
+      - 'research/gmi-833-no-smuggling-audit-v1/audit_core_v1.py'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-execution-controls-v1/**'
+      - '.github/workflows/gmi-833-execution-controls-v1.yml'
+      - 'research/gmi-833-heldout-20-transitions-v1/FREEZE_V1.md'
+      - 'research/gmi-833-heldout-20-transitions-v1/heldout_transition_v1.py'
+      - 'research/gmi-833-heldout-20-transitions-v1/full_enumeration_v1.py'
+      - 'research/gmi-833-heldout-20-transitions-v1/frontier_branch_bound_v1.py'
+      - 'research/gmi-833-no-smuggling-audit-v1/audit_core_v1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: custody - the freeze precedes every other package file
+        run: |
+          set -eu
+          P=research/gmi-833-execution-controls-v1
+          FZC=$(git log --reverse --format=%H --diff-filter=A -- "$P/FREEZE_V1.md" | head -n 1)
+          if [ -z "$FZC" ]; then echo "cannot find the commit that added FREEZE_V1.md"; exit 1; fi
+          FZ=$(git log --format=%ct -1 "$FZC")
+          for f in $(git ls-files "$P") .github/workflows/gmi-833-execution-controls-v1.yml; do
+            [ "$f" = "$P/FREEZE_V1.md" ] && continue
+            C=$(git log --reverse --format=%H --diff-filter=A -- "$f" | head -n 1)
+            if [ -z "$C" ]; then echo "cannot read the add commit of $f"; exit 1; fi
+            if ! git merge-base --is-ancestor "$FZC" "$C"; then
+              echo "CUSTODY FAILURE: $f was added in $C, which does not descend from the freeze commit $FZC"; exit 1
+            fi
+            T=$(git log --format=%ct -1 "$C")
+            if [ "$T" -lt "$FZ" ]; then echo "CUSTODY FAILURE: $f predates FREEZE_V1.md"; exit 1; fi
+          done
+          echo "custody ok: FREEZE_V1.md ($FZC) is an ancestor of the commit adding every other package file"
+
+      - name: custody - survives its own publication by squash merge
+        run: |
+          set -eu
+          P=research/gmi-833-execution-controls-v1
+          FIRST=$(git log --reverse --format=%H -- "$P" | head -n 1)
+          if [ -z "$FIRST" ]; then echo "no commit touches the package"; exit 1; fi
+          git show --name-only --format= "$FIRST" -- "$P" | grep -q 'FREEZE_V1.md$' \
+            || { echo "CUSTODY FAILURE: the first commit touching the package carries no freeze"; exit 1; }
+          echo "custody ok: the first commit touching the package carries FREEZE_V1.md"
+
+      - name: negative control - the custody checker itself must be able to fail
+        run: |
+          set -eu
+          P=research/gmi-833-execution-controls-v1
+          C=$(git log --reverse --format=%H --diff-filter=A -- "$P/NO_SUCH_FILE.md" | head -n 1 || true)
+          if [ -n "$C" ]; then echo "NEGATIVE CONTROL FAILURE: a nonexistent path produced an add commit"; exit 1; fi
+          echo "negative control ok: a path typo yields no add commit, so custody fails closed"
+
+      - name: the freeze and the consumed parent files are the pinned bytes
+        working-directory: research/gmi-833-execution-controls-v1
+        run: |
+          python3 -I -B - <<'PY'
+          import hashlib, json, pathlib, sys
+          here = pathlib.Path('.')
+          m = json.loads((here / 'MANIFEST_V1.json').read_text())
+          bad = [k for k, v in m['freeze_pins'].items() if hashlib.sha256((here / k).read_bytes()).hexdigest() != v]
+          root = here.resolve().parent.parent
+          bad += [p['path'] for p in m['parent_pins'] if hashlib.sha256((root / p['path']).read_bytes()).hexdigest() != p['sha256']]
+          if bad:
+              sys.exit('PIN DRIFT: %r' % bad)
+          assert m['freeze_commit'] == '3682a045774ccfa83a2a43fdc81d176431bf7f0c'
+          print('freeze pin and %d parent pins match' % len(m['parent_pins']))
+          PY
+
+      - name: no float literal anywhere in the package
+        run: |
+          python3 -I -B - <<'PY'
+          import ast, pathlib, sys
+          bad = []
+          for path in sorted(pathlib.Path('research/gmi-833-execution-controls-v1').glob('*.py')):
+              for node in ast.walk(ast.parse(path.read_text(encoding='utf-8'))):
+                  if isinstance(node, ast.Constant) and isinstance(node.value, float):
+                      bad.append('%s:%d' % (path, node.lineno))
+          if bad:
+              sys.exit('float literals: ' + ', '.join(bad))
+          print('no float literal in any package source file')
+          PY
+
+      - name: two-route independence - the oracle imports no route-A module and no parent code
+        working-directory: research/gmi-833-execution-controls-v1
+        run: |
+          set -eu
+          for m in robustness_record_v1 substrate_v1 encoding_e2_v1 search_procedures_v1 execution_controls_v1 \
+                   full_enumeration_v1 frontier_branch_bound_v1 heldout_transition_v1 audit_core_v1; do
+            if grep -Eq "^[[:space:]]*(import|from)[[:space:]]+$m\b|$m\.py" independent_oracle_v1.py; then
+              echo "TWO-ROUTE FAILURE: the oracle references $m"; exit 1
+            fi
+          done
+          python3 -I -B - <<'PY'
+          import ast, sys
+          tree = ast.parse(open('independent_oracle_v1.py', encoding='utf-8').read())
+          mods = set()
+          for n in ast.walk(tree):
+              if isinstance(n, ast.Import):
+                  mods |= {a.name.split('.')[0] for a in n.names}
+              elif isinstance(n, ast.ImportFrom) and n.module:
+                  mods.add(n.module.split('.')[0])
+              elif isinstance(n, ast.Call) and getattr(n.func, 'attr', '') in ('spec_from_file_location', 'import_module'):
+                  sys.exit('TWO-ROUTE FAILURE: the oracle loads a module dynamically')
+          allowed = {'__future__', 'fractions', 'math', 'hashlib', 'json', 'pathlib', 're', 'sys'}
+          if not mods <= allowed:
+              sys.exit('TWO-ROUTE FAILURE: oracle imports %r' % sorted(mods - allowed))
+          print('oracle imports only stdlib: %s' % sorted(mods))
+          PY
+
+      - name: set interpreter flags
+        run: |
+          if [ "${{ matrix.mode }}" = "optimized" ]; then
+            echo "PYFLAGS=-I -O -B" >> "$GITHUB_ENV"
+          else
+            echo "PYFLAGS=-I -B" >> "$GITHUB_ENV"
+          fi
+
+      - name: the admission validator is validated before it is trusted
+        working-directory: research/gmi-833-execution-controls-v1
+        run: |
+          python3 $PYFLAGS - <<'PY'
+          import importlib.util, sys
+          spec = importlib.util.spec_from_file_location('r', 'robustness_record_v1.py')
+          r = importlib.util.module_from_spec(spec); spec.loader.exec_module(r)
+          st = r.self_test()
+          bad = [k for k, v in st.items() if not v]
+          if bad or not st['toy_positive_is_robust']:
+              sys.exit('VALIDATOR SELF-TEST FAILURE: %r' % bad)
+          print('validator self-test: %d/%d (no-alarm toy robust; every corruption fires)' % (len(st), len(st)))
+          PY
+
+      - name: route B - source-separated oracle, byte-compared with its committed receipt
+        working-directory: research/gmi-833-execution-controls-v1
+        run: python3 $PYFLAGS independent_oracle_v1.py --check
+
+      - name: route A - executor, byte-compared with its committed receipts
+        working-directory: research/gmi-833-execution-controls-v1
+        run: python3 $PYFLAGS execution_controls_v1.py --check
+
+      - name: tests
+        working-directory: research/gmi-833-execution-controls-v1
+        run: python3 $PYFLAGS test_execution_controls_v1.py -v
+
+      - name: receipts are deterministic across both modes and match what was committed
+        if: matrix.mode == 'normal'
+        working-directory: research/gmi-833-execution-controls-v1
+        run: |
+          set -eu
+          python3 -I -B independent_oracle_v1.py > /dev/null
+          python3 -I -B execution_controls_v1.py > /dev/null
+          A=$(cat RESULT_V1.json ORACLE_RESULT_V1.json DERIVATION_ROBUSTNESS_RECORD_POSITIVE_V1.json DERIVATION_ROBUSTNESS_RECORD_SCHEMA_V1.json | sha256sum | cut -d' ' -f1)
+          python3 -I -O -B independent_oracle_v1.py > /dev/null
+          python3 -I -O -B execution_controls_v1.py > /dev/null
+          B=$(cat RESULT_V1.json ORACLE_RESULT_V1.json DERIVATION_ROBUSTNESS_RECORD_POSITIVE_V1.json DERIVATION_ROBUSTNESS_RECORD_SCHEMA_V1.json | sha256sum | cut -d' ' -f1)
+          if [ "$A" != "$B" ]; then echo "NON-DETERMINISTIC RECEIPT: $A vs $B"; exit 1; fi
+          echo "normal and -O receipts byte-identical: $A"
+          git diff --exit-code -- RESULT_V1.json ORACLE_RESULT_V1.json DERIVATION_ROBUSTNESS_RECORD_POSITIVE_V1.json DERIVATION_ROBUSTNESS_RECORD_SCHEMA_V1.json
+
+      - name: route A and route B agree on every shared fact
+        working-directory: research/gmi-833-execution-controls-v1
+        run: |
+          python3 -I -B - <<'PY'
+          import json, sys
+          a = json.load(open('RESULT_V1.json'))['shared_facts']
+          b = json.load(open('ORACLE_RESULT_V1.json'))['shared_facts']
+          diff = sorted(k for k in set(a) | set(b) if a.get(k) != b.get(k))
+          if diff:
+              sys.exit('ROUTE DISAGREEMENT: %r' % diff)
+          print('routes agree on %d shared facts' % len(a))
+          PY
+
+      - name: claim ceiling, verdict, admission census and no reconciliation
+        working-directory: research/gmi-833-execution-controls-v1
+        run: |
+          python3 -I -B - <<'PY'
+          import json, pathlib, sys
+          r = json.load(open('RESULT_V1.json'))
+          m = json.load(open('MANIFEST_V1.json'))
+          ceiling = 'GMI_DERIVATION_ROBUSTNESS_CONTROLS_ENFORCED_AT_REGISTERED_FINITE_SCOPE'
+          assert r['claim_ceiling'] == m['claim_ceiling'] == ceiling
+          assert r['verdict'] == 'GREEN' and r['failed_checks'] == [] and all(r['checks'].values()), r['failed_checks']
+          census = r['admission']['census']
+          assert all(e['exact_match'] for e in census) and len(census) == 22
+          assert census[0]['terminal'] == 'ROBUST_AT_REGISTERED_D_CONTROLS_SCOPE'
+          for f in ('ALL_GMI_DERIVATIONS_ROBUST', 'SEARCH_INDEPENDENT_UNIVERSALLY', 'COMPLETE_GMI'):
+              assert f in r['forbidden_promotions']
+          assert r['reconciliation']['emitted'] is False and m['reconciliation']['emitted'] is False
+          assert not list(pathlib.Path('.').glob('ISSUE_833_RECONCILIATION*')), 'this package must not emit a reconciliation'
+          print('ceiling ok, verdict GREEN, 22/22 census records exact, no reconciliation emitted')
+          PY
+
+      - name: the aa-ledger gate - every named result carries its four ledgers
+        if: matrix.mode == 'normal'
+        run: |
+          set -eu
+          P=research/gmi-833-execution-controls-v1
+          T=$P/EXECUTION_CONTROLS_THEOREMS_V1.md
+          R=$(grep -c '^## ' "$T")
+          D=$(grep -c '^## Definitions' "$T")
+          for L in '**Assumptions.**' '**Dependencies.**' '**Falsifiers.**' '**Strongest parents.**'; do
+            N=$(grep -c "^$L" "$T" || true)
+            if [ "$N" -ne $((R - D)) ]; then
+              echo "AA-LEDGER FAILURE: $L appears $N times for $((R - D)) named results"; exit 1
+            fi
+          done
+          printf '%s\n' "$P/CORE.md" "$T" > "$RUNNER_TEMP/owned_md.txt"
+          python3 -I -B research/gmi-833-aa-ledger-gate-v1/ledger_gate_v1.py --gate --owned-files "$RUNNER_TEMP/owned_md.txt" > "$RUNNER_TEMP/ledger.json"
+          python3 -I -B -c "import json,sys;d=json.load(open(sys.argv[1]));sys.exit('LEDGER GATE: %r'%d['violations'] if (d['violations'] or not d['passed']) else 0)" "$RUNNER_TEMP/ledger.json"
+          echo "aa-ledger ok: $((R - D)) named results, each with all four block-leading ledgers"
+
+      - name: no bare banned term in the package prose
+        if: matrix.mode == 'normal'
+        run: |
+          set -eu
+          P=research/gmi-833-execution-controls-v1
+          printf '%s\n' "$P/CORE.md" "$P/EXECUTION_CONTROLS_THEOREMS_V1.md" > "$RUNNER_TEMP/owned_md.txt"
+          python3 -I -B research/gmi-833-ab-terminology-harness-v1/terminology_ratchet_v1.py --owned-files "$RUNNER_TEMP/owned_md.txt"

@@ -1,0 +1,184 @@
+{
+  "admission_conditions": {
+    "1": "MATCHED_TWIN: matched mechanism-removal twin valid and the outcome interpreted against it",
+    "2": "ENCODING: at least two syntactically disjoint, semantics-equivalent encodings agree after canonical projection",
+    "3": "SEARCH: two materially distinct complete searchers agree, or a verified exhaustive construction, and no registered searcher disagrees",
+    "4": "SCALARIZATION: raw Pareto set plus at least two distinct strictly positive scalarizations do not contradict the wording",
+    "5": "NO_SMUGGLING: every compared arm is clean, or carries only sensitivity findings routed to a registered control"
+  },
+  "complete_coverage_kinds": [
+    "EXHAUSTIVE_CONSTRUCTION",
+    "ADMISSIBLE_BOUND",
+    "OPTIMALITY_CERTIFICATE"
+  ],
+  "control_order": [
+    "MATCHED_TWIN",
+    "ENCODING",
+    "SEARCH",
+    "SCALARIZATION",
+    "NO_SMUGGLING"
+  ],
+  "control_terminals": {
+    "ENCODING": [
+      "ENCODING_ROBUST_AT_REGISTERED_FINITE_SCOPE",
+      "ENCODING_NOT_SEMANTICALLY_EQUIVALENT",
+      "ENCODING_SENSITIVE",
+      "ENCODINGS_INSUFFICIENT",
+      "ENCODING_CONCLUSION_CONTRADICTS_CLAIM",
+      "CONTROL_MISSING",
+      "CONTROL_MALFORMED"
+    ],
+    "MATCHED_TWIN": [
+      "MATCHED_MECHANISM_TWIN",
+      "UNMATCHED_MECHANISM_TWIN",
+      "TWIN_AUDIT_NOT_EVALUABLE",
+      "TWIN_INTERPRETATION_UNSUPPORTED",
+      "CONTROL_MISSING",
+      "CONTROL_MALFORMED"
+    ],
+    "NO_SMUGGLING": [
+      "NO_SMUGGLING_ADMISSIBLE",
+      "NO_SMUGGLING_NOT_CLEAN",
+      "CONTROL_MISSING",
+      "CONTROL_MALFORMED"
+    ],
+    "SCALARIZATION": [
+      "PARETO_CONSISTENT_AT_REGISTERED_SCALARIZATIONS",
+      "SCALARIZATION_SENSITIVE",
+      "SCALARIZATIONS_INSUFFICIENT",
+      "SCALARIZATION_RECORD_INCONSISTENT",
+      "PRICE_CONDITIONAL_CLAIM_CONTRADICTED",
+      "FRONTIER_INVARIANT_CONTRADICTED",
+      "CONTROL_MISSING",
+      "CONTROL_MALFORMED"
+    ],
+    "SEARCH": [
+      "SEARCH_ROBUST",
+      "SEARCH_SENSITIVE",
+      "SEARCHERS_NOT_MATERIALLY_DISTINCT",
+      "SEARCH_CONCLUSION_CONTRADICTS_CLAIM",
+      "CONTROL_MISSING",
+      "CONTROL_MALFORMED"
+    ]
+  },
+  "descriptor_coordinates": [
+    "candidate_count",
+    "primitive_envelope",
+    "non_k_operator_inventory",
+    "evaluator_id",
+    "sequence_set",
+    "budget",
+    "tie_rule",
+    "stopping_rule",
+    "representable_k_free_behaviour_set"
+  ],
+  "difference_axes": [
+    "representation",
+    "exploration_order",
+    "pruning",
+    "acceptance_termination",
+    "completeness_proof",
+    "search_cost_unit"
+  ],
+  "fail_closed_terminal_pattern": "CANNOT_ESTABLISH_D_ROBUSTNESS_<CONTROL>",
+  "no_smuggling_routed_findings": {
+    "cost": {
+      "finding_kinds": [
+        "SCALARIZATION_WINNER_REVERSAL"
+      ],
+      "owning_control": "SCALARIZATION",
+      "terminal": "COST_PRIOR_SENSITIVE"
+    },
+    "search": {
+      "finding_kinds": [
+        "ORDER_OR_TRAJECTORY_DEPENDENT_WINNER"
+      ],
+      "owning_control": "SEARCH",
+      "terminal": "SEARCH_PRIOR_SENSITIVE"
+    }
+  },
+  "record_fields": {
+    "claim": {
+      "claim_id": "string",
+      "conclusion_by_world": "{world_id: [property, ...]}",
+      "frontier_invariants": "[{invariant_id, if:{coordinate,op,value}, then:{coordinate,op,value}}]",
+      "k_target_property": "string",
+      "mechanism": "string",
+      "scope": "string",
+      "wording": [
+        "PRICE_CONDITIONAL",
+        "UNIVERSAL_WINNER",
+        "FRONTIER_INVARIANT"
+      ]
+    },
+    "controls": {
+      "ENCODING": {
+        "bijection": "{domain_size, codomain_size, injective, surjective}",
+        "conclusion_by_encoding": "{encoding_id: {world_id: {best, properties}}}",
+        "decision_rule": "string",
+        "declared_terminal": "string",
+        "encodings": "[{encoding_id, arm, surface_alphabet:[str], surface_id_pattern, census_size}] (>=2)",
+        "projection_mismatches": "int (candidates whose canonical projection differs)",
+        "reference_census_size": "int",
+        "resource_fingerprint_mismatches": "int"
+      },
+      "MATCHED_TWIN": {
+        "declared_terminal": "string",
+        "descriptor_positive": {
+          "budget": "json value",
+          "candidate_count": "json value",
+          "evaluator_id": "json value",
+          "non_k_operator_inventory": "json value",
+          "primitive_envelope": "json value",
+          "representable_k_free_behaviour_set": "json value",
+          "sequence_set": "json value",
+          "stopping_rule": "json value",
+          "tie_rule": "json value"
+        },
+        "descriptor_twin": {
+          "budget": "json value",
+          "candidate_count": "json value",
+          "evaluator_id": "json value",
+          "non_k_operator_inventory": "json value",
+          "primitive_envelope": "json value",
+          "representable_k_free_behaviour_set": "json value",
+          "sequence_set": "json value",
+          "stopping_rule": "json value",
+          "tie_rule": "json value"
+        },
+        "interpretation": "K_DEPENDENCE_INTERPRETED_AGAINST_MATCHED_TWIN",
+        "multiplicity_reweighting": "{reported: true, ...}",
+        "operators_positive": "[operator]",
+        "operators_twin": "[operator]",
+        "outcome_positive_by_world": "{world_id: [property]}",
+        "outcome_twin_by_world": "{world_id: [property]}",
+        "positive_arm": "arm id (must appear in NO_SMUGGLING.arms)",
+        "positive_k_target_realized": "bool",
+        "twin_arm": "arm id (must appear in NO_SMUGGLING.arms)",
+        "twin_k_fingerprint_count": "int (must be 0)",
+        "twin_k_target_realizable": "bool (must be false)"
+      },
+      "NO_SMUGGLING": {
+        "arms": "{arm_id: {terminal, subaudits:{lexical|semantic|cost|search|evaluation|ecology: {terminal, finding_kinds}}}}"
+      },
+      "SCALARIZATION": {
+        "coordinates": "[name]",
+        "declared_terminal": "string",
+        "pareto_set": "[point_id]",
+        "raw_vectors": "[{point_id, vector:[rational], multiplicity, property}]",
+        "scalarizations": "[{scalarization_id, weights:[rational], boundary_probe, winners:[point_id], claimed_properties:[property]}]"
+      },
+      "SEARCH": {
+        "declared_terminal": "string",
+        "probes": "[world_id]",
+        "searchers": "[{searcher_id, difference_table:{axis:value}, coverage:{kind, verified}, search_cost, conclusion_by_world:{world_id:{best, properties}}, trace_digest_by_probe, acceptance_digest_by_probe}]"
+      }
+    },
+    "record_id": "string",
+    "schema": "string == GMI833DerivationRobustnessRecordV1"
+  },
+  "robust_terminal": "ROBUST_AT_REGISTERED_D_CONTROLS_SCOPE",
+  "root_failure_rule": "the first control in control_order whose block is absent; otherwise the first control in control_order that fails",
+  "schema": "GMI833DerivationRobustnessRecordV1",
+  "verdict_schema": "GMI833DerivationRobustnessVerdictV1"
+}

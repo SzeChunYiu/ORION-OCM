@@ -1,0 +1,97 @@
+{
+  "schema": "GMI833ExecutionControlsManifestV1",
+  "issue": 859,
+  "parent_issue": 833,
+  "freeze_commit": "3682a045774ccfa83a2a43fdc81d176431bf7f0c",
+  "frozen_from_main": "f4d9d7d55fb009213d4068235e510f960907036e",
+  "claim_ceiling": "GMI_DERIVATION_ROBUSTNESS_CONTROLS_ENFORCED_AT_REGISTERED_FINITE_SCOPE",
+  "forbidden_promotions": [
+    "ALL_GMI_DERIVATIONS_ROBUST",
+    "ARCHITECTURE_PRIOR_FREE_UNIVERSALLY",
+    "REPRESENTATION_INDEPENDENT_UNIVERSALLY",
+    "SEARCH_INDEPENDENT_UNIVERSALLY",
+    "RESOURCE_PRICE_INDEPENDENT_UNIVERSALLY",
+    "KNOWN_FAMILY_RECOVERY_COMPLETE",
+    "COMPLETE_GMI"
+  ],
+  "freeze_pins": {
+    "FREEZE_V1.md": "41da6496f98e77b600ab7a33ff08f53ed7223487545e5e9405e78e204ce1e793"
+  },
+  "parent_pins": [
+    {
+      "path": "research/gmi-833-heldout-20-transitions-v1/FREEZE_V1.md",
+      "sha256": "ea592991da66392b347a8cb0928d7e40a047da79b50440811de3e00c36466052",
+      "role": "#901 frozen case grid (route B parses the 20 cases from this text)"
+    },
+    {
+      "path": "research/gmi-833-heldout-20-transitions-v1/heldout_transition_v1.py",
+      "sha256": "67dcde529c8a0eecfb39053279700c27bac5c79652b53336836461a31b497ebf",
+      "role": "#901 case grid as executed (route A loads CASES and the two searchers through it)"
+    },
+    {
+      "path": "research/gmi-833-heldout-20-transitions-v1/full_enumeration_v1.py",
+      "sha256": "72737a42d8eb6a94e75761e1ea1299d6559a14c565e4935487b30fdadee40327",
+      "role": "S1 FULL_ENUMERATION, reused unchanged"
+    },
+    {
+      "path": "research/gmi-833-heldout-20-transitions-v1/frontier_branch_bound_v1.py",
+      "sha256": "fd7171551361afd7beac3d81bb0316c0bcfc312d22b87e38111331fb5b9a2951",
+      "role": "S2 RISK_FRONTIER_BRANCH_BOUND, reused unchanged"
+    },
+    {
+      "path": "research/gmi-833-no-smuggling-audit-v1/audit_core_v1.py",
+      "sha256": "e8f12449d50a45b1a8e5a687e623fcc2532d6a274dc9c4642f8fe41d34dbd118",
+      "role": "#855 no-smuggling auditor, run unchanged on every compared arm"
+    }
+  ],
+  "routes": {
+    "A": [
+      "robustness_record_v1.py",
+      "substrate_v1.py",
+      "encoding_e2_v1.py",
+      "search_procedures_v1.py",
+      "execution_controls_v1.py"
+    ],
+    "B": [
+      "independent_oracle_v1.py"
+    ]
+  },
+  "reusable_interface": {
+    "module": "robustness_record_v1.py",
+    "entry_points": [
+      "validate_record",
+      "self_test",
+      "evaluate_matched_twin",
+      "evaluate_encoding",
+      "evaluate_search",
+      "evaluate_scalarization",
+      "evaluate_no_smuggling",
+      "SCHEMA"
+    ],
+    "schema_file": "DERIVATION_ROBUSTNESS_RECORD_SCHEMA_V1.json",
+    "example_record": "DERIVATION_ROBUSTNESS_RECORD_POSITIVE_V1.json",
+    "imports": "stdlib only; no substrate, no #855, no other package module"
+  },
+  "artifacts": [
+    "FREEZE_V1.md",
+    "robustness_record_v1.py",
+    "substrate_v1.py",
+    "encoding_e2_v1.py",
+    "search_procedures_v1.py",
+    "execution_controls_v1.py",
+    "independent_oracle_v1.py",
+    "test_execution_controls_v1.py",
+    "RESULT_V1.json",
+    "ORACLE_RESULT_V1.json",
+    "DERIVATION_ROBUSTNESS_RECORD_POSITIVE_V1.json",
+    "DERIVATION_ROBUSTNESS_RECORD_SCHEMA_V1.json",
+    "EXECUTION_CONTROLS_THEOREMS_V1.md",
+    "CORE.md",
+    "MANIFEST_V1.json"
+  ],
+  "workflow": ".github/workflows/gmi-833-execution-controls-v1.yml",
+  "reconciliation": {
+    "emitted": false,
+    "reason": "every #833 row this tranche could touch (the four #859 Section-D rows and the four rows named in FREEZE_V1.md) is already checked by another package; no reconciliation spec is emitted"
+  }
+}
