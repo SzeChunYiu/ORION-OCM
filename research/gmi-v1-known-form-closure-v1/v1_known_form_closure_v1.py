@@ -1,145 +1,327 @@
-"""Executable V1 known-form closure audit (#602 V1/P0)."""
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Executable audit for #602 V1 known-form closure + #431/#433 P0 rows."""
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
-LEDGER = HERE / "FAMILY_LEDGER_V1.json"
-DISPOSITION = HERE / "V1_BOX_DISPOSITION_V1.json"
-REPAIR = HERE / "NEGATIVE_REPAIR_PLAN_V1.json"
-P0 = HERE / "P0_ZERO_PRIOR_ROWS_V1.json"
-RECEIPT = HERE / "RECEIPT_V1.json"
-TERMINAL = "KNOWN_FORM_ZERO_PRIOR_DERIVATION_GREEN_AT_REGISTERED_SCOPE"
-Z_ORDER = {"Z0": 0, "Z1": 1, "Z2": 2, "Z3": 3, "Z4": 4}
+
+Z_ORDER = {"Z2": 2, "Z3": 3, "Z4": 4}
 
 
-def z_at_least(z: str, need: str) -> bool:
-    return Z_ORDER.get(z, -1) >= Z_ORDER[need]
+def _load(name: str) -> Dict[str, Any]:
+    path = HERE / name
+    with path.open("r", encoding="utf-8") as fh:
+        data = json.load(fh)
+    if not isinstance(data, dict):
+        raise TypeError("%s must be object" % name)
+    return data
 
 
-def run():
-    ledger = json.loads(LEDGER.read_text())
-    families = ledger["families"]
-    missing_ev = []
-    for f in families:
-        for ev in f.get("evidence") or []:
-            if not (REPO / ev).exists() and not Path(ev).exists():
-                # paths in ledger are repo-relative
-                if not (REPO / ev).exists():
-                    missing_ev.append({"family_id": f["family_id"], "path": ev})
+def _sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
-    all_ge_z2 = all(z_at_least(f.get("z_earned", "Z0"), "Z2") for f in families)
-    frontier_rows = []
-    for fid in ledger["frontier_z3_required"]:
-        f = next(x for x in families if x["family_id"] == fid)
-        z = f.get("z_earned", "Z0")
-        typed = f.get("gap") is not None or f.get("negative_twin") is not None
-        frontier_rows.append(
-            {
-                "family_id": fid,
-                "z_earned": z,
-                "z3_ok": z_at_least(z, "Z3"),
-                "typed_open_ok": typed and not z_at_least(z, "Z3"),
-            }
-        )
 
-    boxes = {
-        "V1_1_ledger_complete_for_ml_practice": {
-            "tick": len(ledger["ml_practice_checklist"]) >= 20 and len(families) >= 20,
-            "detail": {
-                "n_checklist": len(ledger["ml_practice_checklist"]),
-                "n_families": len(families),
-            },
-        },
-        "V1_2_every_family_ge_Z2": {
-            "tick": all_ge_z2 and not missing_ev,
-            "detail": {"all_ge_z2": all_ge_z2, "n_missing_evidence": len(missing_ev)},
-        },
-        "V1_3_frontier_Z3_or_typed": {
-            "tick": all(r["z3_ok"] or r["typed_open_ok"] for r in frontier_rows),
-            "detail": {"frontier_rows": frontier_rows},
-        },
-        "V1_4_Z4_claims_typed": {
-            "tick": all(
-                (f.get("z4_status") is not None) or z_at_least(f.get("z_earned", "Z0"), "Z4")
-                for f in families
-            ),
-            "detail": {"n_families": len(families)},
-        },
-        "V1_5_no_untyped_blocking_gap": {
-            "tick": all(bool(f.get("falsifier")) for f in families),
-            "detail": {
-                "families_missing_falsifier": [
-                    f["family_id"] for f in families if not f.get("falsifier")
-                ]
-            },
-        },
-    }
-    all_green = all(b["tick"] for b in boxes.values())
-    disposition = {
-        "schema": "GMIV1BoxDispositionV1",
-        "boxes": boxes,
-        "all_v1_boxes_green": all_green,
-        "terminal": TERMINAL if all_green else "V1_INCOMPLETE",
-        "claim_ceiling": ledger["claim_ceiling"],
-    }
-    DISPOSITION.write_text(json.dumps(disposition, indent=2, sort_keys=True) + "\n")
+def _exists_repo_path(rel: str) -> bool:
+    return (REPO / rel).is_file()
 
-    repair = []
-    for f in families:
-        z = f.get("z_earned", "Z0")
-        if not z_at_least(z, "Z3"):
-            repair.append(
-                {
-                    "family_id": f["family_id"],
-                    "current_z": z,
-                    "target_z": "Z3",
-                    "gap_type": f.get("gap") or "Z3_NOT_YET_EARNED_AT_REGISTERED_SCOPE",
-                    "falsifier": f.get("falsifier"),
-                    "next_experiment": f"Neutral remint recovery on {f['family_id']}",
-                }
-            )
-    REPAIR.write_text(
-        json.dumps({"schema": "GMINegativeRepairPlanV1", "rows": repair}, indent=2, sort_keys=True)
-        + "\n"
-    )
 
-    p0_rows = []
-    for f in families:
-        if f.get("priority") != "P0":
+def _z_at_least(earned: str, need: str) -> bool:
+    if earned not in Z_ORDER or need not in Z_ORDER:
+        return False
+    return Z_ORDER[earned] >= Z_ORDER[need]
+
+
+def audit_ledger(ledger: Dict[str, Any]) -> List[str]:
+    errors = []  # type: List[str]
+    checklist = ledger.get("ml_practice_checklist") or []
+    families = ledger.get("families") or []
+    by_id = {}  # type: Dict[str, Dict[str, Any]]
+    for fam in families:
+        fid = fam.get("family_id")
+        if not fid:
+            errors.append("family missing family_id")
             continue
-        exact = any("EXACT" in e and (REPO / e).exists() for e in (f.get("evidence") or []))
-        p0_rows.append(
-            {
-                "family_id": f["family_id"],
-                "disposition": "CLOSED_EXACT_LAYER" if exact else "TYPED_OPEN",
-                "z_earned": f.get("z_earned"),
-                "evidence": f.get("evidence"),
-            }
-        )
-    P0.write_text(
-        json.dumps({"schema": "GMIP0ZeroPriorRowsV1", "rows": p0_rows}, indent=2, sort_keys=True)
-        + "\n"
-    )
+        if fid in by_id:
+            errors.append("duplicate family_id %s" % fid)
+        by_id[fid] = fam
+        pv = fam.get("property_vector") or []
+        if len(pv) < 2:
+            errors.append("%s property_vector too short" % fid)
+        if not _z_at_least(str(fam.get("z_earned")), "Z2"):
+            errors.append("%s below Z2" % fid)
+        ev = fam.get("evidence") or []
+        if not ev:
+            errors.append("%s missing evidence" % fid)
+        for rel in ev:
+            if not _exists_repo_path(rel):
+                errors.append("%s missing evidence path %s" % (fid, rel))
+        if not fam.get("negative_twin"):
+            errors.append("%s missing negative_twin" % fid)
+        if not fam.get("falsifier"):
+            errors.append("%s missing falsifier" % fid)
+        gap = fam.get("gap")
+        if gap is not None:
+            for key in ("gap_type", "detail", "next_experiment"):
+                if not gap.get(key):
+                    errors.append("%s gap missing %s" % (fid, key))
+    for need in checklist:
+        if need not in by_id:
+            errors.append("ml_practice_checklist missing family %s" % need)
+    for fid in ledger.get("frontier_z3_required") or []:
+        if fid not in by_id:
+            errors.append("frontier family missing %s" % fid)
+    return errors
 
-    out = {
-        "schema": "GMIV1KnownFormClosureReceiptV1",
-        "artifact": "GMI_V1_KNOWN_FORM_CLOSURE_V1",
-        "issue_refs": ["#602", "#431", "#433"],
-        "boxes": boxes,
-        "all_v1_boxes_green": all_green,
-        "n_families": len(families),
-        "n_p0": len(p0_rows),
-        "n_repair_rows": len(repair),
-        "terminal": disposition["terminal"],
-        "claim_ceiling": ledger["claim_ceiling"],
-        "forbidden": ["ALL_ML_PRACTICE_DERIVED", "UNIVERSAL_Z4", "LIVING_REGISTRY_FULL_CLOSURE"],
+
+def audit_frontier_z3(
+    ledger: Dict[str, Any], repairs: Dict[str, Any]
+) -> Tuple[List[str], Dict[str, Any]]:
+    errors = []  # type: List[str]
+    repair_ids = {r.get("family_id") for r in repairs.get("repairs") or []}
+    summary = {"z3_earned": [], "z3_repair": []}  # type: Dict[str, List[str]]
+    by_id = {f["family_id"]: f for f in ledger.get("families") or []}
+    for fid in ledger.get("frontier_z3_required") or []:
+        fam = by_id[fid]
+        if _z_at_least(str(fam.get("z_earned")), "Z3"):
+            summary["z3_earned"].append(fid)
+        else:
+            summary["z3_repair"].append(fid)
+            if fid not in repair_ids:
+                errors.append("frontier %s lacks Z3 and has no repair row" % fid)
+            gap = fam.get("gap") or {}
+            if gap.get("gap_type") not in (
+                "z3_recovery",
+                "scale",
+                "theory",
+                "estimator",
+                "z4_held_family",
+                "z4_selection",
+            ):
+                errors.append("frontier %s gap_type not typed for remainder" % fid)
+    if len(summary["z3_earned"]) < 4:
+        errors.append(
+            "expected at least 4 frontier families at Z3, got %d" % len(summary["z3_earned"])
+        )
+    return errors, summary
+
+
+def audit_z4_where_possible(
+    ledger: Dict[str, Any]
+) -> Tuple[List[str], Dict[str, Any]]:
+    errors = []  # type: List[str]
+    partial = []  # type: List[str]
+    typed_open = []  # type: List[str]
+    for fam in ledger.get("families") or []:
+        st = str(fam.get("z4_status"))
+        fid = fam["family_id"]
+        if st in ("EXACT_FINITE_PARTIAL", "MEASURED_PROFILE_PARTIAL"):
+            partial.append(fid)
+        elif st == "TYPED_OPEN":
+            typed_open.append(fid)
+            gap = fam.get("gap")
+            if gap is None:
+                errors.append("%s TYPED_OPEN z4 without gap row" % fid)
+        else:
+            errors.append("%s unknown z4_status %s" % (fid, st))
+    if len(partial) < 8:
+        errors.append(
+            "expected >=8 families with Z4-partial evidence, got %d" % len(partial)
+        )
+    return errors, {"z4_partial": partial, "z4_typed_open": typed_open}
+
+
+def audit_p0(rows_doc: Dict[str, Any]) -> Tuple[List[str], Dict[str, Any]]:
+    errors = []  # type: List[str]
+    closed = 0
+    typed = 0
+    for row in rows_doc.get("rows") or []:
+        rid = row.get("row_id")
+        status = row.get("status")
+        if not row.get("falsifier") or not row.get("next_experiment"):
+            errors.append("%s missing falsifier/next_experiment" % rid)
+        for rel in row.get("evidence") or []:
+            if not _exists_repo_path(rel):
+                errors.append("%s missing evidence %s" % (rid, rel))
+        term = row.get("terminal")
+        if term:
+            found = False
+            for rel in row.get("evidence") or []:
+                if not rel.endswith(".json"):
+                    continue
+                try:
+                    with (REPO / rel).open("r", encoding="utf-8") as fh:
+                        payload = json.load(fh)
+                except Exception as exc:  # noqa: BLE001
+                    errors.append("%s cannot read %s: %s" % (rid, rel, exc))
+                    continue
+                if payload.get("terminal") == term or payload.get("status") == term:
+                    found = True
+            json_ev = [e for e in (row.get("evidence") or []) if e.endswith(".json")]
+            if json_ev and not found:
+                errors.append("%s terminal %s not found in evidence receipts" % (rid, term))
+        if status == "CLOSED_EXACT_LAYER":
+            closed += 1
+        elif status in ("TYPED_OPEN_PARTIAL", "REGISTERED_PROTOCOL_PRESENT"):
+            typed += 1
+        else:
+            errors.append("%s unknown status %s" % (rid, status))
+    if closed < 6:
+        errors.append("expected >=6 CLOSED_EXACT_LAYER P0 rows, got %d" % closed)
+    return errors, {"closed_exact_layer": closed, "typed_open_or_protocol": typed}
+
+
+def audit_boxes(boxes: Dict[str, Any]) -> List[str]:
+    errors = []  # type: List[str]
+    rows = boxes.get("boxes") or []
+    if len(rows) != 6:
+        errors.append("expected 6 disposition rows (5 V1 + P0), got %d" % len(rows))
+    for row in rows:
+        if not row.get("tick"):
+            errors.append("%s not tickable under registered-scope policy" % row.get("box_id"))
+        if not row.get("disposition"):
+            errors.append("%s missing disposition" % row.get("box_id"))
+    if boxes.get("terminal") != "KNOWN_FORM_ZERO_PRIOR_DERIVATION_GREEN_AT_REGISTERED_SCOPE":
+        errors.append("unexpected terminal")
+    return errors
+
+
+def audit_repairs(repairs: Dict[str, Any]) -> List[str]:
+    errors = []  # type: List[str]
+    for row in repairs.get("repairs") or []:
+        for key in (
+            "family_id",
+            "missing_rung",
+            "negative",
+            "repair",
+            "instrumentation",
+            "kill_condition",
+            "success_terminal",
+        ):
+            if key not in row or row[key] in (None, "", []):
+                errors.append("repair missing %s" % key)
+        inst = row.get("instrumentation") or []
+        if len(inst) < 2:
+            errors.append("%s instrumentation too thin" % row.get("family_id"))
+    return errors
+
+
+def run_audit() -> Dict[str, Any]:
+    ledger = _load("FAMILY_LEDGER_V1.json")
+    p0 = _load("P0_ZERO_PRIOR_ROWS_V1.json")
+    repairs = _load("NEGATIVE_REPAIR_PLAN_V1.json")
+    boxes = _load("V1_BOX_DISPOSITION_V1.json")
+
+    errors = []  # type: List[str]
+    errors.extend(audit_ledger(ledger))
+    e2, frontier = audit_frontier_z3(ledger, repairs)
+    errors.extend(e2)
+    e3, z4 = audit_z4_where_possible(ledger)
+    errors.extend(e3)
+    e4, p0_sum = audit_p0(p0)
+    errors.extend(e4)
+    errors.extend(audit_boxes(boxes))
+    errors.extend(audit_repairs(repairs))
+
+    required_terminals = {
+        "research/machine-intelligence-morphogenesis-v1/GMI_KNOWN_FORM_DERIVATION_EXACT_RECEIPT_V1.json": "KNOWN_FORM_DERIVATION_EXACT_FINITE_GREEN",
+        "research/machine-intelligence-morphogenesis-v1/GMI_P0_ZERO_PRIOR_RESPONSE_EXACT_RECEIPT_V1.json": "P0_ZERO_PRIOR_RESPONSE_LAWS_EXACT_LAYER_GREEN",
+        "research/machine-intelligence-morphogenesis-v1/GMI_ZERO_PRIOR_EXACT_REDISCOVERY_RECEIPT_V2.json": "ZERO_PRIOR_EXACT_PROPERTY_REDISCOVERY_V2_GREEN",
     }
-    RECEIPT.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n")
-    return out
+    receipt_checks = {}  # type: Dict[str, Any]
+    for rel, term in required_terminals.items():
+        path = REPO / rel
+        if not path.is_file():
+            errors.append("missing required receipt %s" % rel)
+            continue
+        with path.open("r", encoding="utf-8") as fh:
+            payload = json.load(fh)
+        got = payload.get("terminal") or payload.get("status")
+        ok = got == term
+        receipt_checks[rel] = {
+            "expected": term,
+            "got": got,
+            "ok": ok,
+            "sha256": _sha256_file(path),
+        }
+        if not ok:
+            errors.append("receipt %s terminal mismatch %s != %s" % (rel, got, term))
+
+    cg = REPO / "research/gmi-cross-grammar-four-family-v1/RESULT_V1.json"
+    cross_grammar = None  # type: Optional[Dict[str, Any]]
+    if cg.is_file():
+        with cg.open("r", encoding="utf-8") as fh:
+            cross_grammar = json.load(fh)
+    else:
+        errors.append("missing cross-grammar RESULT_V1.json")
+
+    family_count = len(ledger.get("families") or [])
+    untyped = 0
+    for fam in ledger.get("families") or []:
+        gap = fam.get("gap")
+        if gap is None:
+            continue
+        if not gap.get("gap_type"):
+            untyped += 1
+    if untyped:
+        errors.append("untyped gaps: %d" % untyped)
+
+    status = "GREEN" if not errors else "RED"
+    receipt = {
+        "artifact": "GMI_V1_KNOWN_FORM_CLOSURE_RECEIPT_V1",
+        "status": status,
+        "terminal": "KNOWN_FORM_ZERO_PRIOR_DERIVATION_GREEN_AT_REGISTERED_SCOPE"
+        if status == "GREEN"
+        else "KNOWN_FORM_ZERO_PRIOR_DERIVATION_RED",
+        "claim_ceiling": ledger.get("claim_ceiling"),
+        "scope_id": ledger.get("scope_id"),
+        "family_count": family_count,
+        "ml_practice_checklist_count": len(ledger.get("ml_practice_checklist") or []),
+        "frontier_z3": frontier,
+        "z4": z4,
+        "p0": p0_sum,
+        "required_receipts": receipt_checks,
+        "cross_grammar_present": cross_grammar is not None,
+        "box_terminal": boxes.get("terminal"),
+        "errors": errors,
+        "package_files_sha256": {
+            name: _sha256_file(HERE / name)
+            for name in (
+                "FAMILY_LEDGER_V1.json",
+                "P0_ZERO_PRIOR_ROWS_V1.json",
+                "NEGATIVE_REPAIR_PLAN_V1.json",
+                "V1_BOX_DISPOSITION_V1.json",
+                "CORE.md",
+            )
+            if (HERE / name).is_file()
+        },
+    }
+    return receipt
+
+
+def write_receipt(path: Optional[Path] = None) -> Dict[str, Any]:
+    receipt = run_audit()
+    out = path or (HERE / "RECEIPT_V1.json")
+    with out.open("w", encoding="utf-8") as fh:
+        json.dump(receipt, fh, indent=2, sort_keys=True)
+        fh.write("\n")
+    return receipt
+
+
+def main() -> int:
+    receipt = write_receipt()
+    print(json.dumps(receipt, indent=2, sort_keys=True))
+    return 0 if receipt.get("status") == "GREEN" else 1
 
 
 if __name__ == "__main__":
-    print(json.dumps(run(), indent=2, sort_keys=True))
+    raise SystemExit(main())
