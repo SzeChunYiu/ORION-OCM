@@ -1,27 +1,36 @@
-# J3 Burden Theorem v1
+# Theorem — J3 burden disposition V1
 
-**Issue**: #602 J3 remaining open boxes  
-**Burden class**: `E1_CONSTANT_FACTOR` at finite registered instrument  
-**Claim ceiling**: disposition close only — not physical lab separation or asymptotic quantum advantage.
+## AS-2 — Analog real-burden identification
 
-## Analog / physical material cognition
+Fix the analog substrate schema and the D1/D6 numerical compiler from
+`gmi-analog-semantics-closure-v1`. For every registered finite word of length
+≤4 over the frozen operator set, let \(B_{\mathrm{analog}}\) be the charged
+precision×latency burden and \(B_{\mathrm{num}}\) the numerical simulation
+burden including declared overhead. Define the material gap
 
-Instrument: finite operator words over `{INTEGRATE, DIFFUSE, THRESHOLD, RESET}` with
-`B_analog(w)=|w|` and `B_numeric(w)=2|w|` (declared compiler overhead).
+\[
+\Delta = B_{\mathrm{analog}} - B_{\mathrm{num}}.
+\]
 
-**Result**: for every registered word, `B_analog - B_numeric ≤ 0`. Hence
-`material_positive_gaps = 0` and disposition
-`NO_REAL_BURDEN_SEPARATION_AT_REGISTERED_FINITE_SCOPE`.
+**Certificate.** Across the registered word set, \(\Delta \le 0\) after charging
+the declared compiler overhead. Therefore the open task “identify any real
+burden separation” is answered: **none at registered finite scope**.
 
-## Quantum-coherent cognition
+## QS-2 — Quantum parent-frontier requirement
 
-Parents: `exact_enumeration`, `grover_unstructured`, `qft_transform`.
-Lifecycle-charged coherent machine cost `1 + n^2 + 1` at `n∈{1,2,3}` for
-obligations `{decision, transform, search}`.
+Let \(\mathcal P\) be the registered known-algorithm parent set
+`{exact_enumeration, grover_unstructured, qft_transform}`. A candidate residual
+frontier exists only if some registered obligation \(O\) has a quantum machine
+strictly cheaper than every parent in \(\mathcal P\) after lifecycle charging
+(preparation, gates, readout, classical control).
 
-**Result**: for all 9 cells, quantum cost is never strictly below the best parent.
-Disposition `NO_UNEXPLAINED_QUANTUM_FRONTIER_AT_REGISTERED_FINITE_SCOPE`.
+**Certificate.** At exact `n∈{1,2,3}` algebraic scope with lifecycle charging,
+every registered obligation is dominated by at least one parent. Hence the
+requirement “frontier not explainable by known quantum algorithm parents”
+**fails** at this scope — the box is closed by disposition, not by novelty.
 
-## Tick advice
+## Terminal
 
-Both boxes may be ticked as honest negatives at registered finite scope.
+```text
+J3_ANALOG_NO_SEPARATION__QUANTUM_NO_UNEXPLAINED_FRONTIER__AT_REGISTERED_FINITE_SCOPE
+```

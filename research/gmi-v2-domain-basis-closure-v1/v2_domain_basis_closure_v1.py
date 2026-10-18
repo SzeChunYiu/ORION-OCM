@@ -1,7 +1,9 @@
 """#602 V2 domain-basis closure executable."""
 from __future__ import annotations
+
 import json
 from pathlib import Path
+
 HERE = Path(__file__).resolve().parent
 LEDGER = HERE / "V2_CLOSURE_LEDGER_V1.json"
 RECEIPT = HERE / "RECEIPT_V1.json"
@@ -12,8 +14,11 @@ BOXES = [
     "No known obvious paradigm sits outside the registry untested.",
 ]
 
+
 def run():
     ledger = json.loads(LEDGER.read_text())
+    checks = ledger["checks"]
+    # Recompute checks from ledger contents (fail-closed).
     checks = {
         "all_candidates_have_reduction_disposition": all(
             "disposition" in c and c["disposition"] for c in ledger["candidates"]
@@ -39,6 +44,7 @@ def run():
     }
     RECEIPT.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n")
     return out
+
 
 if __name__ == "__main__":
     print(json.dumps(run(), indent=2, sort_keys=True))

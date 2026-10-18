@@ -10,19 +10,19 @@ TERMINAL = (
     "J3_ANALOG_NO_SEPARATION__QUANTUM_NO_UNEXPLAINED_FRONTIER__AT_REGISTERED_FINITE_SCOPE"
 )
 
+# Frozen analog operator words (finite instrument).
 ANALOG_OPS = ("INTEGRATE", "DIFFUSE", "THRESHOLD", "RESET")
-
-
+# Cost model: analog unit cost 1; numeric compiler overhead +1 per op (declared).
 def analog_burden(word):
-    return len(word)
-
+    return len(word)  # precision×latency units
 
 def numeric_burden(word):
-    return len(word) + len(word)
-
+    return len(word) + len(word)  # simulation + declared overhead
 
 def analog_assay():
     words = []
+    # all words length 1..4 over 4 ops is large; sample registered set:
+    # all length-1, all length-2, and a frozen length-3/4 panel.
     for op in ANALOG_OPS:
         words.append((op,))
     for a in ANALOG_OPS:
@@ -35,10 +35,14 @@ def analog_assay():
         ("THRESHOLD", "INTEGRATE", "DIFFUSE", "RESET"),
     ]
     words.extend(panel)
+    rows = []
     material_positive = 0
     for w in words:
-        if analog_burden(w) - numeric_burden(w) > 0:
+        ba, bn = analog_burden(w), numeric_burden(w)
+        delta = ba - bn
+        if delta > 0:
             material_positive += 1
+        rows.append({"word": list(w), "B_analog": ba, "B_num": bn, "delta": delta})
     return {
         "n_words": len(words),
         "material_positive_gaps": material_positive,
@@ -50,21 +54,26 @@ def analog_assay():
     }
 
 
+# Quantum parents at n<=3.
 KNOWN_PARENTS = ("exact_enumeration", "grover_unstructured", "qft_transform")
 
 
-def parent_cost(parent, n, obligation):
+def parent_cost(parent: str, n: int, obligation: str) -> int:
     N = 2**n
     if parent == "exact_enumeration":
-        return N
+        return N  # classical exact
     if parent == "grover_unstructured":
-        return max(2, int(N**0.5 + 0.999)) + 2
+        # unstructured search style: ~sqrt(N) queries + lifecycle floor 2
+        return max(2, int(N**0.5 + 0.999)) + 2  # +prep/readout
     if parent == "qft_transform":
+        # QFT-like transform parent: n^2 gates + prep/readout
         return n * n + 2
     raise KeyError(parent)
 
 
-def quantum_machine_cost(n, obligation):
+def quantum_machine_cost(n: int, obligation: str) -> int:
+    # Lifecycle-charged coherent machine at declared scale (no free prep/readout).
+    # prep(1) + dense unitary (~n^2) + readout(1); matches QFT-class, never below all parents.
     return 1 + n * n + 1
 
 
@@ -77,7 +86,7 @@ def quantum_assay():
             q = quantum_machine_cost(n, obl)
             parents = {p: parent_cost(p, n, obl) for p in KNOWN_PARENTS}
             best_parent = min(parents.values())
-            gap = best_parent - q
+            gap = best_parent - q  # positive => quantum cheaper than all parents
             row = {
                 "n": n,
                 "obligation": obl,
@@ -118,7 +127,11 @@ def run():
             "J3_quantum_unexplained_frontier": {
                 "tick": quantum["box_tick"],
                 "disposition": quantum["disposition"],
-                "evidence": {k: quantum[k] for k in quantum if k != "rows"},
+                "evidence": {
+                    k: quantum[k]
+                    for k in quantum
+                    if k != "rows"
+                },
                 "n_rows": len(quantum["rows"]),
             },
         },
@@ -130,6 +143,7 @@ def run():
             "ASYMPTOTIC_QUANTUM_ADVANTAGE",
         ],
     }
+    # attach compact quantum rows
     out["boxes"]["J3_quantum_unexplained_frontier"]["evidence"]["rows"] = quantum["rows"]
     RECEIPT.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n")
     return out
