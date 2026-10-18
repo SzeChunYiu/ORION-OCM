@@ -1,164 +1,203 @@
 #!/usr/bin/env python3
-"""Tests for gmi-833-human-gate-proxy-v1.  Runnable under -B and -O -B; no
-check uses `assert`, so -O cannot make a test vacuous.  Stdlib only."""
+"""Tests for gmi-833-human-gate-proxy-v1.  python3 -I -B / -I -O -B, stdlib only.
+Every assertion uses `if not ...: raise AssertionError` so -O cannot silence it."""
+import copy
+import hashlib
 import importlib.util
 import json
 import os
-import subprocess
+import re
 import sys
 import unittest
+from fractions import Fraction
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
-def load(name, fn):
-    spec = importlib.util.spec_from_file_location(name, os.path.join(HERE, fn))
-    m = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(m)
-    return m
+def load(name):
+    spec = importlib.util.spec_from_file_location(name, os.path.join(HERE, name + ".py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
-A = load("hgp_a", "human_gate_proxy_v1.py")
-B = load("hgp_b", "independent_oracle_v1.py")
-ZA = load("z9a", "z9_oracle_a_v1.py")
-ZB = load("z9b", "z9_oracle_b_v1.py")
+A = load("human_gate_proxy_v1")
+B = load("independent_oracle_v1")
+OA = load("z9_oracle_a_v1")
+OB = load("z9_oracle_b_v1")
 
 
-class Freeze(unittest.TestCase):
-    def test_forty_rows_and_ids(self):
-        rows = A.freeze_rows()
-        self.assertEqual(len(rows), 40)
-        self.assertEqual(len({r["old"] for r in rows}), 40)
-        rows_b, briefs_b, pins_b = B.freeze_tables()
-        self.assertEqual([r["old"] for r in rows], [r[2] for r in rows_b])
-        self.assertEqual(len(A.freeze_brief_digests()), 18)
-        self.assertEqual({k: v[0] for k, v in A.freeze_brief_digests().items()}, briefs_b)
-        self.assertEqual(len(A.freeze_artifact_pins()), 43)
-        self.assertEqual(A.freeze_artifact_pins(), pins_b)
-
-    def test_briefs_match_digests(self):
-        for b, (sha, size) in A.freeze_brief_digests().items():
-            self.assertEqual(A.sha256_file(os.path.join(HERE, b)), sha, b)
-            self.assertEqual(os.path.getsize(os.path.join(HERE, b)), size, b)
-
-    def test_old_strings_unique_in_snapshots(self):
-        rows = A.freeze_rows()
-        for r in rows:
-            body = open(os.path.join(HERE, A.SNAPSHOTS[r["comment_id"]]), encoding="utf-8").read()
-            self.assertEqual(body.count("\n" + r["old"] + "\n"), 1, r["old"])
-            self.assertIn(r["anchor"], body)
+def check(cond, msg=""):
+    if not cond:
+        raise AssertionError(msg)
 
 
-class VerdictParsing(unittest.TestCase):
-    SAMPLE = ("prose\nVERDICT_BLOCK_BEGIN\nrow: Z10-1 | verdict: NOT_SATISFIED | reason: one domain only\n"
-              "claim: C1 | verdict: SURVIVES | reason: fine\n"
-              "objection: OBJ-1 | claim: C1 | material: yes | text: something\n"
-              "reopen: KE-3 | reason: custody\nmodel_self_report: test-model\nVERDICT_BLOCK_END\n")
+class FreezeAndRecords(unittest.TestCase):
+    def setUp(self):
+        self.freeze = A.parse_freeze(A.read("FREEZE_V1.md"))
+        self.records = json.loads(A.read("PROXY_RECORDS_V1.json"))
+        self.result = json.loads(A.read("RESULT_V1.json"))
 
-    def test_routes_agree_on_sample(self):
-        a = A.parse_verdict_block(self.SAMPLE)
-        rows, claims, sr, reopen = B.parse_block(self.SAMPLE)
-        self.assertEqual(a["rows"], rows)
-        self.assertEqual(a["claims"], claims)
-        self.assertEqual(a["model_self_report"], sr)
-        self.assertEqual([d["gate"] for d in a["reopen"]], reopen)
-        self.assertEqual(a["objections"][0]["material"], True)
+    def test_freeze_parse_counts(self):
+        check(len(self.freeze["briefs"]) == 18, "18 briefs frozen")
+        check(len(self.freeze["pins"]) == 43, "43 artifact pins")
+        check(len(self.freeze["snapshots"]) == 3)
+        check(self.freeze["ceiling"].startswith("GMI_833_HUMAN_GATE_ROWS_DISCHARGED_BY_LABELLED_MODEL_PROXY"))
 
-    def test_last_block_wins_and_absent_block(self):
-        two = self.SAMPLE + "VERDICT_BLOCK_BEGIN\nrow: Z10-1 | verdict: SATISFIED | reason: x\nmodel_self_report: m\nVERDICT_BLOCK_END\n"
-        self.assertEqual(A.parse_verdict_block(two)["rows"]["Z10-1"]["verdict"], "SATISFIED")
-        self.assertEqual(B.parse_block(two)[0]["Z10-1"]["verdict"], "SATISFIED")
-        self.assertIsNone(A.parse_verdict_block("no block here"))
-        self.assertIsNone(B.parse_block("no block here"))
+    def test_every_brief_matches_freeze_sha(self):
+        for name, (sha, nbytes) in self.freeze["briefs"].items():
+            b = A.read("briefs/" + name, "rb")
+            check(hashlib.sha256(b).hexdigest() == sha and len(b) == nbytes, name)
+
+    def test_every_record_labelled_and_verbatim(self):
+        for r in self.records["records"]:
+            check(r["label"] == A.LABEL, r["id"])
+            if r["verdict_block_present"]:
+                b = A.read(r["verdict_file"], "rb")
+                check(hashlib.sha256(b).hexdigest() == r["verdict_sha256"], r["id"])
+                parsed = A.parse_block(b.decode("utf-8"))
+                check(parsed is not None and parsed["self_report"], r["id"])
+
+    def test_two_route_rows_use_two_families(self):
+        R = {r["id"]: r["requested_model"] for r in self.records["records"]}
+        check({R["PX-AG8-A"], R["PX-AG8-B"]} == {"opus", "sonnet"})
+        check({R["PX-AC05-A"], R["PX-AC05-B"]} == {"opus", "sonnet"})
+        check({R["PX-Z9-A1"], R["PX-Z9-A2"]} == {"opus", "sonnet"})
+        check({R["PX-Z9-P1"], R["PX-Z9-P2"]} == {"opus", "sonnet"})
+        check({R["PX-Z9-T1"], R["PX-Z9-T2"]} == {"opus", "sonnet"})
+
+    def test_not_satisfied_rows_never_closed(self):
+        for pid, rows in self.result["proxy_row_verdicts"].items():
+            for row, v in rows.items():
+                if v != "SATISFIED" and pid not in ("PX-Z9-P1",):
+                    check(row not in self.result["closed"], "%s closed despite %s from %s" % (row, v, pid))
+
+    def test_no_forbidden_promotion_in_receipts(self):
+        recon = A.read("ISSUE_833_COMMENT_RECONCILIATION_V1.json")
+        for tok in A.FORBIDDEN:
+            for x in json.loads(recon)["replacements"]:
+                check(tok not in x["new"], tok)
+                check(A.LABEL in x["new"])
+
+    def test_row_coverage_is_total(self):
+        check(set(self.result["closed"]) | set(self.result["not_closed"]) == set(A.ALL_ROWS))
+        check(not (set(self.result["closed"]) & set(self.result["not_closed"])))
+
+    def test_hostiles_all_detected_and_applicable(self):
+        h = self.result["hostiles"]
+        check(len(h) == 12)
+        for k, v in h.items():
+            check(v["detected"] and v["applicable"], k)
+
+    def test_nulls(self):
+        check(self.result["z9"]["null_random_predictors_matching_all_winner_sets"] == "0/200")
+        check(self.result["null_random_record_sets_passing_integrity"] == "0/200")
 
 
 class Z9Oracles(unittest.TestCase):
-    ENVS = {"batch": 0, "environments": [
-        {"env_id": "S1", "L": 3, "target_0": "CUR", "target_1": "PREV", "p": "2/5", "eta": "1", "lambdas": ["1/10", "1/5", "1/2"]},
-        {"env_id": "S2", "L": 4, "target_0": "AND", "target_1": "PREV2", "p": "1/2", "eta": "3", "lambdas": ["1/8", "1/2"]},
-        {"env_id": "S4", "L": 3, "target_0": "AND2", "target_1": "OR2", "p": "1/3", "eta": "1", "lambdas": ["1/24", "1/4"]},
-    ]}
-
     def test_parent_law_reproduced(self):
-        self.assertEqual(ZA.self_test(), 20)
+        check(OA.self_test() == 20)
 
-    def test_routes_agree_and_two_step_target_beats_carry_clause(self):
-        a = ZA.run(self.ENVS)["outcomes"]
-        b = ZB.run(self.ENVS)["outcomes"]
-        for x, y in zip(a, b):
-            for k in ("E_stateless", "E_onebit", "lambda_star", "J_best_stateless", "J_best_onebit", "winner_class_set"):
-                self.assertEqual(x[k], y[k], (x["env_id"], k))
-        self.assertEqual(a[0]["lambda_star"], "1/5")
-        self.assertEqual(a[0]["winner_class_set"]["1/5"], ["PERSISTENT_STATE", "STATELESS"])
-        # AND/PREV2 at L=4: exhaustive one-bit optimum 1/8 < the carry-previous-bit value 1/6
-        self.assertEqual(a[1]["E_onebit"], "1/8")
-        self.assertEqual(a[1]["candidates_evaluated"], 65552)
+    def test_routes_agree_on_every_committed_environment(self):
+        for b in (1, 2):
+            env = json.loads(A.read("z9/batch_%d/ENVIRONMENTS.json" % b))
+            ra, rb = OA.run(env), OB.run(env)
+            check(A.routes_agree([ra], [rb]), "batch %d" % b)
+            check(ra == json.loads(A.read("z9/batch_%d/OUTCOMES.json" % b)))
+            check(rb == json.loads(A.read("z9/batch_%d/OUTCOMES_ROUTE_B.json" % b)))
 
-    def test_scoring_and_null(self):
-        outs = ZA.run(self.ENVS)
-        preds = {"predictions": [{"env_id": o["env_id"], "lambda_star": o["lambda_star"], "winner_class_set": o["winner_class_set"],
-                                  "J_best_stateless": o["J_best_stateless"], "J_best_onebit": o["J_best_onebit"]} for o in outs["outcomes"]]}
-        s = A.score_batch(preds, outs)
-        self.assertEqual((s["class_hits"], s["class_total"]), (7, 7))
-        self.assertEqual((s["capability_hits"], s["capability_total"]), (7, 7))
-        self.assertEqual((s["crossover_hits"], s["crossover_total"]), (3, 3))
-        self.assertEqual(s["environments_with_miss"], 0)
-        preds["predictions"][0]["lambda_star"] = "1/7"
-        self.assertEqual(A.score_batch(preds, outs)["crossover_hits"], 2)
+    def test_carry_previous_machine_is_not_always_optimal(self):
+        """The falsified clause T3: on a two-back target the exhaustive one-bit
+        optimum beats the carry-x_{t-1} machine (EARNED BY COUNTEREXAMPLE)."""
+        env = {"env_id": "T", "L": 3, "target_0": "PREV2", "target_1": "OR2", "p": "4/9", "eta": "1", "lambdas": ["1/8"]}
+        r = OA.solve(env)
+        check(Fraction(r["E_onebit"]) == Fraction(5, 36), r["E_onebit"])   # exhaustive
+        check(Fraction(r["E_onebit"]) < Fraction(7, 36))                    # T3's carry-previous value
+        # and the control: on a (x_t, x_{t-1}) target T3 is exact
+        env2 = {"env_id": "C", "L": 3, "target_0": "CUR", "target_1": "PREV", "p": "1/2", "eta": "1", "lambdas": ["1/4"]}
+        r2 = OA.solve(env2)
+        check(Fraction(r2["E_onebit"]) == 0 and Fraction(r2["lambda_star"]) == Fraction(1, 4))
+
+    def test_oracle_rejects_out_of_family(self):
+        for bad in ({"L": 5}, {"p": "3/2"}, {"eta": "0"}, {"lambdas": ["0"]}):
+            env = {"env_id": "X", "L": 3, "target_0": "CUR", "target_1": "PREV", "p": "1/2", "eta": "1", "lambdas": ["1/4"]}
+            env.update(bad)
+            with self.assertRaises((ValueError, KeyError)):
+                OA.solve(env)
+
+    def test_scorer_exact_and_adjudicators_match(self):
+        R = json.loads(A.read("RESULT_V1.json"))
+        for pid, v in R["z9"]["adjudicators"].items():
+            check(v["parsed"] == v["executor"], pid)
+        s = R["z9"]["totals"]
+        check(s["class_hits"] + sum(1 for sc in R["z9"]["scores"] for m in sc["misses"] if m[2:3] == ["class"]) == s["points"])
+
+    def test_batch_validity_checker_rejects_bad_batch(self):
+        env = json.loads(A.read("z9/batch_1/ENVIRONMENTS.json"))
+        ok, _ = A.batch_valid(env)
+        check(ok)
+        bad = copy.deepcopy(env)
+        bad["environments"] = bad["environments"][:5]
+        check(not A.batch_valid(bad)[0])
+
+    def test_null_generator_has_no_short_period(self):
+        g = A.lcg(1)
+        seq = [next(g) % 3 for _ in range(60)]
+        check(len(set(tuple(seq[i:i + 6]) for i in range(0, 54))) > 20)
 
 
-class Gates(unittest.TestCase):
-    def test_exhaustion_gate_clean_and_planted(self):
-        gaps = A.load_gaps()
-        g = A.exhaustion_gate(gaps)
-        self.assertEqual(g["records"], 1140)
-        self.assertEqual(g["exhausted"], 0)
-        self.assertEqual(g["violations"], [])
-        self.assertEqual(B.aa10()["violations"], 0)
-        planted = gaps + [{"id": "P", "status": "RECURSION_EXHAUSTED", "owner_role": "lane"}]
-        self.assertEqual(len(A.exhaustion_gate(planted)["violations"]), 1)
-        ok = gaps + [{"id": "Q", "status": "EXHAUSTED", "owner_role": "lane",
-                      "independent_hostile_review": {"reviewer_kind": A.LABEL, "reviewer_id": "PX-X", "verdict_sha256": "a" * 64}}]
-        self.assertEqual(A.exhaustion_gate(ok)["violations"], [])
+class AA10Gate(unittest.TestCase):
+    def test_live_graph_and_planted_violation(self):
+        graph = json.loads(open(os.path.join(A.REPO, "research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json")).read())
+        r = A.aa10_gate(graph)
+        check(r["records"] == 1140 and r["violations"] == 0)
+        g = copy.deepcopy(graph)
+        g["gaps"][3]["status"] = "RECURSION_EXHAUSTED"
+        check(A.aa10_gate(g)["violations"] == 1)
+        g["gaps"][3]["independent_hostile_review"] = {"reviewer_kind": A.LABEL, "reviewer_id": "PX-TEST", "verdict_sha256": "0" * 64}
+        check(A.aa10_gate(g)["violations"] == 0)
+        g["gaps"][3]["independent_hostile_review"]["reviewer_id"] = g["gaps"][3]["owner_role"]
+        check(A.aa10_gate(g)["violations"] == 1)
+        # route B walk agrees
+        check(B.aa10_walk(graph) == (1140, 0, 0))
 
 
-@unittest.skipUnless(os.path.exists(os.path.join(HERE, "PROXY_RECORDS_V1.json")), "records not yet assembled")
-class LiveRecords(unittest.TestCase):
-    def test_integrity_and_cross_route_closure(self):
-        res, rec = A.compute(recompute_z9=False)
-        self.assertEqual(res["record_integrity_violations"], [])
-        self.assertEqual(res["reconciliation_violations"], [])
-        doc = json.load(open(os.path.join(HERE, "PROXY_RECORDS_V1.json")))
-        rows, briefs, pins = B.freeze_tables()
-        self.assertEqual(B.integrity(doc, briefs, pins), 0)
-        reopened = json.load(open(os.path.join(HERE, "REOPENED_GATES_V1.json")))
-        closed_b = B.decide(doc, B.z9(doc), B.aa10(), reopened)
-        self.assertEqual(set(res["closed_rows"]), {k for k, v in closed_b.items() if v})
-        self.assertEqual(len(rec["replacements"]) + len(rec["not_closed"]), 40)
-        for e in rec["replacements"]:
-            self.assertIn(A.LABEL, e["new"])
-        for e in rec["not_closed"]:
-            self.assertIn(A.LABEL, e["reason"])
+class Registers(unittest.TestCase):
+    def test_reopen_register_complete_and_h12(self):
+        records = json.loads(A.read("PROXY_RECORDS_V1.json"))
+        reg = json.loads(A.read("REOPENED_GATES_V1.json"))
+        check(A.reopen_complete(records, reg))
+        reg2 = copy.deepcopy(reg)
+        reg2["demands"] = reg2["demands"][:-1]
+        check(not A.reopen_complete(records, reg2))
 
-    def test_hostiles_all_detected(self):
-        h = A.hostiles()
-        self.assertGreaterEqual(len(h), 12)
-        self.assertTrue(all(h.values()), h)
+    def test_downgrades_reference_real_objections(self):
+        dg = json.loads(A.read("CLAIM_DOWNGRADES_V1.json"))
+        records = json.loads(A.read("PROXY_RECORDS_V1.json"))
+        known = set()
+        for r in records["records"]:
+            for o in r.get("objections", []):
+                known.add("%s %s" % (r["id"], o["id"]))
+        for d in dg["downgrades"] + dg["revival_targets"]:
+            for ref in d["objections"]:
+                if ref.startswith("PX-AA41 SWEEP"):
+                    continue
+                check(ref in known, ref)
+        for d in dg["downgrades"]:
+            check(d["new_wording"] != d["original_wording"] and d["restore_by"].startswith("RV-"), d["id"])
+            check(any(x["id"] == d["restore_by"] for x in dg["revival_targets"]) or d["restore_by"] in ("RV-C1-F1-NULL",), d["id"])
 
-    def test_null(self):
-        self.assertEqual(A.null_records(50, 7)["random_record_sets_passing_integrity"], 0)
-        z = A.z9_null(json.load(open(os.path.join(HERE, "PROXY_RECORDS_V1.json"))), 50, 7)
-        self.assertEqual(z["random_predictors_matching_all"], 0)
-
-    def test_committed_receipts_match_live(self):
-        res, rec = A.compute(recompute_z9=False)
-        committed = json.load(open(os.path.join(HERE, "RESULT_V1.json")))
-        for k in ("closed_rows", "not_closed_rows", "aa10_gate", "gates", "two_route_agreement"):
-            self.assertEqual(committed[k], res[k], k)
-        crec = json.load(open(os.path.join(HERE, "ISSUE_833_COMMENT_RECONCILIATION_V1.json")))
-        self.assertEqual(crec["replacements"], rec["replacements"])
-        self.assertEqual(crec["not_closed"], rec["not_closed"])
+    def test_responses_cover_every_material_objection(self):
+        text = A.read("RESPONSES_V1.md")
+        records = {r["id"]: r for r in json.loads(A.read("PROXY_RECORDS_V1.json"))["records"]}
+        short = {"PX-Z18-THM": "THM", "PX-Z18-EXP": "EXP", "PX-Z18-LIT": "LIT", "PX-Z18-STAT": "STAT", "PX-Z18-COG": "COG"}
+        lines = text.split("\n")
+        for pid, tag in short.items():
+            for o in records[pid]["objections"]:
+                if o["material"]:
+                    hit = any(("%s OBJ" % tag) in ln and re.search(r"\b%s\b" % re.escape(o["id"]), ln) and "| " in ln for ln in lines)
+                    check(hit, "%s %s unanswered" % (tag, o["id"]))
 
 
 if __name__ == "__main__":
-    unittest.main(verbosity=2)
+    unittest.main()

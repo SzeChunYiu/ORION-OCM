@@ -1,0 +1,130 @@
+name: gmi-833-human-gate-proxy-v1
+on:
+  pull_request:
+    paths:
+      - 'research/gmi-833-human-gate-proxy-v1/**'
+      - '.github/workflows/gmi-833-human-gate-proxy-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gmi-833-human-gate-proxy-v1/**'
+      - '.github/workflows/gmi-833-human-gate-proxy-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  human-gate-proxy:
+    name: labelled model-proxy discharge of human-gate rows
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PKG: research/gmi-833-human-gate-proxy-v1
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Workflow integrity
+        run: |
+          set -eu
+          pip install --quiet pyyaml
+          python3 research/gmi-833-workflow-integrity-v1/check_workflows_v1.py
+
+      - name: Freeze custody (frozen bytes always; branch topology only while the freeze commit is reachable)
+        run: |
+          set -eu
+          # 1. Frozen BYTES: every file of the freeze commit (freeze, 18 briefs, 3 snapshots) is byte-identical at HEAD.
+          #    Pinned by blob sha in MANIFEST_V1.json, so this survives a squash merge.
+          python3 - <<'PY'
+          import json, os, subprocess, sys
+          pkg = os.environ["PKG"]
+          man = json.load(open(os.path.join(pkg, "MANIFEST_V1.json")))
+          bad = []
+          for rel, sha in sorted(man["frozen_blobs"].items()):
+              cur = subprocess.run(["git", "rev-parse", "HEAD:%s/%s" % (pkg, rel)], capture_output=True, text=True).stdout.strip()
+              if cur != sha:
+                  bad.append((rel, sha, cur))
+          print("frozen blobs checked: %d, moved: %d" % (len(man["frozen_blobs"]), len(bad)))
+          for b in bad:
+              print("FROZEN FILE MOVED: %s pinned %s now %s" % b)
+          sys.exit(1 if bad or len(man["frozen_blobs"]) != 22 else 0)
+          PY
+          # 2. Branch topology, only while the freeze commit is reachable from HEAD (a squash merge
+          #    legitimately destroys it; then the state is UNREACHABLE, recorded, neither pass nor crash).
+          FREEZE_COMMIT=$(python3 -c 'import json,os;print(json.load(open(os.environ["PKG"]+"/MANIFEST_V1.json"))["freeze_commit"])')
+          if git cat-file -e "$FREEZE_COMMIT^{commit}" 2>/dev/null && git merge-base --is-ancestor "$FREEZE_COMMIT" HEAD; then
+            echo "freeze commit $FREEZE_COMMIT reachable: checking topology"
+            FILES=$(git show --pretty=format: --name-only "$FREEZE_COMMIT" -- "$PKG" | sed '/^$/d')
+            echo "$FILES" | grep -qx "$PKG/FREEZE_V1.md" || { echo "FREEZE_V1.md absent from the freeze commit"; exit 1; }
+            if echo "$FILES" | grep -v -E "^$PKG/(FREEZE_V1\.md|briefs/|snapshots/)"; then
+              echo "implementation file in the freeze commit"; exit 1
+            fi
+            first() { git log --format=%H --reverse -- "$1" | head -1; }
+            anc() { [ "$1" = "$2" ] || git merge-base --is-ancestor "$1" "$2"; }
+            for f in z9_oracle_a_v1.py z9_oracle_b_v1.py human_gate_proxy_v1.py independent_oracle_v1.py PROXY_RECORDS_V1.json RESULT_V1.json; do
+              C=$(first "$PKG/$f"); [ -n "$C" ] || { echo "$f has no history"; exit 1; }
+              [ "$C" != "$FREEZE_COMMIT" ] && anc "$FREEZE_COMMIT" "$C" || { echo "$f not strictly after the freeze"; exit 1; }
+            done
+            ORA=$(first "$PKG/z9_oracle_a_v1.py"); ORB=$(first "$PKG/z9_oracle_b_v1.py")
+            for B in 1 2; do
+              ENV=$(first "$PKG/z9/batch_$B/ENVIRONMENTS.json"); PRED=$(first "$PKG/z9/batch_$B/PREDICTIONS.json")
+              OUT=$(first "$PKG/z9/batch_$B/OUTCOMES.json"); OUTB=$(first "$PKG/z9/batch_$B/OUTCOMES_ROUTE_B.json")
+              [ -n "$ENV" ] && [ -n "$PRED" ] && [ -n "$OUT" ] && [ -n "$OUTB" ] || { echo "batch $B incomplete"; exit 1; }
+              anc "$ORA" "$PRED" || { echo "oracle A not committed before batch $B predictions"; exit 1; }
+              anc "$ORB" "$PRED" || { echo "oracle B not committed before batch $B predictions"; exit 1; }
+              anc "$ENV" "$PRED" || { echo "batch $B environments not before predictions"; exit 1; }
+              [ "$PRED" != "$OUT" ] && anc "$PRED" "$OUT" || { echo "batch $B predictions not strictly before outcomes"; exit 1; }
+              [ "$PRED" != "$OUTB" ] && anc "$PRED" "$OUTB" || { echo "batch $B predictions not strictly before route-B outcomes"; exit 1; }
+              echo "batch $B order OK: env $ENV -> pred $PRED -> out $OUT / $OUTB"
+            done
+          else
+            echo "FREEZE_COMMIT_UNREACHABLE: $FREEZE_COMMIT is not an ancestor of HEAD (squash merge); topology not checkable, frozen bytes verified above"
+          fi
+
+      - name: Generated registers are fresh
+        run: |
+          set -eu
+          cd "$PKG"
+          python3 -I -B build_registers_v1.py --check
+          python3 -I -B build_reconciliation_v1.py --check
+
+      - name: Route A (record integrity, closure set, Z9 via oracle A, AA10 gate, 12 hostiles, 2 nulls)
+        run: |
+          set -eu
+          cd "$PKG"
+          python3 -I -B human_gate_proxy_v1.py --check
+          python3 -I -O -B human_gate_proxy_v1.py --check
+
+      - name: Route B (independent oracle; closure set by set equality; Z9 via oracle B)
+        run: |
+          set -eu
+          cd "$PKG"
+          python3 -I -B independent_oracle_v1.py --check
+          python3 -I -O -B independent_oracle_v1.py --check
+
+      - name: Z9 oracles reproduce the committed outcomes byte-for-byte
+        run: |
+          set -eu
+          cd "$PKG"
+          python3 -I -B z9_oracle_a_v1.py --self-test
+          for B in 1 2; do
+            python3 -I -B z9_oracle_a_v1.py z9/batch_$B/ENVIRONMENTS.json | cmp - z9/batch_$B/OUTCOMES.json
+            python3 -I -B z9_oracle_b_v1.py z9/batch_$B/ENVIRONMENTS.json | cmp - z9/batch_$B/OUTCOMES_ROUTE_B.json
+          done
+
+      - name: Receipts agree across routes
+        run: python3 -I -B "$PKG/check_receipt_v1.py"
+
+      - name: Tests (normal and optimized mode)
+        run: |
+          set -eu
+          python3 -I -B "$PKG/test_human_gate_proxy_v1.py" -v
+          python3 -I -O -B "$PKG/test_human_gate_proxy_v1.py" -v
+
+      - name: Receipts unchanged by the run
+        run: git diff --exit-code -- "$PKG"

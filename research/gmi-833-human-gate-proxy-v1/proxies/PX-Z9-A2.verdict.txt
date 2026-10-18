@@ -1,0 +1,97 @@
+Scoring complete. Both files read; comparison done by exact `Fraction` equality in a scratch script.
+
+## Per-(env, lambda) table
+
+| env_id | lambda | CLASS | CAPABILITY |
+|---|---|---|---|
+| B2-E01 | 1/100 | HIT | HIT |
+| B2-E01 | 1/4 | HIT | HIT |
+| B2-E01 | 2 | HIT | HIT |
+| B2-E02 | 1/50 | HIT | HIT |
+| B2-E02 | 1/8 | HIT | HIT |
+| B2-E02 | 1 | HIT | HIT |
+| B2-E03 | 1/32 | HIT | HIT |
+| B2-E03 | 3/16 | HIT | HIT |
+| B2-E03 | 5/4 | HIT | HIT |
+| B2-E04 | 1/64 | **MISS** | **MISS** |
+| B2-E04 | 1/6 | HIT | **MISS** |
+| B2-E04 | 3/2 | HIT | **MISS** |
+| B2-E05 | 1/20 | HIT | **MISS** |
+| B2-E05 | 1/3 | HIT | **MISS** |
+| B2-E05 | 2 | HIT | **MISS** |
+| B2-E06 | 1/40 | HIT | **MISS** |
+| B2-E06 | 1/5 | HIT | **MISS** |
+| B2-E06 | 1 | HIT | **MISS** |
+| B2-E07 | 1/100 | HIT | HIT |
+| B2-E07 | 1/2 | HIT | HIT |
+| B2-E08 | 1/16 | HIT | **MISS** |
+| B2-E08 | 1/2 | HIT | **MISS** |
+| B2-E08 | 4 | HIT | **MISS** |
+| B2-E09 | 1/25 | HIT | HIT |
+| B2-E09 | 1/4 | HIT | HIT |
+| B2-E09 | 1 | HIT | HIT |
+| B2-E10 | 1/1000 | HIT | HIT |
+| B2-E10 | 1/2 | HIT | HIT |
+| B2-E11 | 1/128 | HIT | **MISS** |
+| B2-E11 | 1/12 | HIT | **MISS** |
+| B2-E11 | 3 | HIT | **MISS** |
+| B2-E12 | 1/60 | HIT | HIT |
+| B2-E12 | 1/7 | HIT | HIT |
+| B2-E12 | 2 | HIT | HIT |
+
+## Per-env table
+
+| env_id | CROSSOVER | FAILURE_FLAGGED | ANY_MISS |
+|---|---|---|---|
+| B2-E01 | HIT | NO | NO |
+| B2-E02 | HIT | NO | NO |
+| B2-E03 | HIT | NO | NO |
+| B2-E04 | **MISS** | YES | YES |
+| B2-E05 | **MISS** | YES | YES |
+| B2-E06 | **MISS** | YES | YES |
+| B2-E07 | HIT | YES | NO |
+| B2-E08 | **MISS** | NO (no failure predicted; argues lower doubt than E05/E06) | YES |
+| B2-E09 | HIT | NO | NO |
+| B2-E10 | HIT | NO | NO |
+| B2-E11 | **MISS** | YES (residual doubt named: non-carry one-bit machine on PREV2) | YES |
+| B2-E12 | HIT | NO | NO |
+
+FAILURE_FLAGGED is recorded on the prediction team's own marker: six `failure_prediction` fields open with "none"/"none expected" (E01, E02, E03, E09, E10, E12) → NO; the other six → YES, with E08 and E11 annotated verbatim-in-substance above.
+
+## Totals
+
+- CLASS: **33 / 34**
+- CAPABILITY: **19 / 34**
+- CROSSOVER: **7 / 12**
+- Environments with any miss: **5** (B2-E04, B2-E05, B2-E06, B2-E08, B2-E11)
+
+Structural note derived from the two files only: all 15 capability misses are `J_best_onebit` misses; `J_best_stateless` matched 34/34.
+
+## Every miss (predicted vs observed)
+
+1. B2-E04 λ=1/64 CLASS — predicted `["STATELESS"]` vs observed `["PERSISTENT_STATE"]`
+2. B2-E04 λ=1/64 CAPABILITY — J_best_onebit predicted `277/1344` vs observed `71/448`
+3. B2-E04 λ=1/6 CAPABILITY — J_best_onebit predicted `5/14` vs observed `13/42`
+4. B2-E04 λ=3/2 CAPABILITY — J_best_onebit predicted `71/42` vs observed `23/14`
+5. B2-E04 CROSSOVER — lambda_star predicted `0` vs observed `1/21`
+6. B2-E05 λ=1/20 CAPABILITY — J_best_onebit predicted `53/160` vs observed `61/320`
+7. B2-E05 λ=1/3 CAPABILITY — J_best_onebit predicted `59/96` vs observed `91/192`
+8. B2-E05 λ=2 CAPABILITY — J_best_onebit predicted `73/32` vs observed `137/64`
+9. B2-E05 CROSSOVER — lambda_star predicted `15/32` vs observed `39/64`
+10. B2-E06 λ=1/40 CAPABILITY — J_best_onebit predicted `23/120` vs observed `13/120`
+11. B2-E06 λ=1/5 CAPABILITY — J_best_onebit predicted `11/30` vs observed `17/60`
+12. B2-E06 λ=1 CAPABILITY — J_best_onebit predicted `7/6` vs observed `13/12`
+13. B2-E06 CROSSOVER — lambda_star predicted `1/9` vs observed `7/36`
+14. B2-E08 λ=1/16 CAPABILITY — J_best_onebit predicted `43/48` vs observed `11/16`
+15. B2-E08 λ=1/2 CAPABILITY — J_best_onebit predicted `4/3` vs observed `9/8`
+16. B2-E08 λ=4 CAPABILITY — J_best_onebit predicted `29/6` vs observed `37/8`
+17. B2-E08 CROSSOVER — lambda_star predicted `5/4` vs observed `35/24`
+18. B2-E11 λ=1/128 CAPABILITY — J_best_onebit predicted `323/384` vs observed `81/128`
+19. B2-E11 λ=1/12 CAPABILITY — J_best_onebit predicted `11/12` vs observed `17/24`
+20. B2-E11 λ=3 CAPABILITY — J_best_onebit predicted `23/6` vs observed `29/8`
+21. B2-E11 CROSSOVER — lambda_star predicted `3/4` vs observed `23/24`
+
+VERDICT_BLOCK_BEGIN
+row: Z9-6 | verdict: SATISFIED | reason: scored 34 points; class 33/34, capability 19/34, crossover 7/12
+model_self_report: claude-opus-5[1m]
+VERDICT_BLOCK_END

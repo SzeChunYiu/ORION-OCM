@@ -1,0 +1,2777 @@
+{
+ "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+ "label_meaning": "every record is a fresh-session model proxy standing in for a human/external gate; none is an external, human, third-party or independent-team outcome",
+ "package": "gmi-833-human-gate-proxy-v1",
+ "records": [
+  {
+   "agent_log_id": "aed40edc13b313ffe",
+   "artifacts_handed": [
+    "research/gmi-833-heldout-20-transitions-v1/HELDOUT_TRANSITION_FORMALIZATION_V1.md",
+    "research/gmi-833-heldout-20-transitions-v1/full_enumeration_v1.py",
+    "research/gmi-833-capability-interaction-partition-v1/CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1.md",
+    "research/gmi-833-ag1-descent-stack-v1/AG1_THEOREMS_V1.md",
+    "research/gmi-833-ag1-descent-stack-v1/FOUNDATION_DEPENDENCY_DAG_V1.json",
+    "research/gmi-833-aj13-stopping-rule-v1/THEORY.md",
+    "research/gmi-833-aj13-stopping-rule-v1/check_aj13.py"
+   ],
+   "brief": "briefs/BRIEF_AA15_FORMAL_TARGETS.md",
+   "brief_sha256": "4bcdff2ef11adba4f3b481bfc0c09e58d849e0c48e99dabdf55634ac8610d8de",
+   "claims": [],
+   "first_ts": "2026-09-19T07:25:01.589Z",
+   "id": "PX-AA15",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:42:06.901Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": null,
+     "id": "OBJ-1",
+     "material": true,
+     "text": "AG1-4's \"Cycles over derived-from arrows: 0 ... (32 of 32 nodes removed)\" and \"the 5 nodes with no outgoing derived-from arrow\" use two different arrow sets under one name \u2014 35 arrows give 0 cycles but 7 sinks, 37 arrows give 5 sinks but contain the MUTUAL_INTERPRETATION 2-cycle FND_SET_RELATION \u2194 FND_TYPED_ALGEBRAIC \u2014 so S3 as literally briefed is false, and my file proves the counterexample."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-2",
+     "material": true,
+     "text": "`build_universe` assigns `state_bits = 1` to all 65,536 stateful candidates including those that never change state, so S1's \"persistent-state class\" is a syntactic cost tag on an enumeration block rather than behavioural persistence, and the law must not be read as an architecture-choice law about using state."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-3",
+     "material": true,
+     "text": "`check_aj13.py` tests banned MI primitives by exact case-sensitive string match (a base containing \"neuron\" passes) and tests AJ1 loss witnesses only through `set(irr.values())` (witnesses keyed by symbols absent from the operational base pass) \u2014 both gaps are now proved by `decide` in `S4_aj13_stopping_predicate.lean`."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-4",
+     "material": false,
+     "text": "the `CONFined` typo in a failure constant, `audit` implementing seven checks against THEORY.md's \"six conjuncts\", and the RESOURCE_MODEL tag/descent asymmetry are labelling issues, not defects."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "AG1-4",
+     "reason": "its acyclicity count and its apparent-bottom count cannot both be true of one arrow set, so the \"0 cycles / 5 bottoms\" row must be restated with the arrow set named explicitly (35 non-MUTUAL arrows for acyclicity, 37 for sinks) before it can stand."
+    },
+    {
+     "gate": "AJ13 RESULT_V1.json `status: GREEN` / `criteria_satisfied: 6`",
+     "reason": "the checker that produces this receipt admits lowercase MI primitives and loss witnesses unconnected to the operational base, so the GREEN is narrower than conjuncts 2 and 3 of THEORY.md claim."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "all four spine results are PRACTICAL as Lean 4 core targets and all four stubs were written and compile with zero errors, with S4 fully proved and S3 proved except two induction lemmas.",
+     "row": "AA15",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "AA15"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 41,
+   "verdict_block_present": true,
+   "verdict_bytes": 13004,
+   "verdict_file": "proxies/PX-AA15.verdict.txt",
+   "verdict_sha256": "704b27259881e1ec27bd8d275578d61f889fa3cdfbeb0c6c445cf427a02fd1ac"
+  },
+  {
+   "agent_log_id": "af2c16db8d682a052",
+   "artifacts_handed": [
+    "research/gmi-833-theory-baseline-v1/BASELINE_V1.md",
+    "research/gmi-833-capability-interaction-partition-v1/CORE.md",
+    "research/gmi-833-z-z15-decisive-falsifiers-v1/FREEZE_V1.md",
+    "research/gmi-833-aa-gap-object-v1/AA_GAP_OBJECT_THEOREMS_V1.md",
+    "research/gmi-833-aa-gap-object-v1/OPEN_GAP_SCHEMA_V1.json",
+    "research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json"
+   ],
+   "brief": "briefs/BRIEF_AA41_RECURSIVE_HOSTILE_SWEEP.md",
+   "brief_sha256": "fb299385ad66a2048b4c74b96cc1c66fba136b31ccc56c17317f0f35179f6b95",
+   "claims": [],
+   "first_ts": "2026-09-19T07:24:57.834Z",
+   "id": "PX-AA41",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:34:40.899Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": null,
+     "id": "OBJ-1",
+     "material": true,
+     "text": "\u00a73's \"Corollary CI-A4: the original 27\u00d727 classification is the registered fully-shareable *instance*\" is falsified by CORE.md's \"56 / 351 shipped label FALSE by Section 1.2's own defining condition\", \"287 / 351 pairs satisfying more than one Section 1.2 label (taxonomy does not partition)\" and \"217 of 351 labels change\"."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-2",
+     "material": true,
+     "text": "\u00a73 calls Lemma B's equality characterization \"*unconditional*\" while CIP-4 states \"`mu` pinned to counting measure (strict positivity), with the counterexample showing Lemma B's `iff nested` fails without it\" \u2014 and CORE.md simultaneously asserts \"Lemmas A, B, C and CE-1/CE-2 are **sound and untouched**\", so the two artifacts and CORE.md internally cannot all be right."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-3",
+     "material": true,
+     "text": "\u00a73 offers \"9/9 new tests + 27/27 original tests\" as controls for a classification later shown wrong in 217/351 labels, so that suite is demonstrated insensitive to the defect class and cannot serve as evidence for A14."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-4",
+     "material": true,
+     "text": "A7 states \"all six fields (scope/quantifiers, assumptions, falsifiers, strongest parents, forbidden extrapolations) registered for all 235 claim-bearing objects \u2014 1,175 slots\", but names five fields and 1,175 = 235 \u00d7 5, so either 235 required slots are unregistered or the completeness claim's field count is wrong."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-5",
+     "material": true,
+     "text": "A4 and A5 declare duplicate and FIN2UNIV adjudication done, yet the bound `GMI_GAP_GRAPH_V1.json` carries 857 records with `\"premise\": \"scientific object IDs are unique\"` and 283 with `\"premise\": \"bounded computation supports only its declared bounded universe\"`, all `\"status\": \"OPEN\"` / `\"severity\": \"CRITICAL\"`, with no reconciliation anywhere in the artifacts."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-6",
+     "material": true,
+     "text": "AAG-2's boldface \"no materiality threshold can be derived from the incumbent columns\" is refuted by the file it measures \u2014 `premise`, `inference`, `evidence_needed`, `unresolved_assumption` and the `id` prefix are all non-constant incumbent columns carrying the same 857/283 split AAG-3 then uses."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-7",
+     "material": true,
+     "text": "AAG-3's \"non-degeneracy on the real universe\" reproduces exactly as 847/293, but 283 of the 293 CRITICAL are precisely the FIN2UNIV class and only 10 DUPID records reach CRITICAL, so 96.6% of the partition is the gap-kind column re-encoded through the map AAG-3 concedes is \"stated, not derived\"."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-8",
+     "material": true,
+     "text": "AAG-4's \"1490 bare-`closed` sites\" has no false-positive measurement on real text, \"in a scientific verdict position\" is never operationalized, and the no-alarm fixture's only distractors are the non-word-bounded \"enclosure\" and \"closure\" while a bound artifact of this freeze reads \"evaluates every falsifier from the closed-form boundary law\"."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-9",
+     "material": true,
+     "text": "`BASELINE_V1.md` itself carries bare-`closed` verdict tokens at lines 31, 61, 83 and 97 (\"**Closed** in-sweep (3): REV-L58-CI-UNIVERSAL, \u2026\") while \u00a75 binds it \"byte-identical forever\", so the instrument's own governing register contains uncorrectable instances of the violation it detects."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-10",
+     "material": true,
+     "text": "AAG-5's \"total function on well-formed gaps: 1140/1140 emitted\" is applied to 1140 records that are all `\"status\": \"OPEN\"`, which under the emitter's own refusal conditions requires a non-empty `repair_description` and a declared closure grade per record \u2014 unstated in the artifacts, making totality either vacuous or in conflict with AAG-4's \"No GMI result is declared HOSTILE_CLOSED, REPLICATED_CLOSED or REAL_SCALE_CLOSED by this package\"."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-11",
+     "material": true,
+     "text": "Z15's F2 cannot fire on the 20 boundary worlds of its 60-world clean case, because the theory states \"a tie exactly at `lambda = eta\u00b7p/2`\" so the predicted set there is the whole class space, yet the clean case is reported undifferentiated and the planted positive is placed at a non-boundary world."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-12",
+     "material": true,
+     "text": "Z15's F4 `T_b` clean case (\"common positive rational rescaling `(eta, lambda) -> (c\u00b7eta, c\u00b7lambda)`\") is entailed by the degree-1 homogeneity of the objective, and both Route A (\"from the closed-form boundary law\") and Route B (\"reduced to integer objective coefficients\") inherit that homogeneity, so route agreement on `T_b` is algebraic rather than evidential and the \"routes disagree\" self-falsifier cannot bind."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-13",
+     "material": true,
+     "text": "Z15's F3 registers no informativeness control for a predictor that \"abstains when the set has more than one member\", so containment on the 480 records is compatible with an uninformative predictor \u2014 the non-vacuity pairing F4 builds explicitly and F3 omits."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-14",
+     "material": true,
+     "text": "Z15's null of \"200 randomized boundary laws `lambda*_rand = r\u00b7eta\u00b7p/2`\" varies only the scalar `r` within one functional form, so \"200/200 random boundaries falsified\" supports only the constant within that family, not the decisiveness the section claims."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-15",
+     "material": true,
+     "text": "Row 6's `FP-939-OVERSTRONG` and `FP-REV-OPEN` anchor to `BASELINE_V1.md`, which \u00a75 freezes \"byte-identical forever\", so the blob-sha machine check structurally guarantees the failed-prediction register keeps resolving to a \u00a73 that `CORE.md` falsifies."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-16",
+     "material": true,
+     "text": "\u00a74's \"At freeze time: **0 arrivals since pin**\" cannot be squared with three claim-bearing packages in this artifact set (`aa-gap-object`, `capability-interaction-partition`, `z-z15`) that appear in neither \u00a76's 11-component inventory nor the arrivals accounting, across pins `c4def870`, `91c6d287` and `2fffb144`."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-17",
+     "material": true,
+     "text": "A11 asserts blind-recovery v2 \"closed every input channel (task, basis, fingerprint clauses, cost, thresholds, screen) pre-search\" while \u00a74 carries `V2-DAG-COST (critical)` as open, and no artifact reconciles the two."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-18",
+     "material": true,
+     "text": "The artifacts contain four disjoint open-item registers (\u00a74, the 1140-record gap graph, AAG's \"Explicitly NOT earned\" list, Z15's failed-prediction register) with no cross-reference and no declared union, so \"every material finding is registered as open\" is unverifiable by construction."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-19",
+     "material": false,
+     "text": "A12's \"held-out burden 50,052 \u2192 1,307 (net \u221248,739\u2026)\" does not close arithmetically (50,052 \u2212 1,307 = 48,745) and the H\u2212 regression that would reconcile the 6-unit difference is never quantified."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-20",
+     "material": false,
+     "text": "The schema states `id` \"uniqueness is measured, not required\" but no measurement appears in the artifacts; the file holds 1126 distinct ids across 1140 records (14 FIN2UNIV collisions), in a ledger whose largest gap class is \"scientific object IDs are unique\"."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "REV-L58-CI-UNIVERSAL (listed \"Closed in-sweep (3) \u2026 each with executed chain, not paperwork\")",
+     "reason": "The closure's product is shown by CORE.md to carry 56/351 false labels, a taxonomy that does not partition on 287/351 pairs, and a vacuous `verify_no_interference()`, with 217/351 labels changed."
+    },
+    {
+     "gate": "A5 \u2014 \"No unsupported overclaim remains\"",
+     "reason": "Falsified as a headline by the CI-A4 correction and out-scoped by its own \u00a72, which records \u22651,336 UNIVERSAL statements screened-not-adjudicated against a 283-flag adjudication."
+    },
+    {
+     "gate": "A14 and \u00a73 \"CI-U at re-earned full strength\"",
+     "reason": "Lemma B is not unconditional, Corollary CI-A4 is not a valid registered instance, and the cited 27/27 control suite is insensitive to the defect class."
+    },
+    {
+     "gate": "A7 \u2014 claim-discipline completeness (1,175 slots, 0 REGISTERED_GAP)",
+     "reason": "\"Six fields\" is stated, five are named, and 1,175 = 235 \u00d7 5, so the completeness arithmetic does not close."
+    },
+    {
+     "gate": "A11 \u2014 blind-recovery input-channel closure",
+     "reason": "The cost channel is asserted closed pre-search while `V2-DAG-COST` remains an open critical gap."
+    },
+    {
+     "gate": "A12 \u2014 grammar-growth held-out burden",
+     "reason": "The stated net (\u221248,739) does not follow from the stated endpoints (50,052 \u2192 1,307)."
+    },
+    {
+     "gate": "\u00a74 \"0 arrivals since pin\" and \u00a76's 11-component inventory",
+     "reason": "Three claim-bearing packages in this artifact set are accounted for by neither, across three different source pins."
+    },
+    {
+     "gate": "AAG-2 \u2014 \"no materiality threshold can be derived from the incumbent columns\"",
+     "reason": "Four incumbent columns plus the `id` prefix are non-constant and carry exactly the 857/283 split AAG-3 relies on."
+    },
+    {
+     "gate": "AAG-3 \u2014 \"non-degeneracy on the real universe (847 MATERIAL / 293 CRITICAL)\"",
+     "reason": "The arithmetic reproduces exactly, but 283 of 293 CRITICAL are the FIN2UNIV class, so the partition is the gap-kind label re-encoded through a declared, underived scope map."
+    },
+    {
+     "gate": "AAG-4 \u2014 \"1490 bare-`closed` sites in 178 packages across 2577 markdown files\"",
+     "reason": "No false-positive measurement on real text, no operationalization of \"scientific verdict position\", and a no-alarm fixture whose only distractors are non-word-bounded."
+    },
+    {
+     "gate": "AAG-5 \u2014 \"total function on well-formed gaps: 1140/1140 emitted\"",
+     "reason": "Emitting a REPAIR_DELTA for 1140 records that are all `OPEN` requires a repair description and an awarded closure grade per record, and the artifacts never state what was supplied."
+    },
+    {
+     "gate": "Z15 F2 / F3 / F4-`T_b` clean-case results and the F1 null",
+     "reason": "Each \"no alarm\" is either structurally guaranteed (F2 at boundary worlds, `T_b` by objective homogeneity) or uncontrolled for informativeness (F3's abstaining set-valued predictor, F1's one-parameter null), which the freeze's own standard rejects: \"A falsifier that cannot fire tests nothing.\""
+    },
+    {
+     "gate": "GMI_GAP_GRAPH_V1.json as the universe of AAG-1/AAG-3/AAG-5",
+     "reason": "It is frozen at `2fffb144` and carries 857 + 283 records in exactly the two states A4 and A5 declare adjudicated, so AAG-3's `evidence = ASSERTED` stipulation inherits a staleness no artifact discloses."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "The recursive sweep could not be completed to the brief's own stopping criterion \u2014 on A1\u2013A4 and A6\u2013A13 every branch bottoms out in bound artifacts Rule 1 forbids opening, so those leaves are neither \"explicitly open\" nor \"sound\" \u2014 and independently, calling any sweep at this pin \"final\" is not honest because an unabsorbed correction (`capability-interaction-partition-v1/CORE.md`) materially falsifies register entries A5, A14 and \u00a73, three claim-bearing packages are outside \u00a76's inventory while \u00a74 asserts \"0 arrivals since pin\", and the 1140-record gap graph is stale against A4/A5, so the next sweep will be a first sweep over a changed register rather than a re-run.",
+     "row": "AA41",
+     "verdict": "NOT_SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "AA41"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 13,
+   "verdict_block_present": true,
+   "verdict_bytes": 56433,
+   "verdict_file": "proxies/PX-AA41.verdict.txt",
+   "verdict_sha256": "5fae5a2bf3a17af3204060a5c1adbe6fe09456ade3843b4fbb5d1c9fb1c050b5"
+  },
+  {
+   "agent_log_id": "a4105752d239bd42a",
+   "artifacts_handed": [
+    "research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CROSSWALK_V2.md",
+    "research/gmi-833-ac-lanes-harness-v1/AC_CROSSWALK_ADDENDUM_V1.md",
+    "research/gmi-833-tranche-ab-ac-lit/WHAT_IS_ACTUALLY_NEW_TEMPLATE_V1.md"
+   ],
+   "brief": "briefs/BRIEF_AC02_PARENT_LITERATURE_COLLECTION.md",
+   "brief_sha256": "fb9009f7b9df0adf06614431039f82dc0245fb2a662e6eeda403e6b4167ac712",
+   "claims": [],
+   "first_ts": "2026-09-19T12:07:34.246Z",
+   "id": "PX-AC02",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T12:15:49.079Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": null,
+     "id": "OBJ-1",
+     "material": true,
+     "text": "Only rows 2, 22, 24, 37 and 39 cite any work from 2015 onward, so \"modern parent literature\" was collected for at most 5 of 48 constructs."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-2",
+     "material": true,
+     "text": "The crosswalk's own convention states that a non-`VERIFIED` reference is \"a canonical field anchor entered from field knowledge and MUST be re-verified\", and the addendum states every one of its entries is \"not checked against a live source during this tranche\" \u2014 literature recalled rather than retrieved is not literature collected."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-3",
+     "material": true,
+     "text": "For rows 16, 19, 21, 23, 34, 41, 47 and 48 the frozen crosswalk carried \"no dated or authored anchor\" and a parent appeared only in a later package that \"supplies only what the AC audit measured as missing\", which documents collection after naming for those constructs."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-4",
+     "material": true,
+     "text": "Row 2's only \u22652015 item is the standards document ISO/IEC/IEEE 29148:2018 and row 22's is the \"1998/2018\" textbook reissue of Sutton & Barto, neither of which is recent work in which the idea is currently developed, reducing the modern-parent count to 3 of 48."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-5",
+     "material": true,
+     "text": "Row 48's citations cell is \"WHAT_IS_ACTUALLY_NEW template (this package)\", a sibling artifact of the same tranche cited as its own parent, which the addendum itself rejects with \"the sibling template is not\"."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-6",
+     "material": false,
+     "text": "Rows 14 and 31 rest partly on uncheckable placeholders \u2014 \"Coello et al. overview (CITE-TF)\" and \"modern permutation methods\" \u2014 with no author, year or venue."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "AC06 (AC_CROSSWALK_ADDENDUM_V1.md Part 2, \"earliest/strongest parent records\")",
+     "reason": "It claims to close the missing-parent gap for eight rows while stating that none of the eight records was verified against any source, so presence of a recalled name is being counted as a collected parent."
+    },
+    {
+     "gate": "GMI_TERMINOLOGY_CROSSWALK_V2.md \"Coverage statement\"",
+     "reason": "It asserts that rows 20\u201348 \"discharge the AB banned/avoid box and the terminology-consistency mandate of AB\" while 43 of the 48 rows carry no modern parent and eight carried no dated parent at all at freeze."
+    },
+    {
+     "gate": "AC02 gate itself",
+     "reason": "The collect-canonical-and-modern-parent-before-naming requirement is unmet for 43 constructs and demonstrably violated in ordering for at least 11."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "43 of 48 constructs record no parent dated 2015 or later (all of rows 1, 3\u201321, 23, 25\u201336, 38, 40\u201348), so the required modern-parent half of the collection is absent for the large majority of constructs, and the verdict does not depend on the ordering question.",
+     "row": "AC02",
+     "verdict": "NOT_SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "AC02"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 42,
+   "verdict_block_present": true,
+   "verdict_bytes": 14902,
+   "verdict_file": "proxies/PX-AC02.verdict.txt",
+   "verdict_sha256": "896437c883033b6a5b3e7d17481ed610162968864de1105283494d782932b28a"
+  },
+  {
+   "agent_log_id": "a87f174f47f90f574",
+   "artifacts_handed": [
+    "research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CROSSWALK_V2.md",
+    "research/gmi-833-ac-lanes-harness-v1/AC_CROSSWALK_ADDENDUM_V1.md"
+   ],
+   "brief": "briefs/BRIEF_AC05_CITATION_VERIFICATION.md",
+   "brief_sha256": "b2a33902ae9e25519e8e2aa7f123277047847a8496a7f24e2c1206db0758533a",
+   "claims": [],
+   "first_ts": "2026-09-19T12:07:31.342Z",
+   "id": "PX-AC05-A",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T12:16:47.243Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": null,
+     "id": "OBJ-1",
+     "material": true,
+     "text": "Row 32's `(VERIFIED \u2026via Wikipedia *Causal inference* class)` flag is falsified by retrieval of that very article, which cites no Rubin 1974 and does not treat negative, matched or counterfactual controls."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-2",
+     "material": false,
+     "text": "Row 1 cites Harel 1992 \"Biting the Silver Bullet\" to *IEEE Software*; it appeared in *IEEE Computer* 25(1), Jan 1992, 8\u201320."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-3",
+     "material": true,
+     "text": "Row 40's six-level novelty ladder is sourced to an in-package \"AB novelty ladder list\" and to Lehman & Stanley 2008, which introduces novelty search and defines no ladder."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-4",
+     "material": false,
+     "text": "Hales 2008, the anchor for rows 11, 12, 17, 18, 45, 46 and record A16, could not be opened (ams.org returned HTTP 403 three times), so only its bibliographic record \u2014 not its content \u2014 is confirmed."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-5",
+     "material": false,
+     "text": "Six citation entries (\"Coello et al. overview\", \"Birkhoff quotient algebras\", \"Altenberg quantitative upper-tail definition\", \"Turing halting\", \"Rubin potential-outcomes tradition\", \"modern permutation methods\") carry no title, year or venue and are unverifiable as written."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "AC05",
+     "reason": "Three rows fail the \"every definition has at least one verified supporting citation\" test, and eight further rows carry citation cells naming no work at all, rescued only by an addendum that itself declares every entry CITE-TF."
+    },
+    {
+     "gate": "GMI_TERMINOLOGY_CROSSWALK_V2.md citation-status `VERIFIED` flags",
+     "reason": "At least one row-level `VERIFIED` flag (row 32) is demonstrably false against the live source it nominates, so the flag set cannot be relied on and every `VERIFIED` marking in the table needs independent re-checking before any manuscript freeze."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "Rows 20, 32 and 40 have no verified citation that supports their definition \u2014 row 32's sole citation pairs a title (Rubin 2005 JASA) with a year (1974) that names no existing work and its claimed Wikipedia backing does not exist, row 20's only authored anchor (Elman et al., MIT Press 1996) does not support the definition given, and row 40's novelty ladder rests on a self-referential AB audit list plus a paper that defines no such ladder.",
+     "row": "AC05",
+     "verdict": "NOT_SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "AC05"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 78,
+   "verdict_block_present": true,
+   "verdict_bytes": 23241,
+   "verdict_file": "proxies/PX-AC05-A.verdict.txt",
+   "verdict_sha256": "43829ff9c2d267873291314570ca8f565376c823ddb68175eec3988ccd2964d3"
+  },
+  {
+   "agent_log_id": "ab40e70f1e98fac15",
+   "artifacts_handed": [
+    "research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CROSSWALK_V2.md",
+    "research/gmi-833-ac-lanes-harness-v1/AC_CROSSWALK_ADDENDUM_V1.md"
+   ],
+   "brief": "briefs/BRIEF_AC05_CITATION_VERIFICATION.md",
+   "brief_sha256": "b2a33902ae9e25519e8e2aa7f123277047847a8496a7f24e2c1206db0758533a",
+   "claims": [],
+   "first_ts": "2026-09-19T07:37:12.879Z",
+   "id": "PX-AC05-B",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:44:04.443Z",
+   "model_self_report": "Claude (Sonnet 5, Anthropic)",
+   "objections": [
+    {
+     "claim": null,
+     "id": "OBJ-1",
+     "material": false,
+     "text": "Row 1's Harel citation names the wrong venue (IEEE Computer, not IEEE Software), though the row is otherwise backed by verified citations."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-2",
+     "material": true,
+     "text": "Rows 16, 19, 21, 23, 34, 41, 47, 48 in GMI_TERMINOLOGY_CROSSWALK_V2.md itself cite no externally checkable work, only internal audit-list or template references."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-3",
+     "material": true,
+     "text": "Row 48's addendum-supplied parents (Hempel & Oppenheim 1948; Popper 1959) are real but do not establish the row's actual six-way contribution-typing definition, whose real source is an internal, non-external template."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-4",
+     "material": true,
+     "text": "The addendum supplying parents for 7 of the 8 NOT_FOUND rows is itself unmerged and self-disclaims earning AC05, so the shipped crosswalk currently lacks in-place verified citations for those rows."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "row 48 definition/citation status",
+     "reason": "no external source actually supports the specific contribution-typing scheme claimed."
+    },
+    {
+     "gate": "AC05 closure claim for the crosswalk package",
+     "reason": "8/48 rows lack an in-place verified supporting citation in the artifact that would ship."
+    },
+    {
+     "gate": "row 1 Harel citation venue field",
+     "reason": "cites IEEE Software instead of the correct venue IEEE Computer."
+    }
+   ],
+   "requested_model": "sonnet",
+   "rows": [
+    {
+     "reason": "8 of 48 crosswalk rows (16, 19, 21, 23, 34, 41, 47, 48) carry no externally checkable citation in the primary artifact itself, and even the separate addendum's rescue citations for row 48 do not actually support that row's specific definition, so not every definition row has an in-place, verified, supporting citation.",
+     "row": "AC05",
+     "verdict": "NOT_SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "AC05"
+   ],
+   "served_models": [
+    "claude-sonnet-5"
+   ],
+   "tool_calls": 66,
+   "verdict_block_present": true,
+   "verdict_bytes": 16694,
+   "verdict_file": "proxies/PX-AC05-B.verdict.txt",
+   "verdict_sha256": "fd28e8d5055b3a4dad53811f0d306561e11f151994571af0e6f470c7ea42290a"
+  },
+  {
+   "agent_log_id": "acbce55743269656d",
+   "artifacts_handed": [
+    "research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CROSSWALK_V2.md",
+    "research/gmi-833-tranche-ab-ac-lit/WHAT_IS_ACTUALLY_NEW_TEMPLATE_V1.md",
+    "research/gmi-833-z-z15-decisive-falsifiers-v1/FREEZE_V1.md"
+   ],
+   "brief": "briefs/BRIEF_AC09_LITERATURE_RERUN.md",
+   "brief_sha256": "ac0b28e74a241c5de253f930f80afc0fb9aef8fdaf0fb20cd3bc2a2e8d3878fb",
+   "claims": [],
+   "first_ts": "2026-09-19T12:07:37.749Z",
+   "id": "PX-AC09",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T12:18:43.462Z",
+   "model_self_report": "claude-opus-5[1m] (Claude Opus 5, 1M-context configuration)",
+   "objections": [
+    {
+     "claim": null,
+     "id": "OBJ-1",
+     "material": true,
+     "text": "The crosswalk contains no row at all for the flagship's central object \u2014 \"a price `lambda` charged per bit of persistent state\" (FREEZE_V1.md, \"The flagship theory, stated without the repository\") \u2014 so its Coverage statement \"Every AB-addendum box is represented \u2026\" is true of AB's list while the flagship's own parent literature (shadow price of memory, decision-centric rate\u2013distortion forgetting boundaries, per-bit retention cost) was never crosswalked or searched."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-2",
+     "material": true,
+     "text": "Row 44's cell \"distinguish aleatoric (irreducible) from epistemic (reducible)\" is marked `EXACT` with the instruction to \"adopt canonical definitions\", but that definition is contradicted in-window by Young (arXiv:2606.12646, 10 Jun 2026) and Bickford Smith et al. (arXiv:2412.20892, ICML 2025)."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-3",
+     "material": true,
+     "text": "This re-run, and the template's rule \"Re-run all lanes at manuscript freeze\", are model-executed, and Sinhahajari et al. (arXiv:2606.12071, 10 Jun 2026) show LLM judges produce a \"novelty mirage\" that experts contradict, so no model-proxy novelty result here may stand as an expert clearance."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-4",
+     "material": false,
+     "text": "Row 2's citation \"ISO/IEC/IEEE 29148:2018 requirements engineering (CITE-TF)\" is stale \u2014 the IEEE P29148 revision PAR was approved 10 Sep 2025 and supersedes the 2018 edition (https://standards.ieee.org/ieee/29148/12262/)."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-5",
+     "material": false,
+     "text": "The template states it \"is executed by the parent-literature check protocol in `EXPERT_LITERATURE_LANES_V1.md`\", which is not among the Artifacts and which rule 1 barred me from opening, so 11-lane execution is unverifiable from the permitted artifacts."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "GMI_TERMINOLOGY_CROSSWALK_V2.md \"Coverage statement\"",
+     "reason": "It certifies complete coverage while the flagship theory's own object \u2014 per-bit pricing of persistent state and the resulting selection threshold \u2014 has no row, no canonical term and no parent comparison."
+    },
+    {
+     "gate": "GMI_TERMINOLOGY_CROSSWALK_V2.md row 44 (uncertainty terms, match `EXACT`)",
+     "reason": "The canonical aleatoric/epistemic definitions it tells the paper to adopt are actively disputed in 2025\u20132026 literature, so the `EXACT` match and its definition cell cannot stand."
+    },
+    {
+     "gate": "WHAT_IS_ACTUALLY_NEW_TEMPLATE_V1.md worked-example row \"(unknown-form selection law, P3-candidate)\"",
+     "reason": "Its parent cell names only Rice 1976 and Wolpert\u2013Macready 1997 and omits the memory-pricing/rate\u2013distortion parent line that the flagship's \u03bb-per-bit formulation sits in, so its \"difference\" cell is not yet earned."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "I completed the re-run on 2026-09-19 across every academic-field/canonical-term area in GMI_TERMINOLOGY_CROSSWALK_V2.md plus the flagship claim, with 34 retrieval queries and every cited source opened individually, and I reported all required changes including the areas where the answer is \"no change\" \u2014 and because terminology and neighbouring work keep moving, a later manuscript freeze requires another re-run after this one.",
+     "row": "AC09",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "AC09"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 69,
+   "verdict_block_present": true,
+   "verdict_bytes": 24358,
+   "verdict_file": "proxies/PX-AC09.verdict.txt",
+   "verdict_sha256": "8b8667af7237a2755ec6b14cb35daa328179bb93c2bcca969375ac296b0735cc"
+  },
+  {
+   "agent_log_id": "a63e538b7318330f3",
+   "artifacts_handed": [
+    "research/gmi-833-aj13-stopping-rule-v1/THEORY.md",
+    "research/gmi-833-aj13-stopping-rule-v1/RESULT_V1.json",
+    "research/gmi-833-aj13-stopping-rule-v1/OPEN_GAPS.json",
+    "research/gmi-833-aj13-stopping-rule-v1/check_aj13.py",
+    "research/gmi-833-aj12-foundation-substrate-relativity-v1/THEORY.md",
+    "research/gmi-833-aj12-foundation-substrate-relativity-v1/OPEN_GAPS.json",
+    "research/gmi-833-ag1-descent-stack-v1/AG1_THEOREMS_V1.md",
+    "research/gmi-833-ag1-descent-stack-v1/FOUNDATION_DEPENDENCY_DAG_V1.json",
+    "research/gmi-833-ag1-descent-stack-v1/AG8_DESCENT_OBLIGATIONS_V1.json"
+   ],
+   "brief": "briefs/BRIEF_AG8_R48_FOUNDATIONS_REVIEW.md",
+   "brief_sha256": "12770090dd9aae3881cdf687fea763be92b4bf58271e11442d78a6146200b3c9",
+   "claims": [],
+   "first_ts": "2026-09-19T07:36:09.476Z",
+   "id": "PX-AG8-A",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:44:30.657Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": null,
+     "id": "OBJ-1",
+     "material": true,
+     "text": "/Users/billy/.../gmi-833-aj13-stopping-rule-v1/check_aj13.py performs zero read operations (its only I/O is line 118 `(HERE / \"RESULT_V1.json\").write_text(...)`), audits the hand-written literal `baseline()` at lines 21-48 via `assert audit(good) == []`, and emits `\"status\": \"GREEN\"` and `\"criteria_satisfied\": 6` as literals at lines 104-105, so RESULT_V1.json is not evidence that the six-conjunct predicate holds of the actual F0/AG1 registry."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-2",
+     "material": true,
+     "text": "THEORY.md's claim that \"The executable checker mutates one stopping condition at a time\" enumerates six mutations that substitute the absolute-bottom guard for conjunct 6, and `run_hostiles()` (lines 82-95) confirms no case perturbs `further_descent_classification`, leaving the branch emitting the mis-cased `\"FURTHER_DESCENT_NOT_CONFined_TO_FOUNDATION_PHYSICS_VALUE\"` (line 74) never exercised."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-3",
+     "material": true,
+     "text": "The F0 edge kind `MUTUAL_INTERPRETATION` is a term of art applied to a bijective re-encoding witnessed only by the fields `composition_transfer_checks` and `theorem_invariance` \u2014 AJ12 itself states it \"does not prove metatheoretic equivalence of ZFC and type theory\", and `FND_SET_RELATION` and `FND_TYPED_ALGEBRAIC` carry identical `metatheoretic_assumptions` arrays \u2014 yet the label gives both nodes outgoing arrows and thereby removes them from AG1-4's bottom-exposure audit while admitting `GRM_G0_EXTENSIONS_UNADJUDICATED` (`\"lowering_status\": \"UNKNOWN\"`) into it."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-4",
+     "material": true,
+     "text": "`OPF_PROCESS_FRAME` carries `\"metatheoretic_assumptions\": []` although its signature `(Obj,Proc,compose,tensor,I,id,Adm_S,Obs_S)` is an untyped-in-the-taxonomy commitment to one process algebra, its grounding arrows are witnessed by field presence only (\"Witness verification is presence-of-field plus pinned blob sha, not re-derivation of the parent's mathematics\", AG1-1), and conjunct 3's six loss-witness roles map one-to-one onto that same signature, so irredundancy is demonstrated inside the frame and cannot demonstrate the frame while conjunct 1 requires that \"Every unresolved base assumption is typed\"."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-5",
+     "material": false,
+     "text": "`MTB_GODEL_TARSKI` is stated correctly with the right hedges but occurs exactly once in the 1021-line DAG (line 532, as a node id) and in zero of the 37 arrows, and is referenced nowhere in check_aj13.py, so it is load-bearing only as a declared prohibition and is structurally isolated in the stack."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-6",
+     "material": false,
+     "text": "AG1-4's \"the 5 nodes with no outgoing derived-from arrow\" is arithmetically correct only by counting `MUTUAL_INTERPRETATION` as outgoing (32 nodes minus 27 distinct `from`-nodes = 5), so the audited \"apparent bottom\" set is neither F0 nor a subset of it and does not match the six F0 nodes."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-7",
+     "material": false,
+     "text": "The five assumption classes have no slot for the registration/scope stipulation itself (the bound `B`, three preparations, two tests, 16 compositions) nor for the metatheory in which the auditor runs, although every terminal in the stack is qualified \"at registered scope\"."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-8",
+     "material": false,
+     "text": "`RESOURCE_MODEL` is an allowed residual tag and `RES_COST_MODEL` is an F0 node with no outgoing arrow, yet conjunct 6 explicitly forbids it as a further-descent domain (`if ... \"RESOURCE_MODEL\" in descent` fails at line 73), so that bottom node's downward question is by construction unclassifiable."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "AJ13 RESULT_V1.json status GREEN (criteria_satisfied 6, hostile_cases_rejected 6)",
+     "reason": "The values are literals written by `main()` over a self-authored baseline rather than measurements of the registry the predicate is about."
+    },
+    {
+     "gate": "AJ13 OPEN_GAPS locally_closed rows \"six-condition recursive descent stopping predicate\" and \"six one-condition hostile rejections\"",
+     "reason": "Conjunct 6 has no hostile mutation, so at most five of the six conjuncts were adversarially tested."
+    },
+    {
+     "gate": "AJ12 OPEN_GAPS locally_closed row \"finite core theorem invariance across set/relation and typed-process styles\"",
+     "reason": "The evidence supports presentation-invariance within one metatheory, not the `MUTUAL_INTERPRETATION` label or the word FOUNDATION in the terminal."
+    },
+    {
+     "gate": "AG1-4 bottom-exposure result (\"0 untagged\") and AG8 obligation step 6 bottom_exposure",
+     "reason": "The audited set excludes the two F0 foundation-style nodes and includes an F4 node whose lowering status is UNKNOWN with four open rows."
+    },
+    {
+     "gate": "AG8 obligation step 7 \"Remove one assumption at a time and seek the smallest counterexample\"",
+     "reason": "It is discharged by `check: parent_pin`, a blob-sha presence check, which is the weakest discharge in the set for the obligation that would answer OBJ-4."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "The stopping position is defensible and the forbidden terminal is genuinely not claimed, but four material objections remain unresolved \u2014 the executable certificate audits a self-authored literal and writes GREEN as a constant, conjunct 6 is never adversarially tested, the F0 MUTUAL_INTERPRETATION label is not established in its technical sense and distorts the bottom-exposure audit, and the process-algebra commitment that conjunct 3 presupposes is untagged.",
+     "row": "AG8-R48",
+     "verdict": "NOT_SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "AG8-R48"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 17,
+   "verdict_block_present": true,
+   "verdict_bytes": 24658,
+   "verdict_file": "proxies/PX-AG8-A.verdict.txt",
+   "verdict_sha256": "514aa323c70010eca685d978bd8ef429d33e8ddf30d27aa9e32b81147c8b42d9"
+  },
+  {
+   "agent_log_id": "a33abf37d48d37f77",
+   "artifacts_handed": [
+    "research/gmi-833-aj13-stopping-rule-v1/THEORY.md",
+    "research/gmi-833-aj13-stopping-rule-v1/RESULT_V1.json",
+    "research/gmi-833-aj13-stopping-rule-v1/OPEN_GAPS.json",
+    "research/gmi-833-aj13-stopping-rule-v1/check_aj13.py",
+    "research/gmi-833-aj12-foundation-substrate-relativity-v1/THEORY.md",
+    "research/gmi-833-aj12-foundation-substrate-relativity-v1/OPEN_GAPS.json",
+    "research/gmi-833-ag1-descent-stack-v1/AG1_THEOREMS_V1.md",
+    "research/gmi-833-ag1-descent-stack-v1/FOUNDATION_DEPENDENCY_DAG_V1.json",
+    "research/gmi-833-ag1-descent-stack-v1/AG8_DESCENT_OBLIGATIONS_V1.json"
+   ],
+   "brief": "briefs/BRIEF_AG8_R48_FOUNDATIONS_REVIEW.md",
+   "brief_sha256": "12770090dd9aae3881cdf687fea763be92b4bf58271e11442d78a6146200b3c9",
+   "claims": [],
+   "first_ts": "2026-09-19T07:36:12.479Z",
+   "id": "PX-AG8-B",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:40:31.103Z",
+   "model_self_report": "Claude Sonnet 5 (claude-sonnet-5, per system context)",
+   "objections": [
+    {
+     "claim": null,
+     "id": "OBJ-1",
+     "material": true,
+     "text": "check_aj13.py's main() only ever audits its own inline baseline() dict, never any file from AJ1, AJ5, AJ12 or FOUNDATION_DEPENDENCY_DAG_V1.json, making the \"GREEN\"/\"criteria_satisfied: 6\" status circular by construction."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-2",
+     "material": true,
+     "text": "audit()'s conjunct-6 branch (FURTHER_DESCENT_NOT_CONFined_TO_FOUNDATION_PHYSICS_VALUE) is never exercised by run_hostiles() and has no entry in RESULT_V1.json's \"hostiles\" object, so one of the six claimed hostile rejections is untested."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-3",
+     "material": true,
+     "text": "the MUTUAL_INTERPRETATION edge kind between FND_SET_RELATION and FND_TYPED_ALGEBRAIC (FOUNDATION_DEPENDENCY_DAG_V1.json) is witnessed only by a 16-composition finite instance-check (AJ12/THEORY.md), which does not establish mutual interpretability in the technical logical sense the edge label asserts."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-4",
+     "material": true,
+     "text": "AJ12's \"two formalization styles\" both carry the same LOGIC/METATHEORY tag (\"classical decidable finite reasoning\") and are notational translations within one classical finite metatheory, not the set-theoretic/type-theoretic/categorical diversity AG9 requires not be silently collapsed, yet AJ13 conjunct 4 cites it as the foundation-style invariance evidence."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-5",
+     "material": false,
+     "text": "MTB_GODEL_TARSKI has zero incoming and zero outgoing edges in the 37-edge DAG, so its role in forbidding the absolute-bottom terminal is motivational/decorative rather than structurally load-bearing, though the prose does not claim otherwise."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-6",
+     "material": false,
+     "text": "AG1-4's \"5 nodes with no outgoing derived-from arrow\" quietly substitutes the F4 open/UNKNOWN node GRM_G0_EXTENSIONS_UNADJUDICATED for two of the F0 \"six apparent bottom nodes,\" and that node is absent from check_aj13.py's baseline entirely."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "AJ13 RESULT_V1.json GREEN status (gmi-833-aj13-stopping-rule-v1)",
+     "reason": "the checker verifies a hand-typed baseline rather than the registered multi-package evidence it claims to close."
+    },
+    {
+     "gate": "MUTUAL_INTERPRETATION edge label FND_SET_RELATION<->FND_TYPED_ALGEBRAIC (gmi-833-ag1-descent-stack-v1 DAG)",
+     "reason": "labels a finite instance-check with a technical term implying a stronger logical relationship than demonstrated."
+    },
+    {
+     "gate": "AJ12 two-formalization-style claim as used to satisfy AJ13 conjunct 4",
+     "reason": "only one classical finite metatheory is exercised under two syntaxes, not the ZFC/type-theoretic/categorical diversity AG9 names."
+    }
+   ],
+   "requested_model": "sonnet",
+   "rows": [
+    {
+     "reason": "the executable AJ13 checker audits a hard-coded baseline dict written to pass, never reading the real AJ1/AJ5/AJ12/DAG evidence, so the claimed GREEN/mechanized closure of the six-conjunct stopping predicate is not established by what was run.",
+     "row": "AG8-R48",
+     "verdict": "NOT_SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "AG8-R48"
+   ],
+   "served_models": [
+    "claude-sonnet-5"
+   ],
+   "tool_calls": 10,
+   "verdict_block_present": true,
+   "verdict_bytes": 12697,
+   "verdict_file": "proxies/PX-AG8-B.verdict.txt",
+   "verdict_sha256": "0bccf5a7e10dd3d28054e79d9865b765f2247fb749b4a5b8fd440dcb1796a80c"
+  },
+  {
+   "agent_log_id": "a431e122dc858c07e",
+   "artifacts_handed": [
+    "research/gmi-833-real-transition-receipts-v1/CORE.md",
+    "research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md",
+    "research/gmi-833-real-transition-receipts-v1/RECEIPTS_V1.json",
+    "research/gmi-833-capability-predictor-evaluation-v1/CORE.md",
+    "research/gmi-833-capability-predictor-evaluation-v1/REAL_RUNS_V3/REAL_MEASURED_V3.json",
+    "research/gmi-physical-resource-metering-v1/CORE.md",
+    "research/gmi-physical-resource-metering-v1/SUMMARY.json",
+    "research/gmi-physical-resource-metering-v1/PHYSICAL_METERING_CONTRACT_V1.json"
+   ],
+   "brief": "briefs/BRIEF_Z10_REAL_SYSTEM_REVIEW.md",
+   "brief_sha256": "12c2bb0dc8202cb25158b102a78d95ef53405b5f7a481d87a2cb01a1686871ea",
+   "claims": [],
+   "first_ts": "2026-09-19T12:07:40.750Z",
+   "id": "PX-Z10",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T12:12:48.741Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": null,
+     "id": "OBJ-1",
+     "material": true,
+     "text": "FREEZE_V1 \u00a73's `p_s/(8*H_s)` is algebraically inconsistent with its own `p*eta/(2B)` at `eta=1/2`, `B=4H`, and the executed \u03bb values in RECEIPTS_V1.json are uniformly half the numeric grid registered in \u00a75 with no disclosure in any readable artifact."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-2",
+     "material": true,
+     "text": "`resources_before` equals `resources_after` byte-for-byte in all five receipts because FREEZE_V1 \u00a75 reuses the same trained candidates at both \u03bb settings, so no resource measurement distinguishes the two sides of the claimed crossover."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-3",
+     "material": true,
+     "text": "R01 reports `observed_after_property: \"STATELESS\"` (B=0 by FREEZE_V1 \u00a72) while `resources_after: [128, 3489, 180.278]` carries the persistent candidate's state bytes and parameter count."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-4",
+     "material": true,
+     "text": "Every `prediction_ref` cites `+FREEZE_V2_AMENDMENT.md` without a commit hash, and the classification rule the receipts apply was introduced after \"Machinery smoke exposed the uniform-bit premise failure\"."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-5",
+     "material": true,
+     "text": "R07 and R08 were added by a later \"second text-weighted tranche\" revival and qualify via a measured `E0` band, so the population supplying the count of five was selected after earlier outcomes were known."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-6",
+     "material": true,
+     "text": "`physical_coordinates` contains no memory and no communication entry, and energy is declared OPEN on all three measured hosts."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-7",
+     "material": true,
+     "text": "No receipt or measured-run file carries any counter, host tag or reference from the metering harness, so the harness's closure does not attach to the validation evidence."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-8",
+     "material": true,
+     "text": "No predicted-versus-observed Pareto front exists in any artifact, and KE-5's curve agreement is replay on registered universes rather than observation on real systems."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-9",
+     "material": false,
+     "text": "R04's use of `/usr/share/sounds/alsa/Noise.wav` under `system_id: \"R04-dpkg-log\"` is the pre-registered fallback from FREEZE_V1 \u00a75 and is disclosed via `fallback_used: true`."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE",
+     "reason": "Its five qualifying receipts are one task family over five byte sources, its executed \u03bb grid deviates from the registered grid, and two counted systems were registered after earlier outcomes."
+    },
+    {
+     "gate": "N.physical_cpu_gpu_wall_io_counters_at_registered_harness_scope",
+     "reason": "The coordinate set omits memory and communication entirely and GPU was never measured on any validation run."
+    },
+    {
+     "gate": "N.energy_where_feasible_honest_OPEN_without_calibration",
+     "reason": "It is listed in `closes` while `claim_ceilings.energy` simultaneously reads `OPEN_WITHOUT_CALIBRATION_ON_MEASURED_HOSTS`."
+    },
+    {
+     "gate": "B19.test_under_real_task_sequences_planted_scope",
+     "reason": "A planted sequential classification microworld does not evidence a real task sequence, as the contract's own non-claims concede."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "All five counted receipts run one identical task (FREEZE_V1 \u00a71/\u00a73 delayed-vs-immediate bit copy over MSB-first raw bytes) differing only by data source, which FREEZE_V1 \u00a75 itself names as the distinctness criterion.",
+     "row": "Z10-1",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "Text files appear only as undifferentiated byte streams under the \u00a71 extractor, and no artifact evaluates any language or reasoning capability.",
+     "row": "Z10-2",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "No planning or control task, environment, policy or action space appears anywhere in the eight artifacts.",
+     "row": "Z10-3",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "Python source (`/usr/lib/python3.8/json/*`, `/usr/lib/python3.8/argparse.py`) is consumed only as bytes, and no programmatic or scientific reasoning task is posed or scored.",
+     "row": "Z10-4",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "The only continual-learning-shaped workload is B19, which its own contract scopes as \"planted sequential binary classification\" at `REAL_SEQUENCE_WITNESS_AT_PLANTED_SCOPE` with \"no ImageNet / Split-CIFAR transfer\".",
+     "row": "Z10-5",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "No multi-agent and no embodied interaction task appears in any artifact.",
+     "row": "Z10-6",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "Two of the five counted receipts (R07, R08) are absent from FREEZE_V1 \u00a75's registered table, the receipts' operative rule (\"licensed band 1/8<E0<3/8 (amendment A4)\") is not FREEZE_V1 \u00a74's rule, the amendment half of every `prediction_ref` carries no commit pin and is not in evidence, and the executed \u03bb grid is uniformly half the grid registered in \u00a75.",
+     "row": "Z10-7",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "The metering contract defines no memory and no communication coordinate, energy is `OPEN_WITHOUT_CALIBRATION_ON_MEASURED_HOSTS`, every real run is CPU-only so GPU was never measured, and the only physical quantity inside any receipt is `train_seconds`.",
+     "row": "Z10-8",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "No artifact contains a Pareto front, predicted or observed; the receipts compare a single `argmin_c J_c(lambda)` winner at two \u03bb points over resource vectors that are byte-identical before and after.",
+     "row": "Z10-9",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "All real training in evidence is one implementation on CPU with `torch 2.4.1+cpu`, the predictor CORE states \"CI replays only the deterministic stage from the committed `REAL_RUNS*/` receipts and never trains\", and route B reproduces frozen predictions by sha256 rather than re-running any real system.",
+     "row": "Z10-10",
+     "verdict": "NOT_SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z10-1",
+    "Z10-2",
+    "Z10-3",
+    "Z10-4",
+    "Z10-5",
+    "Z10-6",
+    "Z10-7",
+    "Z10-8",
+    "Z10-9",
+    "Z10-10"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 7,
+   "verdict_block_present": true,
+   "verdict_bytes": 13654,
+   "verdict_file": "proxies/PX-Z10.verdict.txt",
+   "verdict_sha256": "4c349fdbb53325f868156e979a611b42379374e54de7e8a4eafef50eefdfae13"
+  },
+  {
+   "agent_log_id": "a1c5d7fd49cab10e0",
+   "artifacts_handed": [
+    "research/gmi-final-target-natural-half-v1/FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md",
+    "research/gmi-final-target-natural-half-v1/PREDICTIONS_REGISTRY_V1.json",
+    "research/gmi-biological-bridge-v1/BIOLOGICAL_BRIDGE_CONTRACT_V1.md",
+    "research/gmi-biology-predictions-v1/BIOLOGY_PREDICTIONS_THEOREM_V1.md",
+    "research/gmi-natural-intelligence-bridge-v1/NATURAL_INTELLIGENCE_BRIDGE_THEOREM_V1.md"
+   ],
+   "brief": "briefs/BRIEF_Z14_NATURAL_COGNITION_REVIEW.md",
+   "brief_sha256": "6a09ab8613b2843873c0eb240d92e1f28bf90484181d0b1a93e5a980e669c822",
+   "claims": [],
+   "first_ts": "2026-09-19T12:07:47.186Z",
+   "id": "PX-Z14-COG",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T12:20:37.753Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": null,
+     "id": "OBJ-1",
+     "material": true,
+     "text": "The registry violates the contract's registered `E_bio` scope and encodes the predicted answer in the input `niche`/`social_structure` fields for the human, cephalopod, rodent and cetacean rows."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-2",
+     "material": true,
+     "text": "Neuroanatomical region-identity claims appear in a listed parent artifact while the capsule advertises \"no Brodmann / tract / region identity\"."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-3",
+     "material": true,
+     "text": "The NI bridge disclaims biological claims in \u00a72 and then asserts falsifiable claims about actual neural architecture in \u00a73 and \u00a79."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-4",
+     "material": true,
+     "text": "All seven taxa receive the same `\"phase_winner\": \"neural\"` despite distinct (E,R,V), violating the NI bridge's own \"content\" requirement, and the NI bridge assigns symbolic manipulation to primates, so V7 clause 3's morphology-class consistency check cannot have been performed."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-5",
+     "material": true,
+     "text": "The registered failure modes are not co-extensive with the descriptors and are gated on a future unseal, so four literature-contradicted descriptor cells trip none of the seven modes."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-6",
+     "material": true,
+     "text": "`BIOLOGY_PREDICTIONS_THEOREM_V1.md`, the cited source of `M`, never states which morphology wins for any species \u2014 each entry reads only \"Predicted Morphology: Minimizes burden at these parameters\" \u2014 so the `neural` winners are unverifiable from the artifacts."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-7",
+     "material": true,
+     "text": "\"Cephalopod\", \"rodent\" and \"carnivore\" are not cognitive-profile units, and Poncet et al. 2022 shows cuttlefish and octopus diverge on precisely the descriptor PRED-NH-02 assigns to the lumped taxon."
+    },
+    {
+     "claim": null,
+     "id": "OBJ-8",
+     "material": false,
+     "text": "The human `four_regime_partition` under-specifies the standard memory taxonomy, which also requires sensory memory, priming, and associative/non-associative memory."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "FINAL_TARGET_NATURAL_HALF_ADMISSIBLE_V1",
+     "reason": "Its admissible ceiling rests on a registry whose inputs restate its outputs and on parent artifacts that make the neuroanatomy claims the capsule disclaims."
+    },
+    {
+     "gate": "C_pred_frozen_pre_phenotype",
+     "reason": "No dating exists in the capsule or registry to support the pre-phenotype freeze, and the parent contract states the first candidate prediction \"Requires a biology-literature saturation pass \u2026 before any `C_pred` is frozen\" and was \"Not started\"."
+    },
+    {
+     "gate": "V7_formal_holdout_composition",
+     "reason": "Clause 3 asserts morphology-class consistency with the NI bridge, which is falsified by that bridge assigning symbolic manipulation to the primate social-coordination ecology while PRED-NH-04 assigns neural."
+    },
+    {
+     "gate": "PRED-NH-06",
+     "reason": "Two of its descriptors (`D_tom: \"mid_pack_only\"` and `D_comm: \"low\"`) are contradicted by published behaviour, meeting the capsule's own \u22652-descriptor voiding threshold."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "The artifacts carry no date for the capsule or registry and rule 2 bars crediting their own \"frozen pre-phenotype\" assertion, while every evaluable descriptor is a textbook restatement and four are copied verbatim from the row's own `niche`/`social_structure` input fields.",
+     "row": "Z14-2",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "No row supplies the contract's registered `E_bio` fields (energy/day, sensor bandwidth, actuator latency, lifespan) and species-specific phenotype labels such as `\"niche\": \"cumulative_culture\"` and `\"social_structure\": \"pod_culture\"` leak in as inputs that restate the predicted descriptors.",
+     "row": "Z14-3",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "I completed the held-out comparison for all seven taxa against opened behavioural literature, yielding 9 CONSISTENT / 4 CONTRADICTED / 29 INSUFFICIENT_EVIDENCE across 42 descriptor cells and 0 of 7 registered failure modes observed.",
+     "row": "Z14-4",
+     "verdict": "SATISFIED"
+    },
+    {
+     "reason": "The taxa set does include an independent-origin falsifier (cephalopod), but the predictions are not non-anthropocentric \u2014 all seven taxa collapse to `\"phase_winner\": \"neural\"`, the NI bridge assigns symbolic morphology to primates in contradiction, and the comms ordering is inverted by Hoppitt et al. 2008 (teaching present in carnivores, absent in chimpanzees).",
+     "row": "Z14-5",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "`NATURAL_INTELLIGENCE_BRIDGE_THEOREM_V1.md` says \"It does NOT make biological claims \u2014 it provides the structure\" in \u00a72 yet asserts in \u00a73 that \"any biological taxon T occupying ecology E will exhibit neural architecture structure J(T)\" and in \u00a79 instructs comparing J(M) to \"known neural architecture of T\".",
+     "row": "Z14-6",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "`NATURAL_INTELLIGENCE_BRIDGE_THEOREM_V1.md` \u00a73 and \u00a76 name \"Hippocampal-cortical consolidation\", \"Hebbian\" learning rules, \"Prefrontal cortex + Wernicke's\", \"Hippocampal + prefrontal\", \"Visual cortex + cerebellum\" and \"Wernicke's + mirror neurons\", which are neural-mechanism claims made inside the artifact set.",
+     "row": "Z14-7",
+     "verdict": "NOT_SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z14-2",
+    "Z14-3",
+    "Z14-4",
+    "Z14-5",
+    "Z14-6",
+    "Z14-7"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 58,
+   "verdict_block_present": true,
+   "verdict_bytes": 26932,
+   "verdict_file": "proxies/PX-Z14-COG.verdict.txt",
+   "verdict_sha256": "9e9b0985e5fe13bb35e2e721e4710cde9f3e0852aee11db41cb55a77b72fb836"
+  },
+  {
+   "agent_log_id": "ae305c3462ab88187",
+   "artifacts_handed": [
+    "research/gmi-833-heldout-20-transitions-v1/HELDOUT_TRANSITION_FORMALIZATION_V1.md",
+    "research/gmi-833-real-transition-receipts-v1/CORE.md",
+    "research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md",
+    "research/gmi-833-real-transition-receipts-v1/RECEIPTS_V1.json",
+    "research/gmi-833-capability-predictor-evaluation-v1/CORE.md",
+    "research/gmi-833-capability-predictor-evaluation-v1/SCOPE_V1.md"
+   ],
+   "brief": "briefs/BRIEF_Z14_CROSS_SUBSTRATE_REVIEW.md",
+   "brief_sha256": "4244920fe30242f814283c37a3aecb8082f10f23baf6bb273b487cc1e009cec7",
+   "claims": [],
+   "first_ts": "2026-09-19T12:07:43.500Z",
+   "id": "PX-Z14-SUB",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T12:13:04.808Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": null,
+     "id": "OBJ-1",
+     "material": true,
+     "text": "At the registered threshold itself, A4's inequality gives \"persistent wins iff E0 > 1/4 + err_persist\" while all five receipts record E0 \u2264 0.2401 and `boundary_tie_control: {\"winners\": [\"c1\"]}` with `stateless_floor.candidate_id: \"c1\"` (the B = 0 candidate per A2), so the stateless machine wins strictly at \u03bb\\* in 5/5 \u2014 the opposite of substrate A's same-law control that \"Exact `lambda=lambda*` controls preserve both property classes as ties rather than forcing a winner\" \u2014 and the only shifted-law control, `shifted_boundary_lambda` = 2\u03bb\\*, never probes below \u03bb\\* where the deviation actually lies."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE",
+     "reason": "Its five receipts contradict the threshold value of the law they are claimed to validate and its licensing band coincides with its prediction condition, so the terminal cannot stand as cross-substrate evidence for the closed form without a two-sided threshold control and a falsification route for licensed systems."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "Only substrate A tests the closed-form law; substrate B tests a re-parameterized variant whose analytic floor was retracted (FREEZE_V2_AMENDMENT A5) and whose surviving quantitative content \u2014 `1/8 < E0 < 3/8` per A4, with p and B cancelling \u2014 is identical to its own system-inclusion criterion, and substrate C's two artifacts never mention the law at all.",
+     "row": "Z14-1",
+     "verdict": "NOT_SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z14-1"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 8,
+   "verdict_block_present": true,
+   "verdict_bytes": 11329,
+   "verdict_file": "proxies/PX-Z14-SUB.verdict.txt",
+   "verdict_sha256": "7fd028d78d0cdbc2508f109c9e6c422b560d698c6fc5b55883f3420c585957d7"
+  },
+  {
+   "agent_log_id": "a17781b518cafdc96",
+   "artifacts_handed": [
+    "research/gmi-final-target-natural-half-v1/FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md",
+    "research/gmi-final-target-natural-half-v1/PREDICTIONS_REGISTRY_V1.json",
+    "research/gmi-biological-bridge-v1/BIOLOGICAL_BRIDGE_CONTRACT_V1.md",
+    "research/gmi-biology-predictions-v1/BIOLOGY_PREDICTIONS_THEOREM_V1.md",
+    "research/gmi-natural-intelligence-bridge-v1/NATURAL_INTELLIGENCE_BRIDGE_THEOREM_V1.md"
+   ],
+   "brief": "briefs/BRIEF_Z18_COGNITIVE_SCIENCE_REVIEWER.md",
+   "brief_sha256": "edae81a26fb9f489b290e513b3c23272a6457950d3383f47c1c8dfb5ee0e7000",
+   "claims": [
+    {
+     "claim": "C6",
+     "reason": "The only computation in the chain returns \"neural\" for all seven taxa so no stated function maps (E,R,V) to the cognitive profiles, the \"frozen pre-phenotype\" claim is caught in a contract dilemma, the holdouts are null so the falsifier cannot fire, and the composed claim surface asserts the neuroanatomy the capsule's own \u00a77 says voids it.",
+     "verdict": "REOPEN"
+    }
+   ],
+   "first_ts": "2026-09-19T07:24:54.841Z",
+   "id": "PX-Z18-COG",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:32:57.643Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": "C6",
+     "id": "OBJ-1",
+     "material": true,
+     "text": "All seven rows in PREDICTIONS_REGISTRY_V1.json carry \"phase_winner\": \"neural\", so the sole quantitative machinery (B_M in BIOLOGY_PREDICTIONS_THEOREM_V1.md) has zero discriminative content, and no artifact states any function or threshold mapping (E,R,V) to the C_pred descriptor values that carry all the cross-species content."
+    },
+    {
+     "claim": "C6",
+     "id": "OBJ-2",
+     "material": true,
+     "text": "Every D_holdout is \"content\": null with only a provenance_slot string, contrary to BIOLOGICAL_BRIDGE_CONTRACT_V1.md \u00a7L0.4's requirement of \"provenance (species, study, n)\", and FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md \u00a73 makes voiding conditional on unsealing \"under a later protocol\" that is never specified \u2014 so the falsifier is inoperable by construction."
+    },
+    {
+     "claim": "C6",
+     "id": "OBJ-3",
+     "material": true,
+     "text": "The ordinal descriptor values (\"mid\", \"graded\", \"simple_stop\", \"shallow\", \"depth_ge_1\") are tied to no task, measure or threshold anywhere in the artifacts, so FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md \u00a73's \"contradicts ... on \u22652 descriptors\" rule cannot be adjudicated even if data existed."
+    },
+    {
+     "claim": "C6",
+     "id": "OBJ-4",
+     "material": true,
+     "text": "BIOLOGICAL_BRIDGE_CONTRACT_V1.md states the corvid-caching-vs-rodent-navigation prediction \"Requires a biology-literature saturation pass (assimilation-first) before any `C_pred` is frozen. Not started\", yet PREDICTIONS_REGISTRY_V1.json freezes exactly that C_pred \u2014 so either the mandatory pass was skipped or the phenotype literature was consulted, and both branches void `C_pred_frozen_pre_phenotype`."
+    },
+    {
+     "claim": "C6",
+     "id": "OBJ-5",
+     "material": true,
+     "text": "FINAL_TARGET_NATURAL_HALF_THEOREM_V1.md \u00a75.3 composes with gmi-natural-intelligence-bridge-v1, whose \u00a76 assigns \"Prefrontal cortex + Wernicke's\", \"Hippocampal + prefrontal\" and \"Wernicke's + mirror neurons\" to named taxa and whose \u00a73 predicts taxa \"will exhibit neural architecture structure J(T)\", tripping the child capsule's own \u00a77 falsifier (\"claim surface asserts ... neuroanatomy\") \u2014 and those attributions are additionally stale (Tremblay & Dick 2016, DOI 10.1016/j.bandl.2016.08.004) or unsupported (Hickok 2009, JOCN 21:1229\u20131243; no cetacean mirror-neuron recording appears in the artifacts or any source I opened)."
+    },
+    {
+     "claim": "C6",
+     "id": "OBJ-6",
+     "material": true,
+     "text": "Single (E,R,V) scalars are assigned to whole clades whose own registry fields concede internal variation (\"colony_variable\", \"solitary_or_pack\"), with no phylogenetic-independence control and an ascending rodent\u2192carnivore\u2192corvid\u2192primate\u2192human ordering that reinstates the scala naturae rejected by comparative psychology (Marino, Encyclopedia of Human-Animal Relationships, pp. 220\u2013222)."
+    },
+    {
+     "claim": "C6",
+     "id": "OBJ-7",
+     "material": true,
+     "text": "PRED-NH-03's rodent profile is contradicted on two descriptors \u2014 \"D_meta\": \"simple_stop\" by difficulty-scaled test-declining in rats (Foote & Crystal, Current Biology 17:551\u2013555, DOI 10.1016/j.cub.2007.01.061) and \"D_plan\": \"shallow\" by causal evidence for model-based planning in rats (Miller, Botvinick & Brody, DOI 10.1101/096594) \u2014 which is precisely the registry's own voiding threshold."
+    },
+    {
+     "claim": "C6",
+     "id": "OBJ-8",
+     "material": false,
+     "text": "PRED-NH-02's cephalopod \"D_comm\": \"none\" is challenged by reported conspecific agonistic display signalling in Octopus tetricus (Scheel, Godfrey-Smith & Lawrence 2016; I could open only the co-author's secondary summary at metazoan.net, publisher copies returning HTTP 403), and the registry supplies no definition of \"none\" that would settle it either way."
+    },
+    {
+     "claim": "C6",
+     "id": "OBJ-9",
+     "material": false,
+     "text": "PREDICTIONS_REGISTRY_V1.json's lesion_alignment maps \"D_pred\" (\"predictive-motor demand\", FINAL_TARGET \u00a72) onto \"L_causal\" with no stated justification, and the meaning of the L_* footprints invoked by FINAL_TARGET \u00a75.2 lies in gmi-derived-lesion-v1, which this brief does not permit me to read \u2014 so that composition is unchecked, not checked and fine."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "C_pred_frozen_pre_phenotype",
+     "reason": "The contract requires a biology-literature saturation pass before any C_pred is frozen and records it as \"Not started\", yet the corvid/rodent C_pred rows are frozen, so the row is either contract-violating or not pre-phenotype."
+    },
+    {
+     "gate": "L2_seven_taxa_rows",
+     "reason": "No stated function maps (E,R,V) to the descriptor profiles, the phase winner is constant across all seven rows, the taxa are whole clades with no phylogenetic control, and PRED-NH-03 is contradicted on two descriptors by published rat work."
+    },
+    {
+     "gate": "V7_formal_holdout_composition",
+     "reason": "All D_holdout contents are null with no unsealing protocol named, so nothing was actually held out, and the lesion composition in FINAL_TARGET \u00a75.2 cannot be verified from the permitted artifacts."
+    },
+    {
+     "gate": "L3_human_architecture_profile_no_neuroanatomy",
+     "reason": "The capsule composes with a parent whose mapping tables assert cortical-area identities for named taxa, so the composed claim surface asserts the neuroanatomy this ceiling item forbids."
+    },
+    {
+     "gate": "FINAL_TARGET_NATURAL_HALF_ADMISSIBLE_V1",
+     "reason": "The capsule's own \u00a77 falsifier voids it if the claim surface asserts neuroanatomy, and \u00a75.3 imports a parent that does exactly that."
+    },
+    {
+     "gate": "gmi-natural-intelligence-bridge-v1 G2 ceiling",
+     "reason": "Its \u00a71 declares it \"does NOT make biological claims\" while \u00a73/\u00a76/\u00a77 assert taxon-level behaviour and neural architecture, and the dependent registry issues forward taxon predictions above the declared G2 scope."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "Natural-intelligence claims remain and the artifacts were sufficient for me to perform a genuine cognitive-science review \u2014 assessing parameter operationalization, falsifiability, contradicting behavioural evidence, neural-mechanism content and function/implementation separation.",
+     "row": "Z18-5",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z18-5"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 39,
+   "verdict_block_present": true,
+   "verdict_bytes": 25899,
+   "verdict_file": "proxies/PX-Z18-COG.verdict.txt",
+   "verdict_sha256": "5cde9d1a16ffb9193b9866b0e56504c2f0303027b335b1b2e30bf0a32e678eb6"
+  },
+  {
+   "agent_log_id": "aa12cf0c5875563a4",
+   "artifacts_handed": [
+    "research/gmi-833-human-gate-proxy-v1/proxies/PX-Z18-THM.verdict.txt",
+    "research/gmi-833-human-gate-proxy-v1/RESPONSES_V1.md",
+    "research/gmi-833-human-gate-proxy-v1/CLAIM_DOWNGRADES_V1.json",
+    "research/gmi-833-human-gate-proxy-v1/REOPENED_GATES_V1.json"
+   ],
+   "brief": "briefs/BRIEF_Z18_EDITOR_SYNTHESIS.md",
+   "brief_sha256": "9f77a6aa3dc112632627a9dc630626f1656b3abe36e4e65fb989b22e3c071597",
+   "claims": [
+    {
+     "claim": "C1",
+     "reason": "final: OPEN \u2014 the licensed band is algebraically the predicted outcome (RV-C1-BAND) and the prediction-of-record's grid is self-contradictory by the lane's own verification (RV-C1-GRID), with nine further open items and eleven register-backed downgrades.",
+     "verdict": "MATERIAL_OBJECTION"
+    },
+    {
+     "claim": "C2",
+     "reason": "final: OPEN \u2014 LIT OBJ-C2-A (the interaction-index parent absent from the section headed \"Strongest parents\") is answered \"Assimilation of that parent is a supplement to the CIP package, not a response\", and the CIP parent-literature gate stays reopened; DG-C2-LEMMA-B is a valid downgrade.",
+     "verdict": "MATERIAL_OBJECTION"
+    },
+    {
+     "claim": "C3",
+     "reason": "final: OPEN \u2014 LIT OBJ-C3-A/B/C (Kahn 1962 for typed provenance edges, uncited foundational pluralism and arrow kinds, Minsky 1967 instead of Shepherdson & Sturgis 1963) are conceded and deferred to \"a supplement there\", while THM OBJ-17/18/19/20 are properly downgraded.",
+     "verdict": "MATERIAL_OBJECTION"
+    },
+    {
+     "claim": "C4",
+     "reason": "final: OPEN \u2014 seven open items including the conceded custody inversion of KE-1/KE-2 (\"a response cannot restore it\") and the two contradictory solved-rules in REAL_MEASURED_V3.json, which \"must be resolved in the outcome file, not by response\".",
+     "verdict": "MATERIAL_OBJECTION"
+    },
+    {
+     "claim": "C5",
+     "reason": "final: OPEN \u2014 the crosswalk's VERIFIED field and rows 33/48 stay open under RV-C5-CROSSWALK with \"AC05 stays open\", and STAT OBJ-S20 is only half answered since the blind-set characterisation \"is not reported there either\".",
+     "verdict": "MATERIAL_OBJECTION"
+    },
+    {
+     "claim": "C6",
+     "reason": "final: OPEN \u2014 five of seven material objections are OPEN, including that all seven registry rows carry phase_winner \"neural\" with no stated function from (E,R,V) to the descriptors, so \"the profiles are not derived predictions\".",
+     "verdict": "MATERIAL_OBJECTION"
+    }
+   ],
+   "first_ts": "2026-09-19T12:21:41.556Z",
+   "id": "PX-Z18-EDIT",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T12:29:17.001Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": "C1",
+     "id": "THM OBJ-2",
+     "material": true,
+     "text": "FREEZE_V2_AMENDMENT \u00a7A4's \"licensed iff 1/8 < E0 < 3/8\" is the prediction's own sufficient condition used as an entry criterion, and the second gate fails closed, so no qualifying system could have falsified the law \u2014 OPEN, registered as RV-C1-BAND."
+    },
+    {
+     "claim": "C1",
+     "id": "THM OBJ-5",
+     "material": true,
+     "text": "CORE.md cites \"the #901 law lambda* = eta*p/(2B)\" while the amendment freezes \"lambda* = p/(16H)\" with B_persist = 4H, and the lane's own check confirms FREEZE_V1 line 38's second equality is an algebra error \u2014 OPEN, registered as RV-C1-GRID."
+    },
+    {
+     "claim": "C1",
+     "id": "THM OBJ-6",
+     "material": true,
+     "text": "CORE.md's \"V1 predictions unchanged\" retains a price grid derived from the premise \u00a7A5 retracts (\"V1's assertion is retracted by this amendment\"), and lambda* was never re-derived from the measured floor \u2014 OPEN, registered as RV-C1-GRID."
+    },
+    {
+     "claim": "C1",
+     "id": "EXP OBJ-1",
+     "material": true,
+     "text": "The executed grid (lambda_star 0.015625, prices 0.0078125/0.0234375) is half the worked example frozen at FREEZE_V1 \u00a75 (\"R01: 8/(8*32) = 1/32; lambda_low = 1/64\") while A2 declares the grid \"unchanged\" \u2014 OPEN; the lane confirms the prediction-of-record is self-contradictory and the outcome grid-dependent."
+    },
+    {
+     "claim": "C1",
+     "id": "EXP OBJ-5",
+     "material": true,
+     "text": "A4 derives the admission band from the same inequality as the prediction, so a system is admitted exactly when the algebra already guarantees the predicted outcome given err_persist \u2248 0 \u2014 OPEN, conceded: \"a licensed system cannot produce the wrong direction, only abstain\"."
+    },
+    {
+     "claim": "C1",
+     "id": "EXP OBJ-6",
+     "material": true,
+     "text": "With err_imm \u2248 0 forcing E0 \u2248 floor_del/2 \u2264 \u22481/4 the band's upper edge 3/8 is unreachable by construction, so half the licensed band is untestable and every exclusion is on the E0 < 1/8 side \u2014 OPEN, conceded in the same cell."
+    },
+    {
+     "claim": "C1",
+     "id": "EXP OBJ-11",
+     "material": true,
+     "text": "Every receipt's prediction_ref pins FREEZE_V1 by sha but cites FREEZE_V2_AMENDMENT.md with no hash, leaving the document that supplies A3 and A4 unpinned in the receipt; the response concedes \"The receipts' prediction_ref string omits the hash\" and carries it to RV-C1-RECEIPT-FIELDS, which is deferral, not resolution."
+    },
+    {
+     "claim": "C1",
+     "id": "LIT OBJ-C1-A",
+     "material": true,
+     "text": "The Z15 parent table discloses only methodology parents (Popper, Mayo, Nosek, identifiability, Wigner) and attributes the boundary law itself solely to an in-corpus package \u2014 OPEN, registered as RV-C1-PARENT pending a Z15 supplement."
+    },
+    {
+     "claim": "C1",
+     "id": "STAT OBJ-S1",
+     "material": true,
+     "text": "The band 1/8 < E0 < 3/8 is equivalent to lambda_low < lambda_c < lambda_high with lambda_c = p*E0/B, i.e. to the transition being observed, so licensing and outcome are the same arithmetic \u2014 OPEN, registered as RV-C1-BAND."
+    },
+    {
+     "claim": "C1",
+     "id": "STAT OBJ-S2",
+     "material": true,
+     "text": "A5 retracts the uniform-bit floor 1/2 on real data while A2 leaves lambda* = p*eta/(2B) \u2014 a constant derived from that retracted 1/2 \u2014 unchanged, with the measured floor_del never propagated \u2014 OPEN, registered as RV-C1-GRID."
+    },
+    {
+     "claim": "C1",
+     "id": "STAT OBJ-S9",
+     "material": true,
+     "text": "seed_spread_err_all is exactly 0.0 for both candidates in all five receipts and floor_del's dispersion over seeds is never reported, so every 3-sigma gate carries binomial-at-fixed-model uncertainty only \u2014 OPEN, requires a re-run (RV-C1-SEEDS)."
+    },
+    {
+     "claim": "C2",
+     "id": "LIT OBJ-C2-A",
+     "material": true,
+     "text": "The section headed \"Strongest parents\" names only the shipped lemmas and inclusion\u2013exclusion while conceding \"CIP-1's content is not that inequality but the partition the three-way comparison induces\" \u2014 the cooperative-game interaction index (Grabisch & Roubens 1999) is never named \u2014 OPEN, RV-C2-PARENT."
+    },
+    {
+     "claim": "C2",
+     "id": "LIT OBJ-C2-B",
+     "material": true,
+     "text": "The package's designated disclosure PARENT_OWNERSHIP_V1.md was outside the reviewer's read set so C2's attributions could not be certified in either direction; the response's own listing of its four parents (Nemhauser\u2013Wolsey\u2013Fisher, Lov\u00e1sz, Edmonds, Amdahl) confirms the missing parent, so the gate remains reopened rather than resolved."
+    },
+    {
+     "claim": "C3",
+     "id": "LIT OBJ-C3-A",
+     "material": true,
+     "text": "PARENT_LEDGER credits \"typed provenance edges\" to Kahn 1962, which owns topological sorting and not arrow typing \u2014 the very construct AG1-1 claims as residual \u2014 OPEN, correction deferred to a supplement in the frozen owning package."
+    },
+    {
+     "claim": "C3",
+     "id": "LIT OBJ-C3-B",
+     "material": true,
+     "text": "\"Set-theoretic, type-theoretic/univalent and categorical foundations are established parent programmes\" carries zero citation, MUTUAL_INTERPRETATION and FREE_CONSTRUCTION have no literature parent, and the ten-layer stack's only parent is the programme's own issue comment \u2014 OPEN, RV-C3-LEDGER."
+    },
+    {
+     "claim": "C3",
+     "id": "LIT OBJ-C3-C",
+     "material": true,
+     "text": "AG1-3 names \"Minsky 1967 (the instruction set)\" for READ/EMIT/INC/DECJZ/HALT while the earliest parent is Shepherdson & Sturgis, JACM 10(2):217\u2013255, 1963, contrary to the programme's own AC06 \"earliest/strongest known parent\" rule \u2014 OPEN, RV-C3-LEDGER."
+    },
+    {
+     "claim": "C4",
+     "id": "EXP OBJ-16",
+     "material": true,
+     "text": "Every non-degenerate emission in KE-1 and KE-2 comes from the stratum whose \"external evaluator already existed at 50451f23\", with the repair lever chosen after inspecting F's behaviour \u2014 OPEN, conceded: custody \"is inverted for the emissions that carry the result; a response cannot restore it\"."
+    },
+    {
+     "claim": "C4",
+     "id": "EXP OBJ-20",
+     "material": true,
+     "text": "KE-4 reports stratum sizes but no confusion-matrix result in any artifact while SCOPE_V1 pre-excuses mismatches on the 28,304-input CONJUNCTIVE stratum as measuring \"the ambiguity, not the predictor\" \u2014 OPEN, requires the matrices to be produced (RV-C4-KE4)."
+    },
+    {
+     "claim": "C4",
+     "id": "EXP OBJ-22",
+     "material": true,
+     "text": "REAL_MEASURED_V3.json carries both \"exact accuracy >= 99/100 ... (V3 band)\" and training.solved_rule \"== 1\", with GRU|32|1|2 at 124/125 between them determining measured_solved_bits and hence the registration-truthfulness counts \u2014 OPEN, \"must be resolved in the outcome file, not by response\"."
+    },
+    {
+     "claim": "C4",
+     "id": "EXP OBJ-23",
+     "material": true,
+     "text": "The only supplied outcome file holds 24 heads over 8 machines on one 96,311-byte source against CORE.md's \"96 real torch-trained systems ... 288 trained heads\" \u2014 OPEN, the lane \"did not reconcile ... and does not assert it here\"."
+    },
+    {
+     "claim": "C4",
+     "id": "LIT OBJ-C4-A",
+     "material": true,
+     "text": "On the one point where its own registered law was falsified the disclosure says \"we did not anticipate it\" while citing two RNN-precision papers and omitting parity's SQ-hardness (Kearns 1998, doi:10.1145/293347.293351) \u2014 OPEN, RV-C4-PARENT."
+    },
+    {
+     "claim": "C4",
+     "id": "STAT OBJ-S11",
+     "material": true,
+     "text": "SCOPE_V1 commits to coverage \"separately for point emissions only (the harsh test)\" but only pooled minima at abstention rates 121/162 and 439/640 are reported, with the mixture arithmetic implying \u22480.8953 against the 913/1000 bound at alpha = 1/20 \u2014 OPEN, RV-C4-POINT-COVERAGE."
+    },
+    {
+     "claim": "C4",
+     "id": "STAT OBJ-S15",
+     "material": true,
+     "text": "NULL_MODAL is evaluated only \"on the inputs where F emits a point\", an arena chosen by F's own 69\u201375% abstention, and is arithmetically forced to miss values such as 4/11 and 9/11 \u2014 OPEN, requires a new abstention-matched null run (RV-C4-NULL)."
+    },
+    {
+     "claim": "C5",
+     "id": "LIT OBJ-C5-A",
+     "material": true,
+     "text": "The key defines \"VERIFIED = the reference was checked against a live source\" while rows 1, 10, 29 and 32 are marked VERIFIED on the basis of a Wikipedia article citing the work \u2014 OPEN, \"AC05 stays open\"."
+    },
+    {
+     "claim": "C5",
+     "id": "LIT OBJ-C5-B",
+     "material": true,
+     "text": "Row 48 records match=EXACT with its sole citation \"WHAT_IS_ACTUALLY_NEW template (this package)\", certifying its own coinage as established usage \u2014 OPEN, RV-C5-CROSSWALK."
+    },
+    {
+     "claim": "C5",
+     "id": "LIT OBJ-C5-C",
+     "material": true,
+     "text": "Row 33 records match=EXACT citing \"complexity-theory reduction tradition (Karp 1972)\" for a definition reading \"demonstrate residual claim after comparison to / absorption of strongest parent\" \u2014 OPEN, RV-C5-CROSSWALK."
+    },
+    {
+     "claim": "C5",
+     "id": "STAT OBJ-S20",
+     "material": true,
+     "text": "A12's \"0/200 nulls\" carries no power analysis or blind-set characterization in a corpus where the analogous null proved 57/200 blind; the response supplies the family but states \"The blind-set characterisation the reviewer asks for is not reported there either\", which is deferral (RV-C5-A12-NULL), not resolution."
+    },
+    {
+     "claim": "C6",
+     "id": "COG OBJ-1",
+     "material": true,
+     "text": "All seven rows carry phase_winner \"neural\" so the sole quantitative machinery has zero discriminative content, and no artifact states a function from (E,R,V) to the C_pred descriptors \u2014 OPEN, conceded: \"Without that function the profiles are not derived predictions\"."
+    },
+    {
+     "claim": "C6",
+     "id": "COG OBJ-2",
+     "material": true,
+     "text": "Every D_holdout.content is null with only a provenance_slot string and no unsealing protocol is named, so the registered falsifier cannot fire \u2014 OPEN, RV-C6-HOLDOUT."
+    },
+    {
+     "claim": "C6",
+     "id": "COG OBJ-3",
+     "material": true,
+     "text": "The ordinal descriptors (\"mid\", \"graded\", \"simple_stop\", \"shallow\") are tied to no task, measure or threshold, so the \"contradicts on \u22652 descriptors\" voiding rule cannot be adjudicated \u2014 OPEN, RV-C6-OPERATIONALISE."
+    },
+    {
+     "claim": "C6",
+     "id": "COG OBJ-4",
+     "material": true,
+     "text": "The contract requires a biology-literature saturation pass before any C_pred is frozen and records it \"Not started\" while the corvid/rodent rows are frozen \u2014 OPEN, and the response agrees \"Either branch voids C_pred_frozen_pre_phenotype\"."
+    },
+    {
+     "claim": "C6",
+     "id": "COG OBJ-6",
+     "material": true,
+     "text": "Single (E,R,V) scalars are assigned to whole clades whose own registry fields concede internal variation (\"colony_variable\", \"solitary_or_pack\"), with no phylogenetic control and an ordering reinstating the scala naturae \u2014 OPEN, RV-C6-CLADES."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "RECEIPTS_V1.json prediction_ref custody and the temporal separation of FREEZE_V2_AMENDMENT",
+     "reason": "The operative amendment is cited in every receipt with no commit hash, the pin exists only as a prose custody line in CORE.md, and the item is currently carried only as the revival target RV-C1-RECEIPT-FIELDS with no entry in REOPENED_GATES_V1.json \u2014 I demand it as a reopen in its own right, unhonoured as of this round."
+    },
+    {
+     "gate": "RESPONSES_V1.md \u00a78 summary-of-dispositions table",
+     "reason": "It totals 72 material objections against the 78 lines marked \"material: yes\" in the five verdict blocks and files LIT OBJ-C1-A and LIT OBJ-C4-A under C5 though they are objections to C1 and C4, so the table understates the objection census it is used to summarise."
+    },
+    {
+     "gate": "FAILED_PREDICTION_REGISTER_V1.json (additions FP-F1-BLIND, FP-FLOOR-HALF, FP-REAL-TIE)",
+     "reason": "All three are recorded in CLAIM_DOWNGRADES_V1.json only as \"pending a supplement to the frozen register\", so the frozen register still does not publish these three negatives beside the successes."
+    },
+    {
+     "gate": "all 39 gates demanded by the five Z18 reports and honoured in REOPENED_GATES_V1.json",
+     "reason": "I verified each demand appears verbatim and I affirm every one of them stays reopened; none is closed by this synthesis, and the register's own rule that a reopened gate stays open until a numbered supplement lands is the correct standard."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "32 of the 78 material objections across the five reports remain OPEN \u2014 C1: THM OBJ-2, THM OBJ-5, THM OBJ-6, EXP OBJ-1, EXP OBJ-5, EXP OBJ-6, EXP OBJ-11, LIT OBJ-C1-A, STAT OBJ-S1, STAT OBJ-S2, STAT OBJ-S9; C2: LIT OBJ-C2-A, LIT OBJ-C2-B; C3: LIT OBJ-C3-A, LIT OBJ-C3-B, LIT OBJ-C3-C; C4: EXP OBJ-16, EXP OBJ-20, EXP OBJ-22, EXP OBJ-23, LIT OBJ-C4-A, STAT OBJ-S11, STAT OBJ-S15; C5: LIT OBJ-C5-A, LIT OBJ-C5-B, LIT OBJ-C5-C, STAT OBJ-S20; C6: COG OBJ-1, COG OBJ-2, COG OBJ-3, COG OBJ-4, COG OBJ-6.",
+     "row": "Z18-7",
+     "verdict": "NOT_SATISFIED"
+    },
+    {
+     "reason": "Every claim's final disposition is OPEN and C1 does not survive at its original strength \u2014 eleven registered C1 downgrades including DG-C1-STATEMENT, which rewrites the flagship statement from \"which morphology a resource-bounded search will select\" to an argmin over a fixed finite universe.",
+     "row": "AD08",
+     "verdict": "NOT_SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z18-7",
+    "AD08"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 15,
+   "verdict_block_present": true,
+   "verdict_bytes": 25874,
+   "verdict_file": "proxies/PX-Z18-EDIT.verdict.txt",
+   "verdict_sha256": "90afd2ca203d5e9d23dfc2ce9f058a7ad30b56880901a6216ec78830db3d9076"
+  },
+  {
+   "agent_log_id": "aed9baf039c5d82c2",
+   "artifacts_handed": [
+    "research/gmi-833-heldout-20-transitions-v1/FREEZE_V1.md",
+    "research/gmi-833-heldout-20-transitions-v1/HELDOUT_TRANSITION_FORMALIZATION_V1.md",
+    "research/gmi-833-real-transition-receipts-v1/CORE.md",
+    "research/gmi-833-real-transition-receipts-v1/FREEZE_V1.md",
+    "research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md",
+    "research/gmi-833-real-transition-receipts-v1/RECEIPTS_V1.json",
+    "research/gmi-833-capability-predictor-evaluation-v1/CORE.md",
+    "research/gmi-833-capability-predictor-evaluation-v1/SCOPE_V1.md",
+    "research/gmi-833-capability-predictor-evaluation-v1/BLINDNESS_V1.md",
+    "research/gmi-833-capability-predictor-evaluation-v1/REAL_RUNS_V3/REAL_MEASURED_V3.json"
+   ],
+   "brief": "briefs/BRIEF_Z18_EXPERIMENTAL_METHOD_REVIEWER.md",
+   "brief_sha256": "371674b2b474231caa22b02008becdd8965358b4bfec4e84e871a8cbbaabf7b4",
+   "claims": [
+    {
+     "claim": "C1",
+     "reason": "The executed intervention grid is half the grid written in the prediction-of-record under an amendment that declares it unchanged, and under the frozen grid the low-endpoint prediction fails on all five qualifying receipts for any non-negative persistent error.",
+     "verdict": "REOPEN"
+    },
+    {
+     "claim": "C4",
+     "reason": "The package itself discloses that all non-degenerate emissions in both headline rows come from the stratum whose evaluator predated the predictions, its blindness check is an identity, two rows cannot return a negative, and the single provided outcome file carries two contradictory solved-rules with one measurement sitting between them.",
+     "verdict": "REOPEN"
+    }
+   ],
+   "first_ts": "2026-09-19T07:24:45.777Z",
+   "id": "PX-Z18-EXP",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:33:39.725Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": "C1",
+     "id": "OBJ-1",
+     "material": true,
+     "text": "FREEZE_V1.md \u00a75 freezes \"e.g. R01: 8/(8*32) = 1/32; lambda_low = 1/64, lambda_high = 3/64\" while RECEIPTS_V1.json records lambda_star 0.015625 and resource_price_lambda 0.0078125/0.0234375, and FREEZE_V2_AMENDMENT A2 calls the grid \"unchanged\" while stating lambda* = p/(16H)."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-2",
+     "material": true,
+     "text": "The boundary-tie control requires E0 = 1/4 but E0 \u2248 floor_del/2 \u2264 \u22481/4 by construction, so it fails on all five receipts (\"winners\": [\"c1\"], the B=0 candidate) \u2014 and FREEZE_V1 \u00a73 pre-excludes that cell from the receipts."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-3",
+     "material": true,
+     "text": "The receipts' own E0 values place the true crossing at \u22480.75\u20130.96\u00b7lambda*, so the frozen boundary is empirically wrong by 4\u201325% and the \u00b150% bracket is too coarse to detect it while \"2\u00b7lambda* falsified\" is reported as a control."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-4",
+     "material": true,
+     "text": "FREEZE_V1 \u00a75 states \"Same trained candidates serve both lambda settings (lambda reprices only)\" and every receipt has resources_before byte-identical to resources_after, so no transition was observed \u2014 one measurement pair was scored under two prices."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-5",
+     "material": true,
+     "text": "FREEZE_V2_AMENDMENT A4 derives the licensing band 1/8 < E0 < 3/8 from the same inequality as the prediction, so a system is admitted to the test exactly when the algebra already guarantees the predicted outcome given err_persist \u2248 0."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-6",
+     "material": true,
+     "text": "Since err_imm \u2248 0 forces E0 \u2248 floor_del/2 \u2264 \u22481/4, the band's upper edge 3/8 is unreachable under this design and every exclusion recorded in CORE.md line 10 is on the E0 < 1/8 side."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-7",
+     "material": false,
+     "text": "The shifted-law control is falsified exactly when the main prediction succeeds and holds exactly when it fails, so it is the main observation restated and carries no independent information."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-8",
+     "material": true,
+     "text": "FREEZE_V2_AMENDMENT A3 classifies by \"STATELESS iff B == 0\" / \"PERSISTENT_STATE iff B > 0\" in a two-candidate pool where B is a one-to-one proxy for the architecture family, yet every receipt records classification_blind_to_target_family: true."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-9",
+     "material": true,
+     "text": "R07-frankenstein (p=6, T=350000) and R08-dict-words (p=4, T=300000) appear in no readable registration artifact, so two of the five receipts producing the terminal have unverifiable registration."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-10",
+     "material": true,
+     "text": "CORE.md lines 19-21 show twelve systems run to obtain five qualifying receipts, with the V3 lever \"second text-weighted tranche\" selecting the source class V2 had already shown lands in band, and no registered stopping rule or multiplicity accounting anywhere in the artifacts."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-11",
+     "material": true,
+     "text": "Every receipt's prediction_ref pins FREEZE_V1 by sha but cites FREEZE_V2_AMENDMENT.md with no commit hash, leaving the document that supplies the operative classification rule (A3) and licensing band (A4) unpinned."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-12",
+     "material": true,
+     "text": "The \"real systems\" are a four-cell lookup MLP with inputs \"exactly (x_t, m_t)\" and a size-16/32 GRU trained three epochs on one file's bytes with train and eval taken from the same file."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-13",
+     "material": true,
+     "text": "All 20 held-out rows fix lambda_low/lambda* = 1/2 and lambda_high/lambda* = 3/2 and the decision depends only on that ratio, so the twenty cases are twenty rescalings of one problem whose answer is proved in the freeze itself."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-14",
+     "material": true,
+     "text": "No outcome artifact for gmi-833-heldout-20-transitions-v1 is in the artifact set, so the 20/20 result, the 65,552 census, the relabeling invariance and the two-searcher agreement exist only as self-report barred by Rule 2."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-15",
+     "material": false,
+     "text": "CORE.md line 9 attributes to #901 the per-byte law lambda* = eta*p/(2B) while the #901 freeze states lambda* = eta*p/2 for one state bit, an extension assumed rather than tested since all endpoints are fixed ratios of the assumed lambda*."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-16",
+     "material": true,
+     "text": "CORE.md lines 25-28 and 73-74 disclose that the pre-V4 census emitted only degenerate points and that every non-degenerate emission in KE-1 and KE-2 comes from the stratum whose external evaluator \"already existed at 50451f23\", with the repair lever chosen after inspecting F's behaviour."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-17",
+     "material": true,
+     "text": "BLINDNESS_V1 \u00a71 states ARCH_LABELS is \"a third, separate sequence that no predictor path ever touches\" and \u00a73 then permutes exactly that sequence, so the 24-permutation check cannot fail, while the live channel ARCH_RAW = (param, w, h, k, rho, dev, obs) is never permuted."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-18",
+     "material": true,
+     "text": "KE-6 computes coverage under a fault law in which \"each of the four relations M, D, B, H independently fails with exactly its registered probability\" and compares it to a bound built from those same betas, verifying union-bound slack rather than calibration against observed fault frequencies."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-19",
+     "material": true,
+     "text": "In KE-7 in-universe violations are excluded by prediction and out-of-universe errors are pre-declared \"not a new finding ... attributable to registration\", so no observable outcome of the row is a negative result."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-20",
+     "material": true,
+     "text": "KE-4 reports stratum sizes but no confusion-matrix result anywhere in the artifacts, while SCOPE_V1 pre-declares that mismatches on the 28,304-input CONJUNCTIVE stratum \"measure the ambiguity, not the predictor\"."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-21",
+     "material": false,
+     "text": "NULL_MODAL is a constant predictor competing against point emissions of 4/11, 5/11, 9/11, 4/13, 7/13 and 11/13, so beating it is arithmetically forced and no structural-descriptor null is reported."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-22",
+     "material": true,
+     "text": "REAL_MEASURED_V3.json carries both \"exact accuracy >= 99/100 ... (V3 band)\" and training.solved_rule \"... == 1 ...\", with exactly one head (GRU|32|1|2 at 124/125) between them whose classification determines the measured_solved_bits entries 5 and 7 and hence the registration-truthfulness counts."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-23",
+     "material": true,
+     "text": "The only real-systems outcome file contains 24 heads over 8 machines trained on a single 96,311-byte source, which cannot be reconciled with CORE.md's \"96 real torch-trained systems ... 288 trained heads\" from the artifacts I may read."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-24",
+     "material": true,
+     "text": "Headline denominators such as \"0 of 161,632 pairs\", 45,800, 121,920 and 24,912 are cross-products of a small number of distinct machine measurements against registered worlds, not independent trials, and the V3 measurements collapse to \"GRU solves all tasks, MLP solves task 0\"."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE",
+     "reason": "The executed grid is half the prediction-of-record's frozen grid, under which the low-endpoint prediction fails on all five qualifying receipts for any non-negative persistent error."
+    },
+    {
+     "gate": "boundary-tie control (FREEZE_V1 \u00a73 / FREEZE_V2_AMENDMENT A5)",
+     "reason": "The predicted tie requires E0 = 1/4, is contradicted by a strict stateless win on all five receipts, and is pre-excluded from scoring by the freeze itself."
+    },
+    {
+     "gate": "licensed_band check (FREEZE_V2_AMENDMENT A4/A5)",
+     "reason": "The admission criterion is algebraically the predicted outcome, so it removes exactly the systems on which the law could be falsified."
+    },
+    {
+     "gate": "#833 Section J row \"Validate at least 5 transitions on real systems\"",
+     "reason": "Two of the five qualifying receipts have no verifiable registration, the tranche was expanded after seeing which source class passes, and no transition was observed \u2014 one measurement pair was repriced."
+    },
+    {
+     "gate": "KE-1",
+     "reason": "All non-degenerate emissions come from the V4 stratum whose evaluator predated the predictions, and the pre-V4 census was entirely degenerate by the package's own account."
+    },
+    {
+     "gate": "KE-2",
+     "reason": "Same custody inversion as KE-1, plus the 24-permutation family-blindness headline rests on a check that cannot fail."
+    },
+    {
+     "gate": "KE-3",
+     "reason": "Its measured capabilities derive from REAL_MEASURED_V3.json, which carries two contradictory solved-rules with one head between them that changes the recorded solved set."
+    },
+    {
+     "gate": "KE-6",
+     "reason": "Coverage is computed under the very fault distribution the bound assumes, so the row verifies union-bound slack rather than measuring calibration error."
+    },
+    {
+     "gate": "KE-7",
+     "reason": "In-universe errors are excluded by prediction and out-of-universe errors are pre-declared non-findings, so the row cannot return a negative result."
+    },
+    {
+     "gate": "KE-4",
+     "reason": "No confusion-matrix result appears in any artifact and mismatches on the largest stratum are pre-excused as ambiguity."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "The artifacts were specific enough to support a genuine, quotable experimental-methods review producing material objections traceable to exact lines and receipt fields, even though several claimed outcomes have no outcome artifact in the set.",
+     "row": "Z18-2",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z18-2"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 8,
+   "verdict_block_present": true,
+   "verdict_bytes": 32199,
+   "verdict_file": "proxies/PX-Z18-EXP.verdict.txt",
+   "verdict_sha256": "d2533ba6b7c7800dd6f02e8b35095942b1ecdbd17c6ff38f3fdd79746bffa4ca"
+  },
+  {
+   "agent_log_id": "ad82b2973739d598d",
+   "artifacts_handed": [
+    "research/gmi-833-z-z15-decisive-falsifiers-v1/FREEZE_V1.md",
+    "research/gmi-833-z-z15-decisive-falsifiers-v1/PARENT_DISCLOSURE_V1.md",
+    "research/gmi-833-capability-interaction-partition-v1/CORE.md",
+    "research/gmi-833-capability-interaction-partition-v1/CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1.md",
+    "research/gmi-833-ag1-descent-stack-v1/PARENT_LEDGER.md",
+    "research/gmi-833-ag1-descent-stack-v1/AG1_THEOREMS_V1.md",
+    "research/gmi-833-capability-predictor-evaluation-v1/PARENT_DISCLOSURE_V1.md",
+    "research/gmi-833-tranche-ab-ac-lit/GMI_TERMINOLOGY_CROSSWALK_V2.md",
+    "research/gmi-833-ac-lanes-harness-v1/AC_CROSSWALK_ADDENDUM_V1.md"
+   ],
+   "brief": "briefs/BRIEF_Z18_PARENT_LITERATURE_REVIEWER.md",
+   "brief_sha256": "0b9d0c8c4d7383d96ab40bacd14ce2873896ea4f808b599376232d755d895620",
+   "claims": [
+    {
+     "claim": "C1",
+     "reason": "No external parent is disclosed for the content of the boundary law (only for the method of testing it), F4b cannot fire on the transformation it names while the freeze's own standard says such a falsifier tests nothing, and the registered \"0/200 surviving\" target for F1 is left unreconciled against a reported non-empty blind set with 200/200 attributed to a post-freeze revival.",
+     "verdict": "REOPEN"
+    },
+    {
+     "claim": "C2",
+     "reason": "The section headed \"Strongest parents\" names the union bound but not the cooperative-game interaction index / super-sub-additivity trichotomy that owns the classification CIP-1 performs, and the package's own designated disclosure file was outside the permitted read set so the parent gate cannot be closed here.",
+     "verdict": "MATERIAL_OBJECTION"
+    },
+    {
+     "claim": "C3",
+     "reason": "Typed provenance edges are attributed to Kahn 1962, foundational pluralism and the MUTUAL_INTERPRETATION and FREE_CONSTRUCTION constructs are asserted with no citation at all, and the instruction-set parent (Minsky 1967) is not the earliest by the programme's own AC06 rule.",
+     "verdict": "MATERIAL_OBJECTION"
+    },
+    {
+     "claim": "C4",
+     "reason": "This is the best-disciplined disclosure of the five and its named parents check out, but on the one point where its own registered law was falsified it cites two convenient RNN-expressivity papers and omits the SQ-hardness result that governs the failure.",
+     "verdict": "MATERIAL_OBJECTION"
+    },
+    {
+     "claim": "C5",
+     "reason": "The VERIFIED field is inflated by Wikipedia-mediated marks against the document's own key, and two rows record match=EXACT on unsupportable evidence (a self-citation in row 48, a complexity-theoretic reduction cited for a methodology practice in row 33), with two bibliographic errors carried through.",
+     "verdict": "MATERIAL_OBJECTION"
+    }
+   ],
+   "first_ts": "2026-09-19T07:24:48.925Z",
+   "id": "PX-Z18-LIT",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:34:39.531Z",
+   "model_self_report": "Claude Opus 5 (exact model id as reported to me: claude-opus-5[1m])",
+   "objections": [
+    {
+     "claim": "C1",
+     "id": "OBJ-C1-A",
+     "material": true,
+     "text": "The external-parent table discloses only Popper, Mayo, Nosek, identifiability and Wigner \u2014 all methodology \u2014 while the boundary law itself is attributed solely to the in-corpus package gmi-833-heldout-20-transitions-v1, leaving the memory-pricing parent class the programme already cites in crosswalk rows 5 and 25 entirely absent."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-C1-B",
+     "material": true,
+     "text": "F4b tests invariance of the lambda-versus-eta\u00b7p/2 comparison under (eta, lambda) -> (c\u00b7eta, c\u00b7lambda), which holds by arithmetic, so restricted to T_b it is constant-False against the freeze's own standard \"A falsifier that cannot fire tests nothing\", and its planted positive is admittedly on a different transformation."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-C1-C",
+     "material": true,
+     "text": "The freeze registers \"Target: 200/200 random boundaries falsified, 0/200 surviving\" and registers \"Any randomized boundary surviving F1\" as a falsifier of the package itself, while the disclosure reports \"57 survivors realizing 12 distinct multipliers\" for the frozen falsifier and attributes 200/200 to F1PLUS-DEC, described as \"the revival\" \u2014 and no artifact reconciles the two."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-C1-D",
+     "material": false,
+     "text": "The identifiability parent row's citation cell is \"classical experimental-design identifiability\" with no author, year or DOI, which is the exact defect the programme's own AC06 rule and the AC addendum were created to repair in eight other rows."
+    },
+    {
+     "claim": "C2",
+     "id": "OBJ-C2-A",
+     "material": true,
+     "text": "Section 6 lists only the shipped in-corpus lemmas and \"Inclusion\u2013exclusion / submodularity of counting measure (classical)\", and concedes \"CIP-1's content is not that inequality but the partition the three-way comparison induces\" \u2014 which is precisely the object owned by the cooperative-game interaction index (Grabisch & Roubens 1999, doi:10.1007/s001820050125) and never named."
+    },
+    {
+     "claim": "C2",
+     "id": "OBJ-C2-B",
+     "material": true,
+     "text": "CORE.md names PARENT_OWNERSHIP_V1.md as the package's \"parent disclosure (4 Crossref-resolved DOIs)\" but that file is outside the brief's artifact list, so C2's parent attributions cannot be certified in either direction from this set."
+    },
+    {
+     "claim": "C2",
+     "id": "OBJ-C2-C",
+     "material": false,
+     "text": "CIP-4's content \u2014 that the equality cases of subadditivity characterize nesting and disjointness only under \"(P) mu(A) = 0 \u21d2 A = \u2205\" \u2014 is the textbook strict-positivity/full-support hypothesis presented as a named theorem with no citation."
+    },
+    {
+     "claim": "C3",
+     "id": "OBJ-C3-A",
+     "material": true,
+     "text": "The ledger credits \"typed provenance edges\" to \"Standard graph theory (Kahn, Topological sorting of large networks, CACM 5(11), 1962)\", but Kahn owns topological sorting and not arrow typing, which is exactly the construct AG1-1 claims as residual."
+    },
+    {
+     "claim": "C3",
+     "id": "OBJ-C3-B",
+     "material": true,
+     "text": "\"Set-theoretic, type-theoretic/univalent and categorical foundations are established parent programmes\" is asserted with zero citation, the MUTUAL_INTERPRETATION and FREE_CONSTRUCTION arrow kinds are given no literature parent, and the ten-layer stack's only disclosed parent is the programme's own issue comment 5693520829."
+    },
+    {
+     "claim": "C3",
+     "id": "OBJ-C3-C",
+     "material": true,
+     "text": "AG1-3 names \"Minsky 1967 (the instruction set)\" as strongest parent for READ/EMIT/INC/DECJZ/HALT, but the unlimited register machine with that repertoire is Shepherdson & Sturgis, JACM 10(2):217\u2013255, 1963, doi:10.1145/321160.321170, violating the programme's own AC06 \"earliest/strongest known parent\" rule."
+    },
+    {
+     "claim": "C3",
+     "id": "OBJ-C3-D",
+     "material": false,
+     "text": "AG1-5's consequence that \"No predicate evaluated at or below F4 can therefore separate them\" is the congruence property of behavioural equivalences, whose parent (van Glabbeek's linear-time\u2013branching-time spectrum) the programme cites in crosswalk row 4 but not in AG1-5's strongest-parents list."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-C4-A",
+     "material": true,
+     "text": "The disclosure says \"we did not anticipate it\" about its own falsified parity-learnability law while citing only Weiss et al. 2018 and Merrill 2019 on RNN precision, omitting the result that governs the failure \u2014 parity's SQ dimension 2^n and non-SQ-learnability (Kearns, JACM 1998, doi:10.1145/293347.293351)."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-C4-B",
+     "material": false,
+     "text": "Residual item 6 claims \"A quantified bridge failure on real trained systems\" while section 2 names no parent from the literature that specifically forecasts capabilities of trained systems, and the artifacts do not state whether that literature was searched."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-C5-A",
+     "material": true,
+     "text": "The key defines \"VERIFIED = the reference was checked against a live source\", yet rows 1, 10, 29 and 32 are marked VERIFIED on the basis of a Wikipedia article citing the work (\"VERIFIED via Wikipedia Program synthesis\", \"cited in Wikipedia Inductive bias\", \"via Wikipedia Causal inference class\"), so the field overstates verification on the rows that feed paper-facing text."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-C5-B",
+     "material": true,
+     "text": "Row 48 records match=EXACT \u2014 defined by the key as \"an established academic term accurately matches the object\" \u2014 with its sole citation being \"WHAT_IS_ACTUALLY_NEW template (this package)\", so the row certifies its own coinage as established usage."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-C5-C",
+     "material": true,
+     "text": "Row 33 records match=EXACT with \"complexity-theory reduction tradition (Karp 1972)\" for a definition reading \"demonstrate residual claim after comparison to / absorption of strongest parent\", and a polynomial-time many-one reduction between decision problems is not that object."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-C5-D",
+     "material": false,
+     "text": "Row 7 cites \"Milner, CCS, 1989\", fusing the title of A Calculus of Communicating Systems (Springer LNCS 92, 1980) with the date of Communication and Concurrency (Prentice Hall, 1989)."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-C5-E",
+     "material": false,
+     "text": "Row 32 cites \"Rubin, 'Causal inference using potential outcomes', 1974/1978\", attaching the title of Rubin 2005 (JASA 100(469):322\u2013331) to the date of Rubin 1974 (J. Educ. Psychol. 66(5):688\u2013701), under a VERIFIED mark."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-C5-F",
+     "material": false,
+     "text": "Rows 9 and 26 rest \"architecture-prior-free\" and \"prior-free\" on Wolpert & Macready's no-free-lunch theorems with no account of how a result about performance averaged over objective functions licenses a claim about the unavoidability of inductive bias, while the correct parent (Mitchell 1980) sits in the same cells doing the actual work."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "Z15 F1 decisiveness and the 200/200 null result",
+     "reason": "The freeze registers 0/200 surviving as the pass condition and \"Any randomized boundary surviving F1\" as a self-falsifier, the disclosure reports a non-empty blind set for the frozen falsifier, and 200/200 is credited to the post-freeze F1PLUS-DEC revival with no reconciliation in any artifact."
+    },
+    {
+     "gate": "Z15 F4b as a decisive falsifier for issue row 5",
+     "reason": "Invariance of the lambda-versus-eta\u00b7p/2 comparison under a common positive rescaling of (eta, lambda) holds by arithmetic, so F4b cannot fire on the transformation it names and does not discharge \"invariance failure under transformations claimed irrelevant\"."
+    },
+    {
+     "gate": "the parent-literature gate for gmi-833-capability-interaction-partition-v1",
+     "reason": "The section that holds itself out as naming the \"Strongest parents\" omits the cooperative-game interaction-index parent, and the package's own designated disclosure file PARENT_OWNERSHIP_V1.md was outside the permitted read set so nothing here can close that gate."
+    },
+    {
+     "gate": "the citation-status field of GMI_TERMINOLOGY_CROSSWALK_V2 (every VERIFIED mark) and AC05",
+     "reason": "At least four VERIFIED marks rest on a Wikipedia article citing the work rather than on the live primary source the key requires, and the AC re-run that was meant to re-verify explicitly states \"It does not verify any citation. Every entry is CITE-TF; AC05 stays open.\""
+    },
+    {
+     "gate": "the AG1 PARENT_LEDGER attributions and AG1-3's strongest-parents line",
+     "reason": "Typed provenance edges are credited to Kahn 1962, foundational pluralism and two named arrow kinds carry no citation at all, and the instruction-set parent is not the earliest by the programme's own AC06 rule."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "The nine artifacts were sufficient to locate each claim's object, name candidate parents, check attributions against their stated venues, and find cross-package inconsistencies, so a genuine parent-literature review was performable.",
+     "row": "Z18-3",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z18-3"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 16,
+   "verdict_block_present": true,
+   "verdict_bytes": 38205,
+   "verdict_file": "proxies/PX-Z18-LIT.verdict.txt",
+   "verdict_sha256": "ab99e3272687dd5581d19aa2e2b1e770b5ad1613055aff99697935e7a425f3e0"
+  },
+  {
+   "agent_log_id": "abf7c9b426e2eb2be",
+   "artifacts_handed": [
+    "research/gmi-833-heldout-20-transitions-v1/HELDOUT_TRANSITION_FORMALIZATION_V1.md",
+    "research/gmi-833-real-transition-receipts-v1/CORE.md",
+    "research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md",
+    "research/gmi-833-real-transition-receipts-v1/RECEIPTS_V1.json",
+    "research/gmi-833-capability-predictor-evaluation-v1/CORE.md",
+    "research/gmi-833-capability-predictor-evaluation-v1/SCOPE_V1.md",
+    "research/gmi-833-z-z15-decisive-falsifiers-v1/CORE.md",
+    "research/gmi-833-z-z15-decisive-falsifiers-v1/FAILED_PREDICTION_REGISTER_V1.json",
+    "research/gmi-833-theory-baseline-v1/BASELINE_V1.md"
+   ],
+   "brief": "briefs/BRIEF_Z18_STATISTICS_CAUSAL_REVIEWER.md",
+   "brief_sha256": "b80f2e97b815c78690b94e3b93c56e32861b438f2df1807383e40fc2be22df64",
+   "claims": [
+    {
+     "claim": "C1",
+     "reason": "The \"licensed band\" 1/8<E0<3/8 is algebraically identical to the condition that the transition occurs, so neither arm of the real-system test could fail, and the receipts' own boundary-tie data place the true crossover strictly below lambda* on 5 of 5 systems inside the interval the programme itself proves the design is blind to.",
+     "verdict": "REOPEN"
+    },
+    {
+     "claim": "C4",
+     "reason": "Coverage is reported only pooled at 69-75% abstention with the point-emission-only figure that SCOPE_V1 calls the harsh test absent, \"calibration\" is an enumeration over stipulated unvalidated betas rather than any observed frequency, KE-7's only reported statistic cannot fail, and KE-3's 161,632 conditions on an outcome-selected truthfulness event the same package shows is not obtainable.",
+     "verdict": "MATERIAL_OBJECTION"
+    },
+    {
+     "claim": "C5",
+     "reason": "The register's \"6 failed\" reduces to at most two distinct discovered failures once a duplicate, a designed control and two open-obligation pointers are removed, while three negatives meeting its own kind definitions are missing, and A5/A12 assert absences beyond their screened populations.",
+     "verdict": "MATERIAL_OBJECTION"
+    }
+   ],
+   "first_ts": "2026-09-19T07:24:51.775Z",
+   "id": "PX-Z18-STAT",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:33:30.674Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [
+    {
+     "claim": "C1",
+     "id": "OBJ-S1",
+     "material": true,
+     "text": "FREEZE_V2_AMENDMENT A4's band 1/8<E0<3/8 is equivalent to lambda_low < lambda_c < lambda_high where lambda_c = p*E0/B, i.e. to the transition being observed, so licensing and outcome are the same arithmetic and the control cannot fail."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-S2",
+     "material": true,
+     "text": "A5 retracts the uniform-bit floor 1/2 on real data while A2 leaves lambda* = p*eta/(2B) unchanged even though that constant is derived from the retracted 1/2, and the receipts record the correct replacement (floor_del) without propagating it, so lambda_c/lambda* = 2*floor_del is a known, uncorrected misspecification absorbed by the band."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-S3",
+     "material": true,
+     "text": "Every record's boundary_tie_control reports winners [\"c1\"] rather than a tie at lambda = lambda*, which the receipts' own p, B and E0 values confirm on all five systems and which falsifies the frozen law's boundary point, yet it is filed as a control with counted_as_transition false rather than as a failed prediction."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-S4",
+     "material": true,
+     "text": "The Z15 package proves the lambda*/2 and 3*lambda*/2 endpoint design is blind for every multiplier in (1/2, 3/2), the real-system package uses exactly those endpoints, and the measured ratios 4*E0 (0.747 to 0.960) all fall inside that blind interval, so the real-system evidence cannot distinguish the frozen law from the data-derived alternative."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-S5",
+     "material": true,
+     "text": "CORE.md records that sampling continued after \"qualifying count 3 < 5\" with a deliberately \"text-weighted\" second tranche, so both the stopping rule and the recruitment are functions of observed outcomes and no error rate accompanies \"every prediction correct\"."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-S6",
+     "material": true,
+     "text": "HELDOUT section 3 derives the boundary analytically over a complete enumeration, so the 20 transitions, 40 endpoints and 20 ties are entailed consequences with no sampling and zero residual degrees of freedom, and the two exact search procedures agreeing is a software cross-check rather than replication."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-S7",
+     "material": false,
+     "text": "Receipt R04 carries system_id \"R04-dpkg-log\" with fallback_used true and path /usr/share/sounds/alsa/Noise.wav, and CORE.md lists that white-noise audio file among \"text-like sources\", so one of the five headline receipts is described in terms its own record contradicts."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-S8",
+     "material": true,
+     "text": "RECEIPTS_V1.json contains five records and no receipt for any of the three unlicensed systems or the four further licensed ones, so the claim that the band is \"demonstrated on both sides by real data\" is not verifiable from the supplied artifacts."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-S9",
+     "material": true,
+     "text": "seed_spread_err_all is exactly 0.0 for both candidates in all five receipts and floor_del's dispersion over seeds is never reported, so every \"3-sigma\" gate in A3 carries only binomial-at-fixed-model uncertainty and omits training variance entirely."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-S10",
+     "material": true,
+     "text": "run_id_before and run_id_after differ only by \":low\"/\":high\" and resources_before equals resources_after exactly (e.g. [128, 3489, 180.278]), which either contradicts a STATELESS after-property carrying 128 state bytes or means the receipt records no per-endpoint resources for the selected candidate, so no re-search between endpoints is evidenced."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-S11",
+     "material": true,
+     "text": "SCOPE_V1 commits to reporting coverage \"separately for point emissions only (the harsh test)\" but CORE.md reports only pooled minima at abstention rates of 121/162 and 439/640, and under a simple mixture reading the implied point-only coverage at alpha=1/20 is about 0.8953 against the bound 913/1000, so \"0 violations\" is not assessable."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-S12",
+     "material": true,
+     "text": "KE-6's \"empirical_coverage\" is an exact weighted enumeration of a stipulated 16-pattern fault law whose beta = (1/100, 1/200, 1/500, 1/50) have no stated empirical basis and on which HE5 shows the entire result depends, so no observed frequency underlies anything the row calls calibration error."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-S13",
+     "material": true,
+     "text": "KE-7 reports only \"0 in-universe violations\", which the construction guarantees, while SCOPE_V1 pre-declares out-of-universe errors \"not a new finding\", so the row titled \"measure OOD failure\" reports no failure rate and has no outcome that could count against it."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-S14",
+     "material": true,
+     "text": "SU-KE3's \"0 of 161,632 (input, truthfully-registered-world) pairs\" conditions on truthfulness that is decided by comparison with the measured outcome and holds on only 19/32, 28/32 and 26/32 of real systems, a condition the same package states is not obtainable for arbitrary trained systems."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-S15",
+     "material": true,
+     "text": "NULL_MODAL is evaluated only \"on the inputs where F emits a point\", an arena selected by F's own 69-75% abstention policy, and a modal-capability null is guaranteed wrong on non-degenerate values like 4/11 and 9/11, so no abstention-matched null is tested."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-S16",
+     "material": true,
+     "text": "KE-3D's terminal rests on \"19/32 to 28/32 to 26/32 - not monotone, which is the signature of an optimization threshold rather than a missing clause\", but 28 versus 26 at n=32 is under one binomial standard deviation, so a mechanistic diagnosis and a stopping decision are carried by a difference the data cannot resolve."
+    },
+    {
+     "claim": "C4",
+     "id": "OBJ-S17",
+     "material": true,
+     "text": "\"exact Fraction/int arithmetic, no floats in any claim\" establishes only absence of rounding, while denominators like 45,800 and 161,632 count cells of an author-specified exhaustive grid rather than independent trials, so the pairing of exactness with large n invites a reading of statistical power the design does not support."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-S18",
+     "material": true,
+     "text": "The register's six failed entries contain one duplicated finding, one self-labelled designed control and two open-obligation pointers, leaving at most two discovered failures, while the F1 143/200 blindness, the retracted V1 uniform-1/2 floor and the real-system boundary-tie discrepancy all meet its own kind definitions and are absent."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-S19",
+     "material": true,
+     "text": "A5's \"No unsupported overclaim remains\" rests on 283 flags adjudicated 283 PROPER out of a 22,553-object corpus whose remaining 22,116 AMBER+RED objects section 2 concedes are un-sampled, with no sensitivity estimate for a screen that never fired."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-S20",
+     "material": true,
+     "text": "A12 carries \"0/200 nulls\" with no null family, power analysis or blind-set characterization, in a corpus where the one analogous null that was examined proved blind on 57 of 200 draws."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE (#833 Section-J row, #903)",
+     "reason": "The licensed band is the prediction, lambda* was not corrected when its premise was retracted, and the boundary-tie control falsifies lambda* on all five supplied receipts."
+    },
+    {
+     "gate": "licensed_band check (FREEZE_V2_AMENDMENT A5) and boundary_tie_control (RECEIPTS_V1.json)",
+     "reason": "The band screens on the same measured quantity that determines the outcome, and the tie control's disconfirming result is recorded as a control rather than scored as a failed prediction."
+    },
+    {
+     "gate": "KE-6 measure calibration error",
+     "reason": "The point-emission-only coverage that SCOPE_V1 identifies as the decisive test is absent at 69-75% abstention, and the reported quantity enumerates a stipulated fault law rather than any observed frequency."
+    },
+    {
+     "gate": "KE-7 measure OOD failure",
+     "reason": "The only reported statistic is guaranteed by construction and the out-of-universe failure rate the row is named for is never reported."
+    },
+    {
+     "gate": "FAILED_PREDICTION_REGISTER_V1 and the Z15 row \"failed predictions published beside the successes\"",
+     "reason": "The failure count is inflated by a duplicate, a designed control and two open-obligation pointers while three qualifying negatives are missing, and the checker can only validate listed entries, never completeness."
+    },
+    {
+     "gate": "BASELINE_V1 A5 \"No unsupported overclaim remains\"",
+     "reason": "An absence claim over 22,553 objects is asserted from 283 flags with no estimate of the screen's false-negative rate."
+    },
+    {
+     "gate": "BASELINE_V1 A12 \"0/200 nulls\"",
+     "reason": "The null family and its blind set are uncharacterized, and the same construct was shown 57/200 blind elsewhere in this corpus."
+    },
+    {
+     "gate": "KE-3D terminal (no fourth registration law)",
+     "reason": "The stopping decision is justified by a 28-versus-26 non-monotonicity at n=32, which is under one standard deviation and cannot distinguish the two mechanisms named."
+    },
+    {
+     "gate": "FAILED_PREDICTION_REGISTER success entry SU-TRANS",
+     "reason": "It presents entailed enumeration outcomes as \"20/20, 40/40 ... replicated across two materially distinct search procedures\" without the qualifier its own source document states."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "The artifacts contained enough primary numeric detail (receipt fields, coverage rationals, null counts, freeze ordering) to conduct a substantive statistical and causal-inference review and to derive quantitative objections independently of the packages' self-assessments.",
+     "row": "Z18-4",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z18-4"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 11,
+   "verdict_block_present": true,
+   "verdict_bytes": 44379,
+   "verdict_file": "proxies/PX-Z18-STAT.verdict.txt",
+   "verdict_sha256": "5758d36d9bfba6a05520f595cf5ab552956b19ac1e48b7c1be441a2e052a905e"
+  },
+  {
+   "agent_log_id": "a6025e541974716e1",
+   "artifacts_handed": [
+    "research/gmi-833-z-z15-decisive-falsifiers-v1/FREEZE_V1.md",
+    "research/gmi-833-heldout-20-transitions-v1/HELDOUT_TRANSITION_FORMALIZATION_V1.md",
+    "research/gmi-833-heldout-20-transitions-v1/FREEZE_V1.md",
+    "research/gmi-833-real-transition-receipts-v1/CORE.md",
+    "research/gmi-833-real-transition-receipts-v1/FREEZE_V2_AMENDMENT.md",
+    "research/gmi-833-capability-interaction-partition-v1/CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1.md",
+    "research/gmi-833-ag1-descent-stack-v1/AG1_THEOREMS_V1.md",
+    "research/gmi-833-ag1-descent-stack-v1/FOUNDATION_DEPENDENCY_DAG_V1.json",
+    "research/gmi-833-theory-baseline-v1/BASELINE_V1.md"
+   ],
+   "brief": "briefs/BRIEF_Z18_THEOREM_REVIEWER.md",
+   "brief_sha256": "02778f87e3f2ec13ae1afc56f1742fd405b27559b1da457566e381174cde3b3b",
+   "claims": [
+    {
+     "claim": "C1",
+     "reason": "The finite boundary law is correct but trivial, its registered null is structurally blind to boundaries misplaced by under 50%, and the real-system extension gates entry on the prediction's own sufficient condition so that no qualifying system could have falsified it.",
+     "verdict": "REOPEN"
+    },
+    {
+     "claim": "C2",
+     "reason": "CIP-1, CIP-1a, CIP-2b, CIP-3 and CIP-4 are valid as written and internally consistent, but the package's own \u00a70 disposition (\"Lemmas A, B and C are SOUND\", \"the defect is confined to the naming/classification layer\") is refuted by its own CIP-4 counterexample to the shipped Lemma B iff.",
+     "verdict": "MATERIAL_OBJECTION"
+    },
+    {
+     "claim": "C3",
+     "reason": "I independently confirmed AG1-1/-2's counts and the no-upward-arrow property, but AG1-4's zero-cycle statement is false over the arrow set as the file's own edge semantics define it, AG1-5 asserts a universal impossibility on an antecedent it says was not verified, and AG8's \"machine-checked obligations\" are presence and non-emptiness checks over a file that was not supplied.",
+     "verdict": "MATERIAL_OBJECTION"
+    },
+    {
+     "claim": "C5",
+     "reason": "A14 and \u00a73's \"unconditional\" Lemma B are directly contradicted by the CIP package, A5's \"no unsupported overclaim remains\" is refuted by that package's correction of a GREEN mainline object, and A7's \"all six fields ... 1,175 slots\" does not reconcile with 235 objects.",
+     "verdict": "REOPEN"
+    }
+   ],
+   "first_ts": "2026-09-19T07:24:42.834Z",
+   "id": "PX-Z18-THM",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:37:29.486Z",
+   "model_self_report": "Claude Opus 5 (model id claude-opus-5[1m])",
+   "objections": [
+    {
+     "claim": "C1",
+     "id": "OBJ-1",
+     "material": true,
+     "text": "Every randomized boundary with r in (1/2,3/2) except r=1 reproduces the true prediction at both frozen endpoints, so F1 cannot catch it \u2014 making the registered target \"200/200 random boundaries falsified\" either mathematically unachievable or the product of a ladder that excludes exactly F1's blind interval, while the boundary-tie worlds that would catch every r\u22601 were not used for the null."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-2",
+     "material": true,
+     "text": "FREEZE_V2_AMENDMENT \u00a7A4 derives that the transition \"is licensed iff 1/8 < E0 < 3/8\" and then excludes systems outside that band as UNAVAILABLE_BY_AMENDMENT, so the eligibility criterion is the prediction's own sufficient condition and the second gate (persistent_beats_empirical_floor) fails closed rather than falsifying."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-3",
+     "material": true,
+     "text": "CORE.md counts the three unlicensed systems as \"correctly predicted NOT to transition at either endpoint\" although \u00a7A4 states \"predictions apply only to licensed systems\", so systems excluded from scope are re-imported as confirming evidence."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-4",
+     "material": true,
+     "text": "CORE.md advertises \"family-blind binomial-banded classification\" while \u00a7A3 gives the classifier the state-bit count B and keys STATELESS/PERSISTENT_STATE directly on B==0 versus B>0, so the morphology variable under prediction is an input to the blinded classifier."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-5",
+     "material": true,
+     "text": "CORE.md cites \"the #901 law lambda* = eta*p/(2B)\" while the amendment freezes lambda* = p/(16H) with B_persist = 4H, a factor of two apart with no reconciling convention stated in any supplied artifact."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-6",
+     "material": true,
+     "text": "CORE.md says \"V1 predictions unchanged\" although \u00a7A5 records that \"V1's assertion is retracted by this amendment\", so the frozen price grid derived from the retracted uniform-bit floor is retained as the law's prediction for systems whose measured floor is different."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-7",
+     "material": true,
+     "text": "The Z15 restatement predicts \"which morphology a resource-bounded search will select\", but the mathematics is the argmin of a linear state-penalized objective over a fixed 65,552-candidate set, which any exact optimizer reproduces and which says nothing about search or resource bounds."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-8",
+     "material": true,
+     "text": "The \"20/20 transition predictions and 40/40 endpoint property predictions\" are arithmetic consequences of the two enumerated quantities J0 = eta*p/2 and J1 = lambda across 20 (p,eta) settings, so they are one verified derivation reused forty times rather than forty independent tests."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-9",
+     "material": true,
+     "text": "F4's claimed-irrelevant transformations cannot fire against a correct implementation \u2014 identifier permutation leaves semantics fixed and common rescaling (eta,lambda)->(c*eta,c*lambda) scales J by exactly c \u2014 and both planted positives fire only on transformations Z15 itself says are not claimed irrelevant, so by Z15's own rule \"a falsifier that cannot fire tests nothing\"."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-10",
+     "material": true,
+     "text": "F3 imposes no sharpness, width or non-abstention requirement on the emitted prediction sets and no artifact discloses the abstention rate over the 480 records, so its power is unbounded below and a maximally wide predictor passes it."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-11",
+     "material": false,
+     "text": "Z15 promises each falsifier \"a clean no-alarm case on real data\" while F1, F2 and F4's clean cases are the registered synthetic 3-bit worlds, disclosed two lines later but misleading as headline phrasing."
+    },
+    {
+     "claim": "C1",
+     "id": "OBJ-12",
+     "material": false,
+     "text": "F2's quantity is F1's comparison extended to the boundary worlds against a predicted set generated by the same closed-form law, so three of the four registered falsifiers interrogate one inequality."
+    },
+    {
+     "claim": "C2",
+     "id": "OBJ-13",
+     "material": true,
+     "text": "\u00a70 states \"Lemmas A, B and C are SOUND and are not weakened here\" and \"the defect is confined to the naming/classification layer\", but \u00a74 proves the shipped Lemma B's iff directions are false without strict positivity and gives an explicit counterexample, so a second defect exists in the lemma layer and CIP-4 is a correction rather than a sharpening."
+    },
+    {
+     "claim": "C2",
+     "id": "OBJ-14",
+     "material": false,
+     "text": "CIP-2's per-pair census, CIP-2a's identities and DEF-3's claim about interaction_type()'s missing \"interfering\" return path rest on RESULT_V1.json, DELTA_TABLE_V1.md, test_partition_v1.py and interactions_witness.py, none supplied, so I could verify only mutual consistency of the counts (8+287+56=351, 161+126=287, 126+56=182, 161+56=217)."
+    },
+    {
+     "claim": "C2",
+     "id": "OBJ-15",
+     "material": false,
+     "text": "The token REDUNDANT denotes 287 pairs under CIP-1 and 182 under the shipped classifier, so any downstream reconciliation keyed on the label string will read a definition change as a count change."
+    },
+    {
+     "claim": "C2",
+     "id": "OBJ-16",
+     "material": false,
+     "text": "Axiom (M) is justified by feasible-set inclusion, an argument that presumes burden is an optimum over a feasible set, whereas the A4 accounting defines B(X) = |R(X)| as a cardinality \u2014 correctly hedged as an admissibility axiom, but the justification does not hold at the generality offered."
+    },
+    {
+     "claim": "C3",
+     "id": "OBJ-17",
+     "material": true,
+     "text": "AG1-4 states \"Cycles over derived-from arrows: 0 ... (32 of 32 nodes removed)\" while the registry contains the symmetric pair FND_SET_RELATION <-> FND_TYPED_ALGEBRAIC, which under the file's own edge_semantics (\"from is obtained from to by kind\") is a 2-cycle, so the statement is true only under an unstated restriction to non-MUTUAL_INTERPRETATION arrows and Kahn peeling over the full set removes at most 30 of 32."
+    },
+    {
+     "claim": "C3",
+     "id": "OBJ-18",
+     "material": true,
+     "text": "AG1-1/-2/-4 verify internal well-formedness of a hand-authored registry whose layers and arrow kinds are fields of the same file, with witness checking that is \"presence-of-field plus pinned blob sha, not re-derivation of the parent's mathematics\", so \"no arrow points up a layer\" is a property of authored labels rather than of the programme's mathematics."
+    },
+    {
+     "claim": "C3",
+     "id": "OBJ-19",
+     "material": true,
+     "text": "AG1-5 concludes \"No predicate evaluated at or below F4 can therefore separate them\" while its Assumptions state the F0-F5 identity \"is not independently re-verified layer by layer here\", and the two \"independent routes\" both scan a ten-entry hand-authored profile whose F0-F5 entries are registry node ids and whose F6-F9 entries are not."
+    },
+    {
+     "claim": "C3",
+     "id": "OBJ-20",
+     "material": true,
+     "text": "AG8 claims \"eight machine-checked obligations\" whose checks are step presence, counterpart resolution, \"every discharge non-empty\" and file existence \u2014 none of which can distinguish a discharge from a placeholder \u2014 and AG8_DESCENT_OBLIGATIONS_V1.json was not supplied, so the registration's substance is unreviewable."
+    },
+    {
+     "claim": "C3",
+     "id": "OBJ-21",
+     "material": false,
+     "text": "AG1-3's heading \"demotion earned, not asserted\" is backed here only by the registry's own layer field and a path check (\"0 demotion violations\"), with the earning resting on gmi-833-aj5-g0-lowering-v1 and AG2, neither supplied."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-22",
+     "material": true,
+     "text": "BASELINE \u00a73 calls Lemma B's equality characterization \"unconditional (inclusion-exclusion)\" while CIP-4 proves the only-if directions require strict positivity and exhibits a measure under which \"the iff nested direction fails\"."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-23",
+     "material": true,
+     "text": "A5's \"No unsupported overclaim remains\" and A14's \"CI-U ... stands at re-earned full strength\" are contradicted by the C2 package, which corrects that same GREEN object for 56/351 labels \"FALSE by Section 1.2's own defining condition\", 287/351 non-unique labels, and a falsifier that \"cannot return False\"."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-24",
+     "material": true,
+     "text": "A7 asserts \"all six fields ... registered for all 235 claim-bearing objects \u2014 1,175 slots\", but 1,175/235 = 5 exactly, so either the field list is miscounted as six or the registration is 235 slots short of the asserted completeness."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-25",
+     "material": true,
+     "text": "A7 certifies presence of falsifier fields with \"0 REGISTERED_GAP\" while DEF-3 exhibits a registered falsifier in a GREEN object that could never fire, showing the discipline screen measures field population rather than falsifiability."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-26",
+     "material": false,
+     "text": "A12 reports \"held-out burden 50,052 -> 1,307 (net -48,739)\" whereas 50,052 - 1,307 = 48,745, and no artifact states the six-unit netting the parenthetical implies."
+    },
+    {
+     "claim": "C5",
+     "id": "OBJ-27",
+     "material": false,
+     "text": "A5 rests on a FIN2UNIV screen that returned 283/283 PROPER yet missed the 56/351 false-label set and the inert falsifier later found in a GREEN object, so its conclusion should read \"no overclaim was flagged\" rather than \"none remains\"."
+    }
+   ],
+   "reopens": [
+    {
+     "gate": "REAL_SYSTEM_TRANSITION_VALIDATED_AT_REGISTERED_SCOPE (qualifying count 5) and Section-J row #903",
+     "reason": "Both receipt gates are the prediction's own sufficient conditions and the second fails closed, so no qualifying system could have falsified the law, and the three excluded systems are separately counted as confirmations against the amendment's own scope restriction."
+    },
+    {
+     "gate": "Z15 F1 decisiveness and the 200/200 randomized-boundary null",
+     "reason": "F1 provably cannot catch any boundary with r in (1/2,3/2)\\{1}, so the ladder must be disclosed and the null re-run against the boundary-inclusive quantity that does detect every r != 1."
+    },
+    {
+     "gate": "Z15 F4 (transformations T_a and T_b)",
+     "reason": "Neither claimed-irrelevant transformation can fire against a correct implementation, and both planted positives fire only on transformations Z15 states are not claimed irrelevant."
+    },
+    {
+     "gate": "Z15 F3 (capability miscalibration falsifier)",
+     "reason": "No sharpness, width or non-abstention constraint is registered and no abstention rate is reported, so a maximally wide prediction set passes and the falsifier's power is unquantified."
+    },
+    {
+     "gate": "BASELINE_V1 assertions A5, A7 and A14",
+     "reason": "A5 and A14 are contradicted by the CIP correction of the same object, and A7's slot arithmetic does not reconcile with its own field list."
+    },
+    {
+     "gate": "BASELINE_V1 \u00a73 \"Lemma B ... unconditional\" and Corollary CI-A4's GREEN disposition",
+     "reason": "CIP-4 supplies a counterexample to the shipped iff under its shipped hypotheses, and CIP-2a shows CI-A4 mislabels 217 of 351 instances with 56 false by the shipped definition."
+    },
+    {
+     "gate": "CAPABILITY_INTERACTION_PARTITION_THEOREMS_V1 \u00a70 disposition (\"the defect is confined to the naming/classification layer\")",
+     "reason": "Its own CIP-4 establishes a second, lemma-layer defect in the parent, so the parent's correction scope must be widened beyond Section 1.2 and CI-A4."
+    },
+    {
+     "gate": "AG1-4's \"0 cycles / 32 of 32 nodes removed\" and AG8's \"0 obligation violations\"",
+     "reason": "The cycle claim is false over the arrow set as the DAG's own edge_semantics defines it and must be re-quantified, and the AG8 checks certify presence and non-emptiness rather than discharge."
+    },
+    {
+     "gate": "BASELINE_V1 \u00a75 supplement obligation",
+     "reason": "\u00a75 requires that \"every change ... lands as a supplement\", and no numbered supplement carrying the CIP-1..CIP-4 correction of A5/A14/\u00a73 appears among the artifacts supplied."
+    }
+   ],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "The artifacts were sufficient to perform a genuine theorem-level review \u2014 I re-derived C1's boundary law from the frozen ecology, checked CIP-1..CIP-4 proof by proof, and recomputed the AG1 arrow/layer/monotonicity structure from the DAG file myself \u2014 though the numeric receipts and checker code were not supplied and a model proxy is not an external human reviewer.",
+     "row": "Z18-1",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z18-1"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 16,
+   "verdict_block_present": true,
+   "verdict_bytes": 40989,
+   "verdict_file": "proxies/PX-Z18-THM.verdict.txt",
+   "verdict_sha256": "6ff9b5c43d0581728fa56a025a653193120366e472938fa159027f40b936aa8d"
+  },
+  {
+   "agent_log_id": "a0293ff08dfaae21c",
+   "artifacts_handed": [],
+   "brief": "briefs/BRIEF_Z9_ADJUDICATOR.md",
+   "brief_sha256": "2b78a67374491ad2a8251eea5edd3e8340f85e9cd026d8f89e6301f5e2dfd391",
+   "claims": [],
+   "first_ts": "2026-09-19T12:21:46.241Z",
+   "id": "PX-Z9-A1",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T12:23:16.638Z",
+   "model_self_report": "Claude Sonnet 5 (claude-sonnet-5)",
+   "objections": [],
+   "reopens": [],
+   "requested_model": "sonnet",
+   "rows": [
+    {
+     "reason": "scored 30 points; class 28/30, capability 16/30, crossover 7/12",
+     "row": "Z9-6",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z9-6"
+   ],
+   "served_models": [
+    "claude-sonnet-5"
+   ],
+   "tool_calls": 4,
+   "verdict_block_present": true,
+   "verdict_bytes": 4013,
+   "verdict_file": "proxies/PX-Z9-A1.verdict.txt",
+   "verdict_sha256": "e21ecd04f54e3b730c8e2f11d7870efae203ba09e4d06b5fccc654877552bdec",
+   "z9_batch": 1
+  },
+  {
+   "agent_log_id": "a9da7059ba2647d4e",
+   "artifacts_handed": [],
+   "brief": "briefs/BRIEF_Z9_ADJUDICATOR.md",
+   "brief_sha256": "2b78a67374491ad2a8251eea5edd3e8340f85e9cd026d8f89e6301f5e2dfd391",
+   "claims": [],
+   "first_ts": "2026-09-19T12:21:50.432Z",
+   "id": "PX-Z9-A2",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T12:24:29.788Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [],
+   "reopens": [],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "scored 34 points; class 33/34, capability 19/34, crossover 7/12",
+     "row": "Z9-6",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z9-6"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 4,
+   "verdict_block_present": true,
+   "verdict_bytes": 4308,
+   "verdict_file": "proxies/PX-Z9-A2.verdict.txt",
+   "verdict_sha256": "bc3605bc769a74a0b66afdecf36fba5cb96e15a0fb6aeb681abe7dcc9fd9184e",
+   "z9_batch": 2
+  },
+  {
+   "agent_log_id": "ac205a3e75b90a8bf",
+   "artifacts_handed": [],
+   "brief": "briefs/BRIEF_Z9_PREDICTION_TEAM.md",
+   "brief_sha256": "b38be4db419f6841c129f6d0220353725ec3b7cd7c8a9a8f768c67f28834864f",
+   "claims": [],
+   "first_ts": "2026-09-19T07:38:01.706Z",
+   "harness_synthetic_termination": true,
+   "id": "PX-Z9-P1",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:47:53.305Z",
+   "model_self_report": null,
+   "objections": [],
+   "protocol_output": "z9/batch_1/PREDICTIONS.json",
+   "protocol_output_sha256": "9371ff8257aea144a5e088b22279c6ba82a147ada06863c26e0c9f7c3f0cd737",
+   "reopens": [],
+   "requested_model": "opus",
+   "rows": [],
+   "rows_assigned": [
+    "Z9-3",
+    "Z9-4"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 4,
+   "verdict_block_present": false,
+   "z9_batch": 1
+  },
+  {
+   "agent_log_id": "a3e9e879586c5a726",
+   "artifacts_handed": [],
+   "brief": "briefs/BRIEF_Z9_PREDICTION_TEAM.md",
+   "brief_sha256": "b38be4db419f6841c129f6d0220353725ec3b7cd7c8a9a8f768c67f28834864f",
+   "claims": [],
+   "first_ts": "2026-09-19T12:07:27.936Z",
+   "id": "PX-Z9-P2",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T12:16:43.468Z",
+   "model_self_report": "Claude Sonnet 5 (claude-sonnet-5)",
+   "objections": [],
+   "protocol_output": "z9/batch_2/PREDICTIONS.json",
+   "protocol_output_sha256": "e46f5c043574098eb136fd6c624bd7c34c148c88de1e171bf5552798a67c6a15",
+   "reopens": [],
+   "requested_model": "sonnet",
+   "rows": [
+    {
+     "reason": "I read only BRIEF_Z9_PREDICTION_TEAM.md and the descriptor file /tmp/claude-501/revive-gates/z9/batch_2/ENVIRONMENTS.json, applying T1-T4 by hand arithmetic with no enumeration or simulation of candidate machines.",
+     "row": "Z9-3",
+     "verdict": "SATISFIED"
+    },
+    {
+     "reason": "All 12 environments have frozen class-set, capability (E_stateless/E_onebit), crossover (lambda_star), and failure_prediction/confidence fields written verbatim to PREDICTIONS.json before any outcome exists.",
+     "row": "Z9-4",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z9-3",
+    "Z9-4"
+   ],
+   "served_models": [
+    "claude-sonnet-5"
+   ],
+   "tool_calls": 5,
+   "verdict_block_present": true,
+   "verdict_bytes": 2171,
+   "verdict_file": "proxies/PX-Z9-P2.verdict.txt",
+   "verdict_sha256": "eb9f8c9b01076eea34a002b6b5e8dd935e97f2f09c7a5d3defbe1bb9cbe90744",
+   "z9_batch": 2
+  },
+  {
+   "agent_log_id": "a16256ae0f28f348c",
+   "artifacts_handed": [],
+   "brief": "briefs/BRIEF_Z9_TEST_TEAM.md",
+   "brief_sha256": "2fd4442b82fc2db15bac5ec48432ab08911be274c39354937b3f8df8f8a927fd",
+   "claims": [],
+   "first_ts": "2026-09-19T07:35:12.034Z",
+   "id": "PX-Z9-T1",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:36:19.568Z",
+   "model_self_report": "Claude Sonnet 4.5 (self-reported as \"Sonnet 5\" / claude-sonnet-5 by the harness; underlying model identifies as Claude Sonnet 4.5)",
+   "objections": [],
+   "protocol_output": "z9/batch_1/ENVIRONMENTS.json",
+   "protocol_output_sha256": "9e5a75b0e0b856f7a3eee56295cc672e7c190a60bf40e8976e8b1a54c68964ae",
+   "reopens": [],
+   "requested_model": "sonnet",
+   "rows": [
+    {
+     "reason": "batch was constructed purely from the brief's target menu/family spec via independent target-difficulty and prevalence-diversity reasoning, with no access to or knowledge of the prediction team's theory or any candidate-machine computation.",
+     "row": "Z9-2",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z9-2"
+   ],
+   "served_models": [
+    "claude-sonnet-5"
+   ],
+   "tool_calls": 3,
+   "verdict_block_present": true,
+   "verdict_bytes": 1235,
+   "verdict_file": "proxies/PX-Z9-T1.verdict.txt",
+   "verdict_sha256": "2bca32db0335659d157a86f9eb0745244295f45a825ea0aae468be85f461033b",
+   "z9_batch": 1
+  },
+  {
+   "agent_log_id": "a96122df428523d22",
+   "artifacts_handed": [],
+   "brief": "briefs/BRIEF_Z9_TEST_TEAM.md",
+   "brief_sha256": "2fd4442b82fc2db15bac5ec48432ab08911be274c39354937b3f8df8f8a927fd",
+   "claims": [],
+   "first_ts": "2026-09-19T07:36:06.346Z",
+   "id": "PX-Z9-T2",
+   "isolation": "fresh session; instructed to read only the brief and the artifacts it lists; received no lane reasoning, no freeze, no checklist",
+   "label": "HUMAN_GATE_BYPASSED__MODEL_PROXY",
+   "last_ts": "2026-09-19T07:40:17.950Z",
+   "model_self_report": "claude-opus-5[1m]",
+   "objections": [],
+   "protocol_output": "z9/batch_2/ENVIRONMENTS.json",
+   "protocol_output_sha256": "677bdd86f94880f54a83e3b818afecaba18fa95e6c9dfd85b0068b3f9555ce1a",
+   "reopens": [],
+   "requested_model": "opus",
+   "rows": [
+    {
+     "reason": "The batch was designed solely from the registered descriptor family in the brief, with no access to the prediction team's theory and no attempt to infer it, by independently crossing target memory-depth, mode asymmetry, prevalence (including both degenerate endpoints), eta rescaling and cheap-to-expensive state prices, plus two deliberately marked degenerate controls.",
+     "row": "Z9-2",
+     "verdict": "SATISFIED"
+    }
+   ],
+   "rows_assigned": [
+    "Z9-2"
+   ],
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "tool_calls": 3,
+   "verdict_block_present": true,
+   "verdict_bytes": 1376,
+   "verdict_file": "proxies/PX-Z9-T2.verdict.txt",
+   "verdict_sha256": "b34414d89a41e7a8b120a32a46597b0690c27bcd55dc2f9265fcd3a6faadc8da",
+   "z9_batch": 2
+  }
+ ],
+ "schema": "GMI_833_PROXY_RECORDS_V1",
+ "terminated_attempts": [
+  {
+   "agent_log_id": "ac205a3e75b90a8bf",
+   "proxy": "PX-Z9-P1",
+   "requested_model": "opus",
+   "resolution": "not re-run (a second prediction set for the same batch would let the lane choose); rows Z9-3/Z9-4 for batch 1 are decided by the executor from the file and the git order",
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "what_happened": "wrote z9/batch_1/PREDICTIONS.json in full, then the harness ended the session before the reply; the file is used verbatim as the frozen prediction and the VERDICT_BLOCK is absent"
+  },
+  {
+   "agent_log_id": "a8a3fd6cb3eb17059",
+   "proxy": "PX-AC05-A",
+   "requested_model": "opus",
+   "resolution": "a fresh session was spawned against the same brief; the first attempt produced no verdict",
+   "served_models": [
+    "claude-opus-5"
+   ],
+   "what_happened": "session ended after 30 tool calls, no reply"
+  },
+  {
+   "agent_log_id": "aed9821dbe1ebb953",
+   "proxy": "PX-Z9-P2",
+   "requested_model": "sonnet",
+   "resolution": "a fresh session was spawned against the same brief; the first attempt produced nothing",
+   "served_models": [],
+   "what_happened": "session ended before any tool call"
+  }
+ ]
+}

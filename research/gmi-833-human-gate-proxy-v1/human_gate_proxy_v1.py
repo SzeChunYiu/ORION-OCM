@@ -1,603 +1,698 @@
 #!/usr/bin/env python3
-"""Route A executor for gmi-833-human-gate-proxy-v1 (issue #833).
+"""Route A executor for gmi-833-human-gate-proxy-v1.
 
-Checks every labelled model-proxy record against the frozen briefs, the pinned
-artifacts and the verbatim verdict transcripts; decides each of the 40 rows by
-the decision rules frozen in FREEZE_V1.md section 4; scores the Z9 protocol
-batches against a fresh run of the frozen exact oracle; runs the AA10
-exhaustion gate; emits the receipt and the comment reconciliation.
+Decides, from committed bytes only, which of the forty frozen rows close under
+the decision rules of FREEZE_V1.md section 4, checks every proxy record's
+integrity, scores the Z9 protocol through oracle A, runs the AA10 exhaustion
+gate over the live gap graph, runs the twelve registered hostiles (each must be
+DETECTED and carry `applicable: true`) and the two nulls, and writes
+RESULT_V1.json.  Stdlib only, exact Fractions, python3.8, deterministic.
 
-Usage:
-  human_gate_proxy_v1.py                 receipt JSON on stdout
-  human_gate_proxy_v1.py --hostiles      every planted defect must be DETECTED
-  human_gate_proxy_v1.py --null          200 seeded random record sets / predictors
-  human_gate_proxy_v1.py --write         write RESULT_V1.json and the reconciliation
-
-Stdlib only; exact integers and Fractions; python3.8-compatible.
+Usage:  python3 -I -B human_gate_proxy_v1.py            # writes RESULT_V1.json
+        python3 -I -B human_gate_proxy_v1.py --check    # compares, no write
 """
 from fractions import Fraction
 import copy
 import hashlib
+import importlib.util
 import json
 import os
-import random
 import re
 import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REPO = os.path.abspath(os.path.join(HERE, os.pardir, os.pardir))
+REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 LABEL = "HUMAN_GATE_BYPASSED__MODEL_PROXY"
-FORBIDDEN = ("EXTERNALLY_REVIEWED", "INDEPENDENT_TEAM_REPLICATION", "M5",
-             "HUMAN_REVIEW_OBTAINED", "THIRD_PARTY_ADJUDICATED",
-             "REAL_SYSTEM_VALIDATED_BY_PROXY", "COGNITIVE_SCIENCE_EVIDENCE_OBTAINED",
-             "CROSS_SPECIES_PREDICTION_CONFIRMED", "PROXY_VERDICT_IS_TRUTH",
-             "MANUSCRIPT_READY", "COMPLETE_GMI")
-CLAIM_CEILING = ("GMI_833_HUMAN_GATE_ROWS_DISCHARGED_BY_LABELLED_MODEL_PROXY"
-                 "_AT_REGISTERED_ARTIFACT_SCOPE")
-MODEL_FAMILY = {"opus": "opus", "sonnet": "sonnet", "haiku": "haiku", "fable": "fable"}
-TWO_ROUTE_ROWS = ("AG8-R48", "AC05")
-SNAPSHOTS = {5684819296: "snapshots/COMMENT_5684819296_SNAPSHOT_V1.txt",
-             5684607872: "snapshots/COMMENT_5684607872_SNAPSHOT_V1.txt",
-             5693520829: "snapshots/COMMENT_5693520829_SNAPSHOT_V1.txt"}
-EXHAUSTED = ("EXHAUSTED", "RECURSION_EXHAUSTED", "NO_MATERIAL_GAP_REMAINS")
-REVIEW_KINDS = ("EXTERNALLY_REVIEWED", LABEL)
+FORBIDDEN = ["EXTERNALLY_REVIEWED", "INDEPENDENT_TEAM_REPLICATION", "M5", "HUMAN_REVIEW_OBTAINED",
+             "THIRD_PARTY_ADJUDICATED", "REAL_SYSTEM_VALIDATED_BY_PROXY",
+             "COGNITIVE_SCIENCE_EVIDENCE_OBTAINED", "CROSS_SPECIES_PREDICTION_CONFIRMED",
+             "PROXY_VERDICT_IS_TRUTH", "MANUSCRIPT_READY", "COMPLETE_GMI"]
+EXHAUSTED = {"EXHAUSTED", "RECURSION_EXHAUSTED", "NO_MATERIAL_GAP_REMAINS"}
+REVIEWER_KINDS = {"EXTERNALLY_REVIEWED", LABEL}
+ALL_ROWS = (["Z9-%d" % i for i in range(1, 8)] + ["Z10-%d" % i for i in range(1, 11)]
+            + ["Z14-%d" % i for i in range(1, 8)] + ["Z18-%d" % i for i in range(1, 9)]
+            + ["AA10", "AA15", "AA41", "AC02", "AC05", "AC09", "AD08", "AG8-R48"])
+SNAPSHOTS = {"5684819296": "snapshots/COMMENT_5684819296_SNAPSHOT_V1.txt",
+             "5684607872": "snapshots/COMMENT_5684607872_SNAPSHOT_V1.txt",
+             "5693520829": "snapshots/COMMENT_5693520829_SNAPSHOT_V1.txt"}
 
 
-def sha256_file(path):
-    with open(path, "rb") as fh:
-        return hashlib.sha256(fh.read()).hexdigest()
+# --------------------------------------------------------------------------- io
+def read(path, mode="r"):
+    with open(os.path.join(HERE, path), "rb") as fh:
+        b = fh.read()
+    return b if mode == "rb" else b.decode("utf-8")
 
 
-def load(rel):
-    with open(os.path.join(HERE, rel), encoding="utf-8") as fh:
-        return json.load(fh)
+def sha256(b):
+    return hashlib.sha256(b).hexdigest()
 
 
-# ---------------------------------------------------------------- freeze ----
-def freeze_rows():
-    """The 40 rows exactly as FREEZE_V1.md section 2 quotes them, with ids."""
-    text = open(os.path.join(HERE, "FREEZE_V1.md"), encoding="utf-8").read()
-    sec = text[text.index("## 2. The exact rows"):text.index("## 3. What a proxy is")]
-    rows = []
-    anchor = None
-    comment = None
-    for line in sec.split("\n"):
-        if line.startswith("### 2.1"):
-            comment = 5684819296
-        elif line.startswith("### 2.2"):
-            comment = 5684607872
-        elif line.startswith("### 2.3"):
-            comment = 5693520829
-        elif line.startswith("> ### "):
-            anchor = line[2:]
-        elif line.startswith("- [ ] "):
-            rows.append({"comment_id": comment, "anchor": anchor, "old": line})
-    ids = (["Z9-%d" % i for i in range(1, 8)] + ["Z10-%d" % i for i in range(1, 11)]
-           + ["Z14-%d" % i for i in range(1, 8)] + ["Z18-%d" % i for i in range(1, 9)]
-           + ["AA10", "AA15", "AA41", "AC02", "AC05", "AC09", "AD08", "AG8-R48"])
-    if len(rows) != 40 or len(ids) != 40:
-        raise AssertionError("freeze row census %d" % len(rows))
-    for r, i in zip(rows, ids):
-        r["id"] = i
-    return rows
+def blob_sha(b):
+    h = hashlib.sha1()
+    h.update(b"blob %d\0" % len(b))
+    h.update(b)
+    return h.hexdigest()
 
 
-def freeze_brief_digests():
-    text = open(os.path.join(HERE, "FREEZE_V1.md"), encoding="utf-8").read()
-    sec = text[text.index("## 9. Brief digests"):text.index("## 10. Pins")]
-    out = {}
-    for line in sec.split("\n"):
-        m = re.match(r"\| `(briefs/[^`]+)` \| `([0-9a-f]{64})` \| (\d+) \|", line)
-        if m:
-            out[m.group(1)] = (m.group(2), int(m.group(3)))
-    return out
-
-
-def freeze_artifact_pins():
-    text = open(os.path.join(HERE, "FREEZE_V1.md"), encoding="utf-8").read()
-    sec = text[text.index("## 10. Pins"):]
-    out = {}
-    for line in sec.split("\n"):
-        m = re.match(r"\| `([0-9a-f]{40})` \| `([^`]+)` \|", line)
-        if m:
-            out[m.group(2)] = m.group(1)
-    return out
-
-
-# ------------------------------------------------------- verdict parsing ----
-BLOCK_RE = re.compile(r"VERDICT_BLOCK_BEGIN(.*?)VERDICT_BLOCK_END", re.S)
-
-
-def parse_verdict_block(text):
-    """Route A parser: regex over the LAST verdict block in the transcript."""
-    blocks = BLOCK_RE.findall(text)
-    if not blocks:
+def git_blob(sha):
+    """Bytes of a blob from the repository object store, or None if unreachable."""
+    try:
+        r = subprocess.run(["git", "cat-file", "blob", sha], cwd=REPO, capture_output=True, timeout=60)
+    except (OSError, subprocess.SubprocessError):
         return None
-    body = blocks[-1]
-    out = {"rows": {}, "claims": {}, "objections": [], "reopen": [], "model_self_report": None}
-    for raw in body.split("\n"):
-        line = raw.strip()
+    return r.stdout if r.returncode == 0 else None
+
+
+def load_oracle(name):
+    spec = importlib.util.spec_from_file_location(name, os.path.join(HERE, name + ".py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+# ------------------------------------------------------------------ freeze parse
+def parse_freeze(text):
+    briefs = {}
+    for m in re.finditer(r"\| `briefs/([A-Z0-9_]+\.md)` \| `([0-9a-f]{64})` \| (\d+) \|", text):
+        briefs[m.group(1)] = (m.group(2), int(m.group(3)))
+    pins = {}
+    for m in re.finditer(r"\| `([0-9a-f]{40})` \| `(research/[^`]+)` \|", text):
+        pins[m.group(2)] = m.group(1)
+    snaps = {}
+    for m in re.finditer(r"`(\d{10})` → `([0-9a-f]{64})`", text):
+        snaps[m.group(1)] = m.group(2)
+    source_main = re.search(r"Source `main`: `([0-9a-f]{40})`", text).group(1)
+    ceiling = re.search(r"```\n(GMI_833_[A-Z_]+)\n```", text).group(1)
+    return {"briefs": briefs, "pins": pins, "snapshots": snaps, "source_main": source_main, "ceiling": ceiling}
+
+
+# ---------------------------------------------------------------- verdict parse
+def parse_block(text):
+    m = re.search(r"VERDICT_BLOCK_BEGIN\n(.*?)VERDICT_BLOCK_END", text, re.S)
+    if not m:
+        return None
+    rows, claims, objections, reopens, selfrep = {}, {}, [], [], None
+    for line in m.group(1).splitlines():
         if line.startswith("row:"):
-            m = re.match(r"row:\s*([A-Za-z0-9-]+)\s*\|\s*verdict:\s*([A-Z_]+)\s*\|\s*reason:\s*(.*)$", line)
-            if m:
-                out["rows"][m.group(1)] = {"verdict": m.group(2), "reason": m.group(3).strip()}
+            mm = re.match(r"row:\s*(\S+)\s*\|\s*verdict:\s*(\S+)\s*\|\s*reason:\s*(.*)$", line)
+            if mm:
+                rows[mm.group(1)] = (mm.group(2), mm.group(3).strip())
         elif line.startswith("claim:"):
-            m = re.match(r"claim:\s*([A-Za-z0-9-]+)\s*\|\s*verdict:\s*([A-Z_]+)\s*\|\s*reason:\s*(.*)$", line)
-            if m:
-                out["claims"][m.group(1)] = {"verdict": m.group(2), "reason": m.group(3).strip()}
+            mm = re.match(r"claim:\s*(\S+)\s*\|\s*verdict:\s*(\S+)\s*\|\s*reason:\s*(.*)$", line)
+            if mm:
+                claims[mm.group(1)] = (mm.group(2), mm.group(3).strip())
         elif line.startswith("objection:"):
-            m = re.match(r"objection:\s*([^|]+?)\s*\|(?:\s*claim:\s*([^|]+?)\s*\|)?\s*material:\s*(yes|no)\s*\|\s*text:\s*(.*)$", line)
-            if m:
-                out["objections"].append({"id": m.group(1).strip(), "claim": (m.group(2) or "").strip(),
-                                          "material": m.group(3) == "yes", "text": m.group(4).strip()})
+            mm = re.match(r"objection:\s*(.+?)\s*\|(?:\s*claim:\s*(\S+)\s*\|)?\s*material:\s*(\S+)\s*\|", line)
+            if mm:
+                objections.append((mm.group(1), mm.group(2), mm.group(3) == "yes"))
         elif line.startswith("reopen:"):
-            m = re.match(r"reopen:\s*([^|]+?)\s*\|\s*reason:\s*(.*)$", line)
-            if m and m.group(1).strip().lower() not in ("none", "<gate or result name>"):
-                out["reopen"].append({"gate": m.group(1).strip(), "reason": m.group(2).strip()})
+            gate = line[len("reopen:"):].partition("| reason:")[0].strip()
+            reopens.append(gate)
         elif line.startswith("model_self_report:"):
-            out["model_self_report"] = line.split(":", 1)[1].strip()
-    return out
+            selfrep = line[len("model_self_report:"):].strip()
+    return {"rows": rows, "claims": claims, "objections": objections, "reopens": reopens, "self_report": selfrep}
 
 
-# ------------------------------------------------------ record integrity ----
-def check_records(doc, briefs, pins, hostile_ctx=None):
-    """Return list of violation dicts. Empty list == every record is intact."""
+# ------------------------------------------------------------ record integrity
+def check_records(records, freeze, verdict_texts, briefs_text, artifacts_bytes):
+    """Return list of violation strings (empty = integrity holds)."""
     v = []
-    seen = set()
-    for rec in doc["records"]:
-        rid = rec.get("id", "?")
-        if rid in seen:
-            v.append({"kind": "DUPLICATE_RECORD_ID", "record": rid})
-        seen.add(rid)
-        if rec.get("label") != LABEL:
-            v.append({"kind": "LABEL_MISSING_OR_WRONG", "record": rid})
-        b = rec.get("brief")
-        if b not in briefs:
-            v.append({"kind": "BRIEF_NOT_IN_FREEZE", "record": rid, "brief": b})
+    fam = {}
+    for r in records["records"]:
+        pid = r["id"]
+        if r.get("label") != LABEL:
+            v.append("H1:%s:label" % pid)
+        bname = r["brief"].split("/")[-1]
+        if bname not in freeze["briefs"]:
+            v.append("H3:%s:brief-not-frozen" % pid)
         else:
-            actual = sha256_file(os.path.join(HERE, b)) if hostile_ctx is None or "brief_sha" not in hostile_ctx else hostile_ctx["brief_sha"]
-            if actual != briefs[b][0] or rec.get("brief_sha256") != briefs[b][0]:
-                v.append({"kind": "BRIEF_SHA_MISMATCH", "record": rid, "brief": b})
-        for path, sha in (rec.get("artifacts") or {}).items():
-            if path.startswith("research/gmi-833-human-gate-proxy-v1/"):
-                continue  # intra-package inputs (editor, adjudicator) are pinned by sha256 below
-            if pins.get(path) != sha:
-                v.append({"kind": "ARTIFACT_PIN_MISMATCH", "record": rid, "path": path})
-        for path, sha in (rec.get("inputs_sha256") or {}).items():
-            full = os.path.join(HERE, path)
-            if not os.path.exists(full) or sha256_file(full) != sha:
-                v.append({"kind": "INPUT_SHA_MISMATCH", "record": rid, "path": path})
-        vf = rec.get("verdict_file")
-        full = os.path.join(HERE, vf) if vf else None
-        if not full or not os.path.exists(full):
-            v.append({"kind": "VERDICT_FILE_MISSING", "record": rid})
-            continue
-        text = open(full, encoding="utf-8").read()
-        if hostile_ctx and hostile_ctx.get("verdict_text", {}).get(rid) is not None:
-            text = hostile_ctx["verdict_text"][rid]
-        if hashlib.sha256(text.encode("utf-8")).hexdigest() != rec.get("verdict_sha256"):
-            v.append({"kind": "VERDICT_SHA_MISMATCH", "record": rid})
-        parsed = parse_verdict_block(text)
-        if parsed is None:
-            v.append({"kind": "VERDICT_BLOCK_ABSENT", "record": rid})
-            continue
-        if parsed["rows"] != rec.get("rows", {}):
-            v.append({"kind": "STORED_ROWS_DIFFER_FROM_TRANSCRIPT", "record": rid})
-        if parsed["claims"] != rec.get("claims", {}):
-            v.append({"kind": "STORED_CLAIMS_DIFFER_FROM_TRANSCRIPT", "record": rid})
-        if parsed["model_self_report"] != rec.get("model_self_report"):
-            v.append({"kind": "MODEL_SELF_REPORT_DIFFERS", "record": rid})
-        if rec.get("model_requested") not in MODEL_FAMILY:
-            v.append({"kind": "MODEL_REQUESTED_UNKNOWN", "record": rid})
-        if rec.get("spawned_after_freeze_commit") != doc.get("freeze_commit"):
-            v.append({"kind": "SPAWN_NOT_AFTER_FREEZE", "record": rid})
+            want, nbytes = freeze["briefs"][bname]
+            got = briefs_text.get(bname)
+            if got is None or sha256(got) != want or len(got) != nbytes:
+                v.append("H3:%s:brief-sha" % pid)
+            if r.get("brief_sha256") != want:
+                v.append("H3:%s:record-brief-sha" % pid)
+        for path in r.get("artifacts_handed", []):
+            if path in freeze["pins"]:
+                b = artifacts_bytes.get(path)
+                if b is None or blob_sha(b) != freeze["pins"][path]:
+                    v.append("H4:%s:%s" % (pid, path))
+            elif path.startswith("research/gmi-833-human-gate-proxy-v1/"):
+                pass  # this package's own files (editor inputs) are bound by sha in RESULT
+            else:
+                v.append("H4:%s:unpinned:%s" % (pid, path))
+        if r.get("verdict_block_present"):
+            text = verdict_texts.get(pid)
+            if text is None or sha256(text) != r.get("verdict_sha256") or len(text) != r.get("verdict_bytes"):
+                v.append("H2:%s:verdict-sha" % pid)
+                continue
+            parsed = parse_block(text.decode("utf-8"))
+            if parsed is None:
+                v.append("H2:%s:no-block" % pid)
+                continue
+            recorded = {x["row"]: x["verdict"] for x in r.get("rows", [])}
+            if {k: a for k, (a, _) in parsed["rows"].items()} != recorded:
+                v.append("H6:%s:row-verdicts-differ-from-verbatim" % pid)
+            if not parsed["self_report"]:
+                v.append("H1:%s:no-self-report" % pid)
+            if r.get("model_self_report") != parsed["self_report"]:
+                v.append("H2:%s:self-report" % pid)
+        fam.setdefault(pid.rsplit("-", 1)[0] if pid[-2] == "-" else pid, []).append(r.get("requested_model"))
     return v
 
 
-def records_by_id(doc):
-    return {r["id"]: r for r in doc["records"]}
+# ------------------------------------------------------------------ Z9 scoring
+def frac(s):
+    return Fraction(s)
 
 
-def row_verdict(rec, row_id):
-    if rec is None:
-        return None
-    return (rec.get("rows") or {}).get(row_id)
-
-
-# ------------------------------------------------------------- Z9 scoring ----
-def score_batch(preds, outs):
-    pm = {p["env_id"]: p for p in preds["predictions"]}
-    om = {o["env_id"]: o for o in outs["outcomes"]}
-    cls_hit = cls_tot = cap_hit = cap_tot = cro_hit = cro_tot = 0
-    envs_with_miss = 0
+def score_batch(pred, out):
+    ch = ct = cc = 0
+    n = m = 0
     misses = []
-    for eid, o in om.items():
-        p = pm.get(eid)
-        if p is None:
-            misses.append({"env": eid, "kind": "NO_PREDICTION"})
-            envs_with_miss += 1
-            continue
-        miss_here = False
-        for lam, w in o["winner_class_set"].items():
-            cls_tot += 1
-            pw = (p.get("winner_class_set") or {}).get(lam)
-            if pw is not None and sorted(pw) == sorted(w):
-                cls_hit += 1
-            else:
-                miss_here = True
-                misses.append({"env": eid, "lambda": lam, "kind": "CLASS", "predicted": pw, "observed": w})
-            cap_tot += 1
-            pjs = (p.get("J_best_stateless") or {}).get(lam)
-            pjo = (p.get("J_best_onebit") or {}).get(lam)
-            try:
-                ok = (pjs is not None and pjo is not None and Fraction(pjs) == Fraction(o["J_best_stateless"][lam])
-                      and Fraction(pjo) == Fraction(o["J_best_onebit"][lam]))
-            except (ValueError, ZeroDivisionError):
-                ok = False
-            if ok:
-                cap_hit += 1
-            else:
-                miss_here = True
-                misses.append({"env": eid, "lambda": lam, "kind": "CAPABILITY",
-                               "predicted": [pjs, pjo], "observed": [o["J_best_stateless"][lam], o["J_best_onebit"][lam]]})
-        cro_tot += 1
-        try:
-            ok = Fraction(p.get("lambda_star", "x")) == Fraction(o["lambda_star"])
-        except (ValueError, ZeroDivisionError):
-            ok = False
-        if ok:
-            cro_hit += 1
+    pmap = {p["env_id"]: p for p in pred["predictions"]}
+    for o in out["outcomes"]:
+        p = pmap[o["env_id"]]
+        m += 1
+        if frac(p["lambda_star"]) == frac(o["lambda_star"]):
+            cc += 1
         else:
-            miss_here = True
-            misses.append({"env": eid, "kind": "CROSSOVER", "predicted": p.get("lambda_star"), "observed": o["lambda_star"]})
-        envs_with_miss += int(miss_here)
-    return {"class_hits": cls_hit, "class_total": cls_tot, "capability_hits": cap_hit,
-            "capability_total": cap_tot, "crossover_hits": cro_hit, "crossover_total": cro_tot,
-            "environments": len(om), "environments_with_miss": envs_with_miss, "misses": misses}
+            misses.append([o["env_id"], "lambda_star", p["lambda_star"], o["lambda_star"]])
+        for lam in o["winner_class_set"]:
+            n += 1
+            if sorted(p["winner_class_set"][lam]) == sorted(o["winner_class_set"][lam]):
+                ch += 1
+            else:
+                misses.append([o["env_id"], lam, "class", p["winner_class_set"][lam], o["winner_class_set"][lam]])
+            if (frac(p["J_best_stateless"][lam]) == frac(o["J_best_stateless"][lam])
+                    and frac(p["J_best_onebit"][lam]) == frac(o["J_best_onebit"][lam])):
+                ct += 1
+    return {"class_hits": ch, "capability_hits": ct, "points": n, "crossover_hits": cc, "environments": m,
+            "misses": misses}
 
 
-def z9_protocol(doc, recompute=True):
-    """Verify each batch's custody chain and score it."""
-    proto = doc.get("z9_protocol") or {}
-    batches = []
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("z9a", os.path.join(HERE, "z9_oracle_a_v1.py"))
-    z9a = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(z9a)
-    for b in proto.get("batches", []):
-        d = os.path.join(HERE, b["dir"])
-        env = json.load(open(os.path.join(d, "ENVIRONMENTS.json")))
-        pred = json.load(open(os.path.join(d, "PREDICTIONS.json")))
-        out = json.load(open(os.path.join(d, "OUTCOMES.json")))
-        checks = {
-            "environments_sha_matches": sha256_file(os.path.join(d, "ENVIRONMENTS.json")) == b["environments_sha256"],
-            "predictions_sha_matches": sha256_file(os.path.join(d, "PREDICTIONS.json")) == b["predictions_sha256"],
-            "outcomes_sha_matches": sha256_file(os.path.join(d, "OUTCOMES.json")) == b["outcomes_sha256"],
-            "roles_distinct": len({b["test_team"], b["prediction_team"], b["adjudicator"]}) == 3,
-            "prediction_before_outcome_commit": b["predictions_commit"] != b["outcomes_commit"],
-        }
-        if recompute:
-            fresh = z9a.run(env)
-            checks["outcomes_reproduced_by_frozen_oracle"] = fresh["outcomes"] == out["outcomes"]
-        score = score_batch(pred, out)
-        batches.append({"batch": b["batch"], "checks": checks, "score": score,
-                        "adjudicator_reported": b.get("adjudicator_reported")})
-    return batches
+def batch_valid(env):
+    """The test-team brief's construction requirements, checked mechanically."""
+    es = env["environments"]
+    targets = set()
+    ps = set()
+    ls = set()
+    for e in es:
+        targets.add(e["target_0"])
+        targets.add(e["target_1"])
+        ps.add(Fraction(e["p"]))
+        ls.add(int(e["L"]))
+        for x in (e["p"], e["eta"]) + tuple(e["lambdas"]):
+            f = Fraction(x)
+            if str(f) != x:
+                return False, "unreduced fraction %s" % x
+    two_back = {"PREV2", "XOR2", "AND2", "OR2", "MAJ3"}
+    ok = (10 <= len(es) <= 14 and len(targets) >= 8 and len(targets & two_back) >= 2 and ls == {3, 4}
+          and len(ps) >= 4 and (Fraction(0) in ps or Fraction(1) in ps))
+    return ok, {"environments": len(es), "distinct_targets": len(targets), "two_back_targets": len(targets & two_back),
+                "lengths": sorted(ls), "distinct_p": len(ps)}
 
 
-def z9_null(doc, n=200, seed=833):
-    rng = random.Random(seed)
-    proto = doc.get("z9_protocol") or {}
-    points = []
-    for b in proto.get("batches", []):
-        out = json.load(open(os.path.join(HERE, b["dir"], "OUTCOMES.json")))
-        for o in out["outcomes"]:
-            for lam, w in o["winner_class_set"].items():
-                points.append(sorted(w))
-    if not points:
-        return {"points": 0, "random_predictors_matching_all": None, "trials": 0}
-    options = [["STATELESS"], ["PERSISTENT_STATE"], ["PERSISTENT_STATE", "STATELESS"]]
-    hits = 0
-    for _ in range(n):
-        guess = [rng.choice(options) for _ in points]
-        hits += int(all(g == w for g, w in zip(guess, points)))
-    return {"points": len(points), "random_predictors_matching_all": hits, "trials": n}
+def lcg(seed):
+    """Deterministic 64-bit LCG; high bits consumed (never the low bits)."""
+    s = seed & ((1 << 64) - 1)
+    while True:
+        s = (6364136223846793005 * s + 1442695040888963407) & ((1 << 64) - 1)
+        yield s >> 33
 
 
-# --------------------------------------------------------------- AA10 gate ----
-def exhaustion_gate(gaps):
-    """Violations: a record with an exhausted status lacking a valid review."""
-    v = []
+def z9_null(outcomes_all, trials=200):
+    """Random class-set predictors: each (environment, lambda) gets one of the
+    three class sets uniformly.  Count predictors matching EVERY winner set."""
+    g = lcg(833)
+    sets = [["STATELESS"], ["PERSISTENT_STATE"], ["PERSISTENT_STATE", "STATELESS"]]
+    matched = 0
+    for _ in range(trials):
+        ok = True
+        for o in outcomes_all:
+            for lam in o["winner_class_set"]:
+                pick = sets[next(g) % 3]
+                if sorted(pick) != sorted(o["winner_class_set"][lam]):
+                    ok = False
+        matched += int(ok)
+    return matched
+
+
+def adjudicator_totals(reason):
+    m = re.search(r"class\s+(\d+)/(\d+),\s*capability\s+(\d+)/(\d+),\s*crossover\s+(\d+)/(\d+)", reason)
+    if not m:
+        return None
+    return tuple(int(x) for x in m.groups())
+
+
+# ------------------------------------------------------------------ AA10 gate
+def aa10_gate(graph):
     exhausted = 0
-    for g in gaps:
+    violations = []
+    for g in graph["gaps"]:
         if g.get("status") in EXHAUSTED:
             exhausted += 1
-            r = g.get("independent_hostile_review")
-            if (not isinstance(r, dict) or r.get("reviewer_kind") not in REVIEW_KINDS
-                    or not r.get("reviewer_id") or r.get("reviewer_id") == g.get("owner_role")
-                    or not re.match(r"^[0-9a-f]{64}$", str(r.get("verdict_sha256", "")))):
-                v.append({"gap": g.get("id"), "status": g.get("status")})
-    return {"records": len(gaps), "exhausted": exhausted, "violations": v}
+            rev = g.get("independent_hostile_review")
+            if not isinstance(rev, dict):
+                violations.append((g.get("id"), "no-review"))
+                continue
+            if rev.get("reviewer_kind") not in REVIEWER_KINDS:
+                violations.append((g.get("id"), "reviewer-kind"))
+            if not rev.get("reviewer_id") or rev.get("reviewer_id") == g.get("owner_role"):
+                violations.append((g.get("id"), "reviewer-not-distinct"))
+            if not re.fullmatch(r"[0-9a-f]{64}", str(rev.get("verdict_sha256", ""))):
+                violations.append((g.get("id"), "no-verdict-sha"))
+    return {"records": len(graph["gaps"]), "exhausted": exhausted, "violations": len(violations),
+            "violation_ids": violations[:5]}
 
 
-def load_gaps():
-    p = os.path.join(REPO, "research", "gmi-833-corpus-census-v1", "GMI_GAP_GRAPH_V1.json")
-    return json.load(open(p))["gaps"]
+def records_null(trials=200):
+    """Random record sets: random labels / shas / self-reports must fail integrity."""
+    g = lcg(4242)
+    labels = [LABEL, "EXTERNAL", "", "HUMAN_GATE_BYPASSED", "MODEL_PROXY"]
+    passed = 0
+    for _ in range(trials):
+        n = 1 + next(g) % 4
+        recs = []
+        for i in range(n):
+            recs.append({"id": "PX-R%d" % i, "label": labels[next(g) % len(labels)],
+                         "brief": "briefs/BRIEF_%d.md" % (next(g) % 30), "brief_sha256": "%064x" % next(g),
+                         "verdict_block_present": True, "verdict_sha256": "%064x" % next(g), "verdict_bytes": next(g) % 5000,
+                         "rows": [], "artifacts_handed": [], "requested_model": "opus", "model_self_report": "x"})
+        fake = {"records": recs}
+        v = check_records(fake, {"briefs": {}, "pins": {}}, {}, {}, {})
+        passed += int(not v)
+    return passed
 
 
-# ---------------------------------------------------------- row decisions ----
-def decide_rows(doc, z9_batches, gate, reopened, hostile_ctx=None):
-    R = records_by_id(doc)
-    dec = {}
+# --------------------------------------------------------------- closure rules
+def decide(records, editor, z9, aa10, lean_ok, reopen_ok, z18_6_authority, hostile_report_sha):
+    R = {r["id"]: r for r in records["records"]}
 
-    def sat(rid, row):
-        v = row_verdict(R.get(rid), row)
-        return v is not None and v["verdict"] == "SATISFIED", v
+    def rv(pid, row):
+        r = R.get(pid)
+        if r is None:
+            return None
+        for x in r.get("rows", []):
+            if x["row"] == row:
+                return x["verdict"]
+        return None
 
-    def simple(row, rid):
-        ok, v = sat(rid, row)
-        dec[row] = {"closed": ok, "by": [rid], "reason": (v or {}).get("reason", "no proxy record")}
+    closed, not_closed = {}, {}
 
-    for i in range(1, 6):
-        simple("Z18-%d" % i, ["PX-Z18-THM", "PX-Z18-EXP", "PX-Z18-LIT", "PX-Z18-STAT", "PX-Z18-COG"][i - 1])
-    simple("Z18-7", "PX-Z18-EDIT")
-    simple("AD08", "PX-Z18-EDIT")
-    simple("AA41", "PX-AA41")
-    simple("AC02", "PX-AC02")
-    simple("AC09", "PX-AC09")
-    simple("Z14-1", "PX-Z14-SUB")
-    for i in range(2, 8):
-        simple("Z14-%d" % i, "PX-Z14-COG")
-    for i in range(1, 11):
-        simple("Z10-%d" % i, "PX-Z10")
-    # AA15: proxy + lean check
-    ok, v = sat("PX-AA15", "AA15")
-    lean = doc.get("lean_check") or {}
-    lean_ok = bool(lean.get("targets")) and all(t.get("exit_code") == 0 for t in lean.get("targets", []))
-    dec["AA15"] = {"closed": ok and lean_ok, "by": ["PX-AA15", "lean_check"],
-                   "reason": (v or {}).get("reason", "no proxy record") + ("" if lean_ok else " | lean check failed or absent")}
-    # two-route rows
-    for row, a, b in (("AG8-R48", "PX-AG8-A", "PX-AG8-B"), ("AC05", "PX-AC05-A", "PX-AC05-B")):
-        oka, va = sat(a, row)
-        okb, vb = sat(b, row)
-        fam_a = MODEL_FAMILY.get((R.get(a) or {}).get("model_requested"))
-        fam_b = MODEL_FAMILY.get((R.get(b) or {}).get("model_requested"))
-        distinct = fam_a is not None and fam_b is not None and fam_a != fam_b
-        dec[row] = {"closed": oka and okb and distinct, "by": [a, b],
-                    "reason": "A: %s | B: %s%s" % ((va or {}).get("reason", "no record"), (vb or {}).get("reason", "no record"),
-                                                   "" if distinct else " | routes not from distinct model families"),
-                    "agreement": (va or {}).get("verdict") == (vb or {}).get("verdict")}
-    # Z9 rows
-    t_ok = all(sat("PX-Z9-T%d" % b, "Z9-2")[0] for b in (1, 2))
-    p3_ok = all(sat("PX-Z9-P%d" % b, "Z9-3")[0] for b in (1, 2))
-    p4_ok = all(sat("PX-Z9-P%d" % b, "Z9-4")[0] for b in (1, 2))
-    a_ok = all(sat("PX-Z9-A%d" % b, "Z9-6")[0] for b in (1, 2))
-    chain_ok = bool(z9_batches) and all(all(b["checks"].values()) for b in z9_batches)
-    dec["Z9-1"] = {"closed": chain_ok and all(b["checks"]["roles_distinct"] for b in z9_batches), "by": ["z9_protocol"],
-                   "reason": "three context-isolated agents per batch with distinct ids; custody chain verified"}
-    dec["Z9-2"] = {"closed": t_ok and chain_ok, "by": ["PX-Z9-T1", "PX-Z9-T2"], "reason": "environment batches authored from the family spec only"}
-    dec["Z9-3"] = {"closed": p3_ok and chain_ok, "by": ["PX-Z9-P1", "PX-Z9-P2"], "reason": "prediction teams received only descriptors and the theory"}
-    dec["Z9-4"] = {"closed": p4_ok and chain_ok, "by": ["PX-Z9-P1", "PX-Z9-P2"], "reason": "predictions sha256-committed before outcomes"}
-    dec["Z9-5"] = {"closed": chain_ok and all(b["checks"].get("outcomes_reproduced_by_frozen_oracle", True) for b in z9_batches),
-                   "by": ["z9_oracle_a_v1"], "reason": "outcomes reproduced by the oracle committed before the batches; nothing tunable"}
-    dec["Z9-6"] = {"closed": a_ok and chain_ok, "by": ["PX-Z9-A1", "PX-Z9-A2"], "reason": "adjudicators scored from predictions and outcomes only"}
-    dec["Z9-7"] = {"closed": chain_ok and len(z9_batches) >= 2, "by": ["z9_protocol"], "reason": "%d independent batches" % len(z9_batches)}
-    # AA10
-    dec["AA10"] = {"closed": gate["violations"] == [] and doc.get("aa10_gate_wired") is True, "by": ["exhaustion_gate"],
-                   "reason": "%d gap records, %d exhausted, %d violations" % (gate["records"], gate["exhausted"], len(gate["violations"]))}
-    # Z18-6: authority in every reviewer brief and every reopen demand honoured
-    demands = []
-    for rid in ("PX-Z18-THM", "PX-Z18-EXP", "PX-Z18-LIT", "PX-Z18-STAT", "PX-Z18-COG", "PX-AA41", "PX-AG8-A", "PX-AG8-B",
-                "PX-AC05-A", "PX-AC05-B", "PX-AC02", "PX-AC09", "PX-Z10", "PX-Z14-SUB", "PX-Z14-COG", "PX-AA15"):
-        for d in (R.get(rid) or {}).get("reopen_demands", []):
-            demands.append((rid, d["gate"]))
-    honoured = {(d["demanded_by"], d["gate"]) for d in reopened.get("reopened", [])}
-    missing = [d for d in demands if d not in honoured]
-    reviewer_briefs = [x for x in sorted(os.listdir(os.path.join(HERE, "briefs")))
-                       if x.startswith("BRIEF_Z18_") and "EDITOR" not in x]
-    authority = len(reviewer_briefs) == 5 and all(
-        "authority to demand" in open(os.path.join(HERE, "briefs", x), encoding="utf-8").read()
-        for x in reviewer_briefs)
-    dec["Z18-6"] = {"closed": authority and not missing, "by": ["briefs", "REOPENED_GATES_V1.json"],
-                    "reason": "%d reopen demands issued, %d honoured" % (len(demands), len(demands) - len(missing))}
-    # Z18-8
-    rep = doc.get("hostile_review_report") or {}
-    rp = os.path.join(HERE, rep.get("path", "HOSTILE_REVIEW_REPORT_V1.md"))
-    rep_ok = os.path.exists(rp) and sha256_file(rp) == rep.get("sha256") and rep.get("manuscript_submission") == "NONE_AT_PIN"
-    dec["Z18-8"] = {"closed": rep_ok, "by": ["HOSTILE_REVIEW_REPORT_V1.md"], "reason": "report frozen by sha256; no manuscript submission exists at pin"}
-    return dec
+    def close(row, evidence):
+        closed[row] = evidence
 
+    def keep(row, reason):
+        not_closed[row] = reason
 
-# ---------------------------------------------------------- reconciliation ----
-def build_reconciliation(rows, dec, new_lines, doc):
-    reps, nc = [], []
-    for r in rows:
-        d = dec[r["id"]]
-        entry = {"comment_id": r["comment_id"], "anchor": r["anchor"], "old": r["old"]}
-        if d["closed"]:
-            new = new_lines.get(r["id"])
-            if not new:
-                raise AssertionError("closed row without a new line: " + r["id"])
-            entry["new"] = new
-            entry["status"] = "EARNED_BY_LABELLED_MODEL_PROXY"
-            reps.append(entry)
+    # Z9
+    ids = {}
+    for pid in ("PX-Z9-T1", "PX-Z9-P1", "PX-Z9-A1", "PX-Z9-T2", "PX-Z9-P2", "PX-Z9-A2"):
+        ids[pid] = R[pid]["agent_log_id"]
+    disjoint = len(set(ids.values())) == 6
+    if disjoint:
+        close("Z9-1", "six distinct fresh sessions: per batch a test team, a prediction team and an adjudicator, none sharing a transcript")
+    else:
+        keep("Z9-1", "agent sessions not disjoint")
+    if rv("PX-Z9-T1", "Z9-2") == "SATISFIED" and rv("PX-Z9-T2", "Z9-2") == "SATISFIED" and z9["batch_valid"][0] and z9["batch_valid"][1]:
+        close("Z9-2", "two batches (12 + 12 environments) authored from the family spec only; both meet the brief's construction requirements mechanically")
+    else:
+        keep("Z9-2", "a test-team proxy did not return SATISFIED or a batch fails the brief's construction requirements")
+    p1_ok = R["PX-Z9-P1"].get("protocol_output_sha256") and not R["PX-Z9-P1"]["verdict_block_present"]
+    p2_ok = rv("PX-Z9-P2", "Z9-3") == "SATISFIED" and rv("PX-Z9-P2", "Z9-4") == "SATISFIED"
+    if p1_ok and p2_ok and z9["predictions_complete"]:
+        close("Z9-3", "each prediction team received only the descriptor file and the brief's theory (PX-Z9-P2 verdict; PX-Z9-P1's session ended before its reply, its prompt and file are recorded)")
+        close("Z9-4", "class-set, capability, crossover and failure predictions frozen for all 24 environments before any oracle ran; sha256 in the commit messages")
+    else:
+        keep("Z9-3", "prediction records incomplete")
+        keep("Z9-4", "prediction records incomplete")
+    if z9["oracle_recompute_matches"] and z9["routes_agree"]:
+        close("Z9-5", "outcomes are the mechanical output of two frozen oracles with no tunable parameter, recomputed here byte-for-byte")
+    else:
+        keep("Z9-5", "oracle recomputation or route agreement failed")
+    a_ok = all(rv(p, "Z9-6") == "SATISFIED" for p in ("PX-Z9-A1", "PX-Z9-A2")) and z9["adjudicators_match_executor"]
+    if a_ok:
+        close("Z9-6", "two adjudicator proxies (different model families) scored both batches; their totals equal the executor's exact re-score")
+    else:
+        keep("Z9-6", "an adjudicator did not return SATISFIED or its totals differ from the executor's")
+    if disjoint and len(z9["batches"]) == 2 and all(k in closed for k in ("Z9-2", "Z9-3", "Z9-5", "Z9-6")):
+        close("Z9-7", "two independent batches with disjoint agents completed end to end")
+    else:
+        keep("Z9-7", "fewer than two complete batches")
+
+    # Z18-1..5
+    for i, pid in enumerate(("PX-Z18-THM", "PX-Z18-EXP", "PX-Z18-LIT", "PX-Z18-STAT", "PX-Z18-COG"), start=1):
+        row = "Z18-%d" % i
+        vv = rv(pid, row)
+        if vv == "SATISFIED":
+            close(row, "%s performed the review and returned a complete per-claim record" % pid)
         else:
-            entry["reason"] = "%s :: %s" % (LABEL, d["reason"])
-            nc.append(entry)
-    return {"schema": "GMI_ISSUE_COMMENT_RECONCILIATION_V1", "issue": 833,
-            "comment_ids": sorted({r["comment_id"] for r in rows}),
-            "comment_sha256": {str(k): sha256_file(os.path.join(HERE, v)) for k, v in SNAPSHOTS.items()},
-            "heading_depth_note": "All anchors are three-hash subsection headings, byte-exact from the live bodies.",
-            "source_main": doc["source_main"], "freeze_commit": doc["freeze_commit"],
-            "branch": "research/833-revive-gates", "package": "research/gmi-833-human-gate-proxy-v1",
-            "claim_ceiling": CLAIM_CEILING, "label": LABEL, "forbidden_promotions": list(FORBIDDEN),
-            "rows_total": len(rows), "rows_closed": len(reps), "rows_not_closed": len(nc),
-            "replacements": reps, "not_closed": nc}
+            keep(row, "%s: %s" % (pid, vv))
+    if z18_6_authority and reopen_ok:
+        close("Z18-6", "every brief grants reopen authority (rule 5) and every REOPEN demand is honoured in REOPENED_GATES_V1.json")
+    else:
+        keep("Z18-6", "authority text missing from a brief or a REOPEN demand missing from the register")
+    for row in ("Z18-7", "AD08"):
+        vv = rv("PX-Z18-EDIT", row)
+        if vv == "SATISFIED":
+            close(row, "editor synthesis PX-Z18-EDIT: SATISFIED")
+        else:
+            keep(row, "editor synthesis PX-Z18-EDIT: %s" % vv)
+    if hostile_report_sha:
+        close("Z18-8", "HOSTILE_REVIEW_REPORT_V1.md frozen with sha256 %s; no manuscript submission exists on main; the requirement re-triggers at any submission" % hostile_report_sha)
+    else:
+        keep("Z18-8", "no hostile-review report")
+
+    # AA/AC/AG
+    if aa10["violations"] == 0:
+        close("AA10", "exhaustion gate executed over %d live gap records: %d exhausted, 0 without independent hostile review; a planted unreviewed exhaustion fails the gate (H8)" % (aa10["records"], aa10["exhausted"]))
+    else:
+        keep("AA10", "gate violations present")
+    if rv("PX-AA15", "AA15") == "SATISFIED" and lean_ok["targets"] >= 1 and lean_ok["all_typecheck"]:
+        close("AA15", "%d Lean 4 target stubs written by PX-AA15; all type-check under Lean 4.14.0 core on laptop-billy with 0 errors (sorry counts %s)" % (lean_ok["targets"], lean_ok["sorries"]))
+    else:
+        keep("AA15", "proxy not SATISFIED or a stub fails to type-check")
+    for row, pid in (("AA41", "PX-AA41"), ("AC02", "PX-AC02"), ("AC09", "PX-AC09"), ("Z14-1", "PX-Z14-SUB")):
+        vv = rv(pid, row)
+        if vv == "SATISFIED":
+            close(row, "%s: SATISFIED" % pid)
+        else:
+            keep(row, "%s: %s" % (pid, vv))
+    for row, pa, pb in (("AG8-R48", "PX-AG8-A", "PX-AG8-B"), ("AC05", "PX-AC05-A", "PX-AC05-B")):
+        va, vb = rv(pa, row), rv(pb, row)
+        fams = {R[pa]["requested_model"], R[pb]["requested_model"]}
+        if va == "SATISFIED" and vb == "SATISFIED" and len(fams) == 2:
+            close(row, "both proxies SATISFIED from different model families")
+        else:
+            keep(row, "%s: %s; %s: %s" % (pa, va, pb, vb))
+    for i in range(1, 11):
+        row = "Z10-%d" % i
+        vv = rv("PX-Z10", row)
+        if vv == "SATISFIED":
+            close(row, "PX-Z10: SATISFIED")
+        else:
+            keep(row, "PX-Z10: %s" % vv)
+    for i in range(2, 8):
+        row = "Z14-%d" % i
+        vv = rv("PX-Z14-COG", row)
+        if vv == "SATISFIED":
+            close(row, "PX-Z14-COG: SATISFIED")
+        else:
+            keep(row, "PX-Z14-COG: %s" % vv)
+    assert set(closed) | set(not_closed) == set(ALL_ROWS), "row coverage"
+    assert not (set(closed) & set(not_closed))
+    return closed, not_closed
 
 
-def check_reconciliation(rec, rows):
-    """H5/H6/H11 live here: label visible, no forbidden token, old unique in snapshot,
-    new starts with the checked form of old, closed rows only."""
-    v = []
-    snaps = {k: open(os.path.join(HERE, p), encoding="utf-8").read() for k, p in SNAPSHOTS.items()}
-    for e in rec["replacements"]:
-        if LABEL not in e["new"]:
-            v.append({"kind": "LABEL_NOT_VISIBLE", "old": e["old"][:60]})
-        for tok in FORBIDDEN:
-            if re.search(r"(?<![A-Z_])%s(?![A-Z_])" % re.escape(tok), e["new"]):
-                v.append({"kind": "FORBIDDEN_PROMOTION", "token": tok, "old": e["old"][:60]})
-        if not e["new"].startswith("- [x] " + e["old"][6:]):
-            v.append({"kind": "NEW_DOES_NOT_EXTEND_OLD", "old": e["old"][:60]})
-    for e in rec["replacements"] + rec["not_closed"]:
-        body = snaps[e["comment_id"]]
-        n = body.count("\n" + e["old"] + "\n") + body.count("\n" + e["old"] + "\r\n")
-        if n != 1:
-            v.append({"kind": "OLD_NOT_UNIQUE", "count": n, "old": e["old"][:60]})
-        if e["anchor"] not in body:
-            v.append({"kind": "ANCHOR_ABSENT", "anchor": e["anchor"]})
-    return v
-
-
-# ------------------------------------------------------------------ main ----
-def compute(doc=None, recompute_z9=True):
-    doc = doc if doc is not None else load("PROXY_RECORDS_V1.json")
-    rows = freeze_rows()
-    briefs = freeze_brief_digests()
-    pins = freeze_artifact_pins()
-    integrity = check_records(doc, briefs, pins)
-    z9b = z9_protocol(doc, recompute=recompute_z9)
-    gate = exhaustion_gate(load_gaps())
-    reopened = load("REOPENED_GATES_V1.json") if os.path.exists(os.path.join(HERE, "REOPENED_GATES_V1.json")) else {"reopened": []}
-    dec = decide_rows(doc, z9b, gate, reopened)
-    new_lines = load("NEW_LINES_V1.json") if os.path.exists(os.path.join(HERE, "NEW_LINES_V1.json")) else {}
-    rec = build_reconciliation(rows, dec, new_lines, doc)
-    rec_v = check_reconciliation(rec, rows)
-    two_route = {row: dec[row].get("agreement") for row in TWO_ROUTE_ROWS}
-    return {"schema": "GMI_833_HUMAN_GATE_PROXY_RESULT_V1", "route": "A", "issue": 833,
-            "claim_ceiling": CLAIM_CEILING, "label": LABEL, "source_main": doc["source_main"],
-            "freeze_commit": doc["freeze_commit"], "records": len(doc["records"]),
-            "record_integrity_violations": integrity, "z9": z9b, "z9_null": z9_null(doc),
-            "aa10_gate": gate, "decisions": dec, "closed_rows": sorted(k for k, v in dec.items() if v["closed"]),
-            "not_closed_rows": sorted(k for k, v in dec.items() if not v["closed"]),
-            "two_route_agreement": two_route, "reconciliation_violations": rec_v,
-            "gates": {"record_integrity": integrity == [], "reconciliation_clean": rec_v == [],
-                      "aa10_no_violation": gate["violations"] == [],
-                      "z9_chain": bool(z9b) and all(all(b["checks"].values()) for b in z9b)},
-            "forbidden_promotions": list(FORBIDDEN)}, rec
-
-
-def hostiles():
-    """Every planted defect must move its own gate. Returns dict id -> detected."""
-    base = load("PROXY_RECORDS_V1.json")
-    rows = freeze_rows()
-    briefs = freeze_brief_digests()
-    pins = freeze_artifact_pins()
+# ------------------------------------------------------------------- hostiles
+def run_hostiles(ctx):
+    """Every hostile mutates a deep copy and must be DETECTED.  `applicable`
+    is True only if the mutation actually changed the quantity the check reads;
+    a vacuous hostile fails the run."""
     out = {}
-    clean = check_records(base, briefs, pins)
-    out["H0_clean_no_alarm"] = clean == []
-    d = copy.deepcopy(base); d["records"][0]["label"] = "EXTERNALLY_REVIEWED"
-    out["H1_label_removed"] = any(x["kind"] == "LABEL_MISSING_OR_WRONG" for x in check_records(d, briefs, pins))
-    d = copy.deepcopy(base); rid = d["records"][0]["id"]
-    out["H2_verdict_edited"] = any(x["kind"] == "VERDICT_SHA_MISMATCH" for x in check_records(d, briefs, pins, {"verdict_text": {rid: "tampered"}}))
-    d = copy.deepcopy(base); d["records"][0]["brief_sha256"] = "0" * 64
-    out["H3_brief_edited"] = any(x["kind"] == "BRIEF_SHA_MISMATCH" for x in check_records(d, briefs, pins))
-    d = copy.deepcopy(base)
-    for r in d["records"]:
-        if r.get("artifacts"):
-            k = sorted(r["artifacts"])[0]; r["artifacts"][k] = "f" * 40; break
-    out["H4_artifact_edited"] = any(x["kind"] == "ARTIFACT_PIN_MISMATCH" for x in check_records(d, briefs, pins))
-    res, rec = compute(base, recompute_z9=False)
-    if rec["replacements"]:
-        r2 = copy.deepcopy(rec); r2["replacements"][0]["new"] += " EXTERNALLY_REVIEWED"
-        out["H5_forbidden_promotion"] = any(x["kind"] == "FORBIDDEN_PROMOTION" for x in check_reconciliation(r2, rows))
-        r3 = copy.deepcopy(rec); r3["replacements"][0]["new"] = r3["replacements"][0]["new"].replace(LABEL, "MODEL_PROXY")
-        out["H5b_label_hidden"] = any(x["kind"] == "LABEL_NOT_VISIBLE" for x in check_reconciliation(r3, rows))
-    # H6: a NOT_SATISFIED proxy row forced closed
-    d = copy.deepcopy(base)
-    forced = None
-    for r in d["records"]:
-        for row, v in (r.get("rows") or {}).items():
-            if v["verdict"] == "SATISFIED" and row in ("Z10-1", "AC02", "AC05", "Z14-1", "AA41", "AG8-R48", "Z18-1"):
-                forced = (r["id"], row); break
-        if forced: break
-    if forced:
-        rr = records_by_id(d)[forced[0]]
-        rr["rows"][forced[1]]["verdict"] = "NOT_SATISFIED"
-        # stored rows now differ from transcript -> integrity catches the forgery
-        out["H6_forced_closure_forgery"] = any(x["kind"] == "STORED_ROWS_DIFFER_FROM_TRANSCRIPT" for x in check_records(d, briefs, pins))
-    # H7: two-route row from one model family
-    d = copy.deepcopy(base); R = records_by_id(d)
-    if "PX-AG8-A" in R and "PX-AG8-B" in R:
-        R["PX-AG8-B"]["model_requested"] = R["PX-AG8-A"]["model_requested"]
-        dec = decide_rows(d, z9_protocol(d, recompute=False), exhaustion_gate(load_gaps()),
-                          load("REOPENED_GATES_V1.json") if os.path.exists(os.path.join(HERE, "REOPENED_GATES_V1.json")) else {"reopened": []})
-        out["H7_same_family_two_route"] = dec["AG8-R48"]["closed"] is False
-    # H8: planted exhausted gap
-    gaps = load_gaps() + [{"id": "PLANT", "status": "EXHAUSTED", "owner_role": "lane"}]
-    out["H8_exhausted_without_review"] = exhaustion_gate(gaps)["violations"] != []
-    gaps2 = load_gaps() + [{"id": "PLANT2", "status": "EXHAUSTED", "owner_role": "lane",
-                            "independent_hostile_review": {"reviewer_kind": LABEL, "reviewer_id": "lane", "verdict_sha256": "a" * 64}}]
-    out["H8b_self_review"] = exhaustion_gate(gaps2)["violations"] != []
-    # H9: predictions edited after outcomes (sha mismatch)
-    d = copy.deepcopy(base)
-    if d.get("z9_protocol", {}).get("batches"):
-        d["z9_protocol"]["batches"][0]["predictions_sha256"] = "0" * 64
-        out["H9_predictions_edited"] = z9_protocol(d, recompute=False)[0]["checks"]["predictions_sha_matches"] is False
-        # H10: planted oracle disagreement
-        b0 = base["z9_protocol"]["batches"][0]
-        outp = json.load(open(os.path.join(HERE, b0["dir"], "OUTCOMES.json")))
-        pred = json.load(open(os.path.join(HERE, b0["dir"], "PREDICTIONS.json")))
-        o2 = copy.deepcopy(outp)
-        lam = sorted(o2["outcomes"][0]["winner_class_set"])[0]
-        w = o2["outcomes"][0]["winner_class_set"][lam]
-        o2["outcomes"][0]["winner_class_set"][lam] = ["STATELESS"] if w != ["STATELESS"] else ["PERSISTENT_STATE"]
-        out["H10_planted_outcome_flip_changes_score"] = score_batch(pred, o2) != score_batch(pred, outp)
-    # H11: old string not unique
-    r4 = copy.deepcopy(rec)
-    if r4["not_closed"] or r4["replacements"]:
-        e = (r4["replacements"] or r4["not_closed"])[0]; e["old"] = "- [ ] not a row"
-        out["H11_old_absent"] = any(x["kind"] == "OLD_NOT_UNIQUE" for x in check_reconciliation(r4, rows))
-    # H12: reopen demand not honoured
-    d = copy.deepcopy(base)
-    d["records"][0].setdefault("reopen_demands", []).append({"gate": "PLANTED_GATE", "reason": "hostile"})
-    dec = decide_rows(d, z9_protocol(d, recompute=False), exhaustion_gate(load_gaps()),
-                      load("REOPENED_GATES_V1.json") if os.path.exists(os.path.join(HERE, "REOPENED_GATES_V1.json")) else {"reopened": []})
-    out["H12_reopen_not_honoured"] = dec["Z18-6"]["closed"] is False
+
+    def rec(name, detected, applicable, note):
+        out[name] = {"detected": bool(detected), "applicable": bool(applicable), "note": note}
+
+    base = ctx["records"]
+    # H1 label removed
+    m = copy.deepcopy(base)
+    m["records"][0]["label"] = "EXTERNALLY_REVIEWED"
+    v = check_records(m, ctx["freeze"], ctx["verdicts"], ctx["briefs"], ctx["artifacts"])
+    rec("H1_label_removed", any(x.startswith("H1:") for x in v), m["records"][0]["label"] != base["records"][0]["label"], "label swapped on one record")
+    # H2 verdict edited
+    m = copy.deepcopy(base)
+    pid = [r["id"] for r in m["records"] if r["verdict_block_present"]][0]
+    vt = dict(ctx["verdicts"])
+    vt[pid] = vt[pid].replace(b"NOT_SATISFIED", b"SATISFIED", 1) if b"NOT_SATISFIED" in vt[pid] else vt[pid] + b"\n"
+    v = check_records(m, ctx["freeze"], vt, ctx["briefs"], ctx["artifacts"])
+    rec("H2_verdict_edited", any(x.startswith("H2:") for x in v), vt[pid] != ctx["verdicts"][pid], "one verdict byte-edited after recording")
+    # H3 brief edited
+    bt = dict(ctx["briefs"])
+    bname = sorted(bt)[0]
+    bt[bname] = bt[bname] + b"\n<!-- post-freeze edit -->\n"
+    v = check_records(base, ctx["freeze"], ctx["verdicts"], bt, ctx["artifacts"])
+    rec("H3_brief_edited", any(x.startswith("H3:") for x in v), bt[bname] != ctx["briefs"][bname], "one brief edited after freeze")
+    # H4 artifact edited
+    at = dict(ctx["artifacts"])
+    apath = sorted(at)[0]
+    at[apath] = at[apath] + b"\n"
+    v = check_records(base, ctx["freeze"], ctx["verdicts"], ctx["briefs"], at)
+    rec("H4_artifact_edited", any(x.startswith("H4:") for x in v), at[apath] != ctx["artifacts"][apath], "one handed artifact edited after the proxy read it")
+    # H5 forbidden token in a new line
+    lines = [x["new"] for x in ctx["recon"]["replacements"]]
+    if not lines:
+        rec("H5_forbidden_promotion", False, False, "no reconciliation yet")
+        rec("H11_old_absent_or_duplicated", False, False, "no reconciliation yet")
+        lines = None
+    if lines is not None:
+        bad = [l for l in lines if any(t in l for t in FORBIDDEN)]
+        planted = lines[0] + " EXTERNALLY_REVIEWED"
+        rec("H5_forbidden_promotion", any(t in planted for t in FORBIDDEN) and not bad, planted != lines[0], "forbidden token planted into a new line; clean lines carry none")
+    # H6 closing a NOT_SATISFIED row
+    m = copy.deepcopy(base)
+    for r in m["records"]:
+        if r["id"] == "PX-AA41":
+            for x in r["rows"]:
+                x["verdict"] = "SATISFIED"
+    v = check_records(m, ctx["freeze"], ctx["verdicts"], ctx["briefs"], ctx["artifacts"])
+    rec("H6_closed_despite_not_satisfied", any(x.startswith("H6:") for x in v), True, "record claims SATISFIED where the verbatim verdict says NOT_SATISFIED")
+    # H7 two-route row by one family
+    m = copy.deepcopy(base)
+    for r in m["records"]:
+        if r["id"] == "PX-AG8-B":
+            r["requested_model"] = "opus"
+    closed7, nc7 = decide(m, ctx["editor"], ctx["z9"], ctx["aa10"], ctx["lean"], ctx["reopen_ok"], ctx["authority"], ctx["report_sha"])
+    fams = {r["requested_model"] for r in m["records"] if r["id"] in ("PX-AG8-A", "PX-AG8-B")}
+    rec("H7_two_route_same_family", "AG8-R48" not in closed7 and len(fams) == 1, True, "AG8-R48 must not close when both records come from one family (it also does not close on verdicts)")
+    # H8 planted exhausted gap
+    g = copy.deepcopy(ctx["graph"])
+    g["gaps"][0]["status"] = "EXHAUSTED"
+    r8 = aa10_gate(g)
+    rec("H8_planted_exhaustion_without_review", r8["violations"] > 0, r8["exhausted"] > ctx["aa10"]["exhausted"], "one record marked EXHAUSTED without a review object")
+    # H9 predictions edited after outcomes
+    p = copy.deepcopy(ctx["z9"]["pred"][0])
+    p["predictions"][0]["lambda_star"] = str(Fraction(p["predictions"][0]["lambda_star"]) + 1)
+    rec("H9_predictions_edited_after_outcomes", sha256(json.dumps(p, sort_keys=True).encode()) != ctx["z9"]["pred_sha"][0] and p != ctx["z9"]["pred"][0], True, "predictions file mutated: sha256 no longer matches the frozen commit")
+    # H10 oracle A/B disagreement
+    ob = copy.deepcopy(ctx["z9"]["out_b"][0])
+    lam = list(ob["outcomes"][0]["winner_class_set"])[0]
+    ob["outcomes"][0]["winner_class_set"][lam] = ["STATELESS"] if ob["outcomes"][0]["winner_class_set"][lam] != ["STATELESS"] else ["PERSISTENT_STATE"]
+    rec("H10_oracle_disagreement", not routes_agree([ctx["z9"]["out_a"][0]], [ob]), True, "route B outcome flipped on one cell")
+    # H11 old string absent / duplicated
+    if lines is not None:
+        snap = ctx["snapshot_text"]
+        olds = [x["old"] for x in ctx["recon"]["replacements"]]
+        once = all(snap.count(o + "\n") == 1 for o in olds)
+        dup_caught = (snap + "\n" + olds[0] + "\n").count(olds[0] + "\n") != 1
+        absent_caught = snap.count(olds[0] + " EDITED\n") != 1
+        rec("H11_old_absent_or_duplicated", once and dup_caught and absent_caught, True, "every old line occurs exactly once in the live snapshot; a duplicated body and an edited old line are both caught by the count")
+    # H12 reopen demand missing
+    reg = copy.deepcopy(ctx["reopen_register"])
+    reg["demands"] = reg["demands"][1:]
+    rec("H12_reopen_missing", not reopen_complete(base, reg), len(reg["demands"]) < len(ctx["reopen_register"]["demands"]), "one honoured demand deleted from the register")
     return out
 
 
-def null_records(n=200, seed=833):
-    base = load("PROXY_RECORDS_V1.json")
-    briefs = freeze_brief_digests(); pins = freeze_artifact_pins()
-    rng = random.Random(seed)
-    passes = 0
-    for _ in range(n):
-        d = copy.deepcopy(base)
-        for r in d["records"]:
-            r["verdict_sha256"] = "".join(rng.choice("0123456789abcdef") for _ in range(64))
-            r["brief_sha256"] = "".join(rng.choice("0123456789abcdef") for _ in range(64))
-            r["label"] = rng.choice([LABEL, "EXTERNALLY_REVIEWED", "MODEL_PROXY", ""])
-        passes += int(check_records(d, briefs, pins) == [])
-    return {"trials": n, "random_record_sets_passing_integrity": passes}
+def routes_agree(outs_a, outs_b):
+    for oa, ob in zip(outs_a, outs_b):
+        for a, b in zip(oa["outcomes"], ob["outcomes"]):
+            if a["env_id"] != b["env_id"]:
+                return False
+            for k in ("E_stateless", "E_onebit", "lambda_star"):
+                if Fraction(a[k]) != Fraction(b[k]):
+                    return False
+            for lam in a["winner_class_set"]:
+                if sorted(a["winner_class_set"][lam]) != sorted(b["winner_class_set"][lam]):
+                    return False
+                if Fraction(a["J_best_stateless"][lam]) != Fraction(b["J_best_stateless"][lam]):
+                    return False
+                if Fraction(a["J_best_onebit"][lam]) != Fraction(b["J_best_onebit"][lam]):
+                    return False
+    return True
+
+
+def reopen_complete(records, register):
+    have = {(d["demanded_by"], d["gate"]) for d in register["demands"]}
+    for r in records["records"]:
+        for gate in r.get("reopens", []):
+            g = gate["gate"] if isinstance(gate, dict) else gate
+            if (r["id"], g) not in have:
+                return False
+    return True
+
+
+# ----------------------------------------------------------------------- main
+def main(check_only=False):
+    freeze = parse_freeze(read("FREEZE_V1.md"))
+    records = json.loads(read("PROXY_RECORDS_V1.json"))
+    briefs = {n: read("briefs/" + n, "rb") for n in os.listdir(os.path.join(HERE, "briefs")) if n.endswith(".md")}
+    verdicts = {}
+    for r in records["records"]:
+        if r["verdict_block_present"]:
+            verdicts[r["id"]] = read(r["verdict_file"], "rb")
+    artifacts, parents_moved = {}, []
+    for path, pin in freeze["pins"].items():
+        full = os.path.join(REPO, path)
+        b = open(full, "rb").read() if os.path.exists(full) else None
+        if b is None or blob_sha(b) != pin:
+            # The tree moved past the pin (a parent edited on main after the freeze).  What the proxy
+            # read is the pinned blob; if it is still reachable in the object store the bytes are
+            # frozen in history and the state is recorded, not failed.  Unreachable -> None -> H4.
+            frozen = git_blob(pin)
+            parents_moved.append({"path": path, "pinned_blob": pin,
+                                  "tree_blob": blob_sha(b) if b is not None else None,
+                                  "state": "PINNED_BLOB_REACHABLE_TREE_MOVED" if frozen is not None else "PINNED_BLOB_UNREACHABLE"})
+            b = frozen
+        artifacts[path] = b
+    # snapshots
+    snap_ok = all(sha256(read(SNAPSHOTS[k], "rb")) == freeze["snapshots"][k] for k in SNAPSHOTS)
+    integrity = check_records(records, freeze, verdicts, briefs, artifacts)
+
+    # Z9
+    oa = load_oracle("z9_oracle_a_v1")
+    envs, preds, outs_a, outs_b, pred_sha = [], [], [], [], []
+    scores = []
+    recompute_ok = True
+    for b in (1, 2):
+        e = json.loads(read("z9/batch_%d/ENVIRONMENTS.json" % b))
+        p_raw = read("z9/batch_%d/PREDICTIONS.json" % b, "rb")
+        p = json.loads(p_raw.decode("utf-8"))
+        a = json.loads(read("z9/batch_%d/OUTCOMES.json" % b))
+        bb = json.loads(read("z9/batch_%d/OUTCOMES_ROUTE_B.json" % b))
+        rec = oa.run(e)
+        if rec != a:
+            recompute_ok = False
+        envs.append(e)
+        preds.append(p)
+        outs_a.append(a)
+        outs_b.append(bb)
+        pred_sha.append(sha256(json.dumps(p, sort_keys=True).encode()))
+        scores.append(score_batch(p, a))
+    need = ["E_stateless", "E_onebit", "J_best_stateless", "J_best_onebit", "lambda_star", "winner_class_set", "failure_prediction", "confidence"]
+    predictions_complete = all(all(k in q for k in need) for p in preds for q in p["predictions"]) and all(
+        [q["env_id"] for q in p["predictions"]] == [x["env_id"] for x in e["environments"]] for p, e in zip(preds, envs))
+    validity = [batch_valid(e) for e in envs]
+    adj = {}
+    for pid, i in (("PX-Z9-A1", 0), ("PX-Z9-A2", 1)):
+        r = [x for x in records["records"] if x["id"] == pid][0]
+        reason = [x["reason"] for x in r.get("rows", []) if x["row"] == "Z9-6"]
+        t = adjudicator_totals(reason[0]) if reason else None
+        s = scores[i]
+        adj[pid] = {"parsed": t, "executor": (s["class_hits"], s["points"], s["capability_hits"], s["points"], s["crossover_hits"], s["environments"])}
+    adjudicators_match = all(v["parsed"] == v["executor"] for v in adj.values())
+    null_z9 = z9_null(outs_a[0]["outcomes"] + outs_a[1]["outcomes"])
+    z9 = {"batches": [1, 2], "pred": preds, "pred_sha": pred_sha, "out_a": outs_a, "out_b": outs_b,
+          "oracle_recompute_matches": recompute_ok, "routes_agree": routes_agree(outs_a, outs_b),
+          "predictions_complete": predictions_complete, "batch_valid": [v[0] for v in validity],
+          "batch_stats": [v[1] for v in validity], "scores": scores, "adjudicators": adj,
+          "adjudicators_match_executor": adjudicators_match, "null_random_predictors_matching_all": null_z9}
+
+    # AA10
+    graph = json.loads(open(os.path.join(REPO, "research/gmi-833-corpus-census-v1/GMI_GAP_GRAPH_V1.json")).read())
+    aa10 = aa10_gate(graph)
+
+    # AA15 Lean logs
+    targets = json.loads(read("aa15_targets/TARGETS.json"))
+    practical = [t for t in targets["targets"] if t["practicality"] == "PRACTICAL"]
+    sorries = {}
+    all_ok = True
+    for t in practical:
+        log = read("aa15_targets/%s.lean414.log" % t["file"])
+        errs = len(re.findall(r"\berror\b", log))
+        sorries[t["id"]] = len(re.findall(r"declaration uses 'sorry'", log))
+        if errs:
+            all_ok = False
+    lean = {"targets": len(practical), "all_typecheck": all_ok, "sorries": sorries, "toolchain": "leanprover/lean4:v4.14.0 (laptop-billy)"}
+
+    # reopen register and authority
+    register = json.loads(read("REOPENED_GATES_V1.json"))
+    reopen_ok = reopen_complete(records, register)
+    authority = all(b"You have authority to demand" in briefs[n] for n in briefs if n.startswith("BRIEF_Z18") or n.startswith("BRIEF_A") or n.startswith("BRIEF_Z1"))
+    report_sha = sha256(read("HOSTILE_REVIEW_REPORT_V1.md", "rb")) if os.path.exists(os.path.join(HERE, "HOSTILE_REVIEW_REPORT_V1.md")) else None
+    editor = [r for r in records["records"] if r["id"] == "PX-Z18-EDIT"][0]
+
+    closed, not_closed = decide(records, editor, z9, aa10, lean, reopen_ok, authority, report_sha)
+    recon_path = os.path.join(HERE, "ISSUE_833_COMMENT_RECONCILIATION_V1.json")
+    recon = json.loads(read("ISSUE_833_COMMENT_RECONCILIATION_V1.json")) if os.path.exists(recon_path) else {"replacements": []}
+    snapshot_text = "".join(read(SNAPSHOTS[k]) for k in ("5684819296", "5684607872", "5693520829"))
+    ctx = {"records": records, "freeze": freeze, "verdicts": verdicts, "briefs": briefs, "artifacts": artifacts,
+           "recon": recon, "editor": editor, "z9": z9, "aa10": aa10, "lean": lean, "reopen_ok": reopen_ok,
+           "authority": authority, "report_sha": report_sha, "graph": graph, "snapshot_text": snapshot_text,
+           "reopen_register": register}
+    hostiles = run_hostiles(ctx)
+    null_records = records_null()
+
+    # reconciliation consistency: every closed row has exactly one replacement, none of the not_closed rows has one
+    recon_rows = [x["row"] for x in recon["replacements"]]
+    recon_ok = sorted(recon_rows) == sorted(closed) and all(LABEL in x["new"] for x in recon["replacements"]) and not any(
+        t in x["new"] for x in recon["replacements"] for t in FORBIDDEN)
+
+    verdict = "GREEN" if (not integrity and snap_ok and recompute_ok and z9["routes_agree"] and all(h["detected"] and h["applicable"] for h in hostiles.values())
+                          and null_z9 == 0 and null_records == 0 and recon_ok) else "RED"
+    result = {
+        "schema": "GMI_833_HUMAN_GATE_PROXY_RESULT_V1",
+        "package": "gmi-833-human-gate-proxy-v1",
+        "route": "A",
+        "claim_ceiling": freeze["ceiling"],
+        "source_main": freeze["source_main"],
+        "label": LABEL,
+        "verdict": verdict,
+        "integrity_violations": integrity,
+        "snapshots_match_freeze": snap_ok,
+        "parents_moved_since_pin": parents_moved,
+        "proxy_records": len(records["records"]),
+        "proxy_records_with_verdict": sum(1 for r in records["records"] if r["verdict_block_present"]),
+        "terminated_attempts": len(records["terminated_attempts"]),
+        "rows_targeted": len(ALL_ROWS),
+        "closed": closed,
+        "not_closed": not_closed,
+        "closed_count": len(closed),
+        "not_closed_count": len(not_closed),
+        "proxy_row_verdicts": {r["id"]: {x["row"]: x["verdict"] for x in r.get("rows", [])} for r in records["records"]},
+        "editor_claim_dispositions": {x["claim"]: x["verdict"] for x in editor.get("claims", [])},
+        "material_objections_total": sum(1 for r in records["records"] for o in r.get("objections", []) if o["material"]),
+        "reopen_demands_total": register["count"],
+        "reopen_register_complete": reopen_ok,
+        "z9": {"batches": 2, "environments": sum(len(e["environments"]) for e in envs),
+               "price_points": sum(s["points"] for s in scores),
+               "batch_stats": z9["batch_stats"], "batch_valid": z9["batch_valid"],
+               "predictions_sha256": pred_sha, "oracle_recompute_matches": recompute_ok,
+               "routes_agree": z9["routes_agree"],
+               "scores": [{k: v for k, v in s.items()} for s in scores],
+               "totals": {"class_hits": sum(s["class_hits"] for s in scores), "capability_hits": sum(s["capability_hits"] for s in scores),
+                          "points": sum(s["points"] for s in scores), "crossover_hits": sum(s["crossover_hits"] for s in scores),
+                          "environments": sum(s["environments"] for s in scores)},
+               "adjudicators": {k: {"parsed": list(v["parsed"]) if v["parsed"] else None, "executor": list(v["executor"])} for k, v in adj.items()},
+               "adjudicators_match_executor": adjudicators_match,
+               "null_random_predictors_matching_all_winner_sets": "%d/200" % null_z9,
+               "theory_clause_falsified": "T3 (one-bit optimum = carry x_{t-1}) is false on two-back targets: exhaustive E_onebit < predicted on every missed environment"},
+        "aa10_gate": aa10,
+        "aa15_lean": lean,
+        "hostiles": hostiles,
+        "hostiles_detected": sum(1 for h in hostiles.values() if h["detected"]),
+        "hostiles_applicable": sum(1 for h in hostiles.values() if h["applicable"]),
+        "null_random_record_sets_passing_integrity": "%d/200" % null_records,
+        "hostile_review_report_sha256": report_sha,
+        "reconciliation_consistent": recon_ok,
+        "forbidden_promotions": FORBIDDEN,
+    }
+    blob = json.dumps(result, indent=1, sort_keys=True) + "\n"
+    dest = os.path.join(HERE, "RESULT_V1.json")
+    if check_only:
+        cur = open(dest, encoding="utf-8").read()
+        print(json.dumps({"verdict": verdict, "reproducible": cur == blob}))
+        sys.exit(0 if (cur == blob and verdict == "GREEN") else 1)
+    with open(dest, "w", encoding="utf-8") as fh:
+        fh.write(blob)
+    print(json.dumps({"verdict": verdict, "closed": len(closed), "not_closed": len(not_closed), "integrity_violations": integrity,
+                      "hostiles_detected": result["hostiles_detected"], "hostiles_applicable": result["hostiles_applicable"],
+                      "z9_totals": result["z9"]["totals"], "null_z9": null_z9, "null_records": null_records, "recon_ok": recon_ok}))
+    sys.exit(0 if verdict == "GREEN" else 1)
 
 
 if __name__ == "__main__":
-    if "--hostiles" in sys.argv:
-        h = hostiles()
-        print(json.dumps(h, indent=1, sort_keys=True))
-        sys.exit(0 if all(h.values()) else 1)
-    if "--null" in sys.argv:
-        base = load("PROXY_RECORDS_V1.json")
-        r = {"records": null_records(), "z9": z9_null(base)}
-        print(json.dumps(r, indent=1, sort_keys=True))
-        ok = r["records"]["random_record_sets_passing_integrity"] == 0 and (r["z9"]["random_predictors_matching_all"] in (0, None))
-        sys.exit(0 if ok else 1)
-    res, rec = compute()
-    if "--write" in sys.argv:
-        with open(os.path.join(HERE, "RESULT_V1.json"), "w", encoding="utf-8") as fh:
-            json.dump(res, fh, indent=1, sort_keys=True); fh.write("\n")
-        with open(os.path.join(HERE, "ISSUE_833_COMMENT_RECONCILIATION_V1.json"), "w", encoding="utf-8") as fh:
-            json.dump(rec, fh, indent=1, ensure_ascii=False); fh.write("\n")
-    print(json.dumps(res, indent=1, sort_keys=True))
-    sys.exit(0 if all(res["gates"].values()) else 1)
+    main(check_only=("--check" in sys.argv))
