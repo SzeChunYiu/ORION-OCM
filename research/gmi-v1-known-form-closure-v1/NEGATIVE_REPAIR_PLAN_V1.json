@@ -1,193 +1,119 @@
 {
-  "rows": [
+  "artifact": "NEGATIVE_REPAIR_PLAN_V1",
+  "purpose": "Precise NEGATIVE→repair for major frontier Z3/Z4 cells not unconditionally earned",
+  "repairs": [
     {
-      "current_z": "Z2",
-      "falsifier": "shared_coefficient_wins_when_targets_are_unrelated_across_queries",
-      "family_id": "linear_glm",
-      "gap_type": "Z3_NOT_YET_EARNED_AT_REGISTERED_SCOPE",
-      "next_experiment": "Neutral remint recovery on linear_glm",
-      "target_z": "Z3"
-    },
-    {
-      "current_z": "Z2",
-      "falsifier": "kernel_form_selected_when_similarity_geometry_absent",
-      "family_id": "kernel_basis",
-      "gap_type": {
-        "detail": "pre-outcome basis/kernel geometry selection",
-        "gap_type": "estimator",
-        "next_experiment": "freeze_similarity_descriptor_then_held_family_crossover"
-      },
-      "next_experiment": "Neutral remint recovery on kernel_basis",
-      "target_z": "Z3"
-    },
-    {
-      "current_z": "Z2",
-      "falsifier": "exemplar_wins_under_exact_global_compressible_law",
-      "family_id": "knn_exemplar",
-      "gap_type": {
-        "detail": "metric/locality estimator under noise",
-        "gap_type": "estimator",
-        "next_experiment": "protected_metric_estimator_on_held_memory_families"
-      },
-      "next_experiment": "Neutral remint recovery on knn_exemplar",
-      "target_z": "Z3"
-    },
-    {
-      "current_z": "Z2",
-      "falsifier": "low_rank_wins_when_residual_rank_is_full",
-      "family_id": "lora_low_rank",
-      "gap_type": {
-        "detail": "effective nonlinear update rank",
-        "gap_type": "estimator",
-        "next_experiment": "Jacobian_rank_probe_on_held_adapter_tasks"
-      },
-      "next_experiment": "Neutral remint recovery on lora_low_rank",
-      "target_z": "Z3"
-    },
-    {
-      "current_z": "Z2",
-      "falsifier": "message_passing_necessary_on_fully_non_local_labels",
-      "family_id": "gnn_message_passing",
-      "gap_type": {
-        "detail": "neutral recovery without GNN macro across reminted graph encodings",
-        "gap_type": "z3_recovery",
-        "next_experiment": "finite_graph_two_grammar_neutral_recovery_n_le_6"
-      },
-      "next_experiment": "Neutral remint recovery on gnn_message_passing",
-      "target_z": "Z3"
-    },
-    {
-      "current_z": "Z2",
-      "falsifier": "sparse_mask_omits_required_edge_and_still_passes",
-      "family_id": "sparse_attention",
-      "gap_type": {
-        "detail": "neutral sparse-pattern rediscovery without attention macro",
-        "gap_type": "z3_recovery",
-        "next_experiment": "enumerate_masks_on_n_le_8_with_hidden_labels"
-      },
-      "next_experiment": "Neutral remint recovery on sparse_attention",
-      "target_z": "Z3"
-    },
-    {
-      "current_z": "Z2",
-      "falsifier": "routing_necessary_when_mode_rank_is_1",
       "family_id": "moe_conditional",
-      "gap_type": {
-        "detail": "neutral MoE recovery + router learnability law",
-        "gap_type": "z3_recovery",
-        "next_experiment": "finite_mode_table_two_grammar_recovery_with_router_error_twin"
-      },
-      "next_experiment": "Neutral remint recovery on moe_conditional",
-      "target_z": "Z3"
+      "missing_rung": "Z3",
+      "current": "Z2 + exact linear/synthetic mode-rank laws",
+      "negative": "No cross-grammar neutral recovery that post-classifies conditional specialization without MoE/expert macros.",
+      "repair": "Build two finite grammars over mode-tables + routers; hide family labels; matched single-mode twin.",
+      "instrumentation": [
+        "enumerate mode count 1..3, queries/mode 1..3",
+        "record winner serialization tokens (must not contain moe|expert|router_name)",
+        "post-hoc phenotype: CONDITIONAL_SPECIALIZATION vs SHARED_BASIS",
+        "require twin flip"
+      ],
+      "kill_condition": "winner depends on privileged macro token or fails twin flip",
+      "success_terminal": "MOE_NEUTRAL_RECOVERY_EXACT_FINITE_GREEN"
     },
     {
-      "current_z": "Z2",
-      "falsifier": "SSM_selected_when_Hankel_rank_is_1_and_replay_is_free",
       "family_id": "state_space_sequence",
-      "gap_type": {
-        "detail": "neutral selective-SSM recovery vs gated register without named macros",
-        "gap_type": "z3_recovery",
-        "next_experiment": "variable_delay_ecology_cross_grammar_SSM_vs_gate"
-      },
-      "next_experiment": "Neutral remint recovery on state_space_sequence",
-      "target_z": "Z3"
+      "missing_rung": "Z3",
+      "current": "Z2 predictive-state / Hankel lower bounds",
+      "negative": "Selective SSM morphology not neutrally recovered against gated-register competitors under hidden labels.",
+      "repair": "Variable-delay ecology; grammars = register programs vs input-selective linear state updates.",
+      "instrumentation": [
+        "matched fixed-delay vs variable-delay twins",
+        "cost = state_dim + gate/select bits + error",
+        "phenotype after search only"
+      ],
+      "kill_condition": "ungated register solves variable-delay or macro leakage",
+      "success_terminal": "SSM_NEUTRAL_RECOVERY_EXACT_FINITE_GREEN"
     },
     {
-      "current_z": "Z2",
-      "falsifier": "MLP_claimed_universal_winner_independent_of_obligation_structure",
-      "family_id": "mlp_neural",
-      "gap_type": {
-        "detail": "nonlinear basin accessibility + overparameterized generalization",
-        "gap_type": "theory",
-        "next_experiment": "PL_basin_descriptor_freeze_then_held_mlp_family_risk"
-      },
-      "next_experiment": "Neutral remint recovery on mlp_neural",
-      "target_z": "Z3"
-    },
-    {
-      "current_z": "Z2",
-      "falsifier": "flow_claimed_exact_on_discrete_singular_target",
-      "family_id": "autoregressive_generative",
-      "gap_type": {
-        "detail": "AR vs diffusion vs flow lifecycle selector",
-        "gap_type": "z4_selection",
-        "next_experiment": "freeze_conditional_complexity_proxy_then_held_generative_family"
-      },
-      "next_experiment": "Neutral remint recovery on autoregressive_generative",
-      "target_z": "Z3"
-    },
-    {
-      "current_z": "Z2",
-      "falsifier": "diffusion_selected_when_exact_AR_burden_dominates",
       "family_id": "diffusion_score",
-      "gap_type": {
-        "detail": "neutral recovery of score/noising morphology without diffusion macro",
-        "gap_type": "z3_recovery",
-        "next_experiment": "tiny_gaussian_mixture_score_vs_AR_neutral_search"
-      },
-      "next_experiment": "Neutral remint recovery on diffusion_score",
-      "target_z": "Z3"
+      "missing_rung": "Z3",
+      "current": "Z2 score/noising structural identities",
+      "negative": "No neutral rediscovery of score-field + reverse dynamics without diffusion macros.",
+      "repair": "Tiny Gaussian-mixture density; candidates = AR tables, score+steps, exact density params.",
+      "instrumentation": [
+        "exact KL/TV semantic loss",
+        "step/compute burden explicit",
+        "negative twin where exact low-dim AR dominates"
+      ],
+      "kill_condition": "diffusion phenotype wins on twin where AR is cheaper",
+      "success_terminal": "DIFFUSION_NEUTRAL_RECOVERY_EXACT_FINITE_GREEN"
     },
     {
-      "current_z": "Z2",
-      "falsifier": "equal_dim_flow_represents_singular_discrete_exactly",
-      "family_id": "flow_latent_generative",
-      "gap_type": {
-        "detail": "transport vs latent complexity comparison",
-        "gap_type": "z4_selection",
-        "next_experiment": "support_constraint_microscope_with_held_family_prediction"
-      },
-      "next_experiment": "Neutral remint recovery on flow_latent_generative",
-      "target_z": "Z3"
+      "family_id": "gnn_message_passing",
+      "missing_rung": "Z3",
+      "current": "Z2 locality/cut theorems",
+      "negative": "Cross-encoding neutral GNN recovery not packaged as executable Z3 witness in this capsule.",
+      "repair": "n<=6 graphs; grammar A adjacency-shared aggregators; grammar B boolean local rules; remint node ids.",
+      "instrumentation": [
+        "permutation remint replication",
+        "non-local negative twin",
+        "no GNN/message token in serializations"
+      ],
+      "kill_condition": "phenotype invariant to locality twin",
+      "success_terminal": "GNN_NEUTRAL_RECOVERY_EXACT_FINITE_GREEN"
     },
     {
-      "current_z": "Z2",
-      "falsifier": "model_free_wins_when_model_amortization_dominates",
-      "family_id": "model_free_control",
-      "gap_type": {
-        "detail": "neutral model-free vs model-based recovery without RL macros",
-        "gap_type": "z3_recovery",
-        "next_experiment": "finite_mdp_two_grammar_policy_vs_model"
-      },
-      "next_experiment": "Neutral remint recovery on model_free_control",
-      "target_z": "Z3"
+      "family_id": "sparse_attention",
+      "missing_rung": "Z3",
+      "current": "Z2 static-union / routing burden",
+      "negative": "Sparse mask rediscovery without attention macro not executed as dedicated witness.",
+      "repair": "Enumerate masks on n<=8 with required dependency edges; cost = denseness.",
+      "instrumentation": [
+        "required-edge violation => inadmissible",
+        "dense complete dependency twin",
+        "post-label SPARSE_ROUTING vs DENSE"
+      ],
+      "kill_condition": "sparse winner omits required edge",
+      "success_terminal": "SPARSE_ATTENTION_NEUTRAL_RECOVERY_EXACT_FINITE_GREEN"
     },
     {
-      "current_z": "Z2",
-      "falsifier": "expansion_required_when_correction_in_safe_subspace",
-      "family_id": "continual_learning",
-      "gap_type": {
-        "detail": "real task-sequence replication still open on #602 B19",
-        "gap_type": "scale",
-        "next_experiment": "instrumented_two_task_linearized_then_nonlinear_drift_probe"
-      },
-      "next_experiment": "Neutral remint recovery on continual_learning",
-      "target_z": "Z3"
+      "family_id": "transformer_routing",
+      "missing_rung": "Z4",
+      "current": "Z3 finite routing phenotype + exact routing response atoms",
+      "negative": "Protected leave-one-family-out attention-vs-SSM/recurrence crossover under noisy dependency estimator not green.",
+      "repair": "Fit dependency estimator on development families only; predict held transformer niche; compare SSM/recurrent parents.",
+      "instrumentation": [
+        "pre-outcome descriptor freeze commit",
+        "held-family prediction file before scoring",
+        "parent subtraction table"
+      ],
+      "kill_condition": "post-hoc descriptor change after seeing held outcomes",
+      "success_terminal": "TRANSFORMER_HELD_FAMILY_Z4_GREEN"
     },
     {
-      "current_z": "Z2",
-      "falsifier": "test_time_search_wins_with_zero_proposal_failure_mass",
-      "family_id": "test_time_search",
-      "gap_type": {
-        "detail": "real proposal diversity/correlation",
-        "gap_type": "estimator",
-        "next_experiment": "freeze_failure_mass_descriptor_on_held_reasoning_family"
-      },
-      "next_experiment": "Neutral remint recovery on test_time_search",
-      "target_z": "Z3"
+      "family_id": "mlp_neural",
+      "missing_rung": "Z4",
+      "current": "Z2 architecture derivation + reachability microtheorems",
+      "negative": "No protected held-family optimization/generalization selector for practical MLPs.",
+      "repair": "Freeze PL/alignment/stability descriptors; predict held MLP vs kernel/table frontiers.",
+      "instrumentation": [
+        "dead-ReLU negative twin",
+        "exact quadratic base retained as calibration",
+        "held risk within frozen band"
+      ],
+      "kill_condition": "complete DL theory claimed from base cases",
+      "success_terminal": "MLP_HELD_FAMILY_Z4_PARTIAL_GREEN"
     },
     {
-      "current_z": "Z2",
-      "falsifier": "multi_step_tool_path_selected_when_direct_legal_edge_cheaper",
-      "family_id": "tool_solver_routing",
-      "gap_type": {
-        "detail": "uncertain tool effects / correlated failures",
-        "gap_type": "estimator",
-        "next_experiment": "typed_tool_graph_with_injected_correlation_twin"
-      },
-      "next_experiment": "Neutral remint recovery on tool_solver_routing",
-      "target_z": "Z3"
+      "family_id": "autoregressive_generative",
+      "missing_rung": "Z4",
+      "current": "Z2 factorization cover theorems",
+      "negative": "Cross-family generative lifecycle selector AR/diffusion/flow not predictive.",
+      "repair": "Define C_R*(eps) proxies; predict held generative niche before training.",
+      "instrumentation": [
+        "support-constraint twin for flows",
+        "conditional-complexity proxy freeze",
+        "parent subtraction among generative families"
+      ],
+      "kill_condition": "unique family claimed without burden comparison",
+      "success_terminal": "GENERATIVE_HELD_FAMILY_Z4_GREEN"
     }
-  ],
-  "schema": "GMINegativeRepairPlanV1"
+  ]
 }

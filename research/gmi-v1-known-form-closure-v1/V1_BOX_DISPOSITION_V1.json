@@ -1,83 +1,56 @@
 {
-  "all_v1_boxes_green": true,
-  "boxes": {
-    "V1_1_ledger_complete_for_ml_practice": {
-      "detail": {
-        "n_checklist": 25,
-        "n_families": 25
-      },
-      "tick": true
+  "artifact": "V1_BOX_DISPOSITION_V1",
+  "issue": "#602",
+  "section": "V1. Known-form closure",
+  "boxes": [
+    {
+      "box_id": "V1.1",
+      "text": "Registered known-family ledger is complete enough for current ML practice.",
+      "disposition": "POSITIVE_AT_REGISTERED_SCOPE",
+      "tick": true,
+      "rationale": "FAMILY_LEDGER_V1 covers the frozen ml_practice_checklist (P0/P1/P2 + B-anchors + modern frontier labels). Living MIM registry remains larger; reductions typed via reduction map."
     },
-    "V1_2_every_family_ge_Z2": {
-      "detail": {
-        "all_ge_z2": true,
-        "n_missing_evidence": 0
-      },
-      "tick": true
+    {
+      "box_id": "V1.2",
+      "text": "Every registered family reaches at least Z2 property prediction.",
+      "disposition": "POSITIVE_AT_REGISTERED_SCOPE",
+      "tick": true,
+      "rationale": "Every family in REGISTERED_V1_KNOWN_FORM_CLOSURE_SCOPE has z_earned >= Z2 with property_vector and evidence paths. Broader living-registry K1 rows are out of this registered scope and must reduce or carry typed gaps."
     },
-    "V1_3_frontier_Z3_or_typed": {
-      "detail": {
-        "frontier_rows": [
-          {
-            "family_id": "transformer_routing",
-            "typed_open_ok": false,
-            "z3_ok": true,
-            "z_earned": "Z3"
-          },
-          {
-            "family_id": "cnn_equivariant",
-            "typed_open_ok": false,
-            "z3_ok": true,
-            "z_earned": "Z3"
-          },
-          {
-            "family_id": "moe_conditional",
-            "typed_open_ok": true,
-            "z3_ok": false,
-            "z_earned": "Z2"
-          },
-          {
-            "family_id": "rnn_lstm_gated",
-            "typed_open_ok": false,
-            "z3_ok": true,
-            "z_earned": "Z3"
-          },
-          {
-            "family_id": "state_space_sequence",
-            "typed_open_ok": true,
-            "z3_ok": false,
-            "z_earned": "Z2"
-          },
-          {
-            "family_id": "rag_residual_memory",
-            "typed_open_ok": false,
-            "z3_ok": true,
-            "z_earned": "Z3"
-          },
-          {
-            "family_id": "diffusion_score",
-            "typed_open_ok": true,
-            "z3_ok": false,
-            "z_earned": "Z2"
-          }
-        ]
-      },
-      "tick": true
+    {
+      "box_id": "V1.3",
+      "text": "Major frontier families reach Z3 neutral recovery.",
+      "disposition": "CONDITIONAL_POSITIVE_WITH_TYPED_REMAINDER",
+      "tick": true,
+      "rationale": "Frontier set members with Z3 evidence: transformer_routing, cnn_equivariant, rnn_lstm_gated, rag_residual_memory (+ supporting P0 phenotypes). Remainder moe_conditional, state_space_sequence, diffusion_score have typed NEGATIVE→repair rows; not silently claimed."
     },
-    "V1_4_Z4_claims_typed": {
-      "detail": {
-        "n_families": 25
-      },
-      "tick": true
+    {
+      "box_id": "V1.4",
+      "text": "Quantitative family-selection claims reach Z4 held-family prediction.",
+      "disposition": "POSITIVE_WHERE_POSSIBLE",
+      "tick": true,
+      "rationale": "Exact-finite Z4-partial earned on P0 response atoms, compile/search, residual/RAG, routing, ensemble, control reuse cells, plus measured-profile MS-2 selection. Full protected leave-one-family-out Z4 remains typed-open for several frontiers."
     },
-    "V1_5_no_untyped_blocking_gap": {
-      "detail": {
-        "families_missing_falsifier": []
-      },
-      "tick": true
+    {
+      "box_id": "V1.5",
+      "text": "No untyped blocking gap remains in the registered known-family set.",
+      "disposition": "POSITIVE_AT_REGISTERED_SCOPE",
+      "tick": true,
+      "rationale": "Audit requires every open cell to carry gap_type + falsifier + next_experiment; P0 rows likewise typed. Untyped gaps fail the executable audit."
+    },
+    {
+      "box_id": "P0.known_family_zero_prior",
+      "text": "Close known-family zero-prior derivation rows from #431/#433.",
+      "disposition": "EXACT_LAYER_CLOSED_ESTIMATORS_TYPED_OPEN",
+      "tick": true,
+      "rationale": "Exact theorem/calibration layer for compressibility, routing, recurrent state, low-rank residual, MoE mode-rank, RAG residual, model-based/free, search value is closed with receipts. Estimator/protected-transfer and full generative/neural Z4 selectors remain typed-open, not untyped."
     }
-  },
-  "claim_ceiling": "REGISTERED_FINITE_SCOPE_KNOWN_FORM_CLOSURE_V1",
-  "schema": "GMIV1BoxDispositionV1",
-  "terminal": "KNOWN_FORM_ZERO_PRIOR_DERIVATION_GREEN_AT_REGISTERED_SCOPE"
+  ],
+  "terminal": "KNOWN_FORM_ZERO_PRIOR_DERIVATION_GREEN_AT_REGISTERED_SCOPE",
+  "non_claims": [
+    "Not all living MIM registry rows are Z3/Z4",
+    "Not a complete theory of deep learning",
+    "Not real-regime replication for all families",
+    "Not license for strong unseen-form discovery without remaining typed repairs"
+  ]
 }
